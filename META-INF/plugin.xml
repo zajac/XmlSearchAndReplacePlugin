@@ -1,0 +1,29 @@
+<idea-plugin version="2">
+  <name>XmlSearchAndReplace</name>
+  <description>provides dreamweaver-like feature for find and replace of xml tags</description>
+  <version>0.0.1</version>
+  <vendor>JetBrains</vendor>
+  <idea-version since-build="8000"/>
+
+  <application-components>
+    <!-- Add your application components here -->
+  </application-components>
+
+  <project-components>
+    <!-- Add your project components here -->
+  </project-components>
+
+  <actions>
+    <!-- Add your actions here -->
+      <group>
+          <separator/>
+          <action id="XmlSearchAndReplace" class="org.jetbrains.plugins.xml.searchandreplace.SearchAndReplaceMenuAction" text="Xml Search And Replace"/>
+          <separator/>
+          <add-to-group group-id="SearchMenu" relative-to-action="ReplaceInPath" anchor="after"/>
+      </group>
+  </actions>
+
+  <extensions defaultExtensionNs="com.intellij">
+    <!-- Add your extensions here -->
+  </extensions>
+</idea-plugin>
