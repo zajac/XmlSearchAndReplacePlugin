@@ -51,11 +51,11 @@ public class SearchAndReplaceMenuAction extends AnAction {
                 }
                 final RecursivePsiFilteringVisitor recursivePsiFilteringVisitor = new RecursivePsiFilteringVisitor();
                 psiFile.accept(recursivePsiFilteringVisitor);
-                final XmlTag myFuckenTag = XmlElementFactory.getInstance(project).createTagFromText("<MyFuckenTag/>");
+                final XmlTag myDummyTag = XmlElementFactory.getInstance(project).createTagFromText("<MyDummyTag/>");
                 ApplicationManager.getApplication().runWriteAction(new Runnable() {
                     public void run() {
                         for (XmlTag a : recursivePsiFilteringVisitor.getTags()) {
-                            a.getParent().addAfter(myFuckenTag, a);
+                            a.getParent().addAfter(myDummyTag, a);
                         }
                     }
                 });
