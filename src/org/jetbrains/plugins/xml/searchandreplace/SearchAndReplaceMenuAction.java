@@ -8,19 +8,20 @@ import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.psi.*;
+import com.intellij.psi.xml.XmlAttribute;
 import com.intellij.psi.xml.XmlTag;
+import org.jetbrains.plugins.xml.searchandreplace.predicates.AttributePredicate;
+import org.jetbrains.plugins.xml.searchandreplace.predicates.HasSpecificAttribute;
+import org.jetbrains.plugins.xml.searchandreplace.predicates.TagPredicate;
+
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class SearchAndReplaceMenuAction extends AnAction {
 
-    static {
-        System.out.println("static initializer");
-    }
-
-
     @Override
     public void actionPerformed(AnActionEvent anActionEvent) {
-        Messages.showMessageDialog("Hello, world!!!", "dummy plugin", null);
+
         Project project = PlatformDataKeys.PROJECT.getData(anActionEvent.getDataContext());
         Editor editor = PlatformDataKeys.EDITOR.getData(anActionEvent.getDataContext());
 
