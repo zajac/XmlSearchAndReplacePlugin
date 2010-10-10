@@ -80,7 +80,7 @@ public class TagSearch extends PsiRecursiveElementVisitor {
                     myLeftToCheck.remove(p);
                 }
             }
-            myState = calcCurrentState();
+            myState = calcCurrentState(this, myLeftToCheck);
         }
         super.visitElement(element);
         if (element instanceof XmlTag) {
@@ -92,15 +92,15 @@ public class TagSearch extends PsiRecursiveElementVisitor {
                 }
                 tag.putUserData(USER_INFO_KEY, null);
             }
-            myState = calcCurrentState();
+            myState = calcCurrentState(this, myLeftToCheck);
         }
     }
 
-    private TagSearchState calcCurrentState() {
-        if (!myLeftToCheck.selectByKind(TagSearchPattern.KindOfPredicate.CHILD).isEmpty()) {
+    private static TagSearchState calcCurrentState(TagSearch tagSearch, TagSearchPattern leftToCheck) {
+        if (!leftToCheck.selectByKind(TagSearchPattern.KindOfPredicate.CHILD).isEmpty()) {
             return TagSearchState.CHECK_CHILDREN;
         }
-        if (!myLeftToCheck.selectByKind(TagSearchPattern.KindOfPredicate.THIS_ELEMENT).isEmpty()) {
+        if (!tagSearch.myLeftToCheck.selectByKind(TagSearchPattern.KindOfPredicate.THIS_ELEMENT).isEmpty()) {
             return TagSearchState.CHECK_THIS_ELEMENT;
         }
         return TagSearchState.CHECK_PARENTS;

@@ -14,13 +14,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c95dde65-8eb2-4841-b02e-5b9774762676" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/ui/XmlSearchAndReplaceDialog.form" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/ui/XmlSearchAndReplaceDialog.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/SearchAndReplaceMenuAction.java" afterPath="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/SearchAndReplaceMenuAction.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/TagSearch.java" afterPath="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/TagSearch.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/TagSearchPattern.java" afterPath="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/TagSearchPattern.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/predicates/TagPredicate.java" afterPath="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/predicates/TagPredicate.java" />
     </list>
     <ignored path="XmlSearchAndReplace.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -115,7 +110,7 @@
       <file leaf-file-name="TagSearch.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/TagSearch.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="25" column="0" selection-start="1001" selection-end="1001" vertical-scroll-proportion="0.50223213">
+            <state line="69" column="37" selection-start="2367" selection-end="2367" vertical-scroll-proportion="0.020089285">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -767,7 +762,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/TagSearch.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="0" selection-start="1001" selection-end="1001" vertical-scroll-proportion="0.50223213">
+        <state line="69" column="37" selection-start="2367" selection-end="2367" vertical-scroll-proportion="0.020089285">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
