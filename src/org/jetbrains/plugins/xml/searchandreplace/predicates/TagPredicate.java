@@ -6,8 +6,8 @@ import com.intellij.psi.xml.XmlTag;
 public abstract class TagPredicate extends XmlElementPredicate implements Cloneable {
     @Override
     public boolean apply(XmlElement element) {
-        return element instanceof XmlTag && apply((XmlTag) element);
+        return element instanceof XmlTag && applyToTag((XmlTag) element);
     }
 
-    public abstract boolean apply(XmlTag tag);
+    public abstract boolean applyToTag(XmlTag tag);
 }

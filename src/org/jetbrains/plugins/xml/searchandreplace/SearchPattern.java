@@ -1,46 +1,48 @@
 package org.jetbrains.plugins.xml.searchandreplace;
 
-import com.sun.tools.corba.se.idl.ParameterEntry;
-import com.sun.tools.javac.util.Pair;
 import org.jetbrains.plugins.xml.searchandreplace.predicates.TagPredicate;
+import org.jetbrains.plugins.xml.searchandreplace.predicates.XmlElementPredicate;
 
-import javax.tools.JavaFileObject;
 import java.util.HashSet;
 import java.util.Set;
 
-public class TagSearchPattern implements Cloneable {
+public class SearchPattern implements Cloneable {
+
+    public static SearchPattern createEmpty() {
+        return new SearchPattern(null, null, null);
+    }
 
     public enum KindOfPredicate {PARENT, THIS_ELEMENT, CHILD}
 
-    private HashSet<TagPredicate> parentsPredicates = new HashSet<TagPredicate>();
-    private TagPredicate thisElementPredicate;
-    private HashSet<TagPredicate> childrenPredicates = new HashSet<TagPredicate>();
+    private HashSet<XmlElementPredicate> parentsPredicates = new HashSet<XmlElementPredicate>();
+    private XmlElementPredicate thisElementPredicate;
+    private HashSet<XmlElementPredicate> childrenPredicates = new HashSet<XmlElementPredicate>();
 
-    public Set<TagPredicate> getParentsPredicates() {
+    public Set<XmlElementPredicate> getParentsPredicates() {
         return parentsPredicates;
     }
 
-    public TagPredicate getThisElementPredicate() {
+    public XmlElementPredicate getThisElementPredicate() {
         return thisElementPredicate;
     }
 
-    public Set<TagPredicate> getChildrenPredicates() {
+    public Set<XmlElementPredicate> getChildrenPredicates() {
         return childrenPredicates;
     }
 
-    public void setParentsPredicates(HashSet<TagPredicate> parentsPredicates) {
+    public void setParentsPredicates(HashSet<XmlElementPredicate> parentsPredicates) {
         this.parentsPredicates = parentsPredicates;
     }
 
-    public void setThisElementPredicate(TagPredicate thisElementPredicate) {
+    public void setThisElementPredicate(XmlElementPredicate thisElementPredicate) {
         this.thisElementPredicate = thisElementPredicate;
     }
 
-    public void setChildrenPredicates(HashSet<TagPredicate> childrenPredicates) {
+    public void setChildrenPredicates(HashSet<XmlElementPredicate> childrenPredicates) {
         this.childrenPredicates = childrenPredicates;
     }
 
-    public KindOfPredicate whatKind(TagPredicate p) {
+    public KindOfPredicate whatKind(XmlElementPredicate p) {
         if (thisElementPredicate == p) {
             return KindOfPredicate.THIS_ELEMENT;
         }
@@ -53,7 +55,7 @@ public class TagSearchPattern implements Cloneable {
         return null;
     }
 
-    public TagSearchPattern(HashSet<TagPredicate> parentsPredicates, TagPredicate thisElementPredicate, HashSet<TagPredicate> childrenPredicates) {
+    public SearchPattern(HashSet<XmlElementPredicate> parentsPredicates, XmlElementPredicate thisElementPredicate, HashSet<XmlElementPredicate> childrenPredicates) {
         if (parentsPredicates != null) {
             this.parentsPredicates = parentsPredicates;
         }
@@ -65,14 +67,14 @@ public class TagSearchPattern implements Cloneable {
 
     @Override
     protected Object clone() throws CloneNotSupportedException {
-        TagSearchPattern tsp = (TagSearchPattern)super.clone();
+        SearchPattern tsp = (SearchPattern)super.clone();
         tsp.thisElementPredicate = thisElementPredicate;
-        tsp.childrenPredicates = (HashSet<TagPredicate>) childrenPredicates.clone();
-        tsp.parentsPredicates = (HashSet<TagPredicate>) parentsPredicates.clone();
+        tsp.childrenPredicates = (HashSet<XmlElementPredicate>) childrenPredicates.clone();
+        tsp.parentsPredicates = (HashSet<XmlElementPredicate>) parentsPredicates.clone();
         return tsp;
     }
 
-    public void add(KindOfPredicate kind, TagPredicate p) {
+    public void add(KindOfPredicate kind, XmlElementPredicate p) {
         switch(kind) {
             case PARENT:
                 parentsPredicates.add(p);
@@ -86,7 +88,7 @@ public class TagSearchPattern implements Cloneable {
         }
     }
 
-    public void remove(TagPredicate p) {
+    public void remove(XmlElementPredicate p) {
         if (thisElementPredicate == p) {
             thisElementPredicate = null;
         } else if (childrenPredicates.contains(p)) {
@@ -96,14 +98,14 @@ public class TagSearchPattern implements Cloneable {
         }
     }
 
-    public Set<TagPredicate> selectByKind(KindOfPredicate kind) {
+    public Set<XmlElementPredicate> selectByKind(KindOfPredicate kind) {
         switch(kind) {
             case PARENT:
                 return parentsPredicates;
             case CHILD:
                 return childrenPredicates;
             default:
-                Set<TagPredicate> r = new HashSet<TagPredicate>();
+                Set<XmlElementPredicate> r = new HashSet<XmlElementPredicate>();
                 r.add(thisElementPredicate);
                 return r;
         }

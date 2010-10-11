@@ -19,9 +19,9 @@ public class HasSpecificAttribute extends TagPredicate {
     }
 
     @Override
-    public boolean apply(XmlTag tag) {
+    public boolean applyToTag(XmlTag tag) {
         for (XmlAttribute attr : tag.getAttributes()) {
-            if (myAttributePredicate.apply(attr)) {
+            if (myAttributePredicate.applyToAttribute(attr)) {
                 return true;
             }
         }

@@ -7,8 +7,8 @@ public abstract class AttributePredicate extends XmlElementPredicate {
 
     @Override
     public boolean apply(XmlElement element) {
-        return element instanceof XmlAttribute && apply((XmlAttribute) element);
+        return element instanceof XmlAttribute && applyToAttribute((XmlAttribute) element);
     }
 
-    public abstract boolean apply(XmlAttribute a);
+    public abstract boolean applyToAttribute(XmlAttribute a);
 }

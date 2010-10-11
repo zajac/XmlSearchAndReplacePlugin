@@ -6,16 +6,10 @@ import com.intellij.openapi.actionSystem.PlatformDataKeys;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.ui.Messages;
 import com.intellij.psi.*;
-import com.intellij.psi.xml.XmlAttribute;
 import com.intellij.psi.xml.XmlTag;
-import org.jetbrains.plugins.xml.searchandreplace.predicates.AttributePredicate;
-import org.jetbrains.plugins.xml.searchandreplace.predicates.HasSpecificAttribute;
-import org.jetbrains.plugins.xml.searchandreplace.predicates.TagPredicate;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 
 public class SearchAndReplaceMenuAction extends AnAction {
 
@@ -27,50 +21,50 @@ public class SearchAndReplaceMenuAction extends AnAction {
 
         if (editor != null && project != null) {
             PsiFile psiFile = PsiDocumentManager.getInstance(project).getPsiFile(editor.getDocument());
-            if (psiFile != null) {
-                System.out.println("got a psifile!");
-                class RecursivePsiFilteringVisitor extends PsiRecursiveElementVisitor {
 
-                    public ArrayList<XmlTag> getTags() {
-                        return tags;
-                    }
-
-                    private ArrayList<XmlTag> tags = new ArrayList<XmlTag>();
-
-                    public RecursivePsiFilteringVisitor() {
-                        super(true);
-                    }
-
-                    @Override
-                    public void visitElement(PsiElement element) {
-                        if (element instanceof XmlTag) {
-                            System.out.println("found tag: " + element.toString());
-                            tags.add((XmlTag)element);
-                        }
-                        super.visitElement(element);
-                    }
-                }
-                final RecursivePsiFilteringVisitor recursivePsiFilteringVisitor = new RecursivePsiFilteringVisitor();
-                psiFile.accept(recursivePsiFilteringVisitor);
-                final XmlTag myDummyTag = XmlElementFactory.getInstance(project).createTagFromText("<MyDummyTag/>");
-                ApplicationManager.getApplication().runWriteAction(new Runnable() {
-                    public void run() {
-                        for (XmlTag a : recursivePsiFilteringVisitor.getTags()) {
-                            a.getParent().addAfter(myDummyTag, a);
-                        }
-                    }
-                });
-            } else {
-                System.out.println("couldn't get psifile");
-            }
         } else {
             System.out.println("couldn't get editor");
         }
     }
 
+    private void testingStuff(Project project, PsiFile psiFile) {
+        if (psiFile != null) {
+            class RecursivePsiFilteringVisitor extends PsiRecursiveElementVisitor {
+
+                public ArrayList<XmlTag> getTags() {
+                    return tags;
+                }
+
+                private ArrayList<XmlTag> tags = new ArrayList<XmlTag>();
+
+                public RecursivePsiFilteringVisitor() {
+                    super(true);
+                }
+
+                @Override
+                public void visitElement(PsiElement element) {
+                    if (element instanceof XmlTag) {
+                        System.out.println("found tag: " + element.toString());
+                        tags.add((XmlTag)element);
+                    }
+                    super.visitElement(element);
+                }
+            }
+            final RecursivePsiFilteringVisitor recursivePsiFilteringVisitor = new RecursivePsiFilteringVisitor();
+            psiFile.accept(recursivePsiFilteringVisitor);
+            final XmlTag myDummyTag = XmlElementFactory.getInstance(project).createTagFromText("<MyDummyTag/>");
+            ApplicationManager.getApplication().runWriteAction(new Runnable() {
+                public void run() {
+                    for (XmlTag a : recursivePsiFilteringVisitor.getTags()) {
+                        a.getParent().addAfter(myDummyTag, a);
+                    }
+                }
+            });
+        }
+    }
+
     @Override
     public void update(AnActionEvent anActionEvent) {
-        //super.update(anActionEvent);
         Project project = PlatformDataKeys.PROJECT.getData(anActionEvent.getDataContext());
         anActionEvent.getPresentation().setEnabled(project != null);
     }
