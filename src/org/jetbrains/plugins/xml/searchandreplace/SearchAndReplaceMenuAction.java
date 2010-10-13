@@ -5,14 +5,24 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.PlatformDataKeys;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.editor.Editor;
+import com.intellij.openapi.editor.event.EditorMouseEvent;
+import com.intellij.openapi.editor.event.EditorMouseListener;
+import com.intellij.openapi.editor.markup.HighlighterLayer;
+import com.intellij.openapi.editor.markup.HighlighterTargetArea;
+import com.intellij.openapi.editor.markup.RangeHighlighter;
+import com.intellij.openapi.editor.markup.TextAttributes;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.*;
+import com.intellij.psi.xml.XmlElement;
 import com.intellij.psi.xml.XmlTag;
+import org.jetbrains.plugins.xml.searchandreplace.search.TagSearchDelegate;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.TagPredicate;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.XmlElementPredicate;
 import org.jetbrains.plugins.xml.searchandreplace.search.Search;
 import org.jetbrains.plugins.xml.searchandreplace.search.SearchPattern;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -22,7 +32,7 @@ public class SearchAndReplaceMenuAction extends AnAction {
     public void actionPerformed(AnActionEvent anActionEvent) {
 
         Project project = PlatformDataKeys.PROJECT.getData(anActionEvent.getDataContext());
-        Editor editor = PlatformDataKeys.EDITOR.getData(anActionEvent.getDataContext());
+        final Editor editor = PlatformDataKeys.EDITOR.getData(anActionEvent.getDataContext());
 
         if (editor != null && project != null) {
             PsiFile psiFile = PsiDocumentManager.getInstance(project).getPsiFile(editor.getDocument());
@@ -79,12 +89,57 @@ public class SearchAndReplaceMenuAction extends AnAction {
                         return null;  //To change body of implemented methods use File | Settings | File Templates.
                     }
                 }, children);
-                psiFile.accept(Search.createSearchForPattern(testSearchPattern));
+                Search searchForPattern = Search.createSearchForPattern(testSearchPattern);
+                searchForPattern.setDelegate(new TagSearchDelegate() {
+                    private void highlightElement(PsiElement tag) {
+                        TextRange textRange = tag.getTextRange();
+                        TextAttributes ta = new TextAttributes();
+                        ta.setBackgroundColor(Color.CYAN);
+                        final RangeHighlighter rh = editor.getMarkupModel().addRangeHighlighter(
+                                textRange.getStartOffset(),
+                                textRange.getEndOffset(),
+                                HighlighterLayer.SELECTION + 1,
+                                ta,
+                                HighlighterTargetArea.EXACT_RANGE);                        
+                        editor.addEditorMouseListener(new EditorMouseListener() {
+                            public void mousePressed(EditorMouseEvent e) {
+
+                            }
+
+                            public void mouseClicked(EditorMouseEvent e) {
+                                editor.getMarkupModel().removeHighlighter(rh);
+                                editor.removeEditorMouseListener(this);
+                            }
+
+                            public void mouseReleased(EditorMouseEvent e) {
+
+                            }
+
+                            public void mouseEntered(EditorMouseEvent e) {
+                                
+                            }
+
+                            public void mouseExited(EditorMouseEvent e) {
+
+                            }
+                        });
+                    }
+
+                    public void foundTag(Search search, XmlElement tag) {
+                        if (tag instanceof XmlTag && tag.getFirstChild() != null && tag.getFirstChild().getNextSibling() != null) {
+                            highlightElement(tag.getFirstChild().getNextSibling());
+                        } else {
+                            highlightElement(tag);
+                        }
+                    }
+                });
+                psiFile.accept(searchForPattern);
             }
         } else {
             System.out.println("couldn't get editor");
         }
     }
+
 
     private void testingStuff(Project project, PsiFile psiFile) {
         if (psiFile != null) {
@@ -104,7 +159,7 @@ public class SearchAndReplaceMenuAction extends AnAction {
                 public void visitElement(PsiElement element) {
                     if (element instanceof XmlTag) {
                         System.out.println("found tag: " + element.toString());
-                        tags.add((XmlTag)element);
+                        tags.add((XmlTag) element);
                     }
                     super.visitElement(element);
                 }

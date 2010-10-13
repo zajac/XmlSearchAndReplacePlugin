@@ -5,21 +5,22 @@ import com.intellij.psi.xml.XmlElement;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.XmlElementPredicate;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 public class SearchByParentsPredicates extends Search {
 
-    private Set<XmlElementPredicate> leftToCheck;
+    private HashSet<XmlElementPredicate> leftToCheck;
 
-    private SearchByParentsPredicates(SearchPattern pattern, Set<XmlElementPredicate> leftToCheck) {
+    private SearchByParentsPredicates(SearchPattern pattern, HashSet<XmlElementPredicate> leftToCheck) {
         super(pattern);
         this.leftToCheck = leftToCheck;
     }
 
     public SearchByParentsPredicates(SearchPattern pattern) {
         super(pattern);
-        this.leftToCheck = (Set<XmlElementPredicate>) pattern.getParentsPredicates().clone();
+        this.leftToCheck = pattern.getParentsPredicates();
     }
 
     @Override
@@ -30,12 +31,13 @@ public class SearchByParentsPredicates extends Search {
                 succeeded.add(p);
             }
         }
-        leftToCheck.removeAll(succeeded);
+        HashSet<XmlElementPredicate> newLeftToCheck = (HashSet<XmlElementPredicate>) leftToCheck.clone();
+        newLeftToCheck.removeAll(succeeded);
         ArrayList<Search> searches = new ArrayList<Search>();
-        if (isEmptyOrContainsOnlyNOT(leftToCheck)) {
+        if (isEmptyOrContainsOnlyNOT(newLeftToCheck)) {
             searches.add(new SearchForThisElement(getPattern()));
         } else {
-            searches.add(this);
+            searches.add(new SearchByParentsPredicates(getPattern(), newLeftToCheck));
         }
         return searches;
     }

@@ -22,14 +22,20 @@ public abstract class Search extends PsiRecursiveElementVisitor {
         }
     };
 
-    public static Search createSearchForPattern(SearchPattern pattern) {
+    public static Search createSearchForPattern(final SearchPattern pattern) {
         assert pattern.getThisElementPredicate() != null;
-        Search result;
-        if (!pattern.getParentsPredicates().isEmpty()) {
-            result = new SearchByParentsPredicates(pattern);
-        } else {
-            result = new SearchForThisElement(pattern);
-        }
+        Search result = new Search(pattern) {
+            @Override
+            public List<Search> searchesToContinue(XmlElement element) {
+                ArrayList<Search> searches = new ArrayList<Search>();
+                if (!pattern.getParentsPredicates().isEmpty()) {
+                    searches.add(new SearchByParentsPredicates(pattern));
+                } else {
+                    searches.add(new SearchForThisElement(pattern));
+                }
+                return searches;
+            }
+        };
         result.subSearches.add(result);
         return result;
     }
@@ -60,10 +66,17 @@ public abstract class Search extends PsiRecursiveElementVisitor {
             for(Search s : subSearches) {
                 List<Search> c = s.searchesToContinue(xmlElement);
                 searchesToContinue.addAll(c);
+                for (Search toContinue : searchesToContinue) {
+                    toContinue.setDelegate(getDelegate());
+                }
             }
+            List<Search> backup = subSearches;
             subSearches = searchesToContinue;
+            super.visitElement(element);
+            subSearches = backup;
         }
-        super.visitElement(element);
+
+
     }
 
     protected static boolean isEmptyOrContainsOnlyNOT(Set<XmlElementPredicate> leftToCheck) {
