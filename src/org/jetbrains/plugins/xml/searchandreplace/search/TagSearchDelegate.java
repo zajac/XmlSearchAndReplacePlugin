@@ -1,7 +1,7 @@
-package org.jetbrains.plugins.xml.searchandreplace;
+package org.jetbrains.plugins.xml.searchandreplace.search;
 
 import com.intellij.psi.xml.XmlElement;
-import com.intellij.psi.xml.XmlTag;
+import org.jetbrains.plugins.xml.searchandreplace.search.Search;
 
 public interface TagSearchDelegate {
     void foundTag(Search search, XmlElement tag);

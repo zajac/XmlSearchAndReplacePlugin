@@ -1,4 +1,4 @@
-package org.jetbrains.plugins.xml.searchandreplace.predicates;
+package org.jetbrains.plugins.xml.searchandreplace.search.predicates;
 
 import com.intellij.psi.xml.XmlElement;
 import com.intellij.psi.xml.XmlTag;

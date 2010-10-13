@@ -8,8 +8,13 @@ import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.*;
 import com.intellij.psi.xml.XmlTag;
+import org.jetbrains.plugins.xml.searchandreplace.search.predicates.TagPredicate;
+import org.jetbrains.plugins.xml.searchandreplace.search.predicates.XmlElementPredicate;
+import org.jetbrains.plugins.xml.searchandreplace.search.Search;
+import org.jetbrains.plugins.xml.searchandreplace.search.SearchPattern;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class SearchAndReplaceMenuAction extends AnAction {
 
@@ -21,7 +26,61 @@ public class SearchAndReplaceMenuAction extends AnAction {
 
         if (editor != null && project != null) {
             PsiFile psiFile = PsiDocumentManager.getInstance(project).getPsiFile(editor.getDocument());
+            if (psiFile != null) {
 
+                HashSet<XmlElementPredicate> parents = new HashSet<XmlElementPredicate>();
+                parents.add(new TagPredicate() {
+
+                    @Override
+                    public String getDisplayName() {
+                        return null;  //To change body of implemented methods use File | Settings | File Templates.
+                    }
+
+                    @Override
+                    public boolean applyToTag(XmlTag tag) {
+                        return tag.getName().equals("myParentTag");
+                    }
+                });
+                parents.add(new TagPredicate() {
+
+                    @Override
+                    public boolean applyToTag(XmlTag tag) {
+                        return tag.getName().equals("myParentTag2");
+                    }
+
+                    @Override
+                    public String getDisplayName() {
+                        return null;  //To change body of implemented methods use File | Settings | File Templates.
+                    }
+                });
+
+                HashSet<XmlElementPredicate> children = new HashSet<XmlElementPredicate>();
+                children.add(new TagPredicate() {
+
+                    @Override
+                    public boolean applyToTag(XmlTag tag) {
+                        return tag.getName().equals("myChildTag");
+                    }
+
+                    @Override
+                    public String getDisplayName() {
+                        return null;  //To change body of implemented methods use File | Settings | File Templates.
+                    }
+                });
+
+                SearchPattern testSearchPattern = new SearchPattern(parents, new TagPredicate() {
+                    @Override
+                    public boolean applyToTag(XmlTag tag) {
+                        return tag.getName().equals("TAG");
+                    }
+
+                    @Override
+                    public String getDisplayName() {
+                        return null;  //To change body of implemented methods use File | Settings | File Templates.
+                    }
+                }, children);
+                psiFile.accept(Search.createSearchForPattern(testSearchPattern));
+            }
         } else {
             System.out.println("couldn't get editor");
         }
