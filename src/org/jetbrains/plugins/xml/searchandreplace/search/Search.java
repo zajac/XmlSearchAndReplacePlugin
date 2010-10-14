@@ -16,8 +16,8 @@ public abstract class Search extends PsiRecursiveElementVisitor {
 
     private List<Search> subSearches = new ArrayList<Search>();
 
-    private TagSearchDelegate myDelegate = new TagSearchDelegate() {
-        public void foundTag(Search search, XmlElement tag) {
+    private TagSearchObserver myObserver = new TagSearchObserver() {
+        public void elementFound(Search search, XmlElement tag) {
             System.out.println(this + "found tag: " + tag);
         }
     };
@@ -48,12 +48,12 @@ public abstract class Search extends PsiRecursiveElementVisitor {
         return myPattern;
     }
 
-    public TagSearchDelegate getDelegate() {
-        return myDelegate;
+    public TagSearchObserver getObserver() {
+        return myObserver;
     }
 
-    public void setDelegate(TagSearchDelegate myDelegate) {
-        this.myDelegate = myDelegate;
+    public void setDelegate(TagSearchObserver myObserver) {
+        this.myObserver = myObserver;
     }
 
     public abstract List<Search> searchesToContinue(XmlElement element);
@@ -67,7 +67,7 @@ public abstract class Search extends PsiRecursiveElementVisitor {
                 List<Search> c = s.searchesToContinue(xmlElement);
                 searchesToContinue.addAll(c);
                 for (Search toContinue : searchesToContinue) {
-                    toContinue.setDelegate(getDelegate());
+                    toContinue.setDelegate(getObserver());
                 }
             }
             List<Search> backup = subSearches;

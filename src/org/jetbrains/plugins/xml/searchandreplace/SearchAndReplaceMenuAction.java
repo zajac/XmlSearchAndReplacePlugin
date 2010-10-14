@@ -16,7 +16,7 @@ import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.*;
 import com.intellij.psi.xml.XmlElement;
 import com.intellij.psi.xml.XmlTag;
-import org.jetbrains.plugins.xml.searchandreplace.search.TagSearchDelegate;
+import org.jetbrains.plugins.xml.searchandreplace.search.TagSearchObserver;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.TagPredicate;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.XmlElementPredicate;
 import org.jetbrains.plugins.xml.searchandreplace.search.Search;
@@ -90,7 +90,7 @@ public class SearchAndReplaceMenuAction extends AnAction {
                     }
                 }, children);
                 Search searchForPattern = Search.createSearchForPattern(testSearchPattern);
-                searchForPattern.setDelegate(new TagSearchDelegate() {
+                searchForPattern.setDelegate(new TagSearchObserver() {
                     private void highlightElement(PsiElement tag) {
                         TextRange textRange = tag.getTextRange();
                         TextAttributes ta = new TextAttributes();
@@ -125,7 +125,7 @@ public class SearchAndReplaceMenuAction extends AnAction {
                         });
                     }
 
-                    public void foundTag(Search search, XmlElement tag) {
+                    public void elementFound(Search search, XmlElement tag) {
                         if (tag instanceof XmlTag && tag.getFirstChild() != null && tag.getFirstChild().getNextSibling() != null) {
                             highlightElement(tag.getFirstChild().getNextSibling());
                         } else {

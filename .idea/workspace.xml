@@ -14,11 +14,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c95dde65-8eb2-4841-b02e-5b9774762676" name="Default" comment="">
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/search/TagSearchDelegate.java" afterPath="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/search/TagSearchObserver.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/SearchAndReplaceMenuAction.java" afterPath="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/SearchAndReplaceMenuAction.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/search/Search.java" afterPath="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/search/Search.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/search/SearchByChildrenPredicates.java" afterPath="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/search/SearchByChildrenPredicates.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/search/SearchByParentsPredicates.java" afterPath="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/search/SearchByParentsPredicates.java" />
     </list>
     <ignored path="XmlSearchAndReplace.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -84,8 +84,8 @@
       <property name="field_breakpoints_groupByClasses" value="true" />
       <property name="method_breakpoints_groupByClasses" value="true" />
       <property name="exception_breakpoints_viewId" value="TABLE" />
-      <property name="exception_breakpoints_groupByClasses" value="true" />
       <property name="field_breakpoints_viewId" value="TABLE" />
+      <property name="exception_breakpoints_groupByClasses" value="true" />
       <property name="method_breakpoints_groupByMethods" value="false" />
     </ui_properties>
   </component>
@@ -100,37 +100,10 @@
   <component name="FileColors" enabled="true" enabledForTabs="true" highlightNonProjectFiles="true" nonProjectFilesColor="ffffe4" />
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Search.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/search/Search.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="60" column="13" selection-start="1957" selection-end="1957" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SearchAndReplaceMenuAction.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="SearchAndReplaceMenuAction.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/SearchAndReplaceMenuAction.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="113" column="42" selection-start="5293" selection-end="5293" vertical-scroll-proportion="0.38283828">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Logger.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../idea/platform/util/src/com/intellij/openapi/diagnostic/Logger.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="98" column="0" selection-start="2841" selection-end="2841" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="PsiElement.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../idea/platform/lang-api/src/com/intellij/psi/PsiElement.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="35" column="17" selection-start="1328" selection-end="1328" vertical-scroll-proportion="0.0">
+            <state line="34" column="21" selection-start="1588" selection-end="1588" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -157,7 +130,34 @@
       <file leaf-file-name="MarkupModel.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../idea/platform/platform-api/src/com/intellij/openapi/editor/markup/MarkupModel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="59" column="54" selection-start="2682" selection-end="2682" vertical-scroll-proportion="0.0">
+            <state line="21" column="0" selection-start="825" selection-end="825" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TagSearchObserver.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/search/TagSearchObserver.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="5" column="32" selection-start="198" selection-end="198" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SearchByParentsPredicates.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/search/SearchByParentsPredicates.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="16" column="23" selection-start="531" selection-end="531" vertical-scroll-proportion="0.1870187">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Search.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/search/Search.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="50" column="36" selection-start="1726" selection-end="1726" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -247,7 +247,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/predicates/AttributePredicate.java" />
         <option value="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/ui/SearchAndReplaceDialog.java" />
         <option value="$PROJECT_DIR$/tests/SearchTests.java" />
         <option value="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/TagSearch.java" />
@@ -261,8 +260,9 @@
         <option value="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/search/SearchForThisElement.java" />
         <option value="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/search/SearchByParentsPredicates.java" />
         <option value="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/search/SearchByChildrenPredicates.java" />
-        <option value="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/search/Search.java" />
         <option value="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/SearchAndReplaceMenuAction.java" />
+        <option value="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/search/Search.java" />
+        <option value="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/search/TagSearchObserver.java" />
       </list>
     </option>
   </component>
@@ -338,6 +338,53 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="PackagesPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="XmlSearchAndReplace" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="XmlSearchAndReplace" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="XmlSearchAndReplace" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="XmlSearchAndReplace" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="org.jetbrains.plugins.xml.searchandreplace" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="XmlSearchAndReplace" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="XmlSearchAndReplace" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="org.jetbrains.plugins.xml.searchandreplace" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="predicates" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -353,6 +400,20 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="XmlSearchAndReplace" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="XmlSearchAndReplace" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="XmlSearchAndReplace" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tests" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -425,53 +486,6 @@
         </subPane>
       </pane>
       <pane id="Favorites" />
-      <pane id="PackagesPane">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="XmlSearchAndReplace" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="XmlSearchAndReplace" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="XmlSearchAndReplace" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="XmlSearchAndReplace" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="org.jetbrains.plugins.xml.searchandreplace" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="XmlSearchAndReplace" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="XmlSearchAndReplace" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="org.jetbrains.plugins.xml.searchandreplace" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="predicates" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -488,9 +502,9 @@
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
     <property name="GoToClass.includeLibraries" value="false" />
-    <property name="dynamic.classpath" value="false" />
-    <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="dynamic.classpath" value="false" />
   </component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
@@ -739,13 +753,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../idea/platform/platform-api/src/com/intellij/openapi/ui/DialogWrapper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="57" column="28" selection-start="2062" selection-end="2062" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/search/SearchForThisElement.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="16" column="0" selection-start="502" selection-end="502" vertical-scroll-proportion="0.0">
@@ -755,84 +762,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/../idea/platform/lang-api/src/com/intellij/psi/PsiElementVisitor.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="60" column="0" selection-start="1633" selection-end="1633" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="60" column="0" selection-start="1633" selection-end="1633" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../idea/platform/lang-api/src/com/intellij/psi/PsiRecursiveElementVisitor.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="39" column="0" selection-start="1272" selection-end="1272" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="39" column="0" selection-start="1272" selection-end="1272" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/search/SearchByChildrenPredicates.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="39" column="28" selection-start="1627" selection-end="1627" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/search/SearchByParentsPredicates.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="32" column="9" selection-start="1039" selection-end="1039" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/search/Search.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="60" column="13" selection-start="1957" selection-end="1957" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../idea/platform/platform-api/src/com/intellij/openapi/editor/markup/HighlighterTargetArea.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="12" selection-start="658" selection-end="658" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../idea/platform/platform-api/src/com/intellij/openapi/editor/markup/RangeHighlighter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="17" selection-start="1137" selection-end="1137" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../idea/platform/platform-api/src/com/intellij/openapi/editor/markup/TextAttributes.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="13" selection-start="788" selection-end="788" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../idea/platform/platform-api/src/com/intellij/openapi/editor/markup/MarkupModel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="59" column="54" selection-start="2682" selection-end="2682" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../idea/platform/platform-api/src/com/intellij/openapi/editor/Editor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="38" column="17" selection-start="1408" selection-end="1408" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../idea/xml/openapi/src/com/intellij/psi/xml/XmlTag.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="17" selection-start="1048" selection-end="1048" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../idea/platform/lang-api/src/com/intellij/psi/PsiElement.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="35" column="17" selection-start="1328" selection-end="1328" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -844,9 +784,79 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/../idea/platform/lang-api/src/com/intellij/psi/PsiElement.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="35" column="17" selection-start="1328" selection-end="1328" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../idea/xml/openapi/src/com/intellij/psi/xml/XmlTag.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="31" column="17" selection-start="1048" selection-end="1048" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../idea/platform/platform-api/src/com/intellij/openapi/editor/Editor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="38" column="17" selection-start="1408" selection-end="1408" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../idea/platform/platform-api/src/com/intellij/openapi/editor/markup/TextAttributes.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="23" column="13" selection-start="788" selection-end="788" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../idea/platform/platform-api/src/com/intellij/openapi/editor/markup/RangeHighlighter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="30" column="17" selection-start="1137" selection-end="1137" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../idea/platform/platform-api/src/com/intellij/openapi/editor/markup/HighlighterTargetArea.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="12" selection-start="658" selection-end="658" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/SearchAndReplaceMenuAction.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="113" column="42" selection-start="5293" selection-end="5293" vertical-scroll-proportion="0.38283828">
+        <state line="34" column="21" selection-start="1588" selection-end="1588" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../idea/platform/platform-api/src/com/intellij/openapi/editor/markup/MarkupModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="0" selection-start="825" selection-end="825" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/search/Search.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="50" column="36" selection-start="1726" selection-end="1726" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/search/TagSearchObserver.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="32" selection-start="198" selection-end="198" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/search/SearchByParentsPredicates.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="16" column="23" selection-start="531" selection-end="531" vertical-scroll-proportion="0.1870187">
           <folding />
         </state>
       </provider>

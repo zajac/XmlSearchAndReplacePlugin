@@ -7,7 +7,6 @@ import org.jetbrains.plugins.xml.searchandreplace.search.predicates.XmlElementPr
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class SearchByChildrenPredicates extends Search {
 
@@ -48,7 +47,7 @@ public class SearchByChildrenPredicates extends Search {
             HashSet<XmlElementPredicate> newLeftToCheck = (HashSet<XmlElementPredicate>) leftToCheck.clone();
             newLeftToCheck.removeAll(succeeded);
             if (isEmptyOrContainsOnlyNOT(newLeftToCheck)) {
-                getDelegate().foundTag(this, candidate);
+                getObserver().elementFound(this, candidate);
                 candidate = null;
                 searches.add(new SearchForThisElement(getPattern()));
             } else if (succeeded.isEmpty()) {
