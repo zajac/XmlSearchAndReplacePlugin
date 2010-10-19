@@ -11,16 +11,20 @@ import com.intellij.openapi.editor.markup.HighlighterLayer;
 import com.intellij.openapi.editor.markup.HighlighterTargetArea;
 import com.intellij.openapi.editor.markup.RangeHighlighter;
 import com.intellij.openapi.editor.markup.TextAttributes;
+import com.intellij.openapi.module.Module;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.roots.ProjectRootManager;
 import com.intellij.openapi.util.TextRange;
+import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.*;
 import com.intellij.psi.xml.XmlElement;
 import com.intellij.psi.xml.XmlTag;
+import org.jetbrains.plugins.xml.searchandreplace.search.Search;
+import org.jetbrains.plugins.xml.searchandreplace.search.SearchPattern;
 import org.jetbrains.plugins.xml.searchandreplace.search.TagSearchObserver;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.TagPredicate;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.XmlElementPredicate;
-import org.jetbrains.plugins.xml.searchandreplace.search.Search;
-import org.jetbrains.plugins.xml.searchandreplace.search.SearchPattern;
+import org.jetbrains.plugins.xml.searchandreplace.ui.MainDialog;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -126,14 +130,24 @@ public class SearchAndReplaceMenuAction extends AnAction {
                     }
 
                     public void elementFound(Search search, XmlElement tag) {
-                        if (tag instanceof XmlTag && tag.getFirstChild() != null && tag.getFirstChild().getNextSibling() != null) {
-                            highlightElement(tag.getFirstChild().getNextSibling());
+                        if (tag != null && tag instanceof XmlTag && tag.getFirstChild() != null && tag.getFirstChild().getNextSibling() != null) {
+                            if (tag.getFirstChild() != null) {
+                                PsiElement tagName = tag.getFirstChild().getNextSibling();
+                                highlightElement(tagName);
+                            }
                         } else {
                             highlightElement(tag);
                         }
                     }
                 });
                 psiFile.accept(searchForPattern);
+                VirtualFile virtualFile = psiFile.getVirtualFile();
+                if (virtualFile != null) {
+                    Module module = ProjectRootManager.getInstance(project).getFileIndex().getModuleForFile(virtualFile);
+                    if (module != null) {
+                        new MainDialog(project, module).show();
+                    }
+                }
             }
         } else {
             System.out.println("couldn't get editor");

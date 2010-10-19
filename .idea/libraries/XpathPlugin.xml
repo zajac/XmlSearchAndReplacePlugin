@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="XpathPlugin">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/../idea/out/classes/production/xpath" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
