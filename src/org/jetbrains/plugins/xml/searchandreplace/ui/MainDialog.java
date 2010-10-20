@@ -14,6 +14,12 @@ public class MainDialog extends DialogWrapper {
     private Module module;
     private ScopePanel scopePanel;
 
+    private ScopePanel createScopePanel() {
+        ScopePanel scopePanel = new ScopePanel(project);
+        scopePanel.initComponent(module, new SearchScope());
+        return scopePanel;
+    }
+
     public MainDialog(Project project, Module module) {
         super(project);
 
@@ -22,16 +28,21 @@ public class MainDialog extends DialogWrapper {
 
         setTitle("Xml search and replace");
         setModal(false);
-        setOKButtonText("Close");
+        setOKButtonText("Search & Replace");        
+
+        scopePanel = createScopePanel();
+
         init();
     }
 
     @Override
     protected JComponent createCenterPanel() {
         JPanel panel = new JPanel();
-        scopePanel = new ScopePanel(project);
-        scopePanel.initComponent(module, new SearchScope());
         panel.add(scopePanel);
         return panel;
+    }
+
+    public SearchScope getSelectedScope() {
+        return scopePanel.getSearchScope();
     }
 }

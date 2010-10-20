@@ -14,11 +14,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c95dde65-8eb2-4841-b02e-5b9774762676" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/ui/MainDialog.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/META-INF/plugin.xml" afterPath="$PROJECT_DIR$/META-INF/plugin.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/XmlSearchAndReplace.iml" afterPath="$PROJECT_DIR$/XmlSearchAndReplace.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/SearchAndReplaceMenuAction.java" afterPath="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/SearchAndReplaceMenuAction.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/ui/MainDialog.java" afterPath="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/ui/MainDialog.java" />
     </list>
     <ignored path="XmlSearchAndReplace.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -84,8 +81,8 @@
       <property name="field_breakpoints_groupByClasses" value="true" />
       <property name="method_breakpoints_groupByClasses" value="true" />
       <property name="exception_breakpoints_viewId" value="TABLE" />
-      <property name="field_breakpoints_viewId" value="TABLE" />
       <property name="exception_breakpoints_groupByClasses" value="true" />
+      <property name="field_breakpoints_viewId" value="TABLE" />
       <property name="method_breakpoints_groupByMethods" value="false" />
     </ui_properties>
   </component>
@@ -100,29 +97,13 @@
   <component name="FileColors" enabled="true" enabledForTabs="true" highlightNonProjectFiles="true" nonProjectFilesColor="ffffe4" />
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="MainDialog.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="MainDialog.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/ui/MainDialog.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="19" column="31" selection-start="582" selection-end="582" vertical-scroll-proportion="0.2431243">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SearchScope.class" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../idea/out/classes/production/xpath/org/intellij/plugins/xpathView/search/SearchScope.class">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="12" column="2" selection-start="545" selection-end="545" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ScopePanel.class" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../idea/out/classes/production/xpath/org/intellij/plugins/xpathView/search/ScopePanel.class">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="19" column="16" selection-start="976" selection-end="976" vertical-scroll-proportion="0.0">
-              <folding />
+            <state line="27" column="0" selection-start="809" selection-end="809" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -130,10 +111,17 @@
       <file leaf-file-name="SearchAndReplaceMenuAction.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/SearchAndReplaceMenuAction.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="147" column="34" selection-start="6840" selection-end="6840" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state line="126" column="0" selection-start="5779" selection-end="5779" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Search.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/search/Search.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="4" selection-start="4" selection-end="4" vertical-scroll-proportion="0.0">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -364,8 +352,133 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="XmlSearchAndReplace" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="XmlSearchAndReplace" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="searchandreplace" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="XmlSearchAndReplace" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="XmlSearchAndReplace" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="searchandreplace" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ui" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="XmlSearchAndReplace" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="XmlSearchAndReplace" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="searchandreplace" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="search" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="XmlSearchAndReplace" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="XmlSearchAndReplace" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="searchandreplace" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="search" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="predicates" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="XmlSearchAndReplace" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="XmlSearchAndReplace" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="searchandreplace" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="replace" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="XmlSearchAndReplace" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="XmlSearchAndReplace" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="META-INF" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
+      <pane id="Favorites" />
       <pane id="Scope" />
       <pane id="PackagesPane">
         <subPane>
@@ -413,7 +526,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Favorites" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -430,9 +542,9 @@
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
     <property name="GoToClass.includeLibraries" value="false" />
-    <property name="options.searchVisible" value="true" />
-    <property name="options.splitter.details.proportions" value="0.2" />
     <property name="dynamic.classpath" value="false" />
+    <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
@@ -628,14 +740,14 @@
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32905984" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32995194" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24959481" sideWeight="0.63398695" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.37606838" sideWeight="0.9248366" order="10" side_tool="false" content_ui="tabs" x="30" y="528" width="1851" height="367" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.37606838" sideWeight="0.9248366" order="10" side_tool="false" content_ui="tabs" x="30" y="528" width="1851" height="367" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32905984" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32799146" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32905984" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.24959481" sideWeight="0.23747277" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24879871" sideWeight="0.6720086" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21783236" sideWeight="0.62393165" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32799146" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32995194" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -682,11 +794,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../idea/xml/openapi/src/com/intellij/psi/xml/XmlTag.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="79" column="27" selection-start="3044" selection-end="3044" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../idea/xml/openapi/src/com/intellij/psi/XmlElementFactory.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="31" column="0" selection-start="1091" selection-end="1091" vertical-scroll-proportion="0.0" />
@@ -719,13 +826,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../idea/out/classes/production/xpath/org/intellij/plugins/xpathView/search/ScopePanel.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="16" selection-start="976" selection-end="976" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../idea/platform/platform-api/src/com/intellij/openapi/editor/Editor.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="38" column="17" selection-start="1408" selection-end="1408" vertical-scroll-proportion="0.0" />
@@ -746,28 +846,42 @@
         <state line="51" column="50" selection-start="2137" selection-end="2137" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/META-INF/plugin.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="0" selection-start="252" selection-end="252" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../idea/platform/platform-api/src/com/intellij/openapi/ui/DialogWrapper.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="59" column="38" selection-start="2126" selection-end="2126" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/SearchAndReplaceMenuAction.java">
+    <entry file="file://$PROJECT_DIR$/../idea/out/classes/production/xpath/org/intellij/plugins/xpathView/search/ScopePanel.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="147" column="34" selection-start="6840" selection-end="6840" vertical-scroll-proportion="0.0">
+        <state line="34" column="59" selection-start="1759" selection-end="1759" vertical-scroll-proportion="-23.12">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/META-INF/plugin.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="0" selection-start="252" selection-end="252" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/ui/MainDialog.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="27" column="0" selection-start="809" selection-end="809" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/ui/MainDialog.java">
+    <entry file="file://$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/SearchAndReplaceMenuAction.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="31" selection-start="582" selection-end="582" vertical-scroll-proportion="0.2431243">
+        <state line="126" column="0" selection-start="5779" selection-end="5779" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/search/Search.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="4" selection-start="4" selection-end="4" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
