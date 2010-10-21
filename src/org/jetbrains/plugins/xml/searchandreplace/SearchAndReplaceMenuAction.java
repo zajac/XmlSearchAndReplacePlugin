@@ -18,9 +18,9 @@ import com.intellij.openapi.util.TextRange;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.*;
 import com.intellij.psi.xml.XmlElement;
+import com.intellij.psi.xml.XmlFile;
 import com.intellij.psi.xml.XmlTag;
-import org.jetbrains.plugins.xml.searchandreplace.search.Search;
-import org.jetbrains.plugins.xml.searchandreplace.search.SearchPattern;
+import org.jetbrains.plugins.xml.searchandreplace.search.Pattern;
 import org.jetbrains.plugins.xml.searchandreplace.search.TagSearchObserver;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.TagPredicate;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.XmlElementPredicate;
@@ -28,6 +28,7 @@ import org.jetbrains.plugins.xml.searchandreplace.ui.MainDialog;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 
 public class SearchAndReplaceMenuAction extends AnAction {
@@ -41,60 +42,7 @@ public class SearchAndReplaceMenuAction extends AnAction {
         if (editor != null && project != null) {
             PsiFile psiFile = PsiDocumentManager.getInstance(project).getPsiFile(editor.getDocument());
             if (psiFile != null) {
-
-                HashSet<XmlElementPredicate> parents = new HashSet<XmlElementPredicate>();
-                parents.add(new TagPredicate() {
-
-                    @Override
-                    public String getDisplayName() {
-                        return null;  //To change body of implemented methods use File | Settings | File Templates.
-                    }
-
-                    @Override
-                    public boolean applyToTag(XmlTag tag) {
-                        return tag.getName().equals("myParentTag");
-                    }
-                });
-                parents.add(new TagPredicate() {
-
-                    @Override
-                    public boolean applyToTag(XmlTag tag) {
-                        return tag.getName().equals("myParentTag2");
-                    }
-
-                    @Override
-                    public String getDisplayName() {
-                        return null;  //To change body of implemented methods use File | Settings | File Templates.
-                    }
-                });
-
-                HashSet<XmlElementPredicate> children = new HashSet<XmlElementPredicate>();
-                children.add(new TagPredicate() {
-
-                    @Override
-                    public boolean applyToTag(XmlTag tag) {
-                        return tag.getName().equals("myChildTag");
-                    }
-
-                    @Override
-                    public String getDisplayName() {
-                        return null;  //To change body of implemented methods use File | Settings | File Templates.
-                    }
-                });
-
-                SearchPattern testSearchPattern = new SearchPattern(parents, new TagPredicate() {
-                    @Override
-                    public boolean applyToTag(XmlTag tag) {
-                        return tag.getName().equals("TAG");
-                    }
-
-                    @Override
-                    public String getDisplayName() {
-                        return null;  //To change body of implemented methods use File | Settings | File Templates.
-                    }
-                }, children);
-                Search searchForPattern = Search.createSearchForPattern(testSearchPattern);
-                searchForPattern.setDelegate(new TagSearchObserver() {
+                TagSearchObserver myObserver = new TagSearchObserver() {
                     private void highlightElement(PsiElement tag) {
                         TextRange textRange = tag.getTextRange();
                         TextAttributes ta = new TextAttributes();
@@ -129,7 +77,7 @@ public class SearchAndReplaceMenuAction extends AnAction {
                         });
                     }
 
-                    public void elementFound(Search search, XmlElement tag) {
+                    public void elementFound(XmlElement tag) {
                         if (tag != null && tag instanceof XmlTag && tag.getFirstChild() != null && tag.getFirstChild().getNextSibling() != null) {
                             if (tag.getFirstChild() != null) {
                                 PsiElement tagName = tag.getFirstChild().getNextSibling();
@@ -139,8 +87,14 @@ public class SearchAndReplaceMenuAction extends AnAction {
                             highlightElement(tag);
                         }
                     }
-                });
-                psiFile.accept(searchForPattern);
+                };
+
+                if (psiFile instanceof XmlFile) {
+                    XmlElement root = (XmlElement) psiFile;
+                    Pattern myPattern = createTestPattern();
+                    myPattern.match(root, myObserver);
+                }
+
                 VirtualFile virtualFile = psiFile.getVirtualFile();
                 if (virtualFile != null) {
                     Module module = ProjectRootManager.getInstance(project).getFileIndex().getModuleForFile(virtualFile);
@@ -152,6 +106,44 @@ public class SearchAndReplaceMenuAction extends AnAction {
         } else {
             System.out.println("couldn't get editor");
         }
+    }
+
+    private HashSet<Pattern.Node> l(Pattern.Node... nodes) {
+        return new HashSet<Pattern.Node>(Arrays.asList(nodes));
+    }
+
+    private Pattern createTestPattern() {
+        Pattern.Node n1 = new Pattern.Node(createTestPredicate("TAG1"), false);
+        Pattern.Node n2 = new Pattern.Node(createTestPredicate("TAG2"), false);
+        Pattern.Node n3 = new Pattern.Node(createTestPredicate("TAG3"), false);
+        Pattern.Node n4 = new Pattern.Node(createTestPredicate("TAG4"), false);
+        Pattern.Node n5 = new Pattern.Node(createTestPredicate("TAG5"), false);
+        Pattern.Node n0 = new Pattern.Node(createTestPredicate("TAG0"), false);
+        Pattern.Node n = new Pattern.Node(createTestPredicate("TAG"), true);
+        n.setChildren(l(n3, n4));
+        n1.setChildren(l(n));
+        n2.setChildren(l(n));
+        n3.setChildren(l(n5));
+        n0.setChildren(l(n2));
+        return new Pattern(l(n0, n, n1, n2, n3, n4, n5));
+    }
+
+    private XmlElementPredicate createTestPredicate(final String tagName) {
+        return new TagPredicate() {
+
+            public String toString() {
+                return tagName;
+            }
+
+            @Override
+            public boolean applyToTag(XmlTag tag) {
+                return tag.getName().equals(tagName);
+            }
+            @Override
+            public String getDisplayName() {
+                return null;  //To change body of implemented methods use File | Settings | File Templates.
+            }
+        };
     }
 
 
