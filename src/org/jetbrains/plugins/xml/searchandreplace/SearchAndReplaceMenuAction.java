@@ -90,9 +90,9 @@ public class SearchAndReplaceMenuAction extends AnAction {
                 };
 
                 if (psiFile instanceof XmlFile) {
-                    XmlElement root = (XmlElement) psiFile;
+                    XmlFile root = (XmlFile) psiFile;
                     Pattern myPattern = createTestPattern();
-                    myPattern.match(root, myObserver);
+                    myPattern.match(root.getRootTag(), myObserver);
                 }
 
                 VirtualFile virtualFile = psiFile.getVirtualFile();
