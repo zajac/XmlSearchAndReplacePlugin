@@ -71,17 +71,22 @@ public class Pattern implements Cloneable {
         };
     }
 
+    private int getParentsNum(Node n) {
+        Integer num = parentsNum.get(n);
+        return num == null ? 0 : num;
+    }
+
+    private void setPrentsNum(Node n, int num) {
+        parentsNum.put(n, num);
+    }
+
     private void nodesChanged() {
         roots = (HashSet<Node>) allNodes.clone();
         parentsNum = new HashMap<Node, Integer>();
         for (Node n : allNodes) {
             for (Node c : childrenOfNode(n)) {
                 roots.remove(c);
-                Integer num = parentsNum.get(c);
-                if (num == null) {
-                    num = 0;
-                }
-                parentsNum.put(c, num + 1);
+                setPrentsNum(c, getParentsNum(c) + 1);
             }
         }
     }
@@ -123,8 +128,8 @@ public class Pattern implements Cloneable {
     private void removeRoot(Node root) {
         roots.remove(root);
         for (Node child : childrenOfNode(root)) {
-            parentsNum.put(child, parentsNum.get(child) - 1);
-            if (parentsNum.get(child) == 0) {
+            setPrentsNum(child, getParentsNum(child) - 1);
+            if (getParentsNum(child) == 0) {
                 roots.add(child);
             }
         }
@@ -234,8 +239,7 @@ public class Pattern implements Cloneable {
         Pattern reduced = this.reduce(element);
         Set<Pattern> forFurtherMatching = new HashSet<Pattern>();
         forFurtherMatching.add(reduced);
-        Integer theOnesParentsNum = parentsNum.get(theOne);
-        if (reduced.candidate != element && (theOnesParentsNum == null || theOnesParentsNum == 0) && theOne.predicate.apply(element)) {
+        if (reduced.candidate != element && getParentsNum(theOne) == 0 && theOne.predicate.apply(element)) {
             Pattern repaired = reduced.repair();
             repaired.candidate = element;
             forFurtherMatching.add(repaired);
