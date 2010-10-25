@@ -22,6 +22,7 @@ import com.intellij.psi.xml.XmlFile;
 import com.intellij.psi.xml.XmlTag;
 import org.jetbrains.plugins.xml.searchandreplace.search.Pattern;
 import org.jetbrains.plugins.xml.searchandreplace.search.TagSearchObserver;
+import org.jetbrains.plugins.xml.searchandreplace.search.predicates.Not;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.TagPredicate;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.XmlElementPredicate;
 import org.jetbrains.plugins.xml.searchandreplace.ui.MainDialog;
@@ -91,7 +92,7 @@ public class SearchAndReplaceMenuAction extends AnAction {
 
                 if (psiFile instanceof XmlFile) {
                     XmlFile root = (XmlFile) psiFile;
-                    Pattern myPattern = createTestPattern();
+                    Pattern myPattern = createTestPattern2();
                     myPattern.match(root.getRootTag(), myObserver);
                 }
 
@@ -110,6 +111,34 @@ public class SearchAndReplaceMenuAction extends AnAction {
 
     private HashSet<Pattern.Node> l(Pattern.Node... nodes) {
         return new HashSet<Pattern.Node>(Arrays.asList(nodes));
+    }
+
+    private XmlElementPredicate createTestNotPredicate(String tag) {
+        return new Not(createTestPredicate(tag));
+    }
+
+    private Pattern createTestPattern1() {
+        Pattern.Node n = new Pattern.Node(createTestPredicate("TAG"), true);
+        Pattern.Node n1 = new Pattern.Node(createTestNotPredicate("TAG1"), false);
+        n1.setChildren(l(n));
+        return new Pattern(l(n, n1));
+    }
+
+    private Pattern createTestPattern2() {
+        Pattern.Node n = new Pattern.Node(createTestPredicate("TAG"), true);
+        Pattern.Node n1 = new Pattern.Node(createTestNotPredicate("TAG1"), false);
+        Pattern.Node n2 = new Pattern.Node(createTestPredicate("TAG2"), false);
+        Pattern.Node n3 = new Pattern.Node(createTestPredicate("TAG3"), false);
+        Pattern.Node n4 = new Pattern.Node(createTestPredicate("TAG4"), false);
+        Pattern.Node n5 = new Pattern.Node(createTestPredicate("TAG5"), false);
+        Pattern.Node n6 = new Pattern.Node(createTestPredicate("TAG6"), false);
+
+        n1.setChildren(l(n2, n3));
+        n2.setChildren(l(n));
+        n3.setChildren(l(n));
+        n.setChildren(l(n4, n6));
+        n4.setChildren(l(n5));
+        return new Pattern(l(n, n1, n2, n3, n4, n5, n6));
     }
 
     private Pattern createTestPattern() {
