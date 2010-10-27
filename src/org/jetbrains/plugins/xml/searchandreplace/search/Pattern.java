@@ -99,6 +99,11 @@ public class Pattern implements Cloneable {
     private HashMap<Node, Integer> parentsNum;
     private Node theOne;
     private XmlElement candidate;
+
+    public Set<Node> getAllNodes() {
+        return allNodes;
+    }
+
     private HashSet<Node> allNodes;
 
     public Pattern(HashSet<Node> nodes) {

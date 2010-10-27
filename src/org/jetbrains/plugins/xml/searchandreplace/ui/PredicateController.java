@@ -3,7 +3,7 @@ package org.jetbrains.plugins.xml.searchandreplace.ui;
 import org.jetbrains.plugins.xml.searchandreplace.search.Pattern;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.XmlElementPredicate;
 
-import javax.swing.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class PredicateController implements PredicatePanelDelegate {
@@ -11,7 +11,11 @@ public class PredicateController implements PredicatePanelDelegate {
     private PredicatePanel myView;
     private PredicateTypeController predicateTypeController;
     private PredicateType selectedPredicateType;
+
+    private PredicateControllerDelegate delegate;
+
     private PredicateController parent;
+
     private Pattern.Node builtNode;
 
     public PredicateController(boolean canBeRoot, PredicateController parent) {
@@ -19,17 +23,31 @@ public class PredicateController implements PredicatePanelDelegate {
         myView = new PredicatePanel(canBeRoot);
         myView.setDelegate(this);
     }
+    public PredicateController getParent() {
+        return parent;
+    }
 
-    public JPanel getView() {
+    public PredicateControllerDelegate getDelegate() {
+        return delegate;
+    }
+
+    public void setDelegate(PredicateControllerDelegate delegate) {
+        this.delegate = delegate;
+        myView.reloadData();
+    }
+
+    public PredicatePanel getView() {
         return myView;
     }
 
     public void addChild(PredicatePanel panel) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        if (getDelegate() != null) {
+            getDelegate().addChild(this);
+        }
     }
 
     public List<PredicateType> getPredicateTypes(PredicatePanel panel) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return getDelegate() == null ? new ArrayList<PredicateType>() : getDelegate().getAllowedPredicateTypes(this);
     }
 
     public void predicateTypeSelected(PredicatePanel panel, PredicateType selection) {
@@ -48,7 +66,7 @@ public class PredicateController implements PredicatePanelDelegate {
             builtNode = new Pattern.Node(predicate, parent == null);
             Pattern.Node parentNode = parent == null ? null : parent.getBuiltNode();
             if (parent == null || parentNode != null) {
-                selectedPredicateType.addNodeInPattern(p, builtNode, parentNode);
+                selectedPredicateType.addNodeToPattern(p, builtNode, parentNode);
             }
         }
     }

@@ -36,10 +36,10 @@ public class PredicatePanel extends JPanel {
 
     public void setDelegate(PredicatePanelDelegate delegate) {
         this.delegate = delegate == null ? DUMMY_DELEGATE : delegate;
-        updatePredicateTypeChooser();
+        reloadData();
     }
 
-    private void updatePredicateTypeChooser() {
+    public void reloadData() {
         List<PredicateType> predicateTypes = getDelegate().getPredicateTypes(this);
         final PredicatePanel thisPanel = this;
         ComboBoxModel predicateTypeChooserModel = new CollectionComboBoxModel(predicateTypes, null) {
@@ -61,6 +61,7 @@ public class PredicatePanel extends JPanel {
     public void setPredicateTypeSpecificView(JPanel view) {
         predicateTypeSpecific.removeAll();
         predicateTypeSpecific.add(view);
+        predicateTypeSpecific.validate();
     }
 
     public PredicatePanel(boolean canBeRoot) {
@@ -76,7 +77,7 @@ public class PredicatePanel extends JPanel {
         }
 
         predicateTypeChooser = new JComboBox();
-        updatePredicateTypeChooser();
+        reloadData();
 
         predicateTypeSpecific = new JPanel();
 

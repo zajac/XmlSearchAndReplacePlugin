@@ -13,6 +13,7 @@ public class MainDialog extends DialogWrapper {
     private Project project;
     private Module module;
     private ScopePanel scopePanel;
+    private PatternController patternController = new PatternController();
 
     private ScopePanel createScopePanel() {
         ScopePanel scopePanel = new ScopePanel(project);
@@ -38,7 +39,9 @@ public class MainDialog extends DialogWrapper {
     @Override
     protected JComponent createCenterPanel() {
         JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.add(scopePanel);
+        panel.add(patternController.getView());
         return panel;
     }
 
