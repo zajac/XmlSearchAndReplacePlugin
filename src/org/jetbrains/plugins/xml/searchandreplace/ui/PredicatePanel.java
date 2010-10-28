@@ -37,9 +37,15 @@ public class PredicatePanel extends JPanel {
     public void setDelegate(PredicatePanelDelegate delegate) {
         this.delegate = delegate == null ? DUMMY_DELEGATE : delegate;
         reloadData();
+        if (predicateTypeChooser == null) {
+            getDelegate().predicateTypeSelected(this, null);
+        }
     }
 
     public void reloadData() {
+        if (predicateTypeChooser == null) {
+            return;
+        }
         List<PredicateType> predicateTypes = getDelegate().getPredicateTypes(this);
         final PredicatePanel thisPanel = this;
         ComboBoxModel predicateTypeChooserModel = new CollectionComboBoxModel(predicateTypes, null) {
@@ -55,18 +61,19 @@ public class PredicatePanel extends JPanel {
     }
 
     private PredicateType getSelectedPredicateType() {
+        if (predicateTypeChooser == null) return null;
         return (PredicateType) predicateTypeChooser.getModel().getSelectedItem();
     }
 
     public void setPredicateTypeSpecificView(JPanel view) {
         predicateTypeSpecific.removeAll();
         predicateTypeSpecific.add(view);
-        predicateTypeSpecific.validate();
+        predicateTypeSpecific.updateUI();
     }
 
-    public PredicatePanel(boolean canBeRoot) {
+    public PredicatePanel(boolean canHaveChildren, boolean isRoot) {
 
-        if (canBeRoot) {
+        if (canHaveChildren) {
             addChildButton = new JButton("+");
             final PredicatePanel thisPanel = this;
             addChildButton.addActionListener(new ActionListener() {
@@ -75,16 +82,20 @@ public class PredicatePanel extends JPanel {
                 }
             });
         }
-
-        predicateTypeChooser = new JComboBox();
+        if (!isRoot) {
+            predicateTypeChooser = new JComboBox();
+        }
         reloadData();
+
 
         predicateTypeSpecific = new JPanel();
 
-        if (canBeRoot) {
+        if (canHaveChildren) {
             add(addChildButton);
         }
-        add(predicateTypeChooser);
+        if (!isRoot) {
+            add(predicateTypeChooser);
+        }
         add(predicateTypeSpecific);
     }
 }

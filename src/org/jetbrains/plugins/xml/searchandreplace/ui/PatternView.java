@@ -11,7 +11,7 @@ public class PatternView extends JPanel {
     }
 
     void addPredicateView(PredicatePanel panel, PredicatePanel parent) {
-        add(panel);
-        panel.validate();
+        add(panel, null);
+        panel.updateUI();
     }
 }

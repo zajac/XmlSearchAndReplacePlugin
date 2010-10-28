@@ -21,6 +21,8 @@ public class PredicateTypeRegistry {
     private PredicateTypeRegistry() {
         registerPredicateType(new Inside());
         registerPredicateType(new NotInside());
+        registerPredicateType(new Contains());
+        registerPredicateType(new NotContains());
     }
 
     public void registerPredicateType(PredicateType predicateType) {

@@ -20,7 +20,7 @@ public class PredicateController implements PredicatePanelDelegate {
 
     public PredicateController(boolean canBeRoot, PredicateController parent) {
         this.parent = parent;
-        myView = new PredicatePanel(canBeRoot);
+        myView = new PredicatePanel(canBeRoot, parent == null);
         myView.setDelegate(this);
     }
     public PredicateController getParent() {
@@ -51,8 +51,12 @@ public class PredicateController implements PredicatePanelDelegate {
     }
 
     public void predicateTypeSelected(PredicatePanel panel, PredicateType selection) {
-        selectedPredicateType = selection;
-        predicateTypeController = selection.createNewController();
+        if (selection != null) {
+            selectedPredicateType = selection;
+        } else {
+            selectedPredicateType = new RootPredicateType();
+        }
+        predicateTypeController = selectedPredicateType.createNewController();
         myView.setPredicateTypeSpecificView(predicateTypeController.getView());
     }
 
