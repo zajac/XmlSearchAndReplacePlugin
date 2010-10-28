@@ -39,8 +39,13 @@ public class Pattern implements Cloneable {
             this.children = children;
         }
 
+        @Override
         public String toString() {
-            return predicate.toString();
+            return "\nNode{" +
+                    "\npredicate=" + predicate +
+                    ",\n children=" + children +
+                    ",\n theOne=" + theOne +
+                    "\n}";
         }
 
         public boolean apply(XmlElement tag) {
@@ -71,6 +76,10 @@ public class Pattern implements Cloneable {
             return n;
         }
 
+        public void setPredicate(XmlElementPredicate predicate) {
+            this.predicate = predicate;
+        }
+
         static class NeverSuccessfullNode extends Node {
             public NeverSuccessfullNode(boolean isTheOne) {
                 super(new XmlElementPredicate() {
@@ -80,10 +89,6 @@ public class Pattern implements Cloneable {
                         return false;
                     }
 
-                    @Override
-                    public String getDisplayName() {
-                        return null;
-                    }
                 }, isTheOne);
             }
         }
@@ -108,7 +113,7 @@ public class Pattern implements Cloneable {
 
     public Pattern(HashSet<Node> nodes) {
         allNodes = nodes;
-        nodesChanged();
+        validateNodes();
         for (Node n : allNodes) {
             if (n.isTheOne()) {
                 theOne = n;
@@ -138,7 +143,7 @@ public class Pattern implements Cloneable {
         parentsNum.put(n, num);
     }
 
-    private void nodesChanged() {
+    public void validateNodes() {
         roots = (HashSet<Node>) allNodes.clone();
         parentsNum = new HashMap<Node, Integer>();
         for (Node n : allNodes) {
@@ -147,6 +152,17 @@ public class Pattern implements Cloneable {
                 setParentsNum(c, getParentsNum(c) + 1);
             }
         }
+    }
+
+    @Override
+    public String toString() {
+        return "\nPattern{" +
+                "\nroots=" + roots +
+                ",\n parentsNum=" + parentsNum +
+                ",\n theOne=" + theOne +
+                ",\n candidate=" + candidate +
+                ",\n allNodes=" + allNodes +
+                "}\n";
     }
 
     public final Pattern clone() {
@@ -179,7 +195,7 @@ public class Pattern implements Cloneable {
             }
         } while (changed);
         if (onceChanged) {
-            nodesChanged();
+            validateNodes();
         }
     }
 
@@ -209,7 +225,7 @@ public class Pattern implements Cloneable {
     private Pattern repair() {
         Pattern result = clone();
         if (result.repair(theOne)) {
-            result.nodesChanged();
+            result.validateNodes();
         }
         return result;
     }

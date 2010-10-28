@@ -5,6 +5,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.DialogWrapper;
 import org.intellij.plugins.xpathView.search.ScopePanel;
 import org.intellij.plugins.xpathView.search.SearchScope;
+import org.jetbrains.plugins.xml.searchandreplace.search.Pattern;
 
 import javax.swing.*;
 
@@ -29,7 +30,8 @@ public class MainDialog extends DialogWrapper {
 
         setTitle("Xml search and replace");
         setModal(false);
-        setOKButtonText("Search & Replace");        
+        setOKButtonText("Search & Replace");
+
 
         scopePanel = createScopePanel();
 
@@ -47,5 +49,12 @@ public class MainDialog extends DialogWrapper {
 
     public SearchScope getSelectedScope() {
         return scopePanel.getSearchScope();
+    }
+
+    @Override
+    protected void doOKAction() {
+        Pattern result = patternController.buildPattern();
+        System.out.println(result);
+        super.doOKAction();
     }
 }

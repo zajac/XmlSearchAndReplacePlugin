@@ -17,11 +17,6 @@ public class Not extends XmlElementPredicate {
         return !predicate.apply(element);
     }
 
-    @Override
-    public String getDisplayName() {
-        return NOT + " " + predicate.getDisplayName();
-    }
-
     public XmlElementPredicate getPredicate() {
         return predicate;
     }

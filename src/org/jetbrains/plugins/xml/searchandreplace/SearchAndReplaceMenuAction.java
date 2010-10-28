@@ -1,5 +1,7 @@
 package org.jetbrains.plugins.xml.searchandreplace;
 
+import com.intellij.ide.projectView.PresentationData;
+import com.intellij.navigation.ItemPresentation;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.PlatformDataKeys;
@@ -11,15 +13,22 @@ import com.intellij.openapi.editor.markup.HighlighterLayer;
 import com.intellij.openapi.editor.markup.HighlighterTargetArea;
 import com.intellij.openapi.editor.markup.RangeHighlighter;
 import com.intellij.openapi.editor.markup.TextAttributes;
+import com.intellij.openapi.fileEditor.FileEditor;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.roots.ProjectRootManager;
+import com.intellij.openapi.util.Factory;
 import com.intellij.openapi.util.TextRange;
+import com.intellij.openapi.vcs.FileStatus;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.*;
 import com.intellij.psi.xml.XmlElement;
 import com.intellij.psi.xml.XmlFile;
 import com.intellij.psi.xml.XmlTag;
+import com.intellij.usageView.UsageInfo;
+import com.intellij.usages.*;
+import com.intellij.util.Processor;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.plugins.xml.searchandreplace.search.Pattern;
 import org.jetbrains.plugins.xml.searchandreplace.search.TagSearchObserver;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.Not;
@@ -31,6 +40,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Set;
 
 public class SearchAndReplaceMenuAction extends AnAction {
 
@@ -92,8 +102,91 @@ public class SearchAndReplaceMenuAction extends AnAction {
 
                 if (psiFile instanceof XmlFile) {
                     XmlFile root = (XmlFile) psiFile;
-                    Pattern myPattern = createTestPattern2();
-                    myPattern.match(root.getRootTag(), myObserver);
+                    Pattern myPattern = createTestPattern();
+                    final Set<XmlElement> foundTags = new HashSet<XmlElement>();
+                    myPattern.match(root.getRootTag(), new TagSearchObserver() {
+                        public void elementFound(XmlElement tag) {
+                            foundTags.add(tag);
+                        }
+                    });
+                    UsageViewPresentation presentation = new UsageViewPresentation();
+                    presentation.setUsagesString("Usages String");
+                    presentation.setTabText("Tab text");
+                    presentation.setScopeText("My Scope text");
+                    UsageViewManager.getInstance(project).searchAndShowUsages(
+                            new UsageTarget[]{new UsageTarget() {
+
+                                public void findUsages() {
+                                    //To change body of implemented methods use File | Settings | File Templates.
+                                }
+
+                                public void findUsagesInEditor(@NotNull FileEditor editor) {
+                                    //To change body of implemented methods use File | Settings | File Templates.
+                                }
+
+                                public void highlightUsages(PsiFile file, Editor editor, boolean clearHighlights) {
+                                    //To change body of implemented methods use File | Settings | File Templates.
+                                }
+
+                                public boolean isValid() {
+                                    return true;  //To change body of implemented methods use File | Settings | File Templates.
+                                }
+
+                                public boolean isReadOnly() {
+                                    return true;  //To change body of implemented methods use File | Settings | File Templates.
+                                }
+
+                                public VirtualFile[] getFiles() {
+                                    return null;
+                                }
+
+                                public void update() {
+                                    //To change body of implemented methods use File | Settings | File Templates.
+                                }
+
+                                public String getName() {
+                                    return "SHIT";
+                                }
+
+                                public ItemPresentation getPresentation() {
+                                    return new PresentationData("SHIT2", null, null, null, null);
+                                }
+
+                                public FileStatus getFileStatus() {
+                                    return FileStatus.NOT_CHANGED;
+                                }
+
+                                public void navigate(boolean requestFocus) {
+                                    //To change body of implemented methods use File | Settings | File Templates.
+                                }
+
+                                public boolean canNavigate() {
+                                    return false;  //To change body of implemented methods use File | Settings | File Templates.
+                                }
+
+                                public boolean canNavigateToSource() {
+                                    return false;  //To change body of implemented methods use File | Settings | File Templates.
+                                }
+                            }}, new Factory<UsageSearcher>() {
+
+                                public UsageSearcher create() {
+                                    return new UsageSearcher() {
+                                        public void generate(final Processor<Usage> usageProcessor) {
+                                            ApplicationManager.getApplication().runReadAction(new Runnable() {
+
+                                                public void run() {
+                                                    for (XmlElement element : foundTags) {
+                                                        usageProcessor.process(new UsageInfo2UsageAdapter(new UsageInfo(element)));
+                                                    }
+                                                }
+                                            });
+                                        }
+                                    };
+                                }
+                            }, true, true, presentation, null);
+
+
+
                 }
 
                 VirtualFile virtualFile = psiFile.getVirtualFile();
@@ -167,10 +260,6 @@ public class SearchAndReplaceMenuAction extends AnAction {
             @Override
             public boolean applyToTag(XmlTag tag) {
                 return tag.getName().equals(tagName);
-            }
-            @Override
-            public String getDisplayName() {
-                return null;  //To change body of implemented methods use File | Settings | File Templates.
             }
         };
     }

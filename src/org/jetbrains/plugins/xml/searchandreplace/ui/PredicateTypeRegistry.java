@@ -1,5 +1,7 @@
 package org.jetbrains.plugins.xml.searchandreplace.ui;
 
+import org.jetbrains.plugins.xml.searchandreplace.ui.predicatetypes.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +25,8 @@ public class PredicateTypeRegistry {
         registerPredicateType(new NotInside());
         registerPredicateType(new Contains());
         registerPredicateType(new NotContains());
+        registerPredicateType(new WithAttribute());
+        registerPredicateType(new WithoutAttribute());
     }
 
     public void registerPredicateType(PredicateType predicateType) {

@@ -17,8 +17,4 @@ public class And extends XmlElementPredicate {
         return myP1.apply(element) && myP2.apply(element);
     }
 
-    @Override
-    public String getDisplayName() {
-        return myP1.getDisplayName() + " And " + myP2.getDisplayName();
-    }
 }

@@ -1,4 +1,4 @@
-package org.jetbrains.plugins.xml.searchandreplace.ui;
+package org.jetbrains.plugins.xml.searchandreplace.ui.predicatetypes;
 
 public class NotInside extends Inside {
     public NotInside() {

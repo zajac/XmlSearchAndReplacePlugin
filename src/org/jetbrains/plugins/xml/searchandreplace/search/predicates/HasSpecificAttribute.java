@@ -28,8 +28,4 @@ public class HasSpecificAttribute extends TagPredicate {
         return false;
     }
 
-    @Override
-    public String getDisplayName() {
-        return DISPLAY_NAME;
-    }
 }

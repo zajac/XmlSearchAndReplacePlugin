@@ -32,8 +32,18 @@ public class PatternController implements PredicateControllerDelegate {
     public Pattern buildPattern() {
         Pattern pattern = new Pattern(new HashSet<Pattern.Node>());
         if (!predicatesTree.isEmpty()) {
-            gatherNodes(pattern, predicatesTree.keySet().iterator().next());
+            PredicateController root = null;
+            for (PredicateController c : predicatesTree.keySet()) {
+                if (!predicatesTree.get(c).isEmpty()) {
+                    root = c;
+                    break;
+                }
+            }
+            if (root != null) {
+                gatherNodes(pattern, root);
+            }
         }
+        pattern.validateNodes();
         return pattern;
     }
 
