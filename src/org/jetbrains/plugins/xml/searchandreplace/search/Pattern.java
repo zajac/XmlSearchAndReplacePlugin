@@ -147,6 +147,9 @@ public class Pattern implements Cloneable {
         roots = (HashSet<Node>) allNodes.clone();
         parentsNum = new HashMap<Node, Integer>();
         for (Node n : allNodes) {
+            if (n.isTheOne()) {
+                theOne = n;
+            }
             for (Node c : childrenOfNode(n)) {
                 roots.remove(c);
                 setParentsNum(c, getParentsNum(c) + 1);

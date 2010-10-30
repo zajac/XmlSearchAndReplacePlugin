@@ -14,7 +14,7 @@ public class And extends XmlElementPredicate {
 
     @Override
     public boolean apply(XmlElement element) {
-        return myP1.apply(element) && myP2.apply(element);
+        return (myP1 == null || myP1.apply(element)) && (myP2 == null || myP2.apply(element));
     }
 
 }
