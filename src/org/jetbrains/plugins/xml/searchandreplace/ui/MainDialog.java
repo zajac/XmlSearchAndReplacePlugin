@@ -6,6 +6,7 @@ import com.intellij.openapi.ui.DialogWrapper;
 import org.intellij.plugins.xpathView.search.ScopePanel;
 import org.intellij.plugins.xpathView.search.SearchScope;
 import org.jetbrains.plugins.xml.searchandreplace.search.Pattern;
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.PatternController;
 
 import javax.swing.*;
 

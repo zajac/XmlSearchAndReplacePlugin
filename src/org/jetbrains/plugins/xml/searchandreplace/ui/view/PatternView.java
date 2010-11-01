@@ -1,4 +1,4 @@
-package org.jetbrains.plugins.xml.searchandreplace.ui;
+package org.jetbrains.plugins.xml.searchandreplace.ui.view;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,7 +10,7 @@ public class PatternView extends JPanel {
         setLayout(lm);
     }
 
-    void addPredicateView(PredicatePanel panel, PredicatePanel parent) {
+    public void addPredicateView(PredicatePanel panel, PredicatePanel parent) {
         add(panel, null);
         panel.updateUI();
     }

@@ -1,4 +1,4 @@
-package org.jetbrains.plugins.xml.searchandreplace.ui;
+package org.jetbrains.plugins.xml.searchandreplace.ui.view;
 
 import javax.swing.*;
 import java.awt.*;

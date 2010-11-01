@@ -1,6 +1,7 @@
-package org.jetbrains.plugins.xml.searchandreplace.ui;
+package org.jetbrains.plugins.xml.searchandreplace.ui.view;
 
 import com.intellij.ui.CollectionComboBoxModel;
+import org.jetbrains.plugins.xml.searchandreplace.ui.PredicateType;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -29,6 +30,7 @@ public class PredicatePanel extends JPanel {
     private JButton addChildButton;
     private JComboBox predicateTypeChooser;
     private JPanel predicateTypeSpecific;
+    private JPanel centerPanel;
 
     public PredicatePanelDelegate getDelegate() {
         return delegate;
@@ -37,13 +39,13 @@ public class PredicatePanel extends JPanel {
     public void setDelegate(PredicatePanelDelegate delegate) {
         this.delegate = delegate == null ? DUMMY_DELEGATE : delegate;
         reloadData();
-        if (predicateTypeChooser == null) {
+        if (!predicateTypeChooser.isVisible()) {
             getDelegate().predicateTypeSelected(this, null);
         }
     }
 
     public void reloadData() {
-        if (predicateTypeChooser == null) {
+        if (!predicateTypeChooser.isVisible()) {
             return;
         }
         List<PredicateType> predicateTypes = getDelegate().getPredicateTypes(this);
@@ -74,7 +76,6 @@ public class PredicatePanel extends JPanel {
     public PredicatePanel(boolean canHaveChildren, boolean isRoot) {
 
         if (canHaveChildren) {
-            addChildButton = new JButton("+");
             final PredicatePanel thisPanel = this;
             addChildButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
@@ -82,20 +83,15 @@ public class PredicatePanel extends JPanel {
                 }
             });
         }
-        if (!isRoot) {
-            predicateTypeChooser = new JComboBox();
+        if (isRoot) {
+            predicateTypeChooser.setVisible(false);
         }
         reloadData();
 
-
-        predicateTypeSpecific = new JPanel();
-
-        if (canHaveChildren) {
-            add(addChildButton);
+        if (!canHaveChildren) {
+            addChildButton.setVisible(false);
         }
-        if (!isRoot) {
-            add(predicateTypeChooser);
-        }
-        add(predicateTypeSpecific);
+        
+        add(centerPanel);
     }
 }

@@ -1,7 +1,10 @@
-package org.jetbrains.plugins.xml.searchandreplace.ui;
+package org.jetbrains.plugins.xml.searchandreplace.ui.controller;
 
 
 import org.jetbrains.plugins.xml.searchandreplace.search.Pattern;
+import org.jetbrains.plugins.xml.searchandreplace.ui.PredicateType;
+import org.jetbrains.plugins.xml.searchandreplace.ui.PredicateTypeRegistry;
+import org.jetbrains.plugins.xml.searchandreplace.ui.view.PatternView;
 
 import java.util.*;
 
@@ -9,6 +12,7 @@ public class PatternController implements PredicateControllerDelegate {
 
     private PatternView view = new PatternView();
     private Map<PredicateController, List<PredicateController>> predicatesTree = new HashMap<PredicateController, List<PredicateController>>();
+    private PredicateController root;
 
     private void addPredicateController(PredicateController pc) {
         pc.setDelegate(this);
@@ -24,25 +28,17 @@ public class PatternController implements PredicateControllerDelegate {
         return view;
     }
 
-    public PatternController() {
-        PredicateController root = new PredicateController(true, null);
+    public PatternController() {        
+        root = new PredicateController(true, null);
         addPredicateController(root);
     }
 
     public Pattern buildPattern() {
         Pattern pattern = new Pattern(new HashSet<Pattern.Node>());
-        if (!predicatesTree.isEmpty()) {
-            PredicateController root = null;
-            for (PredicateController c : predicatesTree.keySet()) {
-                if (!predicatesTree.get(c).isEmpty()) {
-                    root = c;
-                    break;
-                }
-            }
-            if (root != null) {
-                gatherNodes(pattern, root);
-            }
+        if (root != null) {
+            gatherNodes(pattern, root);
         }
+
         pattern.validateNodes();
         return pattern;
     }

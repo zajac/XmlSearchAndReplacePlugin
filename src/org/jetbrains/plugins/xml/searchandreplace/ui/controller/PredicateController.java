@@ -1,8 +1,11 @@
-package org.jetbrains.plugins.xml.searchandreplace.ui;
+package org.jetbrains.plugins.xml.searchandreplace.ui.controller;
 
 import org.jetbrains.plugins.xml.searchandreplace.search.Pattern;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.XmlElementPredicate;
+import org.jetbrains.plugins.xml.searchandreplace.ui.view.PredicatePanelDelegate;
+import org.jetbrains.plugins.xml.searchandreplace.ui.PredicateType;
 import org.jetbrains.plugins.xml.searchandreplace.ui.predicatetypes.RootPredicateType;
+import org.jetbrains.plugins.xml.searchandreplace.ui.view.PredicatePanel;
 
 import java.util.ArrayList;
 import java.util.List;

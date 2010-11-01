@@ -1,4 +1,6 @@
-package org.jetbrains.plugins.xml.searchandreplace.ui;
+package org.jetbrains.plugins.xml.searchandreplace.ui.controller;
+
+import org.jetbrains.plugins.xml.searchandreplace.ui.PredicateType;
 
 import java.util.List;
 

@@ -7,7 +7,7 @@ import java.util.Arrays;
 public abstract class ReplacementProvider {
     public abstract XmlElement getReplacementFor(XmlElement element);
 
-    boolean isValid(XmlElement element) {
+    protected boolean isValid(XmlElement element) {
         return element.getParent() != null &&
                 element.getParent().getChildren() != null &&
                 Arrays.asList(element.getParent().getChildren()).indexOf(element) != -1;
