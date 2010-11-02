@@ -2,8 +2,8 @@ package org.jetbrains.plugins.xml.searchandreplace.ui.predicatetypes;
 
 import org.jetbrains.plugins.xml.searchandreplace.search.Pattern;
 import org.jetbrains.plugins.xml.searchandreplace.ui.PredicateType;
-import org.jetbrains.plugins.xml.searchandreplace.ui.controller.PredicateTypeController;
-import org.jetbrains.plugins.xml.searchandreplace.ui.controller.TagPredicateController;
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.PredicateTypeController;
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.TagPredicateController;
 
 public class Contains implements PredicateType {
 

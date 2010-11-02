@@ -7,7 +7,7 @@ import org.jetbrains.plugins.xml.searchandreplace.search.predicates.AttributePre
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.HasSpecificAttribute;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.XmlElementPredicate;
 import org.jetbrains.plugins.xml.searchandreplace.ui.PredicateType;
-import org.jetbrains.plugins.xml.searchandreplace.ui.controller.PredicateTypeController;
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.PredicateTypeController;
 import org.jetbrains.plugins.xml.searchandreplace.ui.view.AttributePanel;
 
 import javax.swing.*;

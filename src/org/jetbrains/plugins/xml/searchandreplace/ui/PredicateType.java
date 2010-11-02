@@ -1,7 +1,7 @@
 package org.jetbrains.plugins.xml.searchandreplace.ui;
 
 import org.jetbrains.plugins.xml.searchandreplace.search.Pattern;
-import org.jetbrains.plugins.xml.searchandreplace.ui.controller.PredicateTypeController;
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.PredicateTypeController;
 
 public interface PredicateType {
 

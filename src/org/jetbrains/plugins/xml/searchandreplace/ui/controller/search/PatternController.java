@@ -1,4 +1,4 @@
-package org.jetbrains.plugins.xml.searchandreplace.ui.controller;
+package org.jetbrains.plugins.xml.searchandreplace.ui.controller.search;
 
 
 import org.jetbrains.plugins.xml.searchandreplace.search.Pattern;

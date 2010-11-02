@@ -4,7 +4,7 @@ import com.intellij.psi.xml.XmlAttribute;
 import com.intellij.psi.xml.XmlTag;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.TagPredicate;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.XmlElementPredicate;
-import org.jetbrains.plugins.xml.searchandreplace.ui.controller.PredicateTypeController;
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.PredicateTypeController;
 
 import javax.swing.*;
 

@@ -1,4 +1,4 @@
-package org.jetbrains.plugins.xml.searchandreplace.ui.controller;
+package org.jetbrains.plugins.xml.searchandreplace.ui.controller.search;
 
 import com.intellij.psi.xml.XmlTag;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.TagPredicate;

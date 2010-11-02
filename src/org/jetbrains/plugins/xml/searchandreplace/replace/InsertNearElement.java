@@ -8,7 +8,7 @@ public class InsertNearElement extends ReplacementProvider {
     private ReplacementProvider replacementProvider;
     private Anchor anchor;
 
-    enum Anchor {BEFORE, AFTER}
+    public enum Anchor {BEFORE, AFTER}
 
     public InsertNearElement(ReplacementProvider replacementProvider, Anchor anchor) {
         this.replacementProvider = replacementProvider;
