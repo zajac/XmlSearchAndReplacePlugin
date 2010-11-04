@@ -5,10 +5,10 @@ import com.intellij.psi.xml.XmlElement;
 
 public abstract class AttributePredicate extends XmlElementPredicate {
 
-    @Override
-    public boolean apply(XmlElement element) {
-        return element instanceof XmlAttribute && applyToAttribute((XmlAttribute) element);
-    }
+  @Override
+  public boolean apply(XmlElement element) {
+    return element instanceof XmlAttribute && applyToAttribute((XmlAttribute) element);
+  }
 
-    public abstract boolean applyToAttribute(XmlAttribute a);
+  public abstract boolean applyToAttribute(XmlAttribute a);
 }

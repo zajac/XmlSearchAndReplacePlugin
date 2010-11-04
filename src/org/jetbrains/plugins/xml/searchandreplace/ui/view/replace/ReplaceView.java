@@ -8,14 +8,14 @@ import java.util.List;
 
 public class ReplaceView extends JPanel {
 
-  public interface ReplaceViewDelegate {
-    void replacementTypeSelected(ReplaceView view, Object selectedItem);
-  }
-
   private ReplaceViewDelegate delegate;
   private JPanel centerPane;
   private JComboBox replacementTypeChooser;
   private JPanel replacementSpecific;
+
+  public interface ReplaceViewDelegate {
+    void replacementTypeSelected(ReplaceView view, Object selectedItem);
+  }
 
   public ReplaceView(List replacementTypes) {
     add(centerPane);
@@ -31,8 +31,17 @@ public class ReplaceView extends JPanel {
     });
   }
 
+  public void setDelegate(ReplaceViewDelegate delegate) {
+    this.delegate = delegate;
+  }
+
+  public ReplaceViewDelegate getDelegate() {
+    return delegate;
+  }
+
   public void setReplacementSpecificView(JPanel view) {
     replacementSpecific.removeAll();
     replacementSpecific.add(view);
+    replacementSpecific.updateUI();
   }
 }

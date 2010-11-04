@@ -26,10 +26,11 @@ public class WithAttribute implements PredicateType {
     private AttributePanel view;
 
     public WithAttributeController() {
-      Comparator[] comparators = new Comparator[]{ new Comparator() {
+      Comparator[] comparators = new Comparator[]{new Comparator() {
         public boolean compare(String value1, String value2) {
           return value1.equals(value2);
         }
+
         public String toString() {
           return "=";
         }
@@ -53,7 +54,7 @@ public class WithAttribute implements PredicateType {
           try {
             i1 = Integer.parseInt(value1);
             i2 = Integer.parseInt(value2);
-          } catch(NumberFormatException e) {
+          } catch (NumberFormatException e) {
             e.printStackTrace();
           }
           return i1 < i2;
@@ -69,7 +70,7 @@ public class WithAttribute implements PredicateType {
           try {
             i1 = Integer.parseInt(value1);
             i2 = Integer.parseInt(value2);
-          } catch(NumberFormatException e) {
+          } catch (NumberFormatException e) {
             e.printStackTrace();
           }
           return i1 > i2;
@@ -85,7 +86,7 @@ public class WithAttribute implements PredicateType {
           try {
             i1 = Integer.parseInt(value1);
             i2 = Integer.parseInt(value2);
-          } catch(NumberFormatException e) {
+          } catch (NumberFormatException e) {
             e.printStackTrace();
           }
           return i1 <= i2;
@@ -101,7 +102,7 @@ public class WithAttribute implements PredicateType {
           try {
             i1 = Integer.parseInt(value1);
             i2 = Integer.parseInt(value2);
-          } catch(NumberFormatException e) {
+          } catch (NumberFormatException e) {
             e.printStackTrace();
           }
           return i1 >= i2;
@@ -118,7 +119,7 @@ public class WithAttribute implements PredicateType {
 
     @Override
     public XmlElementPredicate buildPredicate() {
-      return decorateWithNotIfNeccessary(new HasSpecificAttribute(new AttributePredicate(){
+      return decorateWithNotIfNeccessary(new HasSpecificAttribute(new AttributePredicate() {
         @Override
         public boolean applyToAttribute(XmlAttribute a) {
           if (view.getAttrName().isEmpty()) {
@@ -140,20 +141,20 @@ public class WithAttribute implements PredicateType {
     }
   }
 
-    public String toString() {
-        return "With Attribute";
-    }
+  public String toString() {
+    return "With Attribute";
+  }
 
-    public PredicateTypeController createNewController() {
-        return new WithAttributeController();
-    }
+  public PredicateTypeController createNewController() {
+    return new WithAttributeController();
+  }
 
-    public void addNodeToPattern(Pattern p, Pattern.Node node, Pattern.Node parent) {
-        if (parent != null) {
-            And predicate = new And(parent.getPredicate(), node.getPredicate());
-            parent.setPredicate(predicate);
-        } else {
-            p.getAllNodes().add(node);
-        }
+  public void addNodeToPattern(Pattern p, Pattern.Node node, Pattern.Node parent) {
+    if (parent != null) {
+      And predicate = new And(parent.getPredicate(), node.getPredicate());
+      parent.setPredicate(predicate);
+    } else {
+      p.getAllNodes().add(node);
     }
+  }
 }

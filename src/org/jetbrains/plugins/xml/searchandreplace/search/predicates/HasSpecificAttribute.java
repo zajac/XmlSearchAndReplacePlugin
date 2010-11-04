@@ -6,26 +6,26 @@ import com.intellij.psi.xml.XmlTag;
 
 public class HasSpecificAttribute extends TagPredicate {
 
-    private static final String DISPLAY_NAME = "With Attribute";
+  private static final String DISPLAY_NAME = "With Attribute";
 
-    private AttributePredicate myAttributePredicate;
+  private AttributePredicate myAttributePredicate;
 
-    public HasSpecificAttribute(AttributePredicate predicate) {
-        this.myAttributePredicate = predicate;
+  public HasSpecificAttribute(AttributePredicate predicate) {
+    this.myAttributePredicate = predicate;
+  }
+
+  public AttributePredicate getAttributePredicate() {
+    return myAttributePredicate;
+  }
+
+  @Override
+  public boolean applyToTag(XmlTag tag) {
+    for (XmlAttribute attr : tag.getAttributes()) {
+      if (myAttributePredicate.applyToAttribute(attr)) {
+        return true;
+      }
     }
-
-    public AttributePredicate getAttributePredicate() {
-        return myAttributePredicate;
-    }
-
-    @Override
-    public boolean applyToTag(XmlTag tag) {
-        for (XmlAttribute attr : tag.getAttributes()) {
-            if (myAttributePredicate.applyToAttribute(attr)) {
-                return true;
-            }
-        }
-        return false;
-    }
+    return false;
+  }
 
 }

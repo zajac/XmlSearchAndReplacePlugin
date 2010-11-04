@@ -5,8 +5,8 @@ import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.Predicate
 
 public interface PredicateType {
 
-    PredicateTypeController createNewController();
+  PredicateTypeController createNewController();
 
-    void addNodeToPattern(Pattern p, Pattern.Node node, Pattern.Node parent);
+  void addNodeToPattern(Pattern p, Pattern.Node node, Pattern.Node parent);
 
 }

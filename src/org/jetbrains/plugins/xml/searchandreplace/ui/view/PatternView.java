@@ -5,13 +5,13 @@ import java.awt.*;
 
 public class PatternView extends JPanel {
 
-    public PatternView() {
-        LayoutManager lm = new BoxLayout(this, BoxLayout.Y_AXIS);
-        setLayout(lm);
-    }
+  public PatternView() {
+    LayoutManager lm = new BoxLayout(this, BoxLayout.Y_AXIS);
+    setLayout(lm);
+  }
 
-    public void addPredicateView(PredicatePanel panel, PredicatePanel parent) {
-        add(panel, null);
-        panel.updateUI();
-    }
+  public void addPredicateView(PredicatePanel panel, PredicatePanel parent) {
+    add(panel, null);
+    panel.updateUI();
+  }
 }

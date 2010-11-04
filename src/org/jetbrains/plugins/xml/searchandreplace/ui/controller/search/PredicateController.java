@@ -2,80 +2,81 @@ package org.jetbrains.plugins.xml.searchandreplace.ui.controller.search;
 
 import org.jetbrains.plugins.xml.searchandreplace.search.Pattern;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.XmlElementPredicate;
-import org.jetbrains.plugins.xml.searchandreplace.ui.view.PredicatePanelDelegate;
 import org.jetbrains.plugins.xml.searchandreplace.ui.PredicateType;
 import org.jetbrains.plugins.xml.searchandreplace.ui.predicatetypes.RootPredicateType;
 import org.jetbrains.plugins.xml.searchandreplace.ui.view.PredicatePanel;
+import org.jetbrains.plugins.xml.searchandreplace.ui.view.PredicatePanelDelegate;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class PredicateController implements PredicatePanelDelegate {
 
-    private PredicatePanel myView;
-    private PredicateTypeController predicateTypeController;
-    private PredicateType selectedPredicateType;
+  private PredicatePanel myView;
+  private PredicateTypeController predicateTypeController;
+  private PredicateType selectedPredicateType;
 
-    private PredicateControllerDelegate delegate;
+  private PredicateControllerDelegate delegate;
 
-    private PredicateController parent;
+  private PredicateController parent;
 
-    private Pattern.Node builtNode;
+  private Pattern.Node builtNode;
 
-    public PredicateController(boolean canBeRoot, PredicateController parent) {
-        this.parent = parent;
-        myView = new PredicatePanel(canBeRoot, parent == null);
-        myView.setDelegate(this);
+  public PredicateController(boolean canBeRoot, PredicateController parent) {
+    this.parent = parent;
+    myView = new PredicatePanel(canBeRoot, parent == null);
+    myView.setDelegate(this);
+  }
+
+  public PredicateController getParent() {
+    return parent;
+  }
+
+  public PredicateControllerDelegate getDelegate() {
+    return delegate;
+  }
+
+  public void setDelegate(PredicateControllerDelegate delegate) {
+    this.delegate = delegate;
+    myView.reloadData();
+  }
+
+  public PredicatePanel getView() {
+    return myView;
+  }
+
+  public void addChild(PredicatePanel panel) {
+    if (getDelegate() != null) {
+      getDelegate().addChild(this);
     }
-    public PredicateController getParent() {
-        return parent;
-    }
+  }
 
-    public PredicateControllerDelegate getDelegate() {
-        return delegate;
-    }
+  public List<PredicateType> getPredicateTypes(PredicatePanel panel) {
+    return getDelegate() == null ? new ArrayList<PredicateType>() : getDelegate().getAllowedPredicateTypes(this);
+  }
 
-    public void setDelegate(PredicateControllerDelegate delegate) {
-        this.delegate = delegate;
-        myView.reloadData();
+  public void predicateTypeSelected(PredicatePanel panel, PredicateType selection) {
+    if (selection != null) {
+      selectedPredicateType = selection;
+    } else {
+      selectedPredicateType = new RootPredicateType();
     }
+    predicateTypeController = selectedPredicateType.createNewController();
+    myView.setPredicateTypeSpecificView(predicateTypeController.getView());
+  }
 
-    public PredicatePanel getView() {
-        return myView;
-    }
+  public Pattern.Node getBuiltNode() {
+    return builtNode;
+  }
 
-    public void addChild(PredicatePanel panel) {
-        if (getDelegate() != null) {
-            getDelegate().addChild(this);
-        }
+  public void buildNode(Pattern p) {
+    XmlElementPredicate predicate = predicateTypeController.buildPredicate();
+    if (predicate != null) {
+      builtNode = new Pattern.Node(predicate, parent == null);
+      Pattern.Node parentNode = parent == null ? null : parent.getBuiltNode();
+      if (parent == null || parentNode != null) {
+        selectedPredicateType.addNodeToPattern(p, builtNode, parentNode);
+      }
     }
-
-    public List<PredicateType> getPredicateTypes(PredicatePanel panel) {
-        return getDelegate() == null ? new ArrayList<PredicateType>() : getDelegate().getAllowedPredicateTypes(this);
-    }
-
-    public void predicateTypeSelected(PredicatePanel panel, PredicateType selection) {
-        if (selection != null) {
-            selectedPredicateType = selection;
-        } else {
-            selectedPredicateType = new RootPredicateType();
-        }
-        predicateTypeController = selectedPredicateType.createNewController();
-        myView.setPredicateTypeSpecificView(predicateTypeController.getView());
-    }
-
-    public Pattern.Node getBuiltNode() {
-        return builtNode;
-    }
-
-    public void buildNode(Pattern p) {
-        XmlElementPredicate predicate = predicateTypeController.buildPredicate();
-        if (predicate != null) {
-            builtNode = new Pattern.Node(predicate, parent == null);
-            Pattern.Node parentNode = parent == null ? null : parent.getBuiltNode();
-            if (parent == null || parentNode != null) {
-                selectedPredicateType.addNodeToPattern(p, builtNode, parentNode);
-            }
-        }
-    }
+  }
 }

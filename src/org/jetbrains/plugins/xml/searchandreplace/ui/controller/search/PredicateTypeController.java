@@ -8,24 +8,30 @@ import javax.swing.*;
 public abstract class PredicateTypeController {
 
 
-    public enum Params {NOT}
+  public enum Params {NOT}
 
-    Params p = null;
+  Params p = null;
 
-    public PredicateTypeController() {
-    }
+  public PredicateTypeController() {
+  }
 
-    public PredicateTypeController(Params p) {
-        this.p = p;
-    }
+  public PredicateTypeController(Params p) {
+    this.p = p;
+  }
 
-    public abstract JPanel getView();
+  public abstract JPanel getView();
 
-    protected final XmlElementPredicate decorateWithNotIfNeccessary(XmlElementPredicate predicate) {
-        return p == Params.NOT ? new Not(predicate) : predicate;
-    }
+  protected final XmlElementPredicate decorateWithNotIfNeccessary(XmlElementPredicate predicate) {
+    return p == Params.NOT ? new Not(predicate) : predicate;
+  }
 
-    public abstract XmlElementPredicate buildPredicate();
-    public boolean canBeParentOf(XmlElementPredicate predicate) {return !(predicate instanceof Not);}
-    public boolean canBeChildOf(XmlElementPredicate predicate) {return true;}
+  public abstract XmlElementPredicate buildPredicate();
+
+  public boolean canBeParentOf(XmlElementPredicate predicate) {
+    return !(predicate instanceof Not);
+  }
+
+  public boolean canBeChildOf(XmlElementPredicate predicate) {
+    return true;
+  }
 }

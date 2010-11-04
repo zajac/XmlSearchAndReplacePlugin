@@ -8,28 +8,28 @@ import java.util.List;
 
 public class PredicateTypeRegistry {
 
-    private static PredicateTypeRegistry ourInstance = new PredicateTypeRegistry();
+  private static PredicateTypeRegistry ourInstance = new PredicateTypeRegistry();
 
-    private List<PredicateType> predicateTypes = new ArrayList<PredicateType>();
+  private List<PredicateType> predicateTypes = new ArrayList<PredicateType>();
 
-    public List<PredicateType> getPredicateTypes() {
-        return predicateTypes;
-    }
+  public List<PredicateType> getPredicateTypes() {
+    return predicateTypes;
+  }
 
-    public static PredicateTypeRegistry getInstance() {
-        return ourInstance;
-    }
+  public static PredicateTypeRegistry getInstance() {
+    return ourInstance;
+  }
 
-    private PredicateTypeRegistry() {
-        registerPredicateType(new Inside());
-        registerPredicateType(new NotInside());
-        registerPredicateType(new Contains());
-        registerPredicateType(new NotContains());
-        registerPredicateType(new WithAttribute());
-        registerPredicateType(new WithoutAttribute());
-    }
+  private PredicateTypeRegistry() {
+    registerPredicateType(new Inside());
+    registerPredicateType(new NotInside());
+    registerPredicateType(new Contains());
+    registerPredicateType(new NotContains());
+    registerPredicateType(new WithAttribute());
+    registerPredicateType(new WithoutAttribute());
+  }
 
-    public void registerPredicateType(PredicateType predicateType) {
-        predicateTypes.add(predicateType);
-    }
+  public void registerPredicateType(PredicateType predicateType) {
+    predicateTypes.add(predicateType);
+  }
 }

@@ -26,6 +26,8 @@ import com.intellij.usages.*;
 import com.intellij.util.Processor;
 import org.intellij.plugins.xpathView.search.SearchScope;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.plugins.xml.searchandreplace.replace.ReplacementProvider;
+import org.jetbrains.plugins.xml.searchandreplace.replace.Replacer;
 import org.jetbrains.plugins.xml.searchandreplace.search.Pattern;
 import org.jetbrains.plugins.xml.searchandreplace.search.TagSearchObserver;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.Not;
@@ -39,208 +41,211 @@ import java.util.Set;
 
 public class SearchAndReplaceMenuAction extends AnAction {
 
-    @Override
-    public void actionPerformed(AnActionEvent anActionEvent) {
+  @Override
+  public void actionPerformed(AnActionEvent anActionEvent) {
 
-        final Project project = PlatformDataKeys.PROJECT.getData(anActionEvent.getDataContext());
+    final Project project = PlatformDataKeys.PROJECT.getData(anActionEvent.getDataContext());
 
-        if (project != null) {
-            final Editor editor = PlatformDataKeys.EDITOR.getData(anActionEvent.getDataContext());
-            Module module = null;
-            if (editor != null) {
-                PsiFile psiFile = PsiDocumentManager.getInstance(project).getPsiFile(editor.getDocument());
-                if (psiFile != null) {
-                    VirtualFile virtualFile = psiFile.getVirtualFile();
-                    if (virtualFile != null) {
-                        module = ProjectRootManager.getInstance(project).getFileIndex().getModuleForFile(virtualFile);
-                    }
-                }
-            } else {
-                Module[] modules = ModuleManager.getInstance(project).getModules();
-                if (modules.length > 0) {
-                    module = modules[0];
-                }
-            }
-            if (module != null) {
-                MainDialog mainDialog = new MainDialog(project, module);
-                mainDialog.setDelegate(new MainDialog.MainDialogDelegate() {
-                    public void performSearch(SearchScope scope, Pattern pattern) {
-                        System.out.println(pattern);
-                        if (pattern != null && scope != null) {
-                            Factory<UsageSearcher> factory = createUsageSearcherFactory(project, pattern, scope);
-                            SearchAndReplaceMenuAction.performSearch(project, factory);
-                        }
-                    }
-                });
-                mainDialog.show();
-            }
+    if (project != null) {
+      final Editor editor = PlatformDataKeys.EDITOR.getData(anActionEvent.getDataContext());
+      Module module = null;
+      if (editor != null) {
+        PsiFile psiFile = PsiDocumentManager.getInstance(project).getPsiFile(editor.getDocument());
+        if (psiFile != null) {
+          VirtualFile virtualFile = psiFile.getVirtualFile();
+          if (virtualFile != null) {
+            module = ProjectRootManager.getInstance(project).getFileIndex().getModuleForFile(virtualFile);
+          }
         }
-
+      } else {
+        Module[] modules = ModuleManager.getInstance(project).getModules();
+        if (modules.length > 0) {
+          module = modules[0];
+        }
+      }
+      if (module != null) {
+        MainDialog mainDialog = new MainDialog(project, module);
+        mainDialog.setDelegate(new MainDialog.MainDialogDelegate() {
+          public void performSearch(MainDialog dialog) {
+            Pattern pattern = dialog.getPattern();
+            SearchScope scope = dialog.getSelectedScope();
+            if (pattern != null && scope != null) {
+              Factory<UsageSearcher> factory = createUsageSearcherFactory(project, pattern, scope);
+              SearchAndReplaceMenuAction.performSearchAndReplace(project, pattern, scope, dialog.getReplacementProvider());
+            }
+          }
+        });
+        mainDialog.show();
+      }
     }
 
-    private Factory<UsageSearcher> createUsageSearcherFactory(final Project project, final Pattern pattern, final SearchScope scope) {
-        return new Factory<UsageSearcher>() {
-            public UsageSearcher create() {
-                return new UsageSearcher() {
-                    public void generate(final Processor<Usage> usageProcessor) {
-                        ApplicationManager.getApplication().runReadAction(new Runnable() {
-                            public void run() {
-                                final Set<XmlElement> foundTags = new HashSet<XmlElement>();
-                                scope.iterateContent(project, new Processor<VirtualFile>() {
-                                    public boolean process(VirtualFile virtualFile) {
-                                        PsiFile psiFile = PsiManager.getInstance(project).findFile(virtualFile);
-                                        if (psiFile != null) {
-                                            if (psiFile instanceof XmlFile) {
-                                                XmlElement root = ((XmlFile) psiFile).getRootTag();
-                                                pattern.match(root, new TagSearchObserver() {
-                                                    public void elementFound(XmlElement tag) {
-                                                        if (!foundTags.contains(tag)) {
-                                                            foundTags.add(tag);
-                                                            usageProcessor.process(new UsageInfo2UsageAdapter(new UsageInfo(tag)));
-                                                        }
-                                                    }
-                                                });
-                                            }
-                                        }
-                                        return true;
-                                    }
-                                });
+  }
+
+  private static Factory<UsageSearcher> createUsageSearcherFactory(final Project project, final Pattern pattern, final SearchScope scope) {
+    return new Factory<UsageSearcher>() {
+      public UsageSearcher create() {
+        return new UsageSearcher() {
+          public void generate(final Processor<Usage> usageProcessor) {
+            ApplicationManager.getApplication().runReadAction(new Runnable() {
+              public void run() {
+                final Set<XmlElement> foundTags = new HashSet<XmlElement>();
+                scope.iterateContent(project, new Processor<VirtualFile>() {
+                  public boolean process(VirtualFile virtualFile) {
+                    PsiFile psiFile = PsiManager.getInstance(project).findFile(virtualFile);
+                    if (psiFile != null) {
+                      if (psiFile instanceof XmlFile) {
+                        XmlElement root = ((XmlFile) psiFile).getRootTag();
+                        pattern.match(root, new TagSearchObserver() {
+                          public void elementFound(XmlElement tag) {
+                            if (!foundTags.contains(tag)) {
+                              foundTags.add(tag);
+                              usageProcessor.process(new UsageInfo2UsageAdapter(new UsageInfo(tag)));
                             }
+                          }
                         });
+                      }
                     }
-                };
-            }
+                    return true;
+                  }
+                });
+              }
+            });
+          }
         };
-    }
+      }
+    };
+  }
 
+  private static void performSearchAndReplace(@NotNull Project project, @NotNull Pattern pattern, @NotNull SearchScope scope, ReplacementProvider replacementProvider) {
+    UsageViewPresentation presentation = new UsageViewPresentation();
+    presentation.setUsagesString("Usages String");
+    presentation.setTabText("Tab text");
+    presentation.setScopeText("My Scope text");
+    Factory<UsageSearcher> searcherFactory = createUsageSearcherFactory(project, pattern, scope);
+    Replacer replacer = replacementProvider == null ? null : new Replacer(project, replacementProvider);
+    UsageView myUsageView = UsageViewManager.getInstance(project).searchAndShowUsages(
+            new UsageTarget[]{new UsageTarget() {
 
-    private static void performSearch(Project project, Factory<UsageSearcher> searcherFactory) {
-        UsageViewPresentation presentation = new UsageViewPresentation();
-        presentation.setUsagesString("Usages String");
-        presentation.setTabText("Tab text");
-        presentation.setScopeText("My Scope text");
-        UsageViewManager.getInstance(project).searchAndShowUsages(
-                new UsageTarget[]{new UsageTarget() {
+              public void findUsages() {
+                //To change body of implemented methods use File | Settings | File Templates.
+              }
 
-                    public void findUsages() {
-                        //To change body of implemented methods use File | Settings | File Templates.
-                    }
+              public void findUsagesInEditor(@NotNull FileEditor editor) {
+                //To change body of implemented methods use File | Settings | File Templates.
+              }
 
-                    public void findUsagesInEditor(@NotNull FileEditor editor) {
-                        //To change body of implemented methods use File | Settings | File Templates.
-                    }
+              public void highlightUsages(PsiFile file, Editor editor, boolean clearHighlights) {
+                //To change body of implemented methods use File | Settings | File Templates.
+              }
 
-                    public void highlightUsages(PsiFile file, Editor editor, boolean clearHighlights) {
-                        //To change body of implemented methods use File | Settings | File Templates.
-                    }
+              public boolean isValid() {
+                return true;  //To change body of implemented methods use File | Settings | File Templates.
+              }
 
-                    public boolean isValid() {
-                        return true;  //To change body of implemented methods use File | Settings | File Templates.
-                    }
+              public boolean isReadOnly() {
+                return true;  //To change body of implemented methods use File | Settings | File Templates.
+              }
 
-                    public boolean isReadOnly() {
-                        return true;  //To change body of implemented methods use File | Settings | File Templates.
-                    }
+              public VirtualFile[] getFiles() {
+                return null;
+              }
 
-                    public VirtualFile[] getFiles() {
-                        return null;
-                    }
+              public void update() {
+                //To change body of implemented methods use File | Settings | File Templates.
+              }
 
-                    public void update() {
-                        //To change body of implemented methods use File | Settings | File Templates.
-                    }
+              public String getName() {
+                return "SHIT";
+              }
 
-                    public String getName() {
-                        return "SHIT";
-                    }
+              public ItemPresentation getPresentation() {
+                return new PresentationData("SHIT2", null, null, null, null);
+              }
 
-                    public ItemPresentation getPresentation() {
-                        return new PresentationData("SHIT2", null, null, null, null);
-                    }
+              public FileStatus getFileStatus() {
+                return FileStatus.NOT_CHANGED;
+              }
 
-                    public FileStatus getFileStatus() {
-                        return FileStatus.NOT_CHANGED;
-                    }
+              public void navigate(boolean requestFocus) {
+                //To change body of implemented methods use File | Settings | File Templates.
+              }
 
-                    public void navigate(boolean requestFocus) {
-                        //To change body of implemented methods use File | Settings | File Templates.
-                    }
+              public boolean canNavigate() {
+                return false;  //To change body of implemented methods use File | Settings | File Templates.
+              }
 
-                    public boolean canNavigate() {
-                        return false;  //To change body of implemented methods use File | Settings | File Templates.
-                    }
+              public boolean canNavigateToSource() {
+                return false;  //To change body of implemented methods use File | Settings | File Templates.
+              }
+            }}, searcherFactory, true, true, presentation, replacer);
+    
+  }
 
-                    public boolean canNavigateToSource() {
-                        return false;  //To change body of implemented methods use File | Settings | File Templates.
-                    }
-                }}, searcherFactory, true, true, presentation, null);
-    }
+  private HashSet<Pattern.Node> l(Pattern.Node... nodes) {
+    return new HashSet<Pattern.Node>(Arrays.asList(nodes));
+  }
 
-    private HashSet<Pattern.Node> l(Pattern.Node... nodes) {
-        return new HashSet<Pattern.Node>(Arrays.asList(nodes));
-    }
+  private XmlElementPredicate createTestNotPredicate(String tag) {
+    return new Not(createTestPredicate(tag));
+  }
 
-    private XmlElementPredicate createTestNotPredicate(String tag) {
-        return new Not(createTestPredicate(tag));
-    }
+  private Pattern createTestPattern1() {
+    Pattern.Node n = new Pattern.Node(createTestPredicate("TAG"), true);
+    Pattern.Node n1 = new Pattern.Node(createTestNotPredicate("TAG1"), false);
+    n1.setChildren(l(n));
+    return new Pattern(l(n, n1));
+  }
 
-    private Pattern createTestPattern1() {
-        Pattern.Node n = new Pattern.Node(createTestPredicate("TAG"), true);
-        Pattern.Node n1 = new Pattern.Node(createTestNotPredicate("TAG1"), false);
-        n1.setChildren(l(n));
-        return new Pattern(l(n, n1));
-    }
+  private Pattern createTestPattern2() {
+    Pattern.Node n = new Pattern.Node(createTestPredicate("TAG"), true);
+    Pattern.Node n1 = new Pattern.Node(createTestNotPredicate("TAG1"), false);
+    Pattern.Node n2 = new Pattern.Node(createTestPredicate("TAG2"), false);
+    Pattern.Node n3 = new Pattern.Node(createTestPredicate("TAG3"), false);
+    Pattern.Node n4 = new Pattern.Node(createTestPredicate("TAG4"), false);
+    Pattern.Node n5 = new Pattern.Node(createTestPredicate("TAG5"), false);
+    Pattern.Node n6 = new Pattern.Node(createTestPredicate("TAG6"), false);
 
-    private Pattern createTestPattern2() {
-        Pattern.Node n = new Pattern.Node(createTestPredicate("TAG"), true);
-        Pattern.Node n1 = new Pattern.Node(createTestNotPredicate("TAG1"), false);
-        Pattern.Node n2 = new Pattern.Node(createTestPredicate("TAG2"), false);
-        Pattern.Node n3 = new Pattern.Node(createTestPredicate("TAG3"), false);
-        Pattern.Node n4 = new Pattern.Node(createTestPredicate("TAG4"), false);
-        Pattern.Node n5 = new Pattern.Node(createTestPredicate("TAG5"), false);
-        Pattern.Node n6 = new Pattern.Node(createTestPredicate("TAG6"), false);
+    n1.setChildren(l(n2, n3));
+    n2.setChildren(l(n));
+    n3.setChildren(l(n));
+    n.setChildren(l(n4, n6));
+    n4.setChildren(l(n5));
+    return new Pattern(l(n, n1, n2, n3, n4, n5, n6));
+  }
 
-        n1.setChildren(l(n2, n3));
-        n2.setChildren(l(n));
-        n3.setChildren(l(n));
-        n.setChildren(l(n4, n6));
-        n4.setChildren(l(n5));
-        return new Pattern(l(n, n1, n2, n3, n4, n5, n6));
-    }
+  private Pattern createTestPattern() {
+    Pattern.Node n1 = new Pattern.Node(createTestPredicate("TAG1"), false);
+    Pattern.Node n2 = new Pattern.Node(createTestPredicate("TAG2"), false);
+    Pattern.Node n3 = new Pattern.Node(createTestPredicate("TAG3"), false);
+    Pattern.Node n4 = new Pattern.Node(createTestPredicate("TAG4"), false);
+    Pattern.Node n5 = new Pattern.Node(createTestPredicate("TAG5"), false);
+    Pattern.Node n0 = new Pattern.Node(createTestPredicate("TAG0"), false);
+    Pattern.Node n = new Pattern.Node(createTestPredicate("TAG"), true);
+    n.setChildren(l(n3, n4));
+    n1.setChildren(l(n));
+    n2.setChildren(l(n));
+    n3.setChildren(l(n5));
+    n0.setChildren(l(n2));
+    return new Pattern(l(n0, n, n1, n2, n3, n4, n5));
+  }
 
-    private Pattern createTestPattern() {
-        Pattern.Node n1 = new Pattern.Node(createTestPredicate("TAG1"), false);
-        Pattern.Node n2 = new Pattern.Node(createTestPredicate("TAG2"), false);
-        Pattern.Node n3 = new Pattern.Node(createTestPredicate("TAG3"), false);
-        Pattern.Node n4 = new Pattern.Node(createTestPredicate("TAG4"), false);
-        Pattern.Node n5 = new Pattern.Node(createTestPredicate("TAG5"), false);
-        Pattern.Node n0 = new Pattern.Node(createTestPredicate("TAG0"), false);
-        Pattern.Node n = new Pattern.Node(createTestPredicate("TAG"), true);
-        n.setChildren(l(n3, n4));
-        n1.setChildren(l(n));
-        n2.setChildren(l(n));
-        n3.setChildren(l(n5));
-        n0.setChildren(l(n2));
-        return new Pattern(l(n0, n, n1, n2, n3, n4, n5));
-    }
+  private XmlElementPredicate createTestPredicate(final String tagName) {
+    return new TagPredicate() {
 
-    private XmlElementPredicate createTestPredicate(final String tagName) {
-        return new TagPredicate() {
+      public String toString() {
+        return tagName;
+      }
 
-            public String toString() {
-                return tagName;
-            }
+      @Override
+      public boolean applyToTag(XmlTag tag) {
+        return tag.getName().equals(tagName);
+      }
+    };
+  }
 
-            @Override
-            public boolean applyToTag(XmlTag tag) {
-                return tag.getName().equals(tagName);
-            }
-        };
-    }
-
-    @Override
-    public void update(AnActionEvent anActionEvent) {
-        Project project = PlatformDataKeys.PROJECT.getData(anActionEvent.getDataContext());
-        anActionEvent.getPresentation().setEnabled(project != null);
-    }
+  @Override
+  public void update(AnActionEvent anActionEvent) {
+    Project project = PlatformDataKeys.PROJECT.getData(anActionEvent.getDataContext());
+    anActionEvent.getPresentation().setEnabled(project != null);
+  }
 }

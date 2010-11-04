@@ -7,27 +7,28 @@ import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.TagPredic
 
 public class Inside implements PredicateType {
 
-    protected enum Params {NOT}
+  protected enum Params {NOT}
 
-    Params p = null;
+  Params p = null;
 
-    public Inside() {}
+  public Inside() {
+  }
 
-    protected Inside(Params p) {
-        this.p = p;
-    }
+  protected Inside(Params p) {
+    this.p = p;
+  }
 
-    @Override
-    public String toString() {
-        return p == Params.NOT ? "Not inside" : "Inside";
-    }
+  @Override
+  public String toString() {
+    return p == Params.NOT ? "Not inside" : "Inside";
+  }
 
-    public PredicateTypeController createNewController() {
-        return new TagPredicateController(p == Params.NOT ? PredicateTypeController.Params.NOT : null);
-    }
+  public PredicateTypeController createNewController() {
+    return new TagPredicateController(p == Params.NOT ? PredicateTypeController.Params.NOT : null);
+  }
 
-    public void addNodeToPattern(Pattern p, Pattern.Node node, Pattern.Node parent) {
-        p.getAllNodes().add(node);
-        node.getChildren().add(parent);
-    }
+  public void addNodeToPattern(Pattern p, Pattern.Node node, Pattern.Node parent) {
+    p.getAllNodes().add(node);
+    node.getChildren().add(parent);
+  }
 }

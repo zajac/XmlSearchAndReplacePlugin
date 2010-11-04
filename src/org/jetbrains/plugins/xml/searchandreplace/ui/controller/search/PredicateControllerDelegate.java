@@ -5,6 +5,7 @@ import org.jetbrains.plugins.xml.searchandreplace.ui.PredicateType;
 import java.util.List;
 
 public interface PredicateControllerDelegate {
-    void addChild(PredicateController predicateController);
-    List<PredicateType> getAllowedPredicateTypes(PredicateController predicateController);
+  void addChild(PredicateController predicateController);
+
+  List<PredicateType> getAllowedPredicateTypes(PredicateController predicateController);
 }

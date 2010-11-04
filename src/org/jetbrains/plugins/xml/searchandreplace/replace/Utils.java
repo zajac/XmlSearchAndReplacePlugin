@@ -7,19 +7,17 @@ import com.intellij.util.ArrayUtil;
 
 public class Utils {
 
-    public static XmlElement insertElementIntoTag(XmlElement e, XmlTag tag, boolean asFirstOrLast) {
-        XmlTagChild[] children = tag.getSubTags();
-        if (children.length == 0) {
-            children = tag.getValue().getChildren();
-        }
-        if (children.length == 0) {
-            return (XmlElement)tag.add(e);
-        }
-        else if (asFirstOrLast) {
-            return (XmlElement)tag.addBefore(e, children[0]);
-        }
-        else {
-            return (XmlElement)tag.addAfter(e, ArrayUtil.getLastElement(children));
-        }
+  public static XmlElement insertElementIntoTag(XmlElement e, XmlTag tag, boolean asFirstOrLast) {
+    XmlTagChild[] children = tag.getSubTags();
+    if (children.length == 0) {
+      children = tag.getValue().getChildren();
     }
+    if (children.length == 0) {
+      return (XmlElement) tag.add(e);
+    } else if (asFirstOrLast) {
+      return (XmlElement) tag.addBefore(e, children[0]);
+    } else {
+      return (XmlElement) tag.addAfter(e, ArrayUtil.getLastElement(children));
+    }
+  }
 }
