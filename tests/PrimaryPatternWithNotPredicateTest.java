@@ -12,4 +12,16 @@ public class PrimaryPatternWithNotPredicateTest extends XmlSearchTestCase {
   public PrimaryPatternWithNotPredicateTest() {
     super(createPattern());
   }
+
+  public void testTagShouldBeFound() throws Throwable {
+    assertTrue(match("<root><TAG/></root>").results.size() == 1);
+  }
+
+  public void testTagShouldNotBeFound() throws Throwable {
+    assertTrue(match("<root><TAG1><TAG/></TAG1></root>").results.isEmpty());
+  }
+
+  public void testTagShouldBeFoundAgain() throws Throwable {
+    assertTrue(match("<root><TAG1/><TAG/></root>").results.size() == 1);
+  }
 }

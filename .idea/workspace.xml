@@ -14,33 +14,14 @@
   </component>
   <component name="BookmarkManager">
     <bookmark url="file://$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/ui/predicatetypes/Inside.java" line="58" />
-    <bookmark url="file://$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/SearchAndReplaceMenuAction.java" line="69" mnemonic="9" />
+    <bookmark url="file://$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/SearchAndReplaceMenuAction.java" line="64" mnemonic="9" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c95dde65-8eb2-4841-b02e-5b9774762676" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/MoreComplexPatternTests.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/MoreComplexPatternWithNotPredicateTests.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/PrimaryPatternTest.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/PrimaryPatternWithNotPredicateTest.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/XmlSearchTestCase.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/SearchTests.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/test_data/untitled7/.idea/compiler.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/test_data/untitled7/.idea/copyright/profiles_settings.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/test_data/untitled7/.idea/encodings.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/test_data/untitled7/.idea/misc.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/test_data/untitled7/.idea/modules.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/test_data/untitled7/.idea/uiDesigner.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/test_data/untitled7/.idea/vcs.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/test_data/untitled7/.idea/workspace.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/test_data/untitled7/src/bar.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/test_data/untitled7/src/baz.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/test_data/untitled7/src/foo.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/test_data/untitled7/untitled7.iml" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/SearchAndReplaceMenuAction.java" afterPath="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/SearchAndReplaceMenuAction.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/replace/Replacer.java" afterPath="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/replace/Replacer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/ui/view/replace/ReplaceView.form" afterPath="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/ui/view/replace/ReplaceView.form" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/ui/view/replace/ReplacementView.form" afterPath="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/ui/view/replace/ReplacementView.form" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/MoreComplexPatternTests.java" afterPath="$PROJECT_DIR$/tests/MoreComplexPatternTests.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/PrimaryPatternWithNotPredicateTest.java" afterPath="$PROJECT_DIR$/tests/PrimaryPatternWithNotPredicateTest.java" />
     </list>
     <ignored path="XmlSearchAndReplace.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -125,18 +106,7 @@
       <file leaf-file-name="SearchAndReplaceMenuAction.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/SearchAndReplaceMenuAction.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="183" column="2" selection-start="7896" selection-end="7896" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MainDialog.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/ui/MainDialog.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="36" column="0" selection-start="1337" selection-end="1337" vertical-scroll-proportion="0.0">
+            <state line="38" column="11" selection-start="1671" selection-end="1671" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -147,7 +117,7 @@
       <file leaf-file-name="XmlSearchTestCase.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tests/XmlSearchTestCase.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="60" column="3" selection-start="1958" selection-end="1958" vertical-scroll-proportion="0.0">
+            <state line="58" column="0" selection-start="1885" selection-end="1885" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -158,16 +128,16 @@
       <file leaf-file-name="PrimaryPatternWithNotPredicateTest.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tests/PrimaryPatternWithNotPredicateTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="2" column="0" selection-start="67" selection-end="67" vertical-scroll-proportion="0.0">
+            <state line="25" column="3" selection-start="850" selection-end="850" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MoreComplexPatternWithNotPredicateTests.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="MoreComplexPatternWithNotPredicateTests.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/tests/MoreComplexPatternWithNotPredicateTests.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="18" column="53" selection-start="798" selection-end="798" vertical-scroll-proportion="0.0">
+            <state line="23" column="3" selection-start="888" selection-end="888" vertical-scroll-proportion="0.41862956">
               <folding />
             </state>
           </provider>
@@ -176,7 +146,16 @@
       <file leaf-file-name="MoreComplexPatternTests.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tests/MoreComplexPatternTests.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="2" column="0" selection-start="67" selection-end="67" vertical-scroll-proportion="0.0">
+            <state line="24" column="29" selection-start="879" selection-end="879" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Pattern.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/search/Pattern.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="364" column="39" selection-start="9736" selection-end="9736" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -185,7 +164,7 @@
       <file leaf-file-name="PrimaryPatternTest.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tests/PrimaryPatternTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="2" column="0" selection-start="67" selection-end="67" vertical-scroll-proportion="0.0">
+            <state line="17" column="3" selection-start="542" selection-end="542" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -209,10 +188,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Replacer.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="Replacer.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/replace/Replacer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="39" column="39" selection-start="1362" selection-end="1362" vertical-scroll-proportion="0.3993576">
+            <state line="49" column="7" selection-start="1606" selection-end="1606" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -285,14 +264,14 @@
         <option value="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/ui/view/replace/ReplaceView.form" />
         <option value="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/ui/view/replace/ReplacementView.form" />
         <option value="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/replace/Replacer.java" />
-        <option value="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/SearchAndReplaceMenuAction.java" />
         <option value="$PROJECT_DIR$/tests/SearchTests.java" />
         <option value="$PROJECT_DIR$/tests/PrimaryPatternTest.java" />
         <option value="$PROJECT_DIR$/tests/test_data/untitled7/MoreComplexPatternTests.java" />
-        <option value="$PROJECT_DIR$/tests/MoreComplexPatternTests.java" />
         <option value="$PROJECT_DIR$/tests/MoreComplexPatternWithNotPredicateTests.java" />
-        <option value="$PROJECT_DIR$/tests/PrimaryPatternWithNotPredicateTest.java" />
         <option value="$PROJECT_DIR$/tests/XmlSearchTestCase.java" />
+        <option value="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/SearchAndReplaceMenuAction.java" />
+        <option value="$PROJECT_DIR$/tests/PrimaryPatternWithNotPredicateTest.java" />
+        <option value="$PROJECT_DIR$/tests/MoreComplexPatternTests.java" />
       </list>
     </option>
   </component>
@@ -955,16 +934,85 @@
       <recent name="org.jetbrains.plugins.xml.searchandreplace.search" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.XmlSearchTestCase.testPrimaryPatternWorks">
-    <configuration default="false" name="XmlSearchTestCase" type="JUnit" factoryName="JUnit" temporary="true">
+  <component name="RunManager" selected="JUnit.MoreComplexPatternTests.testTagShouldBeFoundExactlyTwice">
+    <configuration default="false" name="MoreComplexPatternTests.testTagShouldNotBeFoundAgain" type="JUnit" factoryName="JUnit" temporary="true">
       <extension name="snapshooter" />
       <module name="XmlSearchAndReplace" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
       <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="XmlSearchTestCase" />
-      <option name="METHOD_NAME" />
-      <option name="TEST_OBJECT" value="class" />
+      <option name="MAIN_CLASS_NAME" value="MoreComplexPatternTests" />
+      <option name="METHOD_NAME" value="testTagShouldNotBeFoundAgain" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <envs />
+      <patterns />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
+    <configuration default="false" name="MoreComplexPatternTests.testTagShouldNotBeFoundAgainAgain" type="JUnit" factoryName="JUnit" temporary="true">
+      <extension name="snapshooter" />
+      <module name="XmlSearchAndReplace" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="MoreComplexPatternTests" />
+      <option name="METHOD_NAME" value="testTagShouldNotBeFoundAgainAgain" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <envs />
+      <patterns />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
+    <configuration default="false" name="MoreComplexPatternTests.testTagShouldBeFoundOnleOnce" type="JUnit" factoryName="JUnit" temporary="true">
+      <extension name="snapshooter" />
+      <module name="XmlSearchAndReplace" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="MoreComplexPatternTests" />
+      <option name="METHOD_NAME" value="testTagShouldBeFoundOnleOnce" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <envs />
+      <patterns />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
+    <configuration default="false" name="MoreComplexPatternTests.testTagShouldBeFoundOnlyOnce" type="JUnit" factoryName="JUnit" temporary="true">
+      <extension name="snapshooter" />
+      <module name="XmlSearchAndReplace" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="MoreComplexPatternTests" />
+      <option name="METHOD_NAME" value="testTagShouldBeFoundOnlyOnce" />
+      <option name="TEST_OBJECT" value="method" />
       <option name="VM_PARAMETERS" />
       <option name="PARAMETERS" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
@@ -976,12 +1024,33 @@
       <envs />
       <patterns />
       <RunnerSettings RunnerId="Debug">
-        <option name="DEBUG_PORT" value="64216" />
+        <option name="DEBUG_PORT" value="51438" />
         <option name="TRANSPORT" value="0" />
         <option name="LOCAL" value="true" />
       </RunnerSettings>
-      <RunnerSettings RunnerId="Run" />
       <ConfigurationWrapper RunnerId="Debug" />
+      <method />
+    </configuration>
+    <configuration default="false" name="MoreComplexPatternTests.testTagShouldBeFoundExactlyTwice" type="JUnit" factoryName="JUnit" temporary="true">
+      <extension name="snapshooter" />
+      <module name="XmlSearchAndReplace" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="MoreComplexPatternTests" />
+      <option name="METHOD_NAME" value="testTagShouldBeFoundExactlyTwice" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <envs />
+      <patterns />
+      <RunnerSettings RunnerId="Run" />
       <ConfigurationWrapper RunnerId="Run" />
       <method />
     </configuration>
@@ -1143,10 +1212,14 @@
       <ConfigurationWrapper RunnerId="Run" />
       <method />
     </configuration>
-    <list size="3">
+    <list size="7">
       <item index="0" class="java.lang.String" itemvalue="Plugin.XmlSearchAndReplace" />
-      <item index="1" class="java.lang.String" itemvalue="JUnit.SearchTests" />
-      <item index="2" class="java.lang.String" itemvalue="JUnit.SearchTests.testPrimaryPatternWorks" />
+      <item index="1" class="java.lang.String" itemvalue="JUnit.SearchTests.testPrimaryPatternWorks" />
+      <item index="2" class="java.lang.String" itemvalue="JUnit.MoreComplexPatternTests.testTagShouldNotBeFoundAgain" />
+      <item index="3" class="java.lang.String" itemvalue="JUnit.MoreComplexPatternTests.testTagShouldNotBeFoundAgainAgain" />
+      <item index="4" class="java.lang.String" itemvalue="JUnit.MoreComplexPatternTests.testTagShouldBeFoundOnleOnce" />
+      <item index="5" class="java.lang.String" itemvalue="JUnit.MoreComplexPatternTests.testTagShouldBeFoundOnlyOnce" />
+      <item index="6" class="java.lang.String" itemvalue="JUnit.MoreComplexPatternTests.testTagShouldBeFoundExactlyTwice" />
     </list>
     <configuration name="&lt;template&gt;" type="WebApp" default="true" selected="false">
       <Host>localhost</Host>
@@ -1251,13 +1324,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../idea/platform/usageView/src/com/intellij/usages/Usage.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="0" selection-start="836" selection-end="836" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar:///System/Library/Frameworks/JavaVM.framework/Versions/1.6.0/Home/src.jar!/src/javax/swing/SwingUtilities.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="57" column="33" selection-start="1407" selection-end="1407" vertical-scroll-proportion="0.0">
@@ -1312,58 +1378,65 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/SearchAndReplaceMenuAction.java">
+    <entry file="file://$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/replace/Replacer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="183" column="2" selection-start="7896" selection-end="7896" vertical-scroll-proportion="0.0">
+        <state line="49" column="7" selection-start="1606" selection-end="1606" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/MoreComplexPatternTests.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="0" selection-start="67" selection-end="67" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tests/PrimaryPatternTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="0" selection-start="67" selection-end="67" vertical-scroll-proportion="0.0">
+        <state line="17" column="3" selection-start="542" selection-end="542" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/MoreComplexPatternWithNotPredicateTests.java">
+    <entry file="file://$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/SearchAndReplaceMenuAction.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="53" selection-start="798" selection-end="798" vertical-scroll-proportion="0.0">
+        <state line="38" column="11" selection-start="1671" selection-end="1671" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/XmlSearchTestCase.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="58" column="0" selection-start="1885" selection-end="1885" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/search/Pattern.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="364" column="39" selection-start="9736" selection-end="9736" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/MoreComplexPatternTests.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="24" column="29" selection-start="879" selection-end="879" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/tests/PrimaryPatternWithNotPredicateTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="0" selection-start="67" selection-end="67" vertical-scroll-proportion="0.0">
+        <state line="25" column="3" selection-start="850" selection-end="850" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/XmlSearchTestCase.java">
+    <entry file="file://$PROJECT_DIR$/tests/MoreComplexPatternWithNotPredicateTests.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="60" column="3" selection-start="1958" selection-end="1958" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/replace/Replacer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="39" column="39" selection-start="1362" selection-end="1362" vertical-scroll-proportion="0.3993576">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state line="23" column="3" selection-start="888" selection-end="888" vertical-scroll-proportion="0.41862956">
+          <folding />
         </state>
       </provider>
     </entry>

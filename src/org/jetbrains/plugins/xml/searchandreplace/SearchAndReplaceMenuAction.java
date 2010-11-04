@@ -20,7 +20,6 @@ import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiManager;
 import com.intellij.psi.xml.XmlElement;
 import com.intellij.psi.xml.XmlFile;
-import com.intellij.psi.xml.XmlTag;
 import com.intellij.usageView.UsageInfo;
 import com.intellij.usages.*;
 import com.intellij.util.Processor;
@@ -30,12 +29,8 @@ import org.jetbrains.plugins.xml.searchandreplace.replace.ReplacementProvider;
 import org.jetbrains.plugins.xml.searchandreplace.replace.Replacer;
 import org.jetbrains.plugins.xml.searchandreplace.search.Pattern;
 import org.jetbrains.plugins.xml.searchandreplace.search.TagSearchObserver;
-import org.jetbrains.plugins.xml.searchandreplace.search.predicates.Not;
-import org.jetbrains.plugins.xml.searchandreplace.search.predicates.TagPredicate;
-import org.jetbrains.plugins.xml.searchandreplace.search.predicates.XmlElementPredicate;
 import org.jetbrains.plugins.xml.searchandreplace.ui.MainDialog;
 
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -177,11 +172,8 @@ public class SearchAndReplaceMenuAction extends AnAction {
               public boolean canNavigateToSource() {
                 return false;  //To change body of implemented methods use File | Settings | File Templates.
               }
-            }}, searcherFactory, true, true, presentation, replacer);
-    
+            }}, searcherFactory, true, true, presentation, replacer);    
   }
-
-  
 
   @Override
   public void update(AnActionEvent anActionEvent) {

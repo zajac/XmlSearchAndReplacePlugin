@@ -22,6 +22,33 @@ public class MoreComplexPatternTests extends XmlSearchTestCase {
     super(createPattern());
   }
 
+  public void testTagShouldBeFound() throws Throwable {
+    assertTrue(match("<root><TAG0><TAG2><TAG1><TAG><TAG3><TAG5/></TAG3><TAG4/></TAG></TAG1></TAG2></TAG0></root>").results.size() == 1);
+  }
 
+  public void testTagShouldBeFoundAgain() throws Throwable {
+    assertTrue(match("<root><TAG0><TAG2><TAG1><TAG><TAG3><TAG5/><TAG4/></TAG3></TAG></TAG1></TAG2></TAG0></root>").results.size() == 1);
+  }
 
+  public void testTagShouldNotBeFound() throws Throwable {
+    assertTrue(match("<root><TAG0><TAG2><TAG1><TAG><TAG5/><TAG4/></TAG></TAG1></TAG2></TAG0></root>").results.isEmpty());
+  }
+
+  public void testTagShouldNotBeFoundAgain() throws Throwable {
+    assertTrue(match("<root><TAG0><TAG2><TAG1><TAG></TAG><TAG3><TAG5/><TAG4/></TAG3></TAG1></TAG2></TAG0></root>").results.isEmpty());
+  }
+
+  public void testTagShouldNotBeFoundAgainAgain() throws Throwable {
+    assertTrue(match("<root><TAG2><TAG1><TAG></TAG><TAG3><TAG5/><TAG4/></TAG3></TAG1></TAG2></root>").results.isEmpty());
+  }
+
+  public void testTagShouldBeFoundOnlyOnce() throws Throwable {
+    assertTrue(match("<root><TAG0><TAG2><TAG1><TAG><TAG3><TAG5/><TAG4/></TAG3></TAG></TAG1></TAG2></TAG0>" +
+            "<TAG0><TAG2><TAG1><TAG><TAG5/><TAG4/></TAG></TAG1></TAG2></TAG0></root>").results.size() == 1);
+  }
+
+  public void testTagShouldBeFoundExactlyTwice() throws Throwable {
+    assertTrue(match("<root><TAG0><TAG2><TAG1><TAG><TAG3><TAG5/></TAG3><TAG4/></TAG></TAG1></TAG2></TAG0>" +
+            "<TAG0><TAG2><TAG1><TAG><TAG3><TAG5/><TAG4/></TAG3></TAG></TAG1></TAG2></TAG0></root>").results.size() == 2);
+  }
 }
