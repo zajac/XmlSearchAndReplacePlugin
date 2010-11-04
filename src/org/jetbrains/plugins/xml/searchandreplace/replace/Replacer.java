@@ -26,21 +26,23 @@ public class Replacer implements UsageViewManager.UsageViewStateListener {
   }
 
   public void findingUsagesFinished(final UsageView usageView) {
-    SwingUtilities.invokeLater(new Runnable() {
-      public void run() {
-        usageView.addPerformOperationAction(new Runnable() {
-          public void run() {
-            performReplace(usageView.getUsages());
-          }
-        }, "Replace All", null, "Replace All");
+    if (usageView != null) {
+      SwingUtilities.invokeLater(new Runnable() {
+        public void run() {
+          usageView.addPerformOperationAction(new Runnable() {
+            public void run() {
+              performReplace(usageView.getUsages());
+            }
+          }, "Replace All", null, "Replace All");
 
-        usageView.addButtonToLowerPane(new Runnable() {
-          public void run() {
-            performReplace(usageView.getSelectedUsages());
-          }
-        }, "Replace selected");
-      }
-    });
+          usageView.addButtonToLowerPane(new Runnable() {
+            public void run() {
+              performReplace(usageView.getSelectedUsages());
+            }
+          }, "Replace selected");
+        }
+      });
+    }
   }
 
   private void performReplace(final Collection<Usage> usages) {
