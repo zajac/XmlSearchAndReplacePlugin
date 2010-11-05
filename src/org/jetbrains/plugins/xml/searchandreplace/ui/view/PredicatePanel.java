@@ -17,6 +17,10 @@ public class PredicatePanel extends JPanel {
 
     }
 
+    public void removeMe(PredicatePanel panel) {
+
+    }
+
     public List<PredicateType> getPredicateTypes(PredicatePanel panel) {
       return new ArrayList<PredicateType>();
     }
@@ -31,6 +35,7 @@ public class PredicatePanel extends JPanel {
   private JComboBox predicateTypeChooser;
   private JPanel predicateTypeSpecific;
   private JPanel centerPanel;
+  private JButton removeButton;
 
   public PredicatePanelDelegate getDelegate() {
     return delegate;
@@ -75,16 +80,22 @@ public class PredicatePanel extends JPanel {
 
   public PredicatePanel(boolean canHaveChildren, boolean isRoot) {
 
+    final PredicatePanel thisPanel = this;
     if (canHaveChildren) {
-      final PredicatePanel thisPanel = this;
       addChildButton.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e) {
           getDelegate().addChild(thisPanel);
         }
       });
     }
+    removeButton.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        getDelegate().removeMe(thisPanel);
+      }
+    });
     if (isRoot) {
       predicateTypeChooser.setVisible(false);
+      removeButton.setVisible(false);
     }
     reloadData();
 

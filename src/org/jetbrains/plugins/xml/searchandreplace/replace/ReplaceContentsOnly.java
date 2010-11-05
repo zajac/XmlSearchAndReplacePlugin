@@ -1,14 +1,10 @@
 package org.jetbrains.plugins.xml.searchandreplace.replace;
 
 import com.intellij.psi.xml.XmlElement;
+import com.intellij.psi.xml.XmlTag;
+import com.intellij.psi.xml.XmlTagChild;
 
-/**
- * Created by IntelliJ IDEA.
- * User: zajac
- * Date: Nov 2, 2010
- * Time: 11:09:32 PM
- * To change this template use File | Settings | File Templates.
- */
+
 public class ReplaceContentsOnly extends ReplacementProvider {
 
   private ReplacementProvider replacementProvider;
@@ -19,6 +15,15 @@ public class ReplaceContentsOnly extends ReplacementProvider {
 
   @Override
   public XmlElement getReplacementFor(XmlElement element) {
-    return null;  //To change body of implemented methods use File | Settings | File Templates. //TODO
+    if (element instanceof XmlTag) {
+      XmlTag tag = (XmlTag)element;
+      XmlElement replacement = replacementProvider.getReplacementFor(element);
+      for (XmlTagChild child : tag.getValue().getChildren()) {
+        child.delete();
+      }
+      Utils.insertElementIntoTag(replacement, tag, true);
+      return tag;
+    }
+    return null;
   }
 }

@@ -8,4 +8,6 @@ public interface PredicateControllerDelegate {
   void addChild(PredicateController predicateController);
 
   List<PredicateType> getAllowedPredicateTypes(PredicateController predicateController);
+
+  void removeMe(PredicateController predicateController);
 }

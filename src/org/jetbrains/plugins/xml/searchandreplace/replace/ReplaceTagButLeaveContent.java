@@ -25,6 +25,6 @@ public class ReplaceTagButLeaveContent extends ReplacementProvider {
         return newTag;
       }
     }
-    return element;
+    return null;
   }
 }

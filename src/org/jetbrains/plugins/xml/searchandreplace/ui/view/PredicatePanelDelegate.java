@@ -10,4 +10,6 @@ public interface PredicatePanelDelegate {
   List<PredicateType> getPredicateTypes(PredicatePanel panel);
 
   void predicateTypeSelected(PredicatePanel panel, PredicateType selection);
+
+  void removeMe(PredicatePanel panel);
 }

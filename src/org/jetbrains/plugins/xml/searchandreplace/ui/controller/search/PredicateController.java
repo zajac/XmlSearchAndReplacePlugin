@@ -65,6 +65,12 @@ public class PredicateController implements PredicatePanelDelegate {
     myView.setPredicateTypeSpecificView(predicateTypeController.getView());
   }
 
+  public void removeMe(PredicatePanel panel) {
+    if (getDelegate() != null) {
+      getDelegate().removeMe(this);
+    }
+  }
+
   public Pattern.Node getBuiltNode() {
     return builtNode;
   }

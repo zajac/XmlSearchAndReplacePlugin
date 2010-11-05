@@ -29,6 +29,12 @@ public class TagPredicateController extends PredicateTypeController {
       return null;
     }
     return decorateWithNotIfNeccessary(new TagPredicate() {
+
+      @Override
+      public String toString() {
+        return tagName;
+      }
+
       @Override
       public boolean applyToTag(XmlTag tag) {
         return tag.getName().equals(tagName);

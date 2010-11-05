@@ -111,11 +111,11 @@ public class SearchAndReplaceMenuAction extends AnAction {
     };
   }
 
-  private static void performSearchAndReplace(@NotNull Project project, @NotNull Pattern pattern, @NotNull SearchScope scope, ReplacementProvider replacementProvider) {
+  private static void performSearchAndReplace(@NotNull Project project, @NotNull final Pattern pattern, @NotNull SearchScope scope, ReplacementProvider replacementProvider) {
     UsageViewPresentation presentation = new UsageViewPresentation();
-    presentation.setUsagesString("Usages String");
-    presentation.setTabText("Tab text");
-    presentation.setScopeText("My Scope text");
+    presentation.setUsagesString("");
+    presentation.setTabText("XML Tag");
+    presentation.setScopeText("");
     Factory<UsageSearcher> searcherFactory = createUsageSearcherFactory(project, pattern, scope);
     Replacer replacer = replacementProvider == null ? null : new Replacer(project, replacementProvider);
     UsageView myUsageView = UsageViewManager.getInstance(project).searchAndShowUsages(
@@ -150,11 +150,11 @@ public class SearchAndReplaceMenuAction extends AnAction {
               }
 
               public String getName() {
-                return "SHIT";
+                return "";
               }
 
               public ItemPresentation getPresentation() {
-                return new PresentationData("SHIT2", null, null, null, null);
+                return new PresentationData("Xml tag: " + pattern.getTheOne().getPredicate(), null, null, null, null);
               }
 
               public FileStatus getFileStatus() {

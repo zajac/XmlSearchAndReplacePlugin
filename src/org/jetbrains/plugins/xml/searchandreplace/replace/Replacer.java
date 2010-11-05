@@ -49,6 +49,7 @@ public class Replacer implements UsageViewManager.UsageViewStateListener {
     ApplicationManager.getApplication().runWriteAction(new Runnable() {
       public void run() {
         for (Usage u : usages) {
+          if (usageView.getExcludedUsages().contains(u)) continue;
           if (u instanceof UsageInfo2UsageAdapter) {
             PsiElement element = ((UsageInfo2UsageAdapter) u).getElement();
             if (element instanceof XmlElement) {
@@ -62,5 +63,6 @@ public class Replacer implements UsageViewManager.UsageViewStateListener {
         }
       }
     });
+    usageView.excludeUsages(usages.toArray(new Usage[0]));    
   }
 }

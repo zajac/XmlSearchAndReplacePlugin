@@ -14,4 +14,9 @@ public class PatternView extends JPanel {
     add(panel, null);
     panel.updateUI();
   }
+
+  public void removePredicateView(PredicatePanel view) {
+    remove(view);
+    updateUI();
+  }
 }

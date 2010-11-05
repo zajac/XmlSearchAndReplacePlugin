@@ -4,6 +4,7 @@ import com.intellij.lang.Language;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.XmlElementFactory;
 import com.intellij.psi.xml.XmlElement;
+import com.intellij.psi.xml.XmlTag;
 import com.intellij.util.IncorrectOperationException;
 import org.jetbrains.plugins.xml.searchandreplace.replace.ReplacementProvider;
 import org.jetbrains.plugins.xml.searchandreplace.ui.view.replace.ReplacementView;
@@ -31,6 +32,9 @@ public abstract class CreatingXmlController extends ReplacementController {
     }
     try {
       result = factory.createTagFromText(text, myLanguage);
+      if (((XmlTag)result).getName().isEmpty()) {
+        result = factory.createDisplayText(text);
+      }
     } catch (IncorrectOperationException e) {
       try {
         result = factory.createDisplayText(text);

@@ -13,8 +13,14 @@ import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.PatternCo
 import org.jetbrains.plugins.xml.searchandreplace.ui.view.replace.ReplaceView;
 
 import javax.swing.*;
+import java.awt.event.ContainerEvent;
+import java.awt.event.ContainerListener;
 
-public class MainDialog extends DialogWrapper {
+public class MainDialog extends DialogWrapper implements ContainerListener {
+
+  public interface MainDialogDelegate {
+    void performSearch(MainDialog d);
+  }
 
   private void createUIComponents() {
     scopePanel = new ScopePanel(project);
@@ -26,11 +32,14 @@ public class MainDialog extends DialogWrapper {
     replaceView = replaceController.getView();
   }
 
-  public interface MainDialogDelegate {
-
-    void performSearch(MainDialog d);
-
+  public void componentAdded(ContainerEvent e) {
+    getWindow().pack();
   }
+
+  public void componentRemoved(ContainerEvent e) {
+    getWindow().pack();
+  }
+
   private JPanel centerPanel;
 
   private ScopePanel scopePanel;
@@ -56,6 +65,17 @@ public class MainDialog extends DialogWrapper {
     setTitle("Xml search and replace");
     setModal(false);
     setOKButtonText("Find");
+
+    patternView.addContainerListener(this);
+    replaceView.getReplacementSpecificView().addContainerListener(new ContainerListener() {
+
+      public void componentAdded(ContainerEvent e) {
+        getWindow().pack();
+      }
+
+      public void componentRemoved(ContainerEvent e) {
+      }
+    });
 
     init();
   }

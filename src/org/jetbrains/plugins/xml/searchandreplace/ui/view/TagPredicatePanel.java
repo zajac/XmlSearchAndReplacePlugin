@@ -5,11 +5,12 @@ import java.awt.*;
 
 public class TagPredicatePanel extends JPanel {
 
-  private JTextField tagNameField = new JTextField("TAG");
+  public JTextField tagNameField;
+  private JPanel pane;
 
   public TagPredicatePanel() {
     setLayout(new FlowLayout());
-    add(tagNameField);
+    add(pane);
   }
 
   public String getTagName() {
