@@ -154,7 +154,7 @@ public class SearchAndReplaceMenuAction extends AnAction {
               }
 
               public ItemPresentation getPresentation() {
-                return new PresentationData("Xml tag: " + pattern.getTheOne().getPredicate(), null, null, null, null);
+                return new PresentationData("XML tag: " + pattern.getTheOne().getPredicate(), null, null, null, null);
               }
 
               public FileStatus getFileStatus() {
