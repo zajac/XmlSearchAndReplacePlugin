@@ -18,10 +18,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c95dde65-8eb2-4841-b02e-5b9774762676" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/SelfContainsPatternTest.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/META-INF/plugin.xml" afterPath="$PROJECT_DIR$/META-INF/plugin.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/SearchAndReplaceMenuAction.java" afterPath="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/SearchAndReplaceMenuAction.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/MoreComplexPatternWithNotPredicateTests.java" afterPath="$PROJECT_DIR$/tests/MoreComplexPatternWithNotPredicateTests.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/search/Pattern.java" afterPath="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/search/Pattern.java" />
     </list>
     <ignored path="XmlSearchAndReplace.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -45,21 +44,6 @@
     <disable_hints />
   </component>
   <component name="DebuggerManager">
-    <line_breakpoints>
-      <breakpoint url="file://$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/search/Pattern.java" line="286" class="org.jetbrains.plugins.xml.searchandreplace.search.Pattern" package="org.jetbrains.plugins.xml.searchandreplace.search">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="false" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-    </line_breakpoints>
     <breakpoint_any>
       <breakpoint>
         <option name="NOTIFY_CAUGHT" value="true" />
@@ -107,8 +91,8 @@
       <property name="field_breakpoints_groupByClasses" value="true" />
       <property name="method_breakpoints_groupByClasses" value="true" />
       <property name="exception_breakpoints_viewId" value="TABLE" />
-      <property name="exception_breakpoints_groupByClasses" value="true" />
       <property name="field_breakpoints_viewId" value="TABLE" />
+      <property name="exception_breakpoints_groupByClasses" value="true" />
       <property name="method_breakpoints_groupByMethods" value="false" />
     </ui_properties>
   </component>
@@ -123,10 +107,10 @@
   <component name="FileColors" enabled="true" enabledForTabs="true" highlightNonProjectFiles="true" nonProjectFilesColor="ffffe4" />
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="MoreComplexPatternWithNotPredicateTests.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/tests/MoreComplexPatternWithNotPredicateTests.java">
+      <file leaf-file-name="SelfContainsPatternTest.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/tests/SelfContainsPatternTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="64" column="0" selection-start="2579" selection-end="2579" vertical-scroll-proportion="0.8580376">
+            <state line="26" column="0" selection-start="745" selection-end="745" vertical-scroll-proportion="0.7366667">
               <folding />
             </state>
           </provider>
@@ -189,7 +173,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/replace/Replacer.java" />
         <option value="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/replace/ReplaceContentsOnly.java" />
         <option value="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/replace/ReplaceTagButLeaveContent.java" />
         <option value="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/ui/controller/replace/CreatingXmlController.java" />
@@ -200,11 +183,12 @@
         <option value="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/ui/view/replace/ReplacementView.form" />
         <option value="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/ui/view/replace/ReplaceView.form" />
         <option value="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/ui/MainDialog.java" />
-        <option value="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/search/Pattern.java" />
         <option value="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/ui/controller/search/TagPredicateController.java" />
         <option value="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/SearchAndReplaceMenuAction.java" />
         <option value="$PROJECT_DIR$/META-INF/plugin.xml" />
         <option value="$PROJECT_DIR$/tests/MoreComplexPatternWithNotPredicateTests.java" />
+        <option value="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/search/Pattern.java" />
+        <option value="$PROJECT_DIR$/tests/SelfContainsPatternTest.java" />
       </list>
     </option>
   </component>
@@ -313,7 +297,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -836,7 +819,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Favorites" />
       <pane id="PackagesPane">
         <subPane>
           <PATH>
@@ -883,6 +865,8 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
+      <pane id="Favorites" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -899,9 +883,9 @@
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
     <property name="GoToClass.includeLibraries" value="false" />
-    <property name="dynamic.classpath" value="false" />
-    <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="dynamic.classpath" value="false" />
   </component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
@@ -911,35 +895,6 @@
     </key>
   </component>
   <component name="RunManager" selected="JUnit.All in XmlSearchAndReplace">
-    <configuration default="false" name="MoreComplexPatternWithNotPredicateTests.testShouldNotMatchAgainXml" type="JUnit" factoryName="JUnit" temporary="true">
-      <extension name="snapshooter" />
-      <module name="XmlSearchAndReplace" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="MoreComplexPatternWithNotPredicateTests" />
-      <option name="METHOD_NAME" value="testShouldNotMatchAgainXml" />
-      <option name="TEST_OBJECT" value="method" />
-      <option name="VM_PARAMETERS" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="moduleWithDependencies" />
-      </option>
-      <envs />
-      <patterns />
-      <RunnerSettings RunnerId="Debug">
-        <option name="DEBUG_PORT" value="61125" />
-        <option name="TRANSPORT" value="0" />
-        <option name="LOCAL" value="true" />
-      </RunnerSettings>
-      <RunnerSettings RunnerId="Run" />
-      <ConfigurationWrapper RunnerId="Debug" />
-      <ConfigurationWrapper RunnerId="Run" />
-      <method />
-    </configuration>
     <configuration default="false" name="MoreComplexPatternWithNotPredicateTests.testShouldMatchXml" type="JUnit" factoryName="JUnit" temporary="true">
       <extension name="snapshooter" />
       <module name="XmlSearchAndReplace" />
@@ -1017,6 +972,29 @@
       <option name="PACKAGE_NAME" value="" />
       <option name="MAIN_CLASS_NAME" value="MoreComplexPatternWithNotPredicateTests" />
       <option name="METHOD_NAME" value="testShouldMatchXmlTwice" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <envs />
+      <patterns />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
+    <configuration default="false" name="SelfContainsPatternTest.testThisSlyCase" type="JUnit" factoryName="JUnit" temporary="true">
+      <extension name="snapshooter" />
+      <module name="XmlSearchAndReplace" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="SelfContainsPatternTest" />
+      <option name="METHOD_NAME" value="testThisSlyCase" />
       <option name="TEST_OBJECT" value="method" />
       <option name="VM_PARAMETERS" />
       <option name="PARAMETERS" />
@@ -1193,11 +1171,11 @@
     <list size="7">
       <item index="0" class="java.lang.String" itemvalue="JUnit.XmlSearchTestCase.testPrimaryPatternWorks" />
       <item index="1" class="java.lang.String" itemvalue="Plugin.XmlSearchAndReplace" />
-      <item index="2" class="java.lang.String" itemvalue="JUnit.MoreComplexPatternWithNotPredicateTests.testShouldNotMatchAgainXml" />
-      <item index="3" class="java.lang.String" itemvalue="JUnit.MoreComplexPatternWithNotPredicateTests.testShouldMatchXml" />
-      <item index="4" class="java.lang.String" itemvalue="JUnit.All in XmlSearchAndReplace" />
-      <item index="5" class="java.lang.String" itemvalue="JUnit.MoreComplexPatternWithNotPredicateTests.testShouldMatchXmlAgain" />
-      <item index="6" class="java.lang.String" itemvalue="JUnit.MoreComplexPatternWithNotPredicateTests.testShouldMatchXmlTwice" />
+      <item index="2" class="java.lang.String" itemvalue="JUnit.MoreComplexPatternWithNotPredicateTests.testShouldMatchXml" />
+      <item index="3" class="java.lang.String" itemvalue="JUnit.All in XmlSearchAndReplace" />
+      <item index="4" class="java.lang.String" itemvalue="JUnit.MoreComplexPatternWithNotPredicateTests.testShouldMatchXmlAgain" />
+      <item index="5" class="java.lang.String" itemvalue="JUnit.MoreComplexPatternWithNotPredicateTests.testShouldMatchXmlTwice" />
+      <item index="6" class="java.lang.String" itemvalue="JUnit.SelfContainsPatternTest.testThisSlyCase" />
     </list>
     <configuration name="&lt;template&gt;" type="WebApp" default="true" selected="false">
       <Host>localhost</Host>
@@ -1245,23 +1223,23 @@
     <frame x="0" y="22" width="1920" height="1054" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32995194" sideWeight="0.67429763" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32905984" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.068339564" sideWeight="0.67429763" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24933262" sideWeight="0.63398695" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3725286" sideWeight="0.9248366" order="10" side_tool="false" content_ui="tabs" x="30" y="528" width="1851" height="367" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32882413" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3725286" sideWeight="0.9248366" order="10" side_tool="false" content_ui="tabs" x="30" y="528" width="1851" height="367" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32882413" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32674298" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.14423077" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.24959481" sideWeight="0.23747277" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32995194" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39989322" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21729845" sideWeight="0.67429763" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21729845" sideWeight="0.6274714" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3257024" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32995194" sideWeight="0.67429763" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32882413" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
     </layout>
@@ -1302,39 +1280,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar:///System/Library/Frameworks/JavaVM.framework/Versions/1.6.0/Home/src.jar!/src/java/awt/Component.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar:///System/Library/Frameworks/JavaVM.framework/Versions/1.6.0/Home/src.jar!/src/javax/swing/JPanel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/ui/view/replace/ReplaceView.form">
-      <provider selected="true" editor-type-id="ui-designer">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/ui/MainDialog.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="75" column="54" selection-start="2386" selection-end="2386" vertical-scroll-proportion="1.0795631">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../idea/platform/usageView/src/com/intellij/usages/UsageSearcher.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/ui/controller/search/PredicateTypeController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
@@ -1363,13 +1308,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/SearchAndReplaceMenuAction.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="135" column="40" selection-start="6077" selection-end="6077" vertical-scroll-proportion="1.9069767">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/META-INF/plugin.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state line="2" column="69" selection-start="130" selection-end="130" vertical-scroll-proportion="0.052713178">
@@ -1389,7 +1327,49 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/tests/MoreComplexPatternWithNotPredicateTests.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="20" column="0" selection-start="835" selection-end="835" vertical-scroll-proportion="0.35490605">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/search/predicates/AttributePredicate.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/replace/ReplacementProvider.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/ui/predicatetypes/WithAttribute.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="112" column="5" selection-start="3332" selection-end="3332" vertical-scroll-proportion="0.062015504">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/SearchAndReplaceMenuAction.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="90" column="37" selection-start="4065" selection-end="4065" vertical-scroll-proportion="0.645">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/search/Pattern.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="370" column="0" selection-start="9826" selection-end="9826" vertical-scroll-proportion="0.82763976">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/ui/controller/replace/RemoveAttributeController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
@@ -1403,9 +1383,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/MoreComplexPatternWithNotPredicateTests.java">
+    <entry file="file://$PROJECT_DIR$/tests/SelfContainsPatternTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="64" column="0" selection-start="2579" selection-end="2579" vertical-scroll-proportion="0.8580376">
+        <state line="26" column="0" selection-start="745" selection-end="745" vertical-scroll-proportion="0.7366667">
           <folding />
         </state>
       </provider>

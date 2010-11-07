@@ -220,7 +220,7 @@ public class Pattern implements Cloneable {
 
   private boolean repair(Node n) {
     boolean changed = false;
-    for (Node c : childrenOfNode(n)) {
+    for (Node c : n.getChildren()) {
       if (!allNodes.contains(c)) {
         allNodes.add(c);
         repair(c);
