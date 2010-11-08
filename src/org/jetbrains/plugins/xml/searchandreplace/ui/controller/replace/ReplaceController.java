@@ -15,21 +15,34 @@ public class ReplaceController implements ReplaceView.ReplaceViewDelegate {
   private ReplaceView myView;
   private ReplacementController myReplacementController;
 
+  public Project getProject() {
+    return project;
+  }
+
+  public Language getLanguage() {
+    return language;
+  }
+
+  private Project project;
+  private Language language;
+
   public ReplaceView getView() {
     return myView;
   }
 
   public ReplaceController(Project project, Language language) {
+    this.project = project;
+    this.language = language;
     ReplacementController[] controllers = new ReplacementController[]{
-                                                                             new InsertIntoTagController(project, language, InsertIntoTag.Anchor.BEGIN),
-                                                                             new InsertIntoTagController(project, language, InsertIntoTag.Anchor.END),
-                                                                             new InsertNearElementController(project, language, InsertNearElement.Anchor.BEFORE),
-                                                                             new InsertNearElementController(project, language, InsertNearElement.Anchor.AFTER),
-                                                                             new ReplaceWithContentsController(project, language),
-                                                                             new ReplaceButLeaveContentsController(project, language),
-                                                                             new ReplaceContentsOnlyController(project, language),
-                                                                             new SetAttributeController(),
-                                                                             new RemoveAttributeController()
+            new InsertIntoTagController(project, language, InsertIntoTag.Anchor.BEGIN),
+            new InsertIntoTagController(project, language, InsertIntoTag.Anchor.END),
+            new InsertNearElementController(project, language, InsertNearElement.Anchor.BEFORE),
+            new InsertNearElementController(project, language, InsertNearElement.Anchor.AFTER),
+            new ReplaceWithContentsController(project, language),
+            new ReplaceButLeaveContentsController(project, language),
+            new ReplaceContentsOnlyController(project, language),
+            new SetAttributeController(),
+            new RemoveAttributeController()
     };
     myView = new ReplaceView(Arrays.asList(controllers));
     myView.setDelegate(this);

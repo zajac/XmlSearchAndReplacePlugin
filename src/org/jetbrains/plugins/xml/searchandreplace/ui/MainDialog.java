@@ -18,6 +18,9 @@ import java.awt.event.ContainerListener;
 
 public class MainDialog extends DialogWrapper implements ContainerListener {
 
+  private static PatternController ourPatternController = null;
+  private static ReplaceController ourReplaceController = null;
+
   public interface MainDialogDelegate {
     void performSearch(MainDialog d);
   }
@@ -25,10 +28,17 @@ public class MainDialog extends DialogWrapper implements ContainerListener {
   private void createUIComponents() {
     scopePanel = new ScopePanel(project);
     scopePanel.initComponent(module, new SearchScope());
-    patternController = new PatternController();
+
+    if (ourPatternController == null) {
+      ourPatternController = new PatternController();
+    }
+    patternController = ourPatternController;
     patternView = patternController.getView();
 
-    replaceController = new ReplaceController(project, XMLLanguage.INSTANCE);
+    if (ourReplaceController == null || ourReplaceController.getProject() != project || ourReplaceController.getLanguage() != XMLLanguage.INSTANCE) {
+      ourReplaceController = new ReplaceController(project, XMLLanguage.INSTANCE);
+    }
+    replaceController = ourReplaceController;
     replaceView = replaceController.getView();
   }
 
