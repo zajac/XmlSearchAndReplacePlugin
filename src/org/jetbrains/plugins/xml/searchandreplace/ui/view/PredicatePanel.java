@@ -105,6 +105,7 @@ public class PredicatePanel extends JPanel {
       addChildButton.setVisible(false);
     }
     indentPanel.setMinimumSize(new Dimension(indent*30, 10));
+    ((FlowLayout)predicateTypeSpecific.getLayout()).setVgap(0);
     add(centerPanel);
   }
 }

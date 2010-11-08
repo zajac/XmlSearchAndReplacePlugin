@@ -7,9 +7,8 @@ import java.util.Arrays;
 public class PatternView extends JPanel {
 
   public PatternView() {
-    LayoutManager lm = new BoxLayout(this, BoxLayout.Y_AXIS);
+    LayoutManager lm = new BoxLayout(this, BoxLayout.PAGE_AXIS);
     setLayout(lm);
-    setAlignmentX(Component.LEFT_ALIGNMENT);
   }
 
   public void addPredicateView(PredicatePanel panel, PredicatePanel parent) {

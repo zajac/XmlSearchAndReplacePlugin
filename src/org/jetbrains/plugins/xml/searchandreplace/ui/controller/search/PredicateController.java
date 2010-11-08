@@ -81,6 +81,7 @@ public class PredicateController implements PredicatePanelDelegate {
   }
 
   public void buildNode(Pattern p) {
+    if (predicateTypeController == null) return;
     XmlElementPredicate predicate = predicateTypeController.buildPredicate();
     if (predicate != null) {
       builtNode = new Pattern.Node(predicate, parent == null);

@@ -371,7 +371,7 @@ public class Pattern implements Cloneable {
     Pattern reduced = this.reduced(element);
     Set<Pattern> forFurtherMatching = new HashSet<Pattern>();
     forFurtherMatching.add(reduced);
-    if (reduced.candidate != element && getParentsNum(theOne) == 0 && theOne.predicate.apply(element)) {
+    if (theOne != null && reduced.candidate != element && getParentsNum(theOne) == 0 && theOne.predicate.apply(element)) {
       Pattern repaired = reduced.repair();
       repaired.candidate = element;
       forFurtherMatching.add(repaired);
