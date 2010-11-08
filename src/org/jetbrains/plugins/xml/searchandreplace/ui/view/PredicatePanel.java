@@ -4,6 +4,7 @@ import com.intellij.ui.CollectionComboBoxModel;
 import org.jetbrains.plugins.xml.searchandreplace.ui.PredicateType;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -36,6 +37,7 @@ public class PredicatePanel extends JPanel {
   private JPanel predicateTypeSpecific;
   private JPanel centerPanel;
   private JButton removeButton;
+  private JPanel indentPanel;
 
   public PredicatePanelDelegate getDelegate() {
     return delegate;
@@ -78,7 +80,7 @@ public class PredicatePanel extends JPanel {
     predicateTypeSpecific.updateUI();
   }
 
-  public PredicatePanel(boolean canHaveChildren, boolean isRoot) {
+  public PredicatePanel(boolean canHaveChildren, boolean isRoot, int indent) {
 
     final PredicatePanel thisPanel = this;
     if (canHaveChildren) {
@@ -102,7 +104,7 @@ public class PredicatePanel extends JPanel {
     if (!canHaveChildren) {
       addChildButton.setVisible(false);
     }
-
+    indentPanel.setMinimumSize(new Dimension(indent*30, 10));
     add(centerPanel);
   }
 }

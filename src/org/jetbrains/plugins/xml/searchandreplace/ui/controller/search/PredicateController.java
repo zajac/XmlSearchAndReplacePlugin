@@ -24,8 +24,13 @@ public class PredicateController implements PredicatePanelDelegate {
 
   public PredicateController(boolean canBeRoot, PredicateController parent) {
     this.parent = parent;
-    myView = new PredicatePanel(canBeRoot, parent == null);
+    myView = new PredicatePanel(canBeRoot, parent == null, getIndent());
     myView.setDelegate(this);
+  }
+
+  private int getIndent() {
+    if (parent == null) return 0;
+    return parent.getIndent() + 1;
   }
 
   public PredicateController getParent() {

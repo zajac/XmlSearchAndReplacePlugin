@@ -25,6 +25,13 @@ public class PatternController implements PredicateControllerDelegate {
   }
 
   private void removePredicateController(PredicateController predicateController) {
+    List<PredicateController> pcList = new ArrayList<PredicateController>();
+    for (PredicateController pc : predicatesTree.get(predicateController)) {
+      pcList.add(pc);
+    }
+    for (PredicateController pc : pcList) {
+      removePredicateController(pc);
+    }
     predicatesTree.get(predicateController.getParent()).remove(predicateController);
     predicatesTree.remove(predicateController);
     view.removePredicateView(predicateController.getView());
@@ -60,7 +67,7 @@ public class PatternController implements PredicateControllerDelegate {
   }
 
   public void addChild(PredicateController predicateController) {
-    addPredicateController(new PredicateController(false, predicateController));
+    addPredicateController(new PredicateController(true, predicateController));
   }
 
   public List<PredicateType> getAllowedPredicateTypes(PredicateController predicateController) {
