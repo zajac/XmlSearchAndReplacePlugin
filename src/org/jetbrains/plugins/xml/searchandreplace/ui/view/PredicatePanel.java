@@ -38,6 +38,13 @@ public class PredicatePanel extends JPanel {
   private JPanel centerPanel;
   private JButton removeButton;
   private JPanel indentPanel;
+  private int indent;
+
+  public boolean canHaveChildren() {
+    return canHaveChildren;
+  }
+
+  private boolean canHaveChildren;
 
   public PredicatePanelDelegate getDelegate() {
     return delegate;
@@ -81,6 +88,7 @@ public class PredicatePanel extends JPanel {
   }
 
   public PredicatePanel(boolean canHaveChildren, boolean isRoot, int indent) {
+    this.canHaveChildren = canHaveChildren;
 
     final PredicatePanel thisPanel = this;
     if (canHaveChildren) {
@@ -104,8 +112,24 @@ public class PredicatePanel extends JPanel {
     if (!canHaveChildren) {
       addChildButton.setVisible(false);
     }
-    indentPanel.setMinimumSize(new Dimension(indent*30, 10));
+    setIndent(indent);
     ((FlowLayout)predicateTypeSpecific.getLayout()).setVgap(0);
     add(centerPanel);
+  }
+
+  private void setIndent(int indent) {
+    this.indent = indent;
+    updateIndent();
+  }
+
+  private void updateIndent() {
+    indentPanel.setMinimumSize(new Dimension(30 * indent, 10));
+  }
+
+  public void setCanHaveChildren(boolean b) {
+    canHaveChildren = b;
+    addChildButton.setVisible(b);
+    updateIndent();
+    updateUI();
   }
 }

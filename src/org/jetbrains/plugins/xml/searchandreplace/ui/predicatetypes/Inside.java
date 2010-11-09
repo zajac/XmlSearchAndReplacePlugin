@@ -5,7 +5,7 @@ import org.jetbrains.plugins.xml.searchandreplace.ui.PredicateType;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.PredicateTypeController;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.TagPredicateController;
 
-public class Inside implements PredicateType {
+public class Inside extends PredicateType {
 
   protected enum Params {NOT}
 
@@ -31,4 +31,5 @@ public class Inside implements PredicateType {
     p.getAllNodes().add(node);
     node.getChildren().add(parent);
   }
+
 }

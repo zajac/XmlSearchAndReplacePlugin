@@ -5,7 +5,7 @@ import org.jetbrains.plugins.xml.searchandreplace.ui.PredicateType;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.PredicateTypeController;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.TagPredicateController;
 
-public class RootPredicateType implements PredicateType {
+public class RootPredicateType extends PredicateType {
 
   public PredicateTypeController createNewController() {
     return new TagPredicateController();
@@ -14,4 +14,5 @@ public class RootPredicateType implements PredicateType {
   public void addNodeToPattern(Pattern p, Pattern.Node node, Pattern.Node parent) {
     p.getAllNodes().add(node);
   }
+
 }

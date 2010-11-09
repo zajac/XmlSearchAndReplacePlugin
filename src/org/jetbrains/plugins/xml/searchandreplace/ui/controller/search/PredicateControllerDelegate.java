@@ -10,4 +10,6 @@ public interface PredicateControllerDelegate {
   List<PredicateType> getAllowedPredicateTypes(PredicateController predicateController);
 
   void removeMe(PredicateController predicateController);
+
+  void validateMe(PredicateController predicateController);
 }

@@ -68,6 +68,9 @@ public class PredicateController implements PredicatePanelDelegate {
     }
     predicateTypeController = selectedPredicateType.createNewController();
     myView.setPredicateTypeSpecificView(predicateTypeController.getView());
+    if (getDelegate() != null) {
+      getDelegate().validateMe(this);
+    }
   }
 
   public void removeMe(PredicatePanel panel) {
@@ -90,5 +93,13 @@ public class PredicateController implements PredicatePanelDelegate {
         selectedPredicateType.addNodeToPattern(p, builtNode, parentNode);
       }
     }
+  }
+
+  public PredicateType getSelectedPredicateType() {
+    return selectedPredicateType;
+  }
+
+  public void setCanHaveChildren(boolean b) {
+    getView().setCanHaveChildren(b);
   }
 }

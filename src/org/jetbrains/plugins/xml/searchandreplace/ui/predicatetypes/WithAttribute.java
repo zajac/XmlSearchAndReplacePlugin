@@ -11,9 +11,11 @@ import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.Predicate
 import org.jetbrains.plugins.xml.searchandreplace.ui.view.AttributePanel;
 
 import javax.swing.*;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
-public class WithAttribute implements PredicateType {
+public class WithAttribute extends PredicateType {
 
 
   private static class WithAttributeController extends PredicateTypeController {
@@ -156,5 +158,10 @@ public class WithAttribute implements PredicateType {
     } else {
       p.getAllNodes().add(node);
     }
+  }
+
+  @Override
+  public List<PredicateType> getAllowedChildrenTypes() {
+    return new ArrayList<PredicateType>();
   }
 }
