@@ -47,6 +47,19 @@ public class Replacer implements UsageViewManager.UsageViewStateListener {
     }
   }
 
+  private void doActualReplace(Usage u) {
+    if (u instanceof UsageInfo2UsageAdapter) {
+      PsiElement element = ((UsageInfo2UsageAdapter) u).getElement();
+      if (element instanceof XmlElement) {
+        XmlElement xmlElement = (XmlElement) element;
+        XmlElement replacement = replacementProvider.getReplacementFor(xmlElement);
+        if (replacement != xmlElement && replacement != null) {
+          xmlElement.replace(replacement);
+        }
+      }
+    }
+  }
+
   private void performReplace(final Collection<Usage> usages) {
     CommandProcessor.getInstance().executeCommand(project, new Runnable() {
       public void run() {
@@ -54,16 +67,7 @@ public class Replacer implements UsageViewManager.UsageViewStateListener {
           public void run() {
             for (Usage u : usages) {
               if (usageView.getExcludedUsages().contains(u)) continue;
-              if (u instanceof UsageInfo2UsageAdapter) {
-                PsiElement element = ((UsageInfo2UsageAdapter) u).getElement();
-                if (element instanceof XmlElement) {
-                  XmlElement xmlElement = (XmlElement) element;
-                  XmlElement replacement = replacementProvider.getReplacementFor(xmlElement);
-                  if (replacement != xmlElement && replacement != null) {
-                    xmlElement.replace(replacement);
-                  }
-                }
-              }
+              doActualReplace(u);
             }
           }
         });

@@ -109,7 +109,7 @@
       <file leaf-file-name="Replacer.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/replace/Replacer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="51" column="25" selection-start="1736" selection-end="1736" vertical-scroll-proportion="0.48538622">
+            <state line="42" column="13" selection-start="1505" selection-end="1505" vertical-scroll-proportion="0.27244258">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -1966,7 +1966,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/replace/Replacer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="51" column="25" selection-start="1736" selection-end="1736" vertical-scroll-proportion="0.48538622">
+        <state line="42" column="13" selection-start="1505" selection-end="1505" vertical-scroll-proportion="0.27244258">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
