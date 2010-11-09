@@ -1,5 +1,7 @@
 package org.jetbrains.plugins.xml.searchandreplace.replace;
 
+import com.intellij.history.LocalHistory;
+import com.intellij.history.LocalHistoryAction;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
@@ -14,10 +16,12 @@ import java.util.Collection;
 
 public class Replacer implements UsageViewManager.UsageViewStateListener {
 
+  private Project project;
   private ReplacementProvider replacementProvider;
   private UsageView usageView;
 
   public Replacer(Project project, ReplacementProvider replacementProvider) {
+    this.project = project;
     this.replacementProvider = replacementProvider;
   }
 
@@ -34,7 +38,6 @@ public class Replacer implements UsageViewManager.UsageViewStateListener {
               performReplace(usageView.getUsages());
             }
           }, "Replace All", null, "Replace All");
-
           usageView.addButtonToLowerPane(new Runnable() {
             public void run() {
               performReplace(usageView.getSelectedUsages());
@@ -48,6 +51,7 @@ public class Replacer implements UsageViewManager.UsageViewStateListener {
   private void performReplace(final Collection<Usage> usages) {
     ApplicationManager.getApplication().runWriteAction(new Runnable() {
       public void run() {
+        LocalHistoryAction action = LocalHistory.getInstance().startAction("XML tag replace");
         for (Usage u : usages) {
           if (usageView.getExcludedUsages().contains(u)) continue;
           if (u instanceof UsageInfo2UsageAdapter) {
@@ -61,8 +65,9 @@ public class Replacer implements UsageViewManager.UsageViewStateListener {
             }
           }
         }
+        action.finish();
       }
     });
-    usageView.excludeUsages(usages.toArray(new Usage[0]));    
+    usageView.excludeUsages(usages.toArray(new Usage[usages.size()]));
   }
 }

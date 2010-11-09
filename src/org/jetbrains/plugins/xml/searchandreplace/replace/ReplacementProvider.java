@@ -12,4 +12,8 @@ public abstract class ReplacementProvider {
                    element.getParent().getChildren() != null &&
                    Arrays.asList(element.getParent().getChildren()).indexOf(element) != -1;
   }
+
+  public boolean alwaysReturnsTag() {
+    return false;
+  }
 }
