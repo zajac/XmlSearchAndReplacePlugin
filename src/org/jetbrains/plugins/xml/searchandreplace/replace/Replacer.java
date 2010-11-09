@@ -1,8 +1,7 @@
 package org.jetbrains.plugins.xml.searchandreplace.replace;
 
-import com.intellij.history.LocalHistory;
-import com.intellij.history.LocalHistoryAction;
 import com.intellij.openapi.application.ApplicationManager;
+import com.intellij.openapi.command.CommandProcessor;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.xml.XmlElement;
@@ -49,25 +48,27 @@ public class Replacer implements UsageViewManager.UsageViewStateListener {
   }
 
   private void performReplace(final Collection<Usage> usages) {
-    ApplicationManager.getApplication().runWriteAction(new Runnable() {
+    CommandProcessor.getInstance().executeCommand(project, new Runnable() {
       public void run() {
-        LocalHistoryAction action = LocalHistory.getInstance().startAction("XML tag replace");
-        for (Usage u : usages) {
-          if (usageView.getExcludedUsages().contains(u)) continue;
-          if (u instanceof UsageInfo2UsageAdapter) {
-            PsiElement element = ((UsageInfo2UsageAdapter) u).getElement();
-            if (element instanceof XmlElement) {
-              XmlElement xmlElement = (XmlElement) element;
-              XmlElement replacement = replacementProvider.getReplacementFor(xmlElement);
-              if (replacement != xmlElement && replacement != null) {
-                xmlElement.replace(replacement);
+        ApplicationManager.getApplication().runWriteAction(new Runnable() {
+          public void run() {
+            for (Usage u : usages) {
+              if (usageView.getExcludedUsages().contains(u)) continue;
+              if (u instanceof UsageInfo2UsageAdapter) {
+                PsiElement element = ((UsageInfo2UsageAdapter) u).getElement();
+                if (element instanceof XmlElement) {
+                  XmlElement xmlElement = (XmlElement) element;
+                  XmlElement replacement = replacementProvider.getReplacementFor(xmlElement);
+                  if (replacement != xmlElement && replacement != null) {
+                    xmlElement.replace(replacement);
+                  }
+                }
               }
             }
           }
-        }
-        action.finish();
+        });
       }
-    });
+    }, "XML tag replace", null);
     usageView.excludeUsages(usages.toArray(new Usage[usages.size()]));
   }
 }
