@@ -311,6 +311,10 @@ public class Pattern implements Cloneable {
     }
     for (Pattern p : patterns) {
       if (p.candidate == null) {
+        Set<XmlElement> keySet = sort.keySet();
+        if (keySet.isEmpty()) {
+          sort.put(null, new HashSet<Pattern>());
+        }
         for (XmlElement key : sort.keySet()) {
           sort.get(key).add(p);
         }
@@ -326,6 +330,14 @@ public class Pattern implements Cloneable {
       Set<Pattern> patternsForCandidate = sort.get(aCandidate);
       Pattern newPattern = null;
       for (Pattern p : patternsForCandidate) {
+        if (p.candidate != null) {
+          newPattern = p;
+        }
+      }
+      for (Pattern p : patternsForCandidate) {
+        if (p == newPattern) {
+          continue;
+        }
         if (newPattern == null) {
           newPattern = p;
         } else {

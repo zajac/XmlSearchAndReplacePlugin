@@ -22,9 +22,9 @@ public class PredicateController implements PredicatePanelDelegate {
 
   private Pattern.Node builtNode;
 
-  public PredicateController(boolean canBeRoot, PredicateController parent) {
+  public PredicateController(boolean canHaveChildren, PredicateController parent) {
     this.parent = parent;
-    myView = new PredicatePanel(canBeRoot, parent == null, getIndent());
+    myView = new PredicatePanel(canHaveChildren, parent != null, getIndent());
     myView.setDelegate(this);
   }
 

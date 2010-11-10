@@ -87,23 +87,23 @@ public class PredicatePanel extends JPanel {
     predicateTypeSpecific.updateUI();
   }
 
-  public PredicatePanel(boolean canHaveChildren, boolean isRoot, int indent) {
+  public PredicatePanel(boolean canHaveChildren, boolean canBeRemoved, int indent) {
     this.canHaveChildren = canHaveChildren;
 
     final PredicatePanel thisPanel = this;
-    if (canHaveChildren) {
-      addChildButton.addActionListener(new ActionListener() {
-        public void actionPerformed(ActionEvent e) {
-          getDelegate().addChild(thisPanel);
-        }
-      });
-    }
+
+    addChildButton.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        getDelegate().addChild(thisPanel);
+      }
+    });
+
     removeButton.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
         getDelegate().removeMe(thisPanel);
       }
     });
-    if (isRoot) {
+    if (!canBeRemoved) {
       predicateTypeChooser.setVisible(false);
       removeButton.setVisible(false);
     }

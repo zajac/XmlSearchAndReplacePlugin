@@ -72,7 +72,7 @@ public class PatternController implements PredicateControllerDelegate {
 
     List<PredicateType> allowedChildrenTypes = selectedPredicateType.getAllowedChildrenTypes();
     if (!allowedChildrenTypes.isEmpty()) {
-      addPredicateController(new PredicateController(true, predicateController));
+      addPredicateController(new PredicateController(false, predicateController));
     }
   }
 
