@@ -1,6 +1,7 @@
 package org.jetbrains.plugins.xml.searchandreplace.ui.controller.search;
 
 
+import org.jetbrains.plugins.xml.searchandreplace.search.Node;
 import org.jetbrains.plugins.xml.searchandreplace.search.Pattern;
 import org.jetbrains.plugins.xml.searchandreplace.ui.PredicateType;
 import org.jetbrains.plugins.xml.searchandreplace.ui.PredicateTypeRegistry;
@@ -47,7 +48,7 @@ public class PatternController implements PredicateControllerDelegate {
   }
 
   public Pattern buildPattern() {
-    Pattern pattern = new Pattern(new HashSet<Pattern.Node>());
+    Pattern pattern = new Pattern(new HashSet<Node>());
     if (root != null) {
       gatherNodes(pattern, root);
     }

@@ -1,5 +1,6 @@
 package org.jetbrains.plugins.xml.searchandreplace.ui.predicatetypes;
 
+import org.jetbrains.plugins.xml.searchandreplace.search.Node;
 import org.jetbrains.plugins.xml.searchandreplace.search.Pattern;
 import org.jetbrains.plugins.xml.searchandreplace.ui.PredicateType;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.PredicateTypeController;
@@ -26,9 +27,9 @@ public class Contains extends PredicateType {
     return p == Params.NOT ? "Not contains" : "Contains";
   }
 
-  public void addNodeToPattern(Pattern p, Pattern.Node node, Pattern.Node parent) {
+  public void addNodeToPattern(Pattern p, Node node, Node parent) {
     parent.getChildren().add(node);
-    p.getAllNodes().add(node);
+    p.getUnmatchedNodes().add(node);
   }
 
 }

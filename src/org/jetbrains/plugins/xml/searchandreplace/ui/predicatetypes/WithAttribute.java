@@ -1,6 +1,7 @@
 package org.jetbrains.plugins.xml.searchandreplace.ui.predicatetypes;
 
 import com.intellij.psi.xml.XmlAttribute;
+import org.jetbrains.plugins.xml.searchandreplace.search.Node;
 import org.jetbrains.plugins.xml.searchandreplace.search.Pattern;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.And;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.AttributePredicate;
@@ -151,12 +152,12 @@ public class WithAttribute extends PredicateType {
     return new WithAttributeController();
   }
 
-  public void addNodeToPattern(Pattern p, Pattern.Node node, Pattern.Node parent) {
+  public void addNodeToPattern(Pattern p, Node node, Node parent) {
     if (parent != null) {
       And predicate = new And(parent.getPredicate(), node.getPredicate());
       parent.setPredicate(predicate);
     } else {
-      p.getAllNodes().add(node);
+      p.getUnmatchedNodes().add(node);
     }
   }
 

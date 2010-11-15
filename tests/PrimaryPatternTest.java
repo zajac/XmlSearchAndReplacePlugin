@@ -1,9 +1,10 @@
+import org.jetbrains.plugins.xml.searchandreplace.search.Node;
 import org.jetbrains.plugins.xml.searchandreplace.search.Pattern;
 
 public class PrimaryPatternTest extends XmlSearchTestCase {
 
   static Pattern createPattern() {
-    Pattern.Node n = new Pattern.Node(tag("TAG"), true);
+    Node n = new Node(tag("TAG"), true);
     return new Pattern(l(n));
   }
 

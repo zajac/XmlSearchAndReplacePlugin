@@ -4,6 +4,7 @@ import com.intellij.psi.PsiFile;
 import com.intellij.psi.xml.XmlElement;
 import com.intellij.psi.xml.XmlFile;
 import com.intellij.psi.xml.XmlTag;
+import org.jetbrains.plugins.xml.searchandreplace.search.Node;
 import org.jetbrains.plugins.xml.searchandreplace.search.Pattern;
 import org.jetbrains.plugins.xml.searchandreplace.search.TagSearchObserver;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.Not;
@@ -29,8 +30,8 @@ public abstract class XmlSearchTestCase extends CodeInsightTestCase {
     this.pattern = pattern;
   }
 
-  protected static HashSet<Pattern.Node> l(Pattern.Node... nodes) {
-    return new HashSet<Pattern.Node>(Arrays.asList(nodes));
+  protected static HashSet<Node> l(Node... nodes) {
+    return new HashSet<Node>(Arrays.asList(nodes));
   }
 
   protected static XmlElementPredicate notTag(String tag) {

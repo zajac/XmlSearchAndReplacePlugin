@@ -1,5 +1,6 @@
 package org.jetbrains.plugins.xml.searchandreplace.ui.controller.search;
 
+import org.jetbrains.plugins.xml.searchandreplace.search.Node;
 import org.jetbrains.plugins.xml.searchandreplace.search.Pattern;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.XmlElementPredicate;
 import org.jetbrains.plugins.xml.searchandreplace.ui.PredicateType;
@@ -20,7 +21,7 @@ public class PredicateController implements PredicatePanelDelegate {
 
   private PredicateController parent;
 
-  private Pattern.Node builtNode;
+  private Node builtNode;
 
   public PredicateController(boolean canHaveChildren, PredicateController parent) {
     this.parent = parent;
@@ -79,7 +80,7 @@ public class PredicateController implements PredicatePanelDelegate {
     }
   }
 
-  public Pattern.Node getBuiltNode() {
+  public Node getBuiltNode() {
     return builtNode;
   }
 
@@ -87,8 +88,8 @@ public class PredicateController implements PredicatePanelDelegate {
     if (predicateTypeController == null) return;
     XmlElementPredicate predicate = predicateTypeController.buildPredicate();
     if (predicate != null) {
-      builtNode = new Pattern.Node(predicate, parent == null);
-      Pattern.Node parentNode = parent == null ? null : parent.getBuiltNode();
+      builtNode = new Node(predicate, parent == null);
+      Node parentNode = parent == null ? null : parent.getBuiltNode();
       if (parent == null || parentNode != null) {
         selectedPredicateType.addNodeToPattern(p, builtNode, parentNode);
       }

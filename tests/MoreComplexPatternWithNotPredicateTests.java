@@ -1,16 +1,17 @@
+import org.jetbrains.plugins.xml.searchandreplace.search.Node;
 import org.jetbrains.plugins.xml.searchandreplace.search.Pattern;
 
 public class MoreComplexPatternWithNotPredicateTests extends XmlSearchTestCase {
 
   static Pattern createPattern() {
-    Pattern.Node n = new Pattern.Node(tag("TAG"), true);
-    Pattern.Node n1 = new Pattern.Node(notTag("TAG1"), false);
-    Pattern.Node n2 = new Pattern.Node(tag("TAG2"), false);
-    Pattern.Node n3 = new Pattern.Node(tag("TAG3"), false);
-    Pattern.Node n4 = new Pattern.Node(tag("TAG4"), false);
-    Pattern.Node n5 = new Pattern.Node(tag("TAG5"), false);
-    Pattern.Node n6 = new Pattern.Node(tag("TAG6"), false);
-    Pattern.Node n7 = new Pattern.Node(notTag("TAG7"), false);
+    Node n = new Node(tag("TAG"), true);
+    Node n1 = new Node(notTag("TAG1"), false);
+    Node n2 = new Node(tag("TAG2"), false);
+    Node n3 = new Node(tag("TAG3"), false);
+    Node n4 = new Node(tag("TAG4"), false);
+    Node n5 = new Node(tag("TAG5"), false);
+    Node n6 = new Node(tag("TAG6"), false);
+    Node n7 = new Node(notTag("TAG7"), false);
 
     n1.setChildren(l(n2, n3));
     n2.setChildren(l(n));

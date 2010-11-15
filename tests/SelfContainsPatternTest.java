@@ -1,3 +1,4 @@
+import org.jetbrains.plugins.xml.searchandreplace.search.Node;
 import org.jetbrains.plugins.xml.searchandreplace.search.Pattern;
 
 /**
@@ -10,8 +11,8 @@ import org.jetbrains.plugins.xml.searchandreplace.search.Pattern;
 public class SelfContainsPatternTest extends XmlSearchTestCase {
 
   private static Pattern createPattern() {
-    Pattern.Node n = new Pattern.Node(tag("div"), true);
-    Pattern.Node child = new Pattern.Node(tag("div"), false);
+    Node n = new Node(tag("div"), true);
+    Node child = new Node(tag("div"), false);
     n.setChildren(l(child));
     return new Pattern(l(n, child));
   }

@@ -1,11 +1,12 @@
+import org.jetbrains.plugins.xml.searchandreplace.search.Node;
 import org.jetbrains.plugins.xml.searchandreplace.search.Pattern;
 
 public class OneComplicatedTest extends XmlSearchTestCase {
   private static Pattern createPattern() {
-    Pattern.Node n0 = new Pattern.Node(tag("TAG"), false);
-    Pattern.Node n1 = new Pattern.Node(tag("TAG3"), false);
-    Pattern.Node n2 = new Pattern.Node(tag("TAG4"), false);
-    Pattern.Node n = new Pattern.Node(tag("BAZ"), true);
+    Node n0 = new Node(tag("TAG"), false);
+    Node n1 = new Node(tag("TAG3"), false);
+    Node n2 = new Node(tag("TAG4"), false);
+    Node n = new Node(tag("BAZ"), true);
     n0.setChildren(l(n1, n, n2));
     return new Pattern(l(n0, n1, n2, n));
   }

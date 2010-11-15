@@ -1,10 +1,11 @@
+import org.jetbrains.plugins.xml.searchandreplace.search.Node;
 import org.jetbrains.plugins.xml.searchandreplace.search.Pattern;
 
 public class PrimaryPatternWithNotPredicateTest extends XmlSearchTestCase {
 
   static Pattern createPattern() {
-    Pattern.Node n = new Pattern.Node(tag("TAG"), true);
-    Pattern.Node n1 = new Pattern.Node(notTag("TAG1"), false);
+    Node n = new Node(tag("TAG"), true);
+    Node n1 = new Node(notTag("TAG1"), false);
     n1.setChildren(l(n));
     return new Pattern(l(n, n1));
   }
