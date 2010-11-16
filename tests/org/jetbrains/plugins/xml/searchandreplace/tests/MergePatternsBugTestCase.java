@@ -25,5 +25,9 @@ public class MergePatternsBugTestCase extends XmlSearchTestCase {
             "    </TAG>\n" +
             "</TAG1>").results.size() == 2);
   }
+
+  public void testMergeBugWithoutWhitespaces() throws Throwable {
+    assertTrue(match("<TAG1><t/><TAG><t/></TAG></TAG1>").results.size() == 2);
+  }
 }
 

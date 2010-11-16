@@ -16,7 +16,6 @@ public class Pattern implements Cloneable {
 
   private Node theOne;
 
-  private XmlElement candidate;
   private HashMap<Node, XmlElement> matchedNodes = new HashMap<Node, XmlElement>();
 
   private HashSet<Node> unmatchedNodes;
@@ -206,6 +205,10 @@ public class Pattern implements Cloneable {
     return reduced;
   }
 
+  public HashMap<Node, XmlElement> getMatchedNodes() {
+    return matchedNodes;
+  }
+
   private interface Criterium<T> {
     boolean value(T t1, T t2);
   }
@@ -287,14 +290,12 @@ public class Pattern implements Cloneable {
   }
 
   private boolean isEmptyOrContainsOnlyNot() {
-    boolean result = true;
     for (Node n : unmatchedNodes) {
       if (!(n instanceof Node.NeverSuccessfullNode)) {
-        result = false;
-        break;
+        return false;
       }
     }
-    return result;
+    return true;
   }
 
   private static Set<Pattern> matchChildren(XmlElement element, TagSearchObserver observer, Set<Pattern> patternSet) {
@@ -342,7 +343,7 @@ public class Pattern implements Cloneable {
     for (Pattern p : result) {
       if (p.isEmptyOrContainsOnlyNot()) {
         if (p.getCandidate() != null) {
-          observer.elementFound(p.getCandidate());
+          observer.elementFound(p, p.getCandidate());
         }
       }
     }

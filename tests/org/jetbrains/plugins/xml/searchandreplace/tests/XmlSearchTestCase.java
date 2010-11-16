@@ -21,7 +21,7 @@ public abstract class XmlSearchTestCase extends CodeInsightTestCase {
   protected static class TestSearchResults implements TagSearchObserver {
     HashSet<XmlElement> results = new HashSet<XmlElement>();
 
-    public void elementFound(XmlElement tag) {
+    public void elementFound(Pattern p, XmlElement tag) {
       results.add(tag);
     }
   }
