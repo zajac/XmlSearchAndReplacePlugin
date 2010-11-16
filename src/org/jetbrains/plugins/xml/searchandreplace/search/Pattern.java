@@ -110,6 +110,7 @@ public class Pattern implements Cloneable {
       for (Node n : unmatchedNodes) {
         if (!other.unmatchedNodes.contains(n)) {
           unmatchedNodes.remove(n);
+          matchedNodes.put(n, other.matchedNodes.get(n));
           changed = true;
           onceChanged = true;
           break;
@@ -205,17 +206,44 @@ public class Pattern implements Cloneable {
     return reduced;
   }
 
-  private static Map<XmlElement, Set<Pattern>> classifyByCandidate(Set<Pattern> patterns) {
+  private interface Criterium<T> {
+    boolean value(T t1, T t2);
+  }
+
+  private static <T> Collection<Set<T>> classify(Collection<T> collection, Criterium<T> f) {
+    Map<T, Set<T>> result = new HashMap<T, Set<T>>();
+    for (T element : collection) {
+      boolean found = false;
+      for (T otherElement : result.keySet()) {
+        if (f.value(element, otherElement)) {
+          result.get(otherElement).add(element);
+          found = true;
+        }
+      }
+      if (!found) {
+        HashSet<T> value = new HashSet<T>();
+        value.add(element);
+        result.put(element, value);
+      }
+    }
+    return result.values();
+  }
+
+  private static Collection<Set<Pattern>> classify(Set<Pattern> patterns) {
+//    return classify(patterns, new Criterium<Pattern>() {
+//      public boolean value(Pattern t1, Pattern t2) {
+//        return t1.getCandidate() == t2.getCandidate() || t1.getCandidate() == null || t2.getCandidate() == null;
+//      }
+//    });
+
     Map<XmlElement, Set<Pattern>> sort = new HashMap<XmlElement, Set<Pattern>>();
     for (Pattern p : patterns) {
-      if (p.getCandidate() != null) {
-        Set<Pattern> s = sort.get(p.getCandidate());
-        if (s == null) {
-          s = new HashSet<Pattern>();
-        }
-        s.add(p);
-        sort.put(p.getCandidate(), s);
+      Set<Pattern> s = sort.get(p.getCandidate());
+      if (s == null) {
+        s = new HashSet<Pattern>();
       }
+      s.add(p);
+      sort.put(p.getCandidate(), s);
     }
     for (Pattern p : patterns) {
       if (p.getCandidate() == null) {
@@ -228,21 +256,20 @@ public class Pattern implements Cloneable {
         }
       }
     }
-    return sort;
+    return sort.values();
   }
 
   private static Set<Pattern> mergePatterns(Set<Pattern> patterns) {
-    Map<XmlElement, Set<Pattern>> sort = classifyByCandidate(patterns);
+    Collection<Set<Pattern>> sort = classify(patterns);
     Set<Pattern> result = new HashSet<Pattern>();
-    for (XmlElement aCandidate : sort.keySet()) {
-      Set<Pattern> patternsForCandidate = sort.get(aCandidate);
+    for (Set<Pattern> patternsClass : sort) {
       Pattern newPattern = null;
-      for (Pattern p : patternsForCandidate) {
+      for (Pattern p : patternsClass) {
         if (p.getCandidate() != null) {
           newPattern = p;
         }
       }
-      for (Pattern p : patternsForCandidate) {
+      for (Pattern p : patternsClass) {
         if (p == newPattern) {
           continue;
         }
@@ -287,8 +314,23 @@ public class Pattern implements Cloneable {
     return mergePatterns(afterChildrenMatching);
   }
 
+  private boolean isReducableBy(XmlElement tag) {
+    for (Node root : roots) {
+      if (root.apply(tag)) {
+        return true;
+      }
+      if (root.isNot()) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   public Set<Pattern> match(XmlElement element, TagSearchObserver observer) {
-    Pattern reduced = this.reduced(element);
+    Pattern reduced = this;
+    if (isReducableBy(element)) {
+      reduced = reduced(element);
+    }
     Set<Pattern> forFurtherMatching = new HashSet<Pattern>();
     forFurtherMatching.add(reduced);
     if (reduced.matchedNodes.containsKey(theOne) && matchedNodes.containsKey(theOne)) {

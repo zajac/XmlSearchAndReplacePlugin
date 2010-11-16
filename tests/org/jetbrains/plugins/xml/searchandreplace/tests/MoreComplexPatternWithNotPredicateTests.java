@@ -1,3 +1,5 @@
+package org.jetbrains.plugins.xml.searchandreplace.tests;
+
 import org.jetbrains.plugins.xml.searchandreplace.search.Node;
 import org.jetbrains.plugins.xml.searchandreplace.search.Pattern;
 
