@@ -37,7 +37,7 @@ public class TagPredicateController extends PredicateTypeController {
 
       @Override
       public boolean applyToTag(XmlTag tag) {
-        return tag.getName().equals(tagName);
+        return tag.getName().matches(tagName);
       }
 
     });

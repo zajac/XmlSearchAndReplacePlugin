@@ -135,6 +135,7 @@ public class SearchAndReplaceMenuAction extends AnAction {
 
               public void highlightUsages(PsiFile file, Editor editor, boolean clearHighlights) {
                 //To change body of implemented methods use File | Settings | File Templates.
+                clearHighlights = true;
               }
 
               public boolean isValid() {
@@ -170,7 +171,7 @@ public class SearchAndReplaceMenuAction extends AnAction {
               }
 
               public boolean canNavigate() {
-                return false;  //To change body of implemented methods use File | Settings | File Templates.
+                return true;  //To change body of implemented methods use File | Settings | File Templates.
               }
 
               public boolean canNavigateToSource() {

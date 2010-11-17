@@ -195,15 +195,7 @@ public class Pattern implements Cloneable {
       for (Node n : roots) {
         XmlElement matchByOther = other.matchedNodes.get(n);
         if (matchByOther != null) {
-          Set<Node> nodeParents = new HashSet<Node>();
-          n.gatherParents(nodeParents);
-          boolean ok = true;
-          for (Node p : nodeParents) {
-            if (matchedNodes.get(p) != other.matchedNodes.get(p)) {
-              ok = false;
-            }
-          }
-          if (ok) {
+          if (matchedInTheSameWay(other, n)) {
             removeRoot(n);
             matchedNodes.put(n, matchByOther);
             onceChanged = changed = true;
@@ -220,16 +212,7 @@ public class Pattern implements Cloneable {
               }
             }
             if (foundNeverSuccess) {
-              Set<Node> nodeParents = new HashSet<Node>();
-
-              n.gatherParents(nodeParents);
-              boolean ok = true;
-              for (Node p : nodeParents) {
-                if (matchedNodes.get(p) != other.matchedNodes.get(p)) {
-                  ok = false;
-                }
-              }
-              if (ok) {
+              if (matchedInTheSameWay(other, n)) {
               Node.NeverSuccessfull e = new Node.NeverSuccessfull(n);
               unmatchedNodes.add(e);
               unmatchedNodes.remove(n);
@@ -244,6 +227,19 @@ public class Pattern implements Cloneable {
       }
     } while (changed);
     return onceChanged;
+  }
+
+  private boolean matchedInTheSameWay(Pattern other, Node n) {
+    Set<Node> nodeParents = new HashSet<Node>();
+
+    n.gatherParents(nodeParents);
+    boolean ok = true;
+    for (Node p : nodeParents) {
+      if (matchedNodes.get(p) != other.matchedNodes.get(p)) {
+        ok = false;
+      }
+    }
+    return ok;
   }
 
   private static void mergePatterns(Set<Pattern> patterns) {
