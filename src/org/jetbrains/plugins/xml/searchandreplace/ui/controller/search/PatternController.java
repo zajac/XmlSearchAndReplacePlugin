@@ -53,7 +53,7 @@ public class PatternController implements PredicateControllerDelegate {
       gatherNodes(pattern, root);
     }
 
-    pattern.validateNodes();
+    pattern.endBuild();
     return pattern;
   }
 

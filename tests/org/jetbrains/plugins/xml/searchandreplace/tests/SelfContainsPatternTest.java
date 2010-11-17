@@ -24,6 +24,6 @@ public class SelfContainsPatternTest extends XmlSearchTestCase {
   }
 
   public void testThisSlyCase() throws Throwable {
-    assertTrue(match("<div attr=\"fuckenAttribute\"><div></div></div>").results.size() == 1);
+    assertTrue(match("<div><div></div></div>").results.size() == 1);
   }
 }

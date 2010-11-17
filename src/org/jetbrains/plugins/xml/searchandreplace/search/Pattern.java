@@ -22,13 +22,7 @@ public class Pattern implements Cloneable {
 
   public Pattern(HashSet<Node> nodes) {
     unmatchedNodes = nodes;
-    validateNodes();
-    for (Node n : unmatchedNodes) {
-      if (n.isTheOne()) {
-        theOne = n;
-        break;
-      }
-    }
+    endBuild();
   }
 
   public Node getTheOne() {
@@ -64,13 +58,14 @@ public class Pattern implements Cloneable {
     roots = (HashSet<Node>) unmatchedNodes.clone();
     parentsNum = new HashMap<Node, Integer>();
     for (Node n : unmatchedNodes) {
+
       matchedNodes.remove(n);
       if (n.isTheOne()) {
         theOne = n;
       }
       for (Node c : unmatchedChildrenOfNode(n)) {
         roots.remove(c);
-        setParentsNum(c, getParentsNum(c) + 1);
+        retain(c);
       }
     }
   }
@@ -81,7 +76,6 @@ public class Pattern implements Cloneable {
                    "\nroots=" + roots +
                    ",\n parentsNum=" + parentsNum +
                    ",\n theOne=" + theOne +
-                   ",\n candidate=" + getCandidate() +
                    ",\n unmatchedNodes=" + unmatchedNodes +
                    "}\n";
   }
@@ -101,35 +95,30 @@ public class Pattern implements Cloneable {
     return result;
   }
 
-  private void rm(Pattern other) {
-    assert getCandidate() == null || other.getCandidate() == null || other.getCandidate() == getCandidate() : "FUCKEN FUCK!!";
-    boolean changed, onceChanged = false;
-    do {
-      changed = false;
-      for (Node n : unmatchedNodes) {
-        if (!other.unmatchedNodes.contains(n)) {
-          unmatchedNodes.remove(n);
-          matchedNodes.put(n, other.matchedNodes.get(n));
-          changed = true;
-          onceChanged = true;
-          break;
-        }
-      }
-    } while (changed);
-    if (onceChanged) {
-      validateNodes();
-    }
-  }
-
   private void removeRoot(Node root) {
     roots.remove(root);
     for (Node child : unmatchedChildrenOfNode(root)) {
-      setParentsNum(child, getParentsNum(child) - 1);
+      release(child);
       if (getParentsNum(child) == 0) {
         roots.add(child);
       }
     }
     unmatchedNodes.remove(root);
+  }
+
+  private void release(Node child) {
+    int parentsNum = getParentsNum(child);
+    setParentsNum(child, parentsNum - 1);
+    if (parentsNum == 1) {
+      roots.add(child);
+    }
+  }
+
+  private void retain(Node child) {
+    setParentsNum(child, getParentsNum(child) + 1);
+    if (roots.contains(child)) {
+      roots.remove(child);
+    }
   }
 
   private void repair(Node n, boolean needValidate) {
@@ -148,20 +137,6 @@ public class Pattern implements Cloneable {
     return result;
   }
 
-  private void replaceRoot(Node root, Node newRoot) {
-    if (roots.contains(root)) {
-      removeRoot(root);
-      unmatchedNodes.add(newRoot);
-      roots.add(newRoot);
-      for (Node child : unmatchedChildrenOfNode(newRoot)) {
-        if (roots.contains(child)) {
-          roots.remove(child);
-        }
-        setParentsNum(child, getParentsNum(child) + 1);
-      }
-    }
-  }
-
   private static boolean isEmpty(Iterable i) {
     for (Object o : i) {
       return false;
@@ -169,32 +144,36 @@ public class Pattern implements Cloneable {
     return true;
   }
 
-  private boolean reduce(XmlElement tag, Node node) {
-    if (node.apply(tag)) {
-      matchedNodes.put(node, tag);
+  private void reduce(XmlElement tag, Node node) {
+    if (roots.contains(node)) {
       if (node.isNot()) {
-        Set<Node> successfullChildren = new HashSet<Node>();
-        for (Node child : unmatchedChildrenOfNode(node)) {
-          if (reduce(tag, child)) {
-            successfullChildren.add(child);
+        if (node.apply(tag)) {
+          if (!node.getChildren().isEmpty()) {
+            removeRoot(node);
+            for (Node child : unmatchedChildrenOfNode(node)) {
+              reduce(tag, child);
+            }
+            for (Node child : unmatchedChildrenOfNode(node)) {
+              retain(child);
+            }
+            if (!isEmpty(unmatchedChildrenOfNode(node))) {
+              roots.add(node);
+              unmatchedNodes.add(node);
+            }
           }
-        }
-        Node newRoot = node.mutableNotNodeInstanceByRemovingChildren(successfullChildren);
-        if (isEmpty(unmatchedChildrenOfNode(newRoot))) {
-          removeRoot(node);
-          return true;
         } else {
-          replaceRoot(node, newRoot);
+          removeRoot(node);
+          Node neverSuccess = new Node.NeverSuccessfull(node);
+          unmatchedNodes.add(neverSuccess);
+          roots.add(neverSuccess);
         }
-
       } else {
-        removeRoot(node);
-        return true;
+        if (node.apply(tag)) {
+          matchedNodes.put(node, tag);
+          removeRoot(node);
+        }
       }
-    } else if (node.isNot()) {
-      replaceRoot(node, node.neverSuccessfullNode());
     }
-    return false;
   }
 
   private Pattern reduced(XmlElement tag) {
@@ -209,93 +188,95 @@ public class Pattern implements Cloneable {
     return matchedNodes;
   }
 
-  private interface Criterium<T> {
-    boolean value(T t1, T t2);
-  }
-
-  private static <T> Collection<Set<T>> classify(Collection<T> collection, Criterium<T> f) {
-    Map<T, Set<T>> result = new HashMap<T, Set<T>>();
-    for (T element : collection) {
-      boolean found = false;
-      for (T otherElement : result.keySet()) {
-        if (f.value(element, otherElement)) {
-          result.get(otherElement).add(element);
-          found = true;
-        }
-      }
-      if (!found) {
-        HashSet<T> value = new HashSet<T>();
-        value.add(element);
-        result.put(element, value);
-      }
-    }
-    return result.values();
-  }
-
-  private static Collection<Set<Pattern>> classify(Set<Pattern> patterns) {
-//    return classify(patterns, new Criterium<Pattern>() {
-//      public boolean value(Pattern t1, Pattern t2) {
-//        return t1.getCandidate() == t2.getCandidate() || t1.getCandidate() == null || t2.getCandidate() == null;
-//      }
-//    });
-
-    Map<XmlElement, Set<Pattern>> sort = new HashMap<XmlElement, Set<Pattern>>();
-    for (Pattern p : patterns) {
-      Set<Pattern> s = sort.get(p.getCandidate());
-      if (s == null) {
-        s = new HashSet<Pattern>();
-      }
-      s.add(p);
-      sort.put(p.getCandidate(), s);
-    }
-    for (Pattern p : patterns) {
-      if (p.getCandidate() == null) {
-        Set<XmlElement> keySet = sort.keySet();
-        if (keySet.isEmpty()) {
-          sort.put(null, new HashSet<Pattern>());
-        }
-        for (XmlElement key : sort.keySet()) {
-          sort.get(key).add(p);
-        }
-      }
-    }
-    return sort.values();
-  }
-
-  private static Set<Pattern> mergePatterns(Set<Pattern> patterns) {
-    Collection<Set<Pattern>> sort = classify(patterns);
-    Set<Pattern> result = new HashSet<Pattern>();
-    for (Set<Pattern> patternsClass : sort) {
-      Pattern newPattern = null;
-      for (Pattern p : patternsClass) {
-        if (p.getCandidate() != null) {
-          newPattern = p;
-        }
-      }
-      for (Pattern p : patternsClass) {
-        if (p == newPattern) {
-          continue;
-        }
-        if (newPattern == null) {
-          newPattern = p;
+  private boolean substract(Pattern other) {
+    boolean changed, onceChanged = false;
+    do {
+      changed = false;
+      for (Node n : roots) {
+        XmlElement matchByOther = other.matchedNodes.get(n);
+        if (matchByOther != null) {
+          Set<Node> nodeParents = new HashSet<Node>();
+          n.gatherParents(nodeParents);
+          boolean ok = true;
+          for (Node p : nodeParents) {
+            if (matchedNodes.get(p) != other.matchedNodes.get(p)) {
+              ok = false;
+            }
+          }
+          if (ok) {
+            removeRoot(n);
+            matchedNodes.put(n, matchByOther);
+            onceChanged = changed = true;
+            break;
+          }
         } else {
-          newPattern.rm(p);
+          if (n.isNot()) {
+            boolean foundNeverSuccess = false;
+            for (Node othersNode : other.unmatchedNodes) {
+              if (othersNode instanceof Node.NeverSuccessfull) {
+                if (((Node.NeverSuccessfull)othersNode).getUnderlyingNode() == n) {
+                  foundNeverSuccess = true;
+                }
+              }
+            }
+            if (foundNeverSuccess) {
+              Set<Node> nodeParents = new HashSet<Node>();
+
+              n.gatherParents(nodeParents);
+              boolean ok = true;
+              for (Node p : nodeParents) {
+                if (matchedNodes.get(p) != other.matchedNodes.get(p)) {
+                  ok = false;
+                }
+              }
+              if (ok) {
+              Node.NeverSuccessfull e = new Node.NeverSuccessfull(n);
+              unmatchedNodes.add(e);
+              unmatchedNodes.remove(n);
+              roots.add(e);
+              roots.remove(n);
+              onceChanged = changed = true;
+              break;
+              }
+            }
+          }
         }
       }
-      if (newPattern != null) {
-        result.add(newPattern);
-      }
-    }
-    return result;
+    } while (changed);
+    return onceChanged;
   }
 
-  private boolean isEmptyOrContainsOnlyNot() {
-    for (Node n : unmatchedNodes) {
-      if (!(n instanceof Node.NeverSuccessfullNode)) {
-        return false;
+  private static void mergePatterns(Set<Pattern> patterns) {
+    boolean done;
+    do {
+      done = true;
+      for (Pattern p : patterns) {
+        for (Pattern other : patterns) {
+          if (other != p) {
+            if (p.substract(other)) {
+              done = false;
+            }
+          }
+        }
       }
-    }
-    return true;
+    } while (!done);
+
+    boolean changed;
+    do {
+      changed = false;
+      for (Pattern p : patterns) {
+        for (Pattern other : patterns) {
+          if (p != other && p.matchedNodes.equals(other.matchedNodes)) {
+            changed = true;
+            patterns.remove(other);
+            break;
+          }
+        }
+        if (changed) {
+          break;
+        }
+      }
+    } while (changed);
   }
 
   private static Set<Pattern> matchChildren(XmlElement element, TagSearchObserver observer, Set<Pattern> patternSet) {
@@ -304,7 +285,7 @@ public class Pattern implements Cloneable {
       if (c instanceof XmlTag || c instanceof XmlText) {
         XmlElement child = (XmlElement) c;
         for (Pattern p : patternSet) {
-          Set<Pattern> matchChildResult = p.match(child, observer);
+          Set<Pattern> matchChildResult = p.match(child, observer, false);
           afterChildrenMatching.addAll(matchChildResult);
         }
       }
@@ -312,37 +293,32 @@ public class Pattern implements Cloneable {
     if (afterChildrenMatching.isEmpty()) {
       return patternSet;
     }
-    return mergePatterns(afterChildrenMatching);
+    return afterChildrenMatching;
   }
 
-  private boolean isReducableBy(XmlElement tag) {
-    for (Node root : roots) {
-      if (root.apply(tag)) {
-        return true;
-      }
-      if (root.isNot()) {
-        return true;
+  private boolean isEmptyOrContainsOnlyNot(Pattern p) {
+    for (Node n : p.unmatchedNodes) {
+      if (!n.isNot()) {
+        return false;
       }
     }
-    return false;
+    return true;
   }
 
-  public Set<Pattern> match(XmlElement element, TagSearchObserver observer) {
-    Pattern reduced = this;
-    if (isReducableBy(element)) {
-      reduced = reduced(element);
-    }
+  public Set<Pattern> match(XmlElement element, TagSearchObserver observer, boolean root) {
+    Pattern reduced = reduced(element);
     Set<Pattern> forFurtherMatching = new HashSet<Pattern>();
     forFurtherMatching.add(reduced);
-    if (reduced.matchedNodes.containsKey(theOne) && matchedNodes.containsKey(theOne)) {
+    if (reduced.matchedNodes.containsKey(theOne) && matchedNodes.containsKey(theOne) && reduced.theOne.apply(element)) {
       Pattern repaired = reduced.repaired();
       repaired.reduce(element, repaired.getTheOne());
       forFurtherMatching.add(repaired);
     }
     Set<Pattern> result = matchChildren(element, observer, forFurtherMatching);
-    for (Pattern p : result) {
-      if (p.isEmptyOrContainsOnlyNot()) {
-        if (p.getCandidate() != null) {
+    if (root) {
+      mergePatterns(result);
+      for (Pattern p : result) {
+        if (isEmptyOrContainsOnlyNot(p)) {
           observer.elementFound(p, p.getCandidate());
         }
       }
@@ -350,7 +326,23 @@ public class Pattern implements Cloneable {
     return result;
   }
 
+  public void match(XmlElement element, TagSearchObserver observer) {
+    match(element, observer, true);
+  }
+
   private XmlElement getCandidate() {
     return matchedNodes.get(theOne);
+  }
+
+  public void endBuild() {
+    for (Node n : unmatchedNodes) {
+      for (Node c : n.getChildren()) {
+        c.getParents().add(n);
+      }
+      if (n.isTheOne()) {
+        theOne = n;
+      }
+    }
+    validateNodes();
   }
 }

@@ -2,7 +2,7 @@ package org.jetbrains.plugins.xml.searchandreplace.search.predicates;
 
 import com.intellij.psi.xml.XmlElement;
 
-public class Not extends XmlElementPredicate {
+public class Not implements XmlElementPredicate {
 
   private static final String NOT = "NOT";
 
@@ -11,8 +11,7 @@ public class Not extends XmlElementPredicate {
   public Not(XmlElementPredicate predicate) {
     this.predicate = predicate;
   }
-
-  @Override
+  
   public boolean apply(XmlElement element) {
     return !predicate.apply(element);
   }

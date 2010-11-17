@@ -1,26 +1,43 @@
 package org.jetbrains.plugins.xml.searchandreplace.search;
 
+import com.intellij.openapi.util.UserDataHolderBase;
 import com.intellij.psi.xml.XmlElement;
+import org.jetbrains.plugins.xml.searchandreplace.search.predicates.False;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.Not;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.XmlElementPredicate;
 
 import java.util.HashSet;
 import java.util.Set;
 
-/**
-* Created by IntelliJ IDEA.
-* User: zajac
-* Date: Nov 15, 2010
-* Time: 4:04:39 PM
-* To change this template use File | Settings | File Templates.
-*/
-public class Node {
+public class Node extends UserDataHolderBase {
+
   private XmlElementPredicate predicate;
   private Set<Node> children = new HashSet<Node>();
+  private Set<Node> parents = new HashSet<Node>();
   private boolean theOne;
+
+
+  public static class NeverSuccessfull extends Node {
+
+    private Node node;
+
+    public NeverSuccessfull(Node node) {
+      super(new False());
+      this.node = node;
+    }
+
+    public Node getUnderlyingNode() {
+      return node;
+    }
+
+  }
 
   public XmlElementPredicate getPredicate() {
     return predicate;
+  }
+
+  public Set<Node> getParents() {
+    return parents;
   }
 
   public Set<Node> getChildren() {
@@ -36,8 +53,16 @@ public class Node {
     theOne = isTheOne;
   }
 
+  public Node(XmlElementPredicate predicate) {
+    this(predicate, false);
+  }
+
   public void setChildren(Set<Node> children) {
     this.children = children;
+  }
+
+  public boolean isNot() {
+    return predicate instanceof Not;
   }
 
   @Override
@@ -53,50 +78,15 @@ public class Node {
     return predicate.apply(tag);
   }
 
-  public boolean isNot() {
-    return predicate instanceof Not;
-  }
-
-  public Node mutableNotNodeInstanceByRemovingChildren(Set<Node> successfulChildren) {
-    if (successfulChildren.isEmpty()) return this;
-    class NotNode extends Node {
-      public NotNode(XmlElementPredicate predicate, boolean isTheOne) {
-        super(predicate, isTheOne);
-      }
-
-      @Override
-      public Node mutableNotNodeInstanceByRemovingChildren(Set<Node> successfulChildren) {
-        return this;
-      }
-    }
-    NotNode n = new NotNode(predicate, isTheOne());
-    Set<Node> newChildrenSet = new HashSet<Node>();
-    newChildrenSet.addAll(children);
-    newChildrenSet.removeAll(successfulChildren);
-    n.setChildren(newChildrenSet);
-    return n;
-  }
-
   public void setPredicate(XmlElementPredicate predicate) {
     this.predicate = predicate;
   }
 
-  static class NeverSuccessfullNode extends Node {
-    public NeverSuccessfullNode(boolean isTheOne) {
-      super(new XmlElementPredicate() {
-
-        @Override
-        public boolean apply(XmlElement element) {
-          return false;
-        }
-
-      }, isTheOne);
+  void gatherParents(Set<Node> nodeParents) {
+    nodeParents.addAll(getParents());
+    for (Node p : getParents()) {
+      p.gatherParents(nodeParents);
     }
   }
 
-  public Node neverSuccessfullNode() {
-    NeverSuccessfullNode result = new NeverSuccessfullNode(isTheOne());
-    result.setChildren(children);
-    return result;
-  }
 }
