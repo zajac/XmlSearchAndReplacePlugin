@@ -1,12 +1,19 @@
 package org.jetbrains.plugins.xml.searchandreplace.ui.controller.search;
 
+import com.intellij.openapi.util.Key;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.Not;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.XmlElementPredicate;
+import org.jetbrains.plugins.xml.searchandreplace.ui.Capture;
 
 import javax.swing.*;
+import java.util.ArrayList;
+import java.util.Collection;
 
 public abstract class PredicateTypeController {
 
+
+  public static final Key<PredicateTypeController> USER_DATA_KEY =
+          Key.create(PredicateTypeController.class.getName());
 
   public enum Params {NOT}
 
@@ -34,4 +41,9 @@ public abstract class PredicateTypeController {
   public boolean canBeChildOf(XmlElementPredicate predicate) {
     return true;
   }
+
+  public Collection<Capture> provideCaptures() {
+    return new ArrayList<Capture>();
+  }
+
 }

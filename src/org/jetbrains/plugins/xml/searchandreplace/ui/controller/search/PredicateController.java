@@ -15,12 +15,12 @@ public class PredicateController implements PredicatePanelDelegate {
 
   private PredicatePanel myView;
   private PredicateTypeController predicateTypeController;
+
   private PredicateType selectedPredicateType;
 
   private PredicateControllerDelegate delegate;
 
   private PredicateController parent;
-
   private Node builtNode;
 
   public PredicateController(boolean canHaveChildren, PredicateController parent) {
@@ -91,6 +91,7 @@ public class PredicateController implements PredicatePanelDelegate {
       builtNode = new Node(predicate, parent == null);
       Node parentNode = parent == null ? null : parent.getBuiltNode();
       if (parent == null || parentNode != null) {
+        builtNode.putUserData(PredicateTypeController.USER_DATA_KEY, predicateTypeController);
         selectedPredicateType.addNodeToPattern(p, builtNode, parentNode);
       }
     }
