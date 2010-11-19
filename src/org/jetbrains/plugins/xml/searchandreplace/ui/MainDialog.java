@@ -76,7 +76,7 @@ public class MainDialog extends DialogWrapper implements ContainerListener {
     setModal(false);
     setOKButtonText("Find");
 
-    patternView.addContainerListener(this);
+    patternView.addContainerListener(this);    
     replaceView.getReplacementSpecificView().addContainerListener(new ContainerListener() {
 
       public void componentAdded(ContainerEvent e) {

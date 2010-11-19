@@ -1,8 +1,11 @@
-package org.jetbrains.plugins.xml.searchandreplace.ui;
+package org.jetbrains.plugins.xml.searchandreplace.replace;
+
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.replace.Capture;
 
 import java.awt.*;
 
 public class CapturePresentation {
+
   public String getName() {
     return name;
   }
@@ -30,4 +33,14 @@ public class CapturePresentation {
   private String name;
   private Color textColor;
   private Color backgroundColor;
+
+  private Capture capture;
+
+  public Capture getCapture() {
+    return capture;
+  }
+
+  public void setCapture(Capture capture) {
+    this.capture = capture;
+  }
 }

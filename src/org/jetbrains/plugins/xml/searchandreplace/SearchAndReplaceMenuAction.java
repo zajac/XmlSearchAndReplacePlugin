@@ -27,11 +27,14 @@ import org.intellij.plugins.xpathView.search.SearchScope;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.plugins.xml.searchandreplace.replace.ReplacementProvider;
 import org.jetbrains.plugins.xml.searchandreplace.replace.Replacer;
+import org.jetbrains.plugins.xml.searchandreplace.search.Node;
 import org.jetbrains.plugins.xml.searchandreplace.search.Pattern;
 import org.jetbrains.plugins.xml.searchandreplace.search.TagSearchObserver;
 import org.jetbrains.plugins.xml.searchandreplace.ui.MainDialog;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 public class SearchAndReplaceMenuAction extends AnAction {
@@ -65,7 +68,6 @@ public class SearchAndReplaceMenuAction extends AnAction {
             Pattern pattern = dialog.getPattern();
             SearchScope scope = dialog.getSelectedScope();
             if (pattern != null && scope != null) {
-              Factory<UsageSearcher> factory = createUsageSearcherFactory(project, pattern, scope);
               SearchAndReplaceMenuAction.performSearchAndReplace(project, pattern, scope, dialog.getReplacementProvider());
             }
           }
@@ -76,7 +78,7 @@ public class SearchAndReplaceMenuAction extends AnAction {
 
   }
 
-  private static Factory<UsageSearcher> createUsageSearcherFactory(final Project project, final Pattern pattern, final SearchScope scope) {
+  private static Factory<UsageSearcher> createUsageSearcherFactory(final Project project, final Pattern pattern, final SearchScope scope, final Map<Usage, Map<Node, XmlElement>> searchResults) {
     return new Factory<UsageSearcher>() {
       public UsageSearcher create() {
         return new UsageSearcher() {
@@ -98,7 +100,9 @@ public class SearchAndReplaceMenuAction extends AnAction {
                               System.out.println();
 
                               foundTags.add(tag);
-                              usageProcessor.process(new UsageInfo2UsageAdapter(new UsageInfo(tag)));
+                              Usage usage = new UsageInfo2UsageAdapter(new UsageInfo(tag));
+                              searchResults.put(usage, pattern.getMatchedNodes());
+                              usageProcessor.process(usage);
                             }
                           }
                         });
@@ -120,8 +124,10 @@ public class SearchAndReplaceMenuAction extends AnAction {
     presentation.setUsagesString("");
     presentation.setTabText("XML Tag");
     presentation.setScopeText("");
-    Factory<UsageSearcher> searcherFactory = createUsageSearcherFactory(project, pattern, scope);
-    Replacer replacer = replacementProvider == null ? null : new Replacer(project, replacementProvider);
+
+    Map<Usage,Map<Node, XmlElement>> searchResults = new HashMap<Usage, Map<Node, XmlElement>>();
+    Replacer replacer = replacementProvider == null ? null : new Replacer(project, replacementProvider, searchResults);
+    Factory<UsageSearcher> searcherFactory = createUsageSearcherFactory(project, pattern, scope, searchResults);
     UsageView myUsageView = UsageViewManager.getInstance(project).searchAndShowUsages(
             new UsageTarget[]{new UsageTarget() {
 

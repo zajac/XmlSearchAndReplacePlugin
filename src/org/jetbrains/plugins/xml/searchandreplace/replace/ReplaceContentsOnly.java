@@ -3,6 +3,9 @@ package org.jetbrains.plugins.xml.searchandreplace.replace;
 import com.intellij.psi.xml.XmlElement;
 import com.intellij.psi.xml.XmlTag;
 import com.intellij.psi.xml.XmlTagChild;
+import org.jetbrains.plugins.xml.searchandreplace.search.Node;
+
+import java.util.Map;
 
 
 public class ReplaceContentsOnly extends ReplacementProvider {
@@ -14,10 +17,10 @@ public class ReplaceContentsOnly extends ReplacementProvider {
   }
 
   @Override
-  public XmlElement getReplacementFor(XmlElement element) {
+  public XmlElement getReplacementFor(XmlElement element, Map<Node, XmlElement> match) {
     if (element instanceof XmlTag) {
       XmlTag tag = (XmlTag)element;
-      XmlElement replacement = replacementProvider.getReplacementFor(element);
+      XmlElement replacement = replacementProvider.getReplacementFor(element, match);
       for (XmlTagChild child : tag.getValue().getChildren()) {
         child.delete();
       }

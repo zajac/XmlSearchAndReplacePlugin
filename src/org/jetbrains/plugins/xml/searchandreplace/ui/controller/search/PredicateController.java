@@ -1,5 +1,6 @@
 package org.jetbrains.plugins.xml.searchandreplace.ui.controller.search;
 
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.replace.Capture;
 import org.jetbrains.plugins.xml.searchandreplace.search.Node;
 import org.jetbrains.plugins.xml.searchandreplace.search.Pattern;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.XmlElementPredicate;
@@ -9,6 +10,7 @@ import org.jetbrains.plugins.xml.searchandreplace.ui.view.PredicatePanel;
 import org.jetbrains.plugins.xml.searchandreplace.ui.view.PredicatePanelDelegate;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class PredicateController implements PredicatePanelDelegate {
@@ -22,6 +24,7 @@ public class PredicateController implements PredicatePanelDelegate {
 
   private PredicateController parent;
   private Node builtNode;
+  private Collection<Capture> captures;
 
   public PredicateController(boolean canHaveChildren, PredicateController parent) {
     this.parent = parent;
@@ -69,6 +72,8 @@ public class PredicateController implements PredicatePanelDelegate {
     }
     predicateTypeController = selectedPredicateType.createNewController();
     myView.setPredicateTypeSpecificView(predicateTypeController.getView());
+    captures = predicateTypeController.provideCaptures(this);
+    myView.setCaptures(captures);
     if (getDelegate() != null) {
       getDelegate().validateMe(this);
     }
@@ -89,6 +94,9 @@ public class PredicateController implements PredicatePanelDelegate {
     XmlElementPredicate predicate = predicateTypeController.buildPredicate();
     if (predicate != null) {
       builtNode = new Node(predicate, parent == null);
+      for (Capture c : captures) {
+        c.setNode(builtNode);
+      }
       Node parentNode = parent == null ? null : parent.getBuiltNode();
       if (parent == null || parentNode != null) {
         builtNode.putUserData(PredicateTypeController.USER_DATA_KEY, predicateTypeController);

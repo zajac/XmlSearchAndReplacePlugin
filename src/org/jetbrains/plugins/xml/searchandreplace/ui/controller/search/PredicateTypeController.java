@@ -1,9 +1,9 @@
 package org.jetbrains.plugins.xml.searchandreplace.ui.controller.search;
 
 import com.intellij.openapi.util.Key;
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.replace.Capture;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.Not;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.XmlElementPredicate;
-import org.jetbrains.plugins.xml.searchandreplace.ui.Capture;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -42,7 +42,7 @@ public abstract class PredicateTypeController {
     return true;
   }
 
-  public Collection<Capture> provideCaptures() {
+  public Collection<Capture> provideCaptures(PredicateController predicateController) {
     return new ArrayList<Capture>();
   }
 

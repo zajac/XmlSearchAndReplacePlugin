@@ -1,6 +1,7 @@
 package org.jetbrains.plugins.xml.searchandreplace.ui.view.replace;
 
 import com.intellij.ide.highlighter.XmlFileType;
+import com.intellij.openapi.editor.impl.EditorImpl;
 import com.intellij.openapi.project.Project;
 import com.intellij.ui.EditorTextField;
 
@@ -21,6 +22,12 @@ public class ReplacementView extends JPanel {
   }
 
   private void createUIComponents() {
-    textField = new EditorTextField("", project, XmlFileType.INSTANCE);
+    textField = new EditorTextField("asdasd", project, XmlFileType.INSTANCE);
+
+  }
+
+  public EditorImpl getEditor() {
+    return (EditorImpl)textField.getEditor();
+
   }
 }

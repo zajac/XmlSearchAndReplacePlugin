@@ -51,6 +51,7 @@ public class ReplaceController implements ReplaceView.ReplaceViewDelegate {
   public void replacementTypeSelected(ReplaceView view, Object selectedItem) {
     myReplacementController = (ReplacementController) selectedItem;
     view.setReplacementSpecificView(myReplacementController.getView());
+    myReplacementController.viewDidAppear();
   }
 
   public ReplacementProvider getReplacementProvider() {

@@ -11,4 +11,5 @@ public abstract class ReplacementController {
 
   protected abstract ReplacementProvider getReplacementProvider();
 
+  public void viewDidAppear() {}
 }

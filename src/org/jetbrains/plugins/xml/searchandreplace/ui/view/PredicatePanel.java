@@ -1,6 +1,7 @@
 package org.jetbrains.plugins.xml.searchandreplace.ui.view;
 
 import com.intellij.ui.CollectionComboBoxModel;
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.replace.Capture;
 import org.jetbrains.plugins.xml.searchandreplace.ui.PredicateType;
 
 import javax.swing.*;
@@ -8,6 +9,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class PredicatePanel extends JPanel {
@@ -38,6 +40,7 @@ public class PredicatePanel extends JPanel {
   private JPanel centerPanel;
   private JButton removeButton;
   private JPanel indentPanel;
+  private JPanel capturesPanel;
   private int indent;
 
   public boolean canHaveChildren() {
@@ -131,5 +134,19 @@ public class PredicatePanel extends JPanel {
     addChildButton.setVisible(b);
     updateIndent();
     updateUI();
+  }
+
+  private void createUIComponents() {
+    capturesPanel = new JPanel();
+    capturesPanel.setLayout(new BoxLayout(capturesPanel, BoxLayout.PAGE_AXIS));    
+  }
+
+  public void setCaptures(Collection<Capture> captures) {
+    capturesPanel.removeAll();
+    for (Capture capture : captures) {
+      JComponent captureView = new CaptureView(capture);
+      capturesPanel.add(captureView);
+    }
+    capturesPanel.updateUI();
   }
 }

@@ -9,19 +9,23 @@ import com.intellij.usages.Usage;
 import com.intellij.usages.UsageInfo2UsageAdapter;
 import com.intellij.usages.UsageView;
 import com.intellij.usages.UsageViewManager;
+import org.jetbrains.plugins.xml.searchandreplace.search.Node;
 
 import javax.swing.*;
 import java.util.Collection;
+import java.util.Map;
 
 public class Replacer implements UsageViewManager.UsageViewStateListener {
 
   private Project project;
   private ReplacementProvider replacementProvider;
+  private Map<Usage, Map<Node, XmlElement>> searchResults;
   private UsageView usageView;
 
-  public Replacer(Project project, ReplacementProvider replacementProvider) {
+  public Replacer(Project project, ReplacementProvider replacementProvider, Map<Usage, Map<Node, XmlElement>> searchResults) {
     this.project = project;
     this.replacementProvider = replacementProvider;
+    this.searchResults = searchResults;
   }
 
   public void usageViewCreated(UsageView usageView) {
@@ -47,12 +51,12 @@ public class Replacer implements UsageViewManager.UsageViewStateListener {
     }
   }
 
-  private void doActualReplace(Usage u) {
+  private void doActualReplace(Usage u, Map<Node, XmlElement> match) {
     if (u instanceof UsageInfo2UsageAdapter) {
       PsiElement element = ((UsageInfo2UsageAdapter) u).getElement();
       if (element instanceof XmlElement) {
         XmlElement xmlElement = (XmlElement) element;
-        XmlElement replacement = replacementProvider.getReplacementFor(xmlElement);
+        XmlElement replacement = replacementProvider.getReplacementFor(xmlElement, match);
         if (replacement != xmlElement && replacement != null) {
           xmlElement.replace(replacement);
         }
@@ -67,7 +71,8 @@ public class Replacer implements UsageViewManager.UsageViewStateListener {
           public void run() {
             for (Usage u : usages) {
               if (usageView.getExcludedUsages().contains(u)) continue;
-              doActualReplace(u);
+              Map<Node, XmlElement> match = searchResults.get(u);
+              doActualReplace(u, match);
             }
           }
         });

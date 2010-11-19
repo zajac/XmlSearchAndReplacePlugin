@@ -3,6 +3,7 @@ package org.jetbrains.plugins.xml.searchandreplace.ui.controller.search;
 
 import org.jetbrains.plugins.xml.searchandreplace.search.Node;
 import org.jetbrains.plugins.xml.searchandreplace.search.Pattern;
+import org.jetbrains.plugins.xml.searchandreplace.ui.CapturePresentationFactory;
 import org.jetbrains.plugins.xml.searchandreplace.ui.PredicateType;
 import org.jetbrains.plugins.xml.searchandreplace.ui.PredicateTypeRegistry;
 import org.jetbrains.plugins.xml.searchandreplace.ui.view.PatternView;
@@ -92,6 +93,7 @@ public class PatternController implements PredicateControllerDelegate {
 
   public void removeMe(PredicateController predicateController) {
     removePredicateController(predicateController);
+    CapturePresentationFactory.instance().paredicateControllerIsDead(predicateController);
   }
 
   public void validateMe(PredicateController predicateController) {
@@ -105,6 +107,7 @@ public class PatternController implements PredicateControllerDelegate {
       }
     }
     predicateController.setCanHaveChildren(!allowedChildrenTypes.isEmpty());
+
   }
 
 }
