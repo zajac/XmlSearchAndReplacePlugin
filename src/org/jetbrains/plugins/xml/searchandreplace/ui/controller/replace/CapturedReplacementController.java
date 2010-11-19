@@ -51,11 +51,15 @@ public class CapturedReplacementController extends ReplacementController {
       @Override
       public XmlElement getReplacementFor(XmlElement element, Map<Node, XmlElement> match) {
         StringBuilder result = new StringBuilder(editor.getDocument().getText());
+        int offset = 0;
+
+        CaptureEntry prev = null;
         for (CaptureEntry entry : entries) {
           Capture capture = entry.capture;
           Node n = capture.getNode();
           String captureResolution = capture.value(match.get(n));
-          result.replace(entry.range.getStartOffset(), entry.range.getEndOffset(), captureResolution);
+          result.replace(entry.range.getStartOffset() + offset, entry.range.getEndOffset(), captureResolution);
+          offset += captureResolution.length() - entry.range.getEndOffset() + entry.range.getStartOffset();
         }
         return Utils.createXmlElement(language, project, result.toString());
       }
