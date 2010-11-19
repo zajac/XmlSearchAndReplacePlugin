@@ -2,7 +2,7 @@ package org.jetbrains.plugins.xml.searchandreplace.search.predicates;
 
 import com.intellij.psi.xml.XmlElement;
 
-public class Not implements XmlElementPredicate {
+public class Not extends XmlElementPredicate {
 
   private static final String NOT = "NOT";
 

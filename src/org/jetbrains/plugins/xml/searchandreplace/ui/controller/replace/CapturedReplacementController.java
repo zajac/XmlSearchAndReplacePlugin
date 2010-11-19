@@ -11,8 +11,11 @@ import org.jetbrains.plugins.xml.searchandreplace.search.Node;
 
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+
+import static java.util.Collections.sort;
 
 public class CapturedReplacementController extends ReplacementController {
 
@@ -52,12 +55,24 @@ public class CapturedReplacementController extends ReplacementController {
       public XmlElement getReplacementFor(XmlElement element, Map<Node, XmlElement> match) {
         StringBuilder result = new StringBuilder(editor.getDocument().getText());
         int offset = 0;
-
+        sort(entries, new Comparator<CaptureEntry>() {
+          @Override
+          public int compare(CaptureEntry captureEntry, CaptureEntry captureEntry1) {
+            return captureEntry.range.getStartOffset() - captureEntry1.range.getStartOffset();
+          }
+        });
         CaptureEntry prev = null;
         for (CaptureEntry entry : entries) {
           Capture capture = entry.capture;
-          Node n = capture.getNode();
-          String captureResolution = capture.value(match.get(n));
+
+          Node key = null;
+          for (Map.Entry<Node, XmlElement> e : match.entrySet()) {
+            key = e.getKey();
+            if (key.getPredicate().flatten().contains(capture.getPredicate())) {
+              break;
+            }
+          }
+          String captureResolution = capture.value(match.get(key), key.getPredicate());
           result.replace(entry.range.getStartOffset() + offset, entry.range.getEndOffset(), captureResolution);
           offset += captureResolution.length() - entry.range.getEndOffset() + entry.range.getStartOffset();
         }

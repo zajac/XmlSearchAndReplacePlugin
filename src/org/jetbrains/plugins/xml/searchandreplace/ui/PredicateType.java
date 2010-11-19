@@ -10,7 +10,7 @@ public abstract class PredicateType {
 
   public abstract PredicateTypeController createNewController();
 
-  public abstract void addNodeToPattern(Pattern p, Node node, Node parent);
+  public abstract Node addNodeToPattern(Pattern p, Node node, Node parent);
 
   public List<PredicateType> getAllowedChildrenTypes() {
     return PredicateTypeRegistry.getInstance().getPredicateTypes();

@@ -27,9 +27,10 @@ public class Contains extends PredicateType {
     return p == Params.NOT ? "Not contains" : "Contains";
   }
 
-  public void addNodeToPattern(Pattern p, Node node, Node parent) {
+  public Node addNodeToPattern(Pattern p, Node node, Node parent) {
     parent.getChildren().add(node);
     p.getUnmatchedNodes().add(node);
+    return node;
   }
 
 }

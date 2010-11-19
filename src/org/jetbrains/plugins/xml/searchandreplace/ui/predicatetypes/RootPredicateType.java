@@ -12,8 +12,9 @@ public class RootPredicateType extends PredicateType {
     return new TagPredicateController();
   }
 
-  public void addNodeToPattern(Pattern p, Node node, Node parent) {
+  public Node addNodeToPattern(Pattern p, Node node, Node parent) {
     p.getUnmatchedNodes().add(node);
+    return node;
   }
 
 }

@@ -21,12 +21,14 @@ public class WithAttribute extends PredicateType {
     return new WithAttributeController();
   }
 
-  public void addNodeToPattern(Pattern p, Node node, Node parent) {
+  public Node addNodeToPattern(Pattern p, Node node, Node parent) {
     if (parent != null) {
       And predicate = new And(parent.getPredicate(), node.getPredicate());
       parent.setPredicate(predicate);
+      return parent;
     } else {
       p.getUnmatchedNodes().add(node);
+      return node;
     }
   }
 

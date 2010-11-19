@@ -95,13 +95,14 @@ public class PredicateController implements PredicatePanelDelegate {
     if (predicate != null) {
       builtNode = new Node(predicate, parent == null);
       for (Capture c : captures) {
-        c.setNode(builtNode);
+        c.setPredicate(predicate);
       }
       Node parentNode = parent == null ? null : parent.getBuiltNode();
       if (parent == null || parentNode != null) {
         builtNode.putUserData(PredicateTypeController.USER_DATA_KEY, predicateTypeController);
-        selectedPredicateType.addNodeToPattern(p, builtNode, parentNode);
+        builtNode = selectedPredicateType.addNodeToPattern(p, builtNode, parentNode);
       }
+
     }
   }
 

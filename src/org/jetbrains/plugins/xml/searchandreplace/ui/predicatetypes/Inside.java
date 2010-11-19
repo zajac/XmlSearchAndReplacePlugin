@@ -28,9 +28,10 @@ public class Inside extends PredicateType {
     return new TagPredicateController(p == Params.NOT ? PredicateTypeController.Params.NOT : null);
   }
 
-  public void addNodeToPattern(Pattern p, Node node, Node parent) {
+  public Node addNodeToPattern(Pattern p, Node node, Node parent) {
     p.getUnmatchedNodes().add(node);
     node.getChildren().add(parent);
+    return node;
   }
 
 }

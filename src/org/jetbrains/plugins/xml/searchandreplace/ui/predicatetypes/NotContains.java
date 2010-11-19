@@ -19,8 +19,8 @@ public class NotContains extends Contains {
   }
 
   @Override
-  public void addNodeToPattern(Pattern p, Node node, Node parent) {
-    super.addNodeToPattern(p, node, parent);
+  public Node addNodeToPattern(Pattern p, Node node, Node parent) {
+    return super.addNodeToPattern(p, node, parent);
 //    Node n = new Node(new XmlElementPredicate() {
 //      @Override
 //      public boolean apply(XmlElement element) {

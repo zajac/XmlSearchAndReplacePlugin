@@ -4,10 +4,13 @@ import com.intellij.psi.xml.XmlAttribute;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.AttributePredicate;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.HasSpecificAttribute;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.XmlElementPredicate;
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.replace.Capture;
 import org.jetbrains.plugins.xml.searchandreplace.ui.view.AttributePanel;
 
 import javax.swing.*;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 
 
 public class WithAttributeController extends PredicateTypeController {
@@ -141,5 +144,13 @@ public class WithAttributeController extends PredicateTypeController {
       }
 
     }));
+  }
+
+  @Override
+  public Collection<Capture> provideCaptures(PredicateController predicateController) {
+    ArrayList<Capture> captures = new ArrayList<Capture>();
+    captures.add(new AttributeNameCapture(predicateController));
+    captures.add(new AttributeValueCapture(predicateController));
+    return captures;
   }
 }
