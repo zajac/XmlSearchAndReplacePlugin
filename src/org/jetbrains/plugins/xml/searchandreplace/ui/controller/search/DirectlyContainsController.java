@@ -3,6 +3,7 @@ package org.jetbrains.plugins.xml.searchandreplace.ui.controller.search;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.DirectlyContains;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.XmlElementPredicate;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.replace.Capture;
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.captures.DirectlyContainsTagNameCapture;
 
 import java.util.ArrayList;
 import java.util.Collection;

@@ -5,6 +5,8 @@ import org.jetbrains.plugins.xml.searchandreplace.search.predicates.AttributePre
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.HasSpecificAttribute;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.XmlElementPredicate;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.replace.Capture;
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.captures.AttributeNameCapture;
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.captures.AttributeValueCapture;
 import org.jetbrains.plugins.xml.searchandreplace.ui.view.AttributePanel;
 
 import javax.swing.*;

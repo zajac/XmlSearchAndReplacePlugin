@@ -1,4 +1,4 @@
-package org.jetbrains.plugins.xml.searchandreplace.ui.controller.search;
+package org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.captures;
 
 import com.intellij.psi.xml.XmlAttribute;
 import com.intellij.psi.xml.XmlElement;
@@ -7,6 +7,7 @@ import org.jetbrains.plugins.xml.searchandreplace.replace.CapturePresentation;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.HasSpecificAttribute;
 import org.jetbrains.plugins.xml.searchandreplace.ui.CapturePresentationFactory;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.replace.Capture;
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.PredicateController;
 
 public class AttributeValueCapture extends Capture {
 

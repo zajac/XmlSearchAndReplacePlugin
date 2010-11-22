@@ -1,8 +1,9 @@
-package org.jetbrains.plugins.xml.searchandreplace.ui.controller.search;
+package org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.captures;
 
 import com.intellij.psi.xml.XmlElement;
 import com.intellij.psi.xml.XmlTag;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.DirectlyContains;
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.PredicateController;
 
 public class DirectlyContainsTagNameCapture extends TagNameCapture{
   public DirectlyContainsTagNameCapture(PredicateController predicateController) {

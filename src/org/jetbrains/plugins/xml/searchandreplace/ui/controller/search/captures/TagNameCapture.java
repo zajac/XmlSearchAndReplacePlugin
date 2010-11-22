@@ -1,10 +1,11 @@
-package org.jetbrains.plugins.xml.searchandreplace.ui.controller.search;
+package org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.captures;
 
 import com.intellij.psi.xml.XmlElement;
 import com.intellij.psi.xml.XmlTag;
 import org.jetbrains.plugins.xml.searchandreplace.replace.CapturePresentation;
 import org.jetbrains.plugins.xml.searchandreplace.ui.CapturePresentationFactory;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.replace.Capture;
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.PredicateController;
 
 class TagNameCapture extends Capture {
   private final PredicateController predicateController;
