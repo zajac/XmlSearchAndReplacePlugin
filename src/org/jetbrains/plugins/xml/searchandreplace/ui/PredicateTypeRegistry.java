@@ -27,6 +27,7 @@ public class PredicateTypeRegistry {
     registerPredicateType(new NotContains());
     registerPredicateType(new WithAttribute());
     registerPredicateType(new WithoutAttribute());
+    registerPredicateType(new DirectlyContains());
   }
 
   public void registerPredicateType(PredicateType predicateType) {
