@@ -1,8 +1,8 @@
 package org.jetbrains.plugins.xml.searchandreplace.ui.view;
 
 import com.intellij.ui.CollectionComboBoxModel;
-import org.jetbrains.plugins.xml.searchandreplace.ui.controller.replace.Capture;
 import org.jetbrains.plugins.xml.searchandreplace.ui.PredicateType;
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.replace.Capture;
 
 import javax.swing.*;
 import java.awt.*;
@@ -32,6 +32,7 @@ public class PredicatePanel extends JPanel {
 
     }
   };
+
   private PredicatePanelDelegate delegate = DUMMY_DELEGATE;
 
   private JButton addChildButton;
@@ -39,9 +40,12 @@ public class PredicatePanel extends JPanel {
   private JPanel predicateTypeSpecific;
   private JPanel centerPanel;
   private JButton removeButton;
-  private JPanel indentPanel;
   private JPanel capturesPanel;
-  private int indent;
+  private JPanel childrenSpace;
+
+  public JPanel getChildrenSpace() {
+    return childrenSpace;
+  }
 
   public boolean canHaveChildren() {
     return canHaveChildren;
@@ -90,7 +94,7 @@ public class PredicatePanel extends JPanel {
     predicateTypeSpecific.updateUI();
   }
 
-  public PredicatePanel(boolean canHaveChildren, boolean canBeRemoved, int indent) {
+  public PredicatePanel(boolean canHaveChildren, boolean canBeRemoved) {
     this.canHaveChildren = canHaveChildren;
 
     final PredicatePanel thisPanel = this;
@@ -115,30 +119,24 @@ public class PredicatePanel extends JPanel {
     if (!canHaveChildren) {
       addChildButton.setVisible(false);
     }
-    setIndent(indent);
     ((FlowLayout)predicateTypeSpecific.getLayout()).setVgap(0);
+    childrenSpace.setLayout(new BoxLayout(childrenSpace, BoxLayout.Y_AXIS));
+    childrenSpace.setAlignmentX(JComponent.LEFT_ALIGNMENT);
+    setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+    centerPanel.setAlignmentX(JComponent.LEFT_ALIGNMENT);
     add(centerPanel);
-  }
-
-  private void setIndent(int indent) {
-    this.indent = indent;
-    updateIndent();
-  }
-
-  private void updateIndent() {
-    indentPanel.setMinimumSize(new Dimension(30 * indent, 10));
+    childrenSpace.setVisible(false);
   }
 
   public void setCanHaveChildren(boolean b) {
     canHaveChildren = b;
     addChildButton.setVisible(b);
-    updateIndent();
     updateUI();
   }
 
   private void createUIComponents() {
     capturesPanel = new JPanel();
-    capturesPanel.setLayout(new BoxLayout(capturesPanel, BoxLayout.PAGE_AXIS));    
+    capturesPanel.setLayout(new BoxLayout(capturesPanel, BoxLayout.PAGE_AXIS));
   }
 
   public void setCaptures(Collection<Capture> captures) {
@@ -148,5 +146,21 @@ public class PredicatePanel extends JPanel {
       capturesPanel.add(captureView);
     }
     capturesPanel.updateUI();
+  }
+
+  public void addChildPredicatePanel(PredicatePanel panel) {
+    if (!childrenSpace.isVisible()) {
+      childrenSpace.setVisible(true);
+    }
+    panel.setAlignmentX(JComponent.LEFT_ALIGNMENT);
+    childrenSpace.add(panel);
+    childrenSpace.updateUI();
+  }
+
+  public void removeChildPredicatePanel(PredicatePanel view) {
+    childrenSpace.remove(view);
+    if (childrenSpace.getComponentCount() == 0) {
+      childrenSpace.setVisible(false);
+    }
   }
 }

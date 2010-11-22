@@ -94,7 +94,7 @@ public class SearchAndReplaceMenuAction extends AnAction {
                         XmlElement root = ((XmlFile) psiFile).getRootTag();
                         pattern.match(root, new TagSearchObserver() {
                           public void elementFound(Pattern pattern, XmlElement tag) {                            
-                            if (!foundTags.contains(tag)) {
+                            if (!foundTags.contains(tag) && tag != null) {
 
                               System.out.println(pattern.getMatchedNodes());
                               System.out.println();

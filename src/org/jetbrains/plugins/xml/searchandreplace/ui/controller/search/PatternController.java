@@ -12,6 +12,20 @@ import java.util.*;
 
 public class PatternController implements PredicateControllerDelegate {
 
+  public interface Delegate {
+    void pleaseAutoresizeWindow(PatternController c);
+  }
+
+  private Delegate delegate;
+
+  public Delegate getDelegate() {
+    return delegate;
+  }
+
+  public void setDelegate(Delegate delegate) {
+    this.delegate = delegate;
+  }
+
   private PatternView view = new PatternView();
   private Map<PredicateController, ArrayList<PredicateController>> predicatesTree = new HashMap<PredicateController, ArrayList<PredicateController>>();
   private PredicateController root;
@@ -24,6 +38,9 @@ public class PatternController implements PredicateControllerDelegate {
       predicatesTree.get(parent).add(pc);
     }
     view.addPredicateView(pc.getView(), parent == null ? null : parent.getView());
+    if (delegate != null) {
+      delegate.pleaseAutoresizeWindow(this);
+    }
   }
 
   private void removePredicateController(PredicateController predicateController) {
@@ -36,7 +53,12 @@ public class PatternController implements PredicateControllerDelegate {
     }
     predicatesTree.get(predicateController.getParent()).remove(predicateController);
     predicatesTree.remove(predicateController);
-    view.removePredicateView(predicateController.getView());
+    view.removePredicateView(predicateController.getView(), predicateController.getParent() != null ?
+            predicateController.getParent().getView() : null);
+    if (delegate != null) {
+      delegate.pleaseAutoresizeWindow(this);
+    }
+
   }
 
   public PatternView getView() {
@@ -108,6 +130,9 @@ public class PatternController implements PredicateControllerDelegate {
     }
     predicateController.setCanHaveChildren(!allowedChildrenTypes.isEmpty());
 
+    if (delegate != null) {
+      delegate.pleaseAutoresizeWindow(this);
+    }
   }
 
 }

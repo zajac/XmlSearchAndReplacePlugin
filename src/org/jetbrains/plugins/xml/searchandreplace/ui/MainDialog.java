@@ -16,10 +16,15 @@ import javax.swing.*;
 import java.awt.event.ContainerEvent;
 import java.awt.event.ContainerListener;
 
-public class MainDialog extends DialogWrapper implements ContainerListener {
+public class MainDialog extends DialogWrapper implements ContainerListener, PatternController.Delegate {
 
   private static PatternController ourPatternController = null;
-  private static ReplaceController ourReplaceController = null;
+
+
+  @Override
+  public void pleaseAutoresizeWindow(PatternController c) {
+    getWindow().pack();
+  }
 
   public interface MainDialogDelegate {
     void performSearch(MainDialog d);
@@ -35,10 +40,7 @@ public class MainDialog extends DialogWrapper implements ContainerListener {
     patternController = ourPatternController;
     patternView = patternController.getView();
 
-    if (ourReplaceController == null || ourReplaceController.getProject() != project || ourReplaceController.getLanguage() != XMLLanguage.INSTANCE) {
-      ourReplaceController = new ReplaceController(project, XMLLanguage.INSTANCE);
-    }
-    replaceController = ourReplaceController;
+    replaceController = new ReplaceController(project, XMLLanguage.INSTANCE);
     replaceView = replaceController.getView();
   }
 
@@ -86,6 +88,8 @@ public class MainDialog extends DialogWrapper implements ContainerListener {
       public void componentRemoved(ContainerEvent e) {
       }
     });
+
+    patternController.setDelegate(this);
 
     init();
   }

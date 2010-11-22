@@ -14,8 +14,14 @@ public class AttributePanel extends JPanel {
   private JTextField valueField;
 
   public AttributePanel(List comparators) {
-    comparatorChooser.setModel(new CollectionComboBoxModel(comparators, null));
+    if (comparators == null) {
+      valueField.setVisible(false);
+      comparatorChooser.setVisible(false);
+    } else {
+      comparatorChooser.setModel(new CollectionComboBoxModel(comparators, null));
+    }
     add(centerPanel);
+
   }
 
   public String getAttrName() {

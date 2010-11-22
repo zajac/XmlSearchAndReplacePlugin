@@ -12,8 +12,12 @@ public class CapturePresentationFactory {
   private static CapturePresentationFactory shared = new CapturePresentationFactory();
 
   private Map<PredicateController, Color> uniqueColors = new HashMap<PredicateController, Color>();
-  private static final Color[] COLORS = new Color[]{Color.BLUE, Color.RED, Color.GREEN};
-
+  private static final Color[] COLORS = new Color[]{Color.BLUE, Color.RED, Color.GREEN, Color.white,
+          Color.pink,
+          Color.orange,
+          Color.yellow,
+          Color.magenta,
+          Color.cyan};
   private CapturePresentationFactory(){}
 
   public static CapturePresentationFactory instance() {

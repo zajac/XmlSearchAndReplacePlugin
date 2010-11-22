@@ -47,10 +47,14 @@ public class TagPredicateController extends PredicateTypeController {
   }
 
   @Override
-  public Collection<Capture> provideCaptures(final PredicateController predicateController) {
-    ArrayList<Capture> captures = new ArrayList<Capture>();
-    captures.add(new TagNameCapture(predicateController));
-    return captures;
+  public Collection<Capture> provideCaptures(PredicateController predicateController) {
+    if (p != Params.NOT) {
+      ArrayList<Capture> captures = new ArrayList<Capture>();
+      captures.add(new TagNameCapture(predicateController));
+      return captures;
+    } else {
+      return super.provideCaptures(predicateController);
+    }
   }
 
 }

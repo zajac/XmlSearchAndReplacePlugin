@@ -28,7 +28,7 @@ public class PredicateController implements PredicatePanelDelegate {
 
   public PredicateController(boolean canHaveChildren, PredicateController parent) {
     this.parent = parent;
-    myView = new PredicatePanel(canHaveChildren, parent != null, getIndent());
+    myView = new PredicatePanel(canHaveChildren, parent != null);
     myView.setDelegate(this);
   }
 

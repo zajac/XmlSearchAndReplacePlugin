@@ -16,5 +16,5 @@ public abstract class Capture {
   }
 
   public abstract CapturePresentation presentation();
-  public abstract String value(XmlElement element, XmlElementPredicate predicate);
+  public abstract String value(XmlElement element);
 }

@@ -17,7 +17,7 @@ public abstract class PredicateTypeController {
 
   public enum Params {NOT}
 
-  Params p = null;
+  protected Params p = null;
 
   public PredicateTypeController() {
   }

@@ -53,16 +53,19 @@ public class CapturedReplacementController extends ReplacementController {
     return new ReplacementProvider() {
       @Override
       public XmlElement getReplacementFor(XmlElement element, Map<Node, XmlElement> match) {
-        StringBuilder result = new StringBuilder(editor.getDocument().getText());
-        int offset = 0;
+        String text = editor.getDocument().getText();
+        StringBuilder result = new StringBuilder();
+
         sort(entries, new Comparator<CaptureEntry>() {
           @Override
           public int compare(CaptureEntry captureEntry, CaptureEntry captureEntry1) {
             return captureEntry.range.getStartOffset() - captureEntry1.range.getStartOffset();
           }
         });
-        CaptureEntry prev = null;
+        int start = 0;
         for (CaptureEntry entry : entries) {
+          result.append(text.substring(start, entry.range.getStartOffset()));
+
           Capture capture = entry.capture;
 
           Node key = null;
@@ -72,9 +75,9 @@ public class CapturedReplacementController extends ReplacementController {
               break;
             }
           }
-          String captureResolution = capture.value(match.get(key), key.getPredicate());
-          result.replace(entry.range.getStartOffset() + offset, entry.range.getEndOffset(), captureResolution);
-          offset += captureResolution.length() - entry.range.getEndOffset() + entry.range.getStartOffset();
+          String captureResolution = capture.value(match.get(key));
+          result.append(captureResolution);
+          start = entry.range.getEndOffset();
         }
         return Utils.createXmlElement(language, project, result.toString());
       }

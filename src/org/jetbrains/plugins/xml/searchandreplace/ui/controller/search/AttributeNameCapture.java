@@ -5,7 +5,6 @@ import com.intellij.psi.xml.XmlElement;
 import com.intellij.psi.xml.XmlTag;
 import org.jetbrains.plugins.xml.searchandreplace.replace.CapturePresentation;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.HasSpecificAttribute;
-import org.jetbrains.plugins.xml.searchandreplace.search.predicates.XmlElementPredicate;
 import org.jetbrains.plugins.xml.searchandreplace.ui.CapturePresentationFactory;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.replace.Capture;
 
@@ -26,7 +25,7 @@ public class AttributeNameCapture extends Capture {
   }
 
   @Override
-  public String value(XmlElement element, XmlElementPredicate predicate) {
+  public String value(XmlElement element) {
     if (element instanceof XmlTag) {
       //Set<XmlElementPredicate> flatten = predicate.flatten();
       if (getPredicate().apply(element)) {
