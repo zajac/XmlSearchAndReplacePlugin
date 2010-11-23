@@ -7,7 +7,7 @@ import org.jetbrains.plugins.xml.searchandreplace.ui.CapturePresentationFactory;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.replace.Capture;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.PredicateController;
 
-class TagNameCapture extends Capture {
+public class TagNameCapture extends Capture {
   private final PredicateController predicateController;
 
   public TagNameCapture(PredicateController predicateController) {

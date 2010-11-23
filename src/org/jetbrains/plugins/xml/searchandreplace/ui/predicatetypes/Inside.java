@@ -25,7 +25,7 @@ public class Inside extends PredicateType {
   }
 
   public PredicateTypeController createNewController() {
-    return new TagPredicateController(p == Params.NOT ? PredicateTypeController.Params.NOT : null);
+    return new TagPredicateController(this, p == Params.NOT ? PredicateTypeController.Params.NOT : null, true);
   }
 
   public Node addNodeToPattern(Pattern p, Node node, Node parent) {

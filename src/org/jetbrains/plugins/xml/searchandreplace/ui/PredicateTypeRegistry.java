@@ -33,4 +33,13 @@ public class PredicateTypeRegistry {
   public void registerPredicateType(PredicateType predicateType) {
     predicateTypes.add(predicateType);
   }
+
+  public PredicateType byClass(Class c) {
+    for (PredicateType pt : predicateTypes) {
+      if (pt.getClass() == c) {
+        return  pt;
+      }
+    }
+    return null;
+  }
 }

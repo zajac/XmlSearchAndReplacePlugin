@@ -10,8 +10,4 @@ public class NotInside extends Inside {
     super(Params.NOT);
   }
 
-  @Override
-  public List<PredicateType> getAllowedChildrenTypes() {
-    return new ArrayList<PredicateType>();
-  }
 }

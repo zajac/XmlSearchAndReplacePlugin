@@ -20,7 +20,7 @@ public class Contains extends PredicateType {
   }
 
   public PredicateTypeController createNewController() {
-    return new TagPredicateController(p == Params.NOT ? TagPredicateController.Params.NOT : null);
+    return new TagPredicateController(this, p == Params.NOT ? TagPredicateController.Params.NOT : null, false);
   }
 
   public String toString() {

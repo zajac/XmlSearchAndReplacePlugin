@@ -11,7 +11,7 @@ import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.Predicate
 public class DirectlyContains extends PredicateType {
   @Override
   public PredicateTypeController createNewController() {
-    return new DirectlyContainsController();
+    return new DirectlyContainsController(this, false);
   }
 
   @Override

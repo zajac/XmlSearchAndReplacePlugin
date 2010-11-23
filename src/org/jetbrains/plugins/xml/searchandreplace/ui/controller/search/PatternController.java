@@ -94,7 +94,7 @@ public class PatternController implements PredicateControllerDelegate {
     PredicateType selectedPredicateType = predicateController.getSelectedPredicateType();
     if (selectedPredicateType == null) return;
 
-    List<PredicateType> allowedChildrenTypes = selectedPredicateType.getAllowedChildrenTypes();
+    Collection<PredicateType> allowedChildrenTypes = predicateController.getPredicateTypeController().getAllowedChildrenTypes();
     if (!allowedChildrenTypes.isEmpty()) {
       addPredicateController(new PredicateController(false, predicateController));
     }
@@ -105,9 +105,9 @@ public class PatternController implements PredicateControllerDelegate {
     if (parent == null) {
       return PredicateTypeRegistry.getInstance().getPredicateTypes();
     }
-    PredicateType selectedPredicateType = parent.getSelectedPredicateType();
-    if (selectedPredicateType != null) {
-      return selectedPredicateType.getAllowedChildrenTypes();
+
+    if (parent.getPredicateTypeController() != null) {
+      return parent.getPredicateTypeController().getAllowedChildrenTypes();
     } else {
       return new ArrayList<PredicateType>();
     }
@@ -121,7 +121,9 @@ public class PatternController implements PredicateControllerDelegate {
   public void validateMe(PredicateController predicateController) {
     PredicateType selectedPredicateType = predicateController.getSelectedPredicateType();
 
-    List<PredicateType> allowedChildrenTypes = selectedPredicateType == null ? new ArrayList<PredicateType>() : selectedPredicateType.getAllowedChildrenTypes();
+    PredicateTypeController predicateTypeController = predicateController.getPredicateTypeController();
+    Collection<PredicateType> allowedChildrenTypes = predicateTypeController == null ? new ArrayList<PredicateType>() :
+            predicateTypeController.getAllowedChildrenTypes();
     List<PredicateController> children = (List<PredicateController>) predicatesTree.get(predicateController).clone();
     for (PredicateController child : children) {
       if (!allowedChildrenTypes.contains(child.getSelectedPredicateType())) {

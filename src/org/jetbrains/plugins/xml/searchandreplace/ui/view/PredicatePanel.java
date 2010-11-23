@@ -143,6 +143,7 @@ public class PredicatePanel extends JPanel {
     capturesPanel.removeAll();
     for (Capture capture : captures) {
       JComponent captureView = new CaptureView(capture);
+      captureView.setAlignmentX(JComponent.RIGHT_ALIGNMENT);
       capturesPanel.add(captureView);
     }
     capturesPanel.updateUI();

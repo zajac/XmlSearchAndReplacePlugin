@@ -1,10 +1,10 @@
 package org.jetbrains.plugins.xml.searchandreplace.ui.controller.search;
 
-import org.jetbrains.plugins.xml.searchandreplace.ui.controller.replace.Capture;
 import org.jetbrains.plugins.xml.searchandreplace.search.Node;
 import org.jetbrains.plugins.xml.searchandreplace.search.Pattern;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.XmlElementPredicate;
 import org.jetbrains.plugins.xml.searchandreplace.ui.PredicateType;
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.replace.Capture;
 import org.jetbrains.plugins.xml.searchandreplace.ui.predicatetypes.RootPredicateType;
 import org.jetbrains.plugins.xml.searchandreplace.ui.view.PredicatePanel;
 import org.jetbrains.plugins.xml.searchandreplace.ui.view.PredicatePanelDelegate;
@@ -13,9 +13,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class PredicateController implements PredicatePanelDelegate {
+public class PredicateController implements PredicatePanelDelegate, PredicateTypeController.Delegate {
 
   private PredicatePanel myView;
+
+  public PredicateTypeController getPredicateTypeController() {
+    return predicateTypeController;
+  }
+
   private PredicateTypeController predicateTypeController;
 
   private PredicateType selectedPredicateType;
@@ -70,10 +75,13 @@ public class PredicateController implements PredicatePanelDelegate {
     } else {
       selectedPredicateType = new RootPredicateType();
     }
+    if (predicateTypeController != null) {
+      predicateTypeController.setDelegate(null);
+    }
     predicateTypeController = selectedPredicateType.createNewController();
+    predicateTypeController.setDelegate(this);
     myView.setPredicateTypeSpecificView(predicateTypeController.getView());
-    captures = predicateTypeController.provideCaptures(this);
-    myView.setCaptures(captures);
+    updateCaptures(predicateTypeController);
     if (getDelegate() != null) {
       getDelegate().validateMe(this);
     }
@@ -112,5 +120,11 @@ public class PredicateController implements PredicatePanelDelegate {
 
   public void setCanHaveChildren(boolean b) {
     getView().setCanHaveChildren(b);
+  }
+
+  @Override
+  public void updateCaptures(PredicateTypeController ptc) {
+    captures = ptc.provideCaptures(this);
+    myView.setCaptures(captures);
   }
 }

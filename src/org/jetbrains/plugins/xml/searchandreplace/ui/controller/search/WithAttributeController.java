@@ -4,6 +4,7 @@ import com.intellij.psi.xml.XmlAttribute;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.AttributePredicate;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.HasSpecificAttribute;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.XmlElementPredicate;
+import org.jetbrains.plugins.xml.searchandreplace.ui.PredicateType;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.replace.Capture;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.captures.AttributeNameCapture;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.captures.AttributeValueCapture;
@@ -13,6 +14,7 @@ import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 
 public class WithAttributeController extends PredicateTypeController {
@@ -24,7 +26,8 @@ public class WithAttributeController extends PredicateTypeController {
 
   private AttributePanel view;
 
-  public WithAttributeController() {
+  public WithAttributeController(PredicateType pt) {
+    super(pt);
     Comparator[] comparators = new Comparator[]{new Comparator() {
       public boolean compare(String value1, String value2) {
         return value1.equals(value2);
@@ -154,5 +157,10 @@ public class WithAttributeController extends PredicateTypeController {
     captures.add(new AttributeNameCapture(predicateController));
     captures.add(new AttributeValueCapture(predicateController));
     return captures;
+  }
+
+  @Override
+  public List<PredicateType> getAllowedChildrenTypes() {
+    return new ArrayList<PredicateType>();
   }
 }

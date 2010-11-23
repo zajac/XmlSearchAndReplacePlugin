@@ -7,9 +7,6 @@ import org.jetbrains.plugins.xml.searchandreplace.ui.PredicateType;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.PredicateTypeController;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.WithAttributeController;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class WithAttribute extends PredicateType {
 
 
@@ -18,7 +15,7 @@ public class WithAttribute extends PredicateType {
   }
 
   public PredicateTypeController createNewController() {
-    return new WithAttributeController();
+    return new WithAttributeController(this);
   }
 
   public Node addNodeToPattern(Pattern p, Node node, Node parent) {
@@ -30,10 +27,5 @@ public class WithAttribute extends PredicateType {
       p.getUnmatchedNodes().add(node);
       return node;
     }
-  }
-
-  @Override
-  public List<PredicateType> getAllowedChildrenTypes() {
-    return new ArrayList<PredicateType>();
   }
 }

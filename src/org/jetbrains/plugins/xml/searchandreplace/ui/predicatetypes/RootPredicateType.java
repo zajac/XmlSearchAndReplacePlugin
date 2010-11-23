@@ -9,7 +9,7 @@ import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.TagPredic
 public class RootPredicateType extends PredicateType {
 
   public PredicateTypeController createNewController() {
-    return new TagPredicateController();
+    return new TagPredicateController(this, false);
   }
 
   public Node addNodeToPattern(Pattern p, Node node, Node parent) {

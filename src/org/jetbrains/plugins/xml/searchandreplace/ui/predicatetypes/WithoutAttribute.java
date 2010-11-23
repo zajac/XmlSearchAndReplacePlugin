@@ -8,7 +8,7 @@ public class WithoutAttribute extends WithAttribute {
 
 
 
-    return new WithoutAttributeController();
+    return new WithoutAttributeController(this);
   }
 
   public String toString() {
