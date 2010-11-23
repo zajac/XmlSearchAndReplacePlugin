@@ -1,6 +1,6 @@
 package org.jetbrains.plugins.xml.searchandreplace.ui;
 
-import org.jetbrains.plugins.xml.searchandreplace.ui.predicatetypes.*;
+import org.jetbrains.plugins.xml.searchandreplace.ui.constraintTypes.*;
 
 import java.util.ArrayList;
 import java.util.List;

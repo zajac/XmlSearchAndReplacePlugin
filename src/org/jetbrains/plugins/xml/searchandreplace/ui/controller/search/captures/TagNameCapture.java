@@ -8,10 +8,9 @@ import org.jetbrains.plugins.xml.searchandreplace.ui.controller.replace.Capture;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.ConstraintController;
 
 public class TagNameCapture extends Capture {
-  private final ConstraintController constraintController;
 
   public TagNameCapture(ConstraintController constraintController) {
-    this.constraintController = constraintController;
+    super(constraintController);
   }
 
   @Override

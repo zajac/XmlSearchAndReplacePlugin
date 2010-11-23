@@ -10,7 +10,7 @@ import org.jetbrains.plugins.xml.searchandreplace.ui.view.PatternView;
 
 import java.util.*;
 
-public class PatternController implements PredicateControllerDelegate {
+public class PatternController implements ConstraintControllerDelegate {
 
   public interface Delegate {
     void pleaseAutoresizeWindow(PatternController c);

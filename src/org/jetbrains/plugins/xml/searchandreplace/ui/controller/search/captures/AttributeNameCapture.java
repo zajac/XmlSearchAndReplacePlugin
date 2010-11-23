@@ -11,10 +11,9 @@ import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.Constrain
 
 
 public class AttributeNameCapture extends Capture {
-  private ConstraintController constraintController;
 
   public AttributeNameCapture(ConstraintController constraintController) {
-    this.constraintController = constraintController;
+    super(constraintController);
   }
 
   @Override

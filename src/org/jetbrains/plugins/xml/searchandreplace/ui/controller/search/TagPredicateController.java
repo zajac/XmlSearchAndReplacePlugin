@@ -8,9 +8,9 @@ import org.jetbrains.plugins.xml.searchandreplace.ui.ConstraintType;
 import org.jetbrains.plugins.xml.searchandreplace.ui.PredicateTypeRegistry;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.replace.Capture;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.captures.TagNameCapture;
-import org.jetbrains.plugins.xml.searchandreplace.ui.predicatetypes.Inside;
-import org.jetbrains.plugins.xml.searchandreplace.ui.predicatetypes.NotContains;
-import org.jetbrains.plugins.xml.searchandreplace.ui.predicatetypes.NotInside;
+import org.jetbrains.plugins.xml.searchandreplace.ui.constraintTypes.Inside;
+import org.jetbrains.plugins.xml.searchandreplace.ui.constraintTypes.NotContains;
+import org.jetbrains.plugins.xml.searchandreplace.ui.constraintTypes.NotInside;
 import org.jetbrains.plugins.xml.searchandreplace.ui.view.TagPredicatePanel;
 
 import javax.swing.*;

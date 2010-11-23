@@ -4,7 +4,7 @@ import org.jetbrains.plugins.xml.searchandreplace.ui.ConstraintType;
 
 import java.util.List;
 
-public interface PredicateControllerDelegate {
+public interface ConstraintControllerDelegate {
   void addChild(ConstraintController constraintController);
 
   List<ConstraintType> getAllowedPredicateTypes(ConstraintController constraintController);

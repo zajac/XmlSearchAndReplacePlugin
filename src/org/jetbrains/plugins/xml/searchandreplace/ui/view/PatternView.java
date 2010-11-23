@@ -10,7 +10,7 @@ public class PatternView extends JPanel {
     setLayout(lm);
   }
 
-  public void addPredicateView(PredicatePanel panel, PredicatePanel parent) {
+  public void addPredicateView(ConstraintPanel panel, ConstraintPanel parent) {
     if (parent == null) {
       add(panel);
     } else {
@@ -19,7 +19,7 @@ public class PatternView extends JPanel {
     updateUI();
   }
 
-  public void removePredicateView(PredicatePanel view, PredicatePanel parentPanel) {
+  public void removePredicateView(ConstraintPanel view, ConstraintPanel parentPanel) {
     if (parentPanel != null) {
       parentPanel.removeChildPredicatePanel(view);
     } else {

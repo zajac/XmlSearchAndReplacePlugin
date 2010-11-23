@@ -3,17 +3,23 @@ package org.jetbrains.plugins.xml.searchandreplace.ui.controller.replace;
 import com.intellij.lang.Language;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.RangeMarker;
+import com.intellij.openapi.editor.event.EditorMouseEvent;
+import com.intellij.openapi.editor.event.EditorMouseListener;
+import com.intellij.openapi.editor.event.EditorMouseMotionListener;
+import com.intellij.openapi.editor.markup.EffectType;
+import com.intellij.openapi.editor.markup.RangeHighlighter;
+import com.intellij.openapi.editor.markup.TextAttributes;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.xml.XmlElement;
 import org.jetbrains.plugins.xml.searchandreplace.replace.ReplacementProvider;
 import org.jetbrains.plugins.xml.searchandreplace.replace.Utils;
 import org.jetbrains.plugins.xml.searchandreplace.search.Node;
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.ConstraintController;
 
 import javax.swing.*;
-import java.util.ArrayList;
-import java.util.Comparator;
+import java.awt.*;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 
 import static java.util.Collections.sort;
 
@@ -21,8 +27,72 @@ public class CapturedReplacementController extends ReplacementController {
 
   private List<CaptureEntry> entries = new ArrayList<CaptureEntry>();
 
-  public void setEditor(Editor editor) {
+  public void setEditor(final Editor editor) {
     this.editor = editor;
+    editor.addEditorMouseListener(new EditorMouseListener() {
+      @Override
+      public void mousePressed(EditorMouseEvent e) {
+        //To change body of implemented methods use File | Settings | File Templates.
+      }
+
+      @Override
+      public void mouseClicked(EditorMouseEvent e) {
+        //To change body of implemented methods use File | Settings | File Templates.
+      }
+
+      @Override
+      public void mouseReleased(EditorMouseEvent e) {
+
+      }
+
+      @Override
+      public void mouseEntered(EditorMouseEvent e) {
+        //To change body of implemented methods use File | Settings | File Templates.
+      }
+
+      @Override
+      public void mouseExited(EditorMouseEvent e) {
+        for (CaptureEntry ce : entries) {
+          updateEntry(ce, false);
+        }
+        editor.getComponent().repaint();
+      }
+    });
+    editor.addEditorMouseMotionListener(new EditorMouseMotionListener() {
+      @Override
+      public void mouseMoved(EditorMouseEvent e) {
+        Point point = e.getMouseEvent().getPoint();
+        int offset = editor.logicalPositionToOffset(editor.xyToLogicalPosition(point));
+        Set<ConstraintController> captures = new HashSet<ConstraintController>();
+        for (CaptureEntry ce : entries) {
+          boolean inside = offset >= ce.range.getStartOffset() && offset <= ce.range.getEndOffset();
+          if (!captures.contains(ce.capture.getConstraintController())) {
+            if(inside) {captures.add(ce.capture.getConstraintController()); }
+            updateEntry(ce, inside);
+          }
+        }
+        editor.getComponent().repaint();
+      }
+
+      @Override
+      public void mouseDragged(EditorMouseEvent e) {
+        //To change body of implemented methods use File | Settings | File Templates.
+      }
+    });
+  }
+
+  private void updateEntry(CaptureEntry ce, boolean inside) {
+    ce.capture.getConstraintController().highlightCaptures(inside);
+    if (ce.range instanceof RangeHighlighter) {
+      RangeHighlighter range = (RangeHighlighter) ce.range;
+      TextAttributes textAttributes = range.getTextAttributes();
+      if (inside) {
+        textAttributes.setEffectType(EffectType.BOXED);
+        textAttributes.setEffectColor(Color.GREEN);
+      } else {
+        textAttributes.setEffectType(null);
+      }
+    }
   }
 
   public Editor getEditor() {

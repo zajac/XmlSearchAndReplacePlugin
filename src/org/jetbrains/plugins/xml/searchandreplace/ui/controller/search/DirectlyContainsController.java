@@ -6,8 +6,8 @@ import org.jetbrains.plugins.xml.searchandreplace.ui.ConstraintType;
 import org.jetbrains.plugins.xml.searchandreplace.ui.PredicateTypeRegistry;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.replace.Capture;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.captures.DirectlyContainsTagNameCapture;
-import org.jetbrains.plugins.xml.searchandreplace.ui.predicatetypes.WithAttribute;
-import org.jetbrains.plugins.xml.searchandreplace.ui.predicatetypes.WithoutAttribute;
+import org.jetbrains.plugins.xml.searchandreplace.ui.constraintTypes.WithAttribute;
+import org.jetbrains.plugins.xml.searchandreplace.ui.constraintTypes.WithoutAttribute;
 
 import java.util.ArrayList;
 import java.util.Arrays;

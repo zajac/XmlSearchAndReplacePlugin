@@ -12,28 +12,28 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class PredicatePanel extends JPanel {
+public class ConstraintPanel extends JPanel {
 
-  private static final PredicatePanelDelegate DUMMY_DELEGATE = new PredicatePanelDelegate() {
+  private static final ConstraintPanelDelegate DUMMY_DELEGATE = new ConstraintPanelDelegate() {
 
-    public void addChild(PredicatePanel panel) {
-
-    }
-
-    public void removeMe(PredicatePanel panel) {
+    public void addChild(ConstraintPanel panel) {
 
     }
 
-    public List<ConstraintType> getChildrentConstraintTypes(PredicatePanel panel) {
+    public void removeMe(ConstraintPanel panel) {
+
+    }
+
+    public List<ConstraintType> getChildrentConstraintTypes(ConstraintPanel panel) {
       return new ArrayList<ConstraintType>();
     }
 
-    public void constraintTypeSelected(PredicatePanel panel, ConstraintType selection) {
+    public void constraintTypeSelected(ConstraintPanel panel, ConstraintType selection) {
 
     }
   };
 
-  private PredicatePanelDelegate delegate = DUMMY_DELEGATE;
+  private ConstraintPanelDelegate delegate = DUMMY_DELEGATE;
 
   private JButton addChildButton;
   private JComboBox predicateTypeChooser;
@@ -53,11 +53,11 @@ public class PredicatePanel extends JPanel {
 
   private boolean canHaveChildren;
 
-  public PredicatePanelDelegate getDelegate() {
+  public ConstraintPanelDelegate getDelegate() {
     return delegate;
   }
 
-  public void setDelegate(PredicatePanelDelegate delegate) {
+  public void setDelegate(ConstraintPanelDelegate delegate) {
     this.delegate = delegate == null ? DUMMY_DELEGATE : delegate;
     reloadData();
     if (!predicateTypeChooser.isVisible()) {
@@ -70,7 +70,7 @@ public class PredicatePanel extends JPanel {
       return;
     }
     List<ConstraintType> constraintTypes = getDelegate().getChildrentConstraintTypes(this);
-    final PredicatePanel thisPanel = this;
+    final ConstraintPanel thisPanel = this;
     ComboBoxModel predicateTypeChooserModel = new CollectionComboBoxModel(constraintTypes, null) {
       @Override
       public void setSelectedItem(Object anItem) {
@@ -94,10 +94,10 @@ public class PredicatePanel extends JPanel {
     predicateTypeSpecific.updateUI();
   }
 
-  public PredicatePanel(boolean canHaveChildren, boolean canBeRemoved) {
+  public ConstraintPanel(boolean canHaveChildren, boolean canBeRemoved) {
     this.canHaveChildren = canHaveChildren;
 
-    final PredicatePanel thisPanel = this;
+    final ConstraintPanel thisPanel = this;
 
     addChildButton.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
@@ -149,7 +149,7 @@ public class PredicatePanel extends JPanel {
     capturesPanel.updateUI();
   }
 
-  public void addChildPredicatePanel(PredicatePanel panel) {
+  public void addChildPredicatePanel(ConstraintPanel panel) {
     if (!childrenSpace.isVisible()) {
       childrenSpace.setVisible(true);
     }
@@ -158,10 +158,17 @@ public class PredicatePanel extends JPanel {
     childrenSpace.updateUI();
   }
 
-  public void removeChildPredicatePanel(PredicatePanel view) {
+  public void removeChildPredicatePanel(ConstraintPanel view) {
     childrenSpace.remove(view);
     if (childrenSpace.getComponentCount() == 0) {
       childrenSpace.setVisible(false);
+    }
+  }
+
+  public void highlightCaptures(Color background) {
+    for (Component c : capturesPanel.getComponents()) {
+        ((JLabel) c).setBackground(background);
+      
     }
   }
 }

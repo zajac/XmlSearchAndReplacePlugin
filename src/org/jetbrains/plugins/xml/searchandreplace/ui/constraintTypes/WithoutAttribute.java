@@ -1,4 +1,4 @@
-package org.jetbrains.plugins.xml.searchandreplace.ui.predicatetypes;
+package org.jetbrains.plugins.xml.searchandreplace.ui.constraintTypes;
 
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.ConstraintTypeController;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.WithoutAttributeController;
