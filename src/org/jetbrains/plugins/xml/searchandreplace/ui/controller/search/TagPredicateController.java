@@ -37,6 +37,10 @@ public class TagPredicateController extends ConstraintTypeController implements 
     myView.setDelengate(this);
   }
 
+  public boolean isConstraintOnText() {
+    return myView.selectedCard().equals(TagPredicatePanel.TEXT);
+  }
+
   @Override
   public XmlElementPredicate buildPredicate() {
     if (myView.selectedCard().equals(TagPredicatePanel.TAG)) {

@@ -35,6 +35,9 @@ public class DirectlyContainsController extends TagPredicateController {
 
   @Override
   public List<ConstraintType> getAllowedChildrenTypes() {
+    if (isConstraintOnText()) {
+      return new ArrayList<ConstraintType>();
+    }
     return Arrays.asList(PredicateTypeRegistry.getInstance().byClass(WithAttribute.class),
             PredicateTypeRegistry.getInstance().byClass(WithoutAttribute.class));
   }
