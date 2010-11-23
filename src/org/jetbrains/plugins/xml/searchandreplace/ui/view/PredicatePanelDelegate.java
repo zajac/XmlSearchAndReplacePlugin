@@ -7,9 +7,9 @@ import java.util.List;
 public interface PredicatePanelDelegate {
   void addChild(PredicatePanel panel);
 
-  List<ConstraintType> getPredicateTypes(PredicatePanel panel);
+  List<ConstraintType> getChildrentConstraintTypes(PredicatePanel panel);
 
-  void predicateTypeSelected(PredicatePanel panel, ConstraintType selection);
+  void constraintTypeSelected(PredicatePanel panel, ConstraintType selection);
 
   void removeMe(PredicatePanel panel);
 }

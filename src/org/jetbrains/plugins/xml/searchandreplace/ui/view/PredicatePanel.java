@@ -24,11 +24,11 @@ public class PredicatePanel extends JPanel {
 
     }
 
-    public List<ConstraintType> getPredicateTypes(PredicatePanel panel) {
+    public List<ConstraintType> getChildrentConstraintTypes(PredicatePanel panel) {
       return new ArrayList<ConstraintType>();
     }
 
-    public void predicateTypeSelected(PredicatePanel panel, ConstraintType selection) {
+    public void constraintTypeSelected(PredicatePanel panel, ConstraintType selection) {
 
     }
   };
@@ -61,7 +61,7 @@ public class PredicatePanel extends JPanel {
     this.delegate = delegate == null ? DUMMY_DELEGATE : delegate;
     reloadData();
     if (!predicateTypeChooser.isVisible()) {
-      getDelegate().predicateTypeSelected(this, null);
+      getDelegate().constraintTypeSelected(this, null);
     }
   }
 
@@ -69,14 +69,14 @@ public class PredicatePanel extends JPanel {
     if (!predicateTypeChooser.isVisible()) {
       return;
     }
-    List<ConstraintType> constraintTypes = getDelegate().getPredicateTypes(this);
+    List<ConstraintType> constraintTypes = getDelegate().getChildrentConstraintTypes(this);
     final PredicatePanel thisPanel = this;
     ComboBoxModel predicateTypeChooserModel = new CollectionComboBoxModel(constraintTypes, null) {
       @Override
       public void setSelectedItem(Object anItem) {
         if (anItem != getSelectedItem()) {
           super.setSelectedItem(anItem);
-          getDelegate().predicateTypeSelected(thisPanel, (ConstraintType) anItem);
+          getDelegate().constraintTypeSelected(thisPanel, (ConstraintType) anItem);
         }
       }
     };

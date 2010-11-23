@@ -65,11 +65,11 @@ public class ConstraintController implements PredicatePanelDelegate, ConstraintT
     }
   }
 
-  public List<ConstraintType> getPredicateTypes(PredicatePanel panel) {
+  public List<ConstraintType> getChildrentConstraintTypes(PredicatePanel panel) {
     return getDelegate() == null ? new ArrayList<ConstraintType>() : getDelegate().getAllowedPredicateTypes(this);
   }
 
-  public void predicateTypeSelected(PredicatePanel panel, ConstraintType selection) {
+  public void constraintTypeSelected(PredicatePanel panel, ConstraintType selection) {
     if (selection != null) {
       selectedConstraintType = selection;
     } else {
