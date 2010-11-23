@@ -10,10 +10,10 @@ public class PredicateTypeRegistry {
 
   private static PredicateTypeRegistry ourInstance = new PredicateTypeRegistry();
 
-  private List<PredicateType> predicateTypes = new ArrayList<PredicateType>();
+  private List<ConstraintType> constraintTypes = new ArrayList<ConstraintType>();
 
-  public List<PredicateType> getPredicateTypes() {
-    return predicateTypes;
+  public List<ConstraintType> getConstraintTypes() {
+    return constraintTypes;
   }
 
   public static PredicateTypeRegistry getInstance() {
@@ -30,12 +30,12 @@ public class PredicateTypeRegistry {
     registerPredicateType(new DirectlyContains());
   }
 
-  public void registerPredicateType(PredicateType predicateType) {
-    predicateTypes.add(predicateType);
+  public void registerPredicateType(ConstraintType constraintType) {
+    constraintTypes.add(constraintType);
   }
 
-  public PredicateType byClass(Class c) {
-    for (PredicateType pt : predicateTypes) {
+  public ConstraintType byClass(Class c) {
+    for (ConstraintType pt : constraintTypes) {
       if (pt.getClass() == c) {
         return  pt;
       }

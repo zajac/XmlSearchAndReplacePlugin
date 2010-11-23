@@ -4,7 +4,7 @@ import com.intellij.psi.xml.XmlTag;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.MatchesXmlTextPredicate;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.TagPredicate;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.XmlElementPredicate;
-import org.jetbrains.plugins.xml.searchandreplace.ui.PredicateType;
+import org.jetbrains.plugins.xml.searchandreplace.ui.ConstraintType;
 import org.jetbrains.plugins.xml.searchandreplace.ui.PredicateTypeRegistry;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.replace.Capture;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.captures.TagNameCapture;
@@ -19,7 +19,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-public class TagPredicateController extends PredicateTypeController implements TagPredicatePanel.Delegate {
+public class TagPredicateController extends ConstraintTypeController implements TagPredicatePanel.Delegate {
   private TagPredicatePanel myView;
 
   @Override
@@ -27,12 +27,12 @@ public class TagPredicateController extends PredicateTypeController implements T
     return myView;
   }
 
-  public TagPredicateController(PredicateType predicateType, boolean strictlyTag) {
-    this(predicateType, null, strictlyTag);
+  public TagPredicateController(ConstraintType constraintType, boolean strictlyTag) {
+    this(constraintType, null, strictlyTag);
   }
 
-  public TagPredicateController(PredicateType predicateType, Params p, boolean strictlyTag) {
-    super(p, predicateType);
+  public TagPredicateController(ConstraintType constraintType, Params p, boolean strictlyTag) {
+    super(p, constraintType);
     myView = new TagPredicatePanel(strictlyTag);
     myView.setDelengate(this);
   }
@@ -67,15 +67,15 @@ public class TagPredicateController extends PredicateTypeController implements T
   }
 
   @Override
-  public Collection<Capture> provideCaptures(PredicateController predicateController) {
+  public Collection<Capture> provideCaptures(ConstraintController constraintController) {
     if (myView.selectedCard().equals(TagPredicatePanel.TAG)) {
       if (p != Params.NOT) {
         ArrayList<Capture> captures = new ArrayList<Capture>();
-        captures.add(new TagNameCapture(predicateController));
+        captures.add(new TagNameCapture(constraintController));
         return captures;
       }
     }
-    return super.provideCaptures(predicateController);
+    return super.provideCaptures(constraintController);
   }
 
   @Override
@@ -86,10 +86,10 @@ public class TagPredicateController extends PredicateTypeController implements T
   }
 
   @Override
-  public List<PredicateType> getAllowedChildrenTypes() {
+  public List<ConstraintType> getAllowedChildrenTypes() {
     if (myView.selectedCard().equals(TagPredicatePanel.TAG)) {
-      if (getPredicateType() instanceof NotInside || getPredicateType() instanceof NotContains) {
-        return new ArrayList<PredicateType>();
+      if (getConstraintType() instanceof NotInside || getConstraintType() instanceof NotContains) {
+        return new ArrayList<ConstraintType>();
       } else {
         return super.getAllowedChildrenTypes();
       }

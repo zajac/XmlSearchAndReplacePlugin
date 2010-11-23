@@ -3,7 +3,7 @@ package org.jetbrains.plugins.xml.searchandreplace.ui.controller.search;
 import com.intellij.openapi.util.Key;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.Not;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.XmlElementPredicate;
-import org.jetbrains.plugins.xml.searchandreplace.ui.PredicateType;
+import org.jetbrains.plugins.xml.searchandreplace.ui.ConstraintType;
 import org.jetbrains.plugins.xml.searchandreplace.ui.PredicateTypeRegistry;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.replace.Capture;
 
@@ -12,15 +12,15 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public abstract class PredicateTypeController {
+public abstract class ConstraintTypeController {
 
 
-  public static final Key<PredicateTypeController> USER_DATA_KEY =
-          Key.create(PredicateTypeController.class.getName());
-  private PredicateType predicateType;
+  public static final Key<ConstraintTypeController> USER_DATA_KEY =
+          Key.create(ConstraintTypeController.class.getName());
+  private ConstraintType constraintType;
 
   public interface Delegate {
-    void updateCaptures(PredicateTypeController ptc);
+    void updateCaptures(ConstraintTypeController ptc);
   }
 
   private Delegate delegate;
@@ -37,17 +37,17 @@ public abstract class PredicateTypeController {
 
   protected Params p = null;
 
-  public PredicateTypeController(PredicateType predicateType) {
-    this.predicateType = predicateType;
+  public ConstraintTypeController(ConstraintType constraintType) {
+    this.constraintType = constraintType;
   }
 
-  public PredicateTypeController(Params p, PredicateType predicateType) {
+  public ConstraintTypeController(Params p, ConstraintType constraintType) {
     this.p = p;
-    this.predicateType = predicateType;
+    this.constraintType = constraintType;
   }
 
-  public PredicateType getPredicateType() {
-    return predicateType;
+  public ConstraintType getConstraintType() {
+    return constraintType;
   }
 
   public abstract JPanel getView();
@@ -66,12 +66,12 @@ public abstract class PredicateTypeController {
     return true;
   }
 
-  public Collection<Capture> provideCaptures(PredicateController predicateController) {
+  public Collection<Capture> provideCaptures(ConstraintController constraintController) {
     return new ArrayList<Capture>();
   }
 
 
-  public List<PredicateType> getAllowedChildrenTypes() {
-    return PredicateTypeRegistry.getInstance().getPredicateTypes();
+  public List<ConstraintType> getAllowedChildrenTypes() {
+    return PredicateTypeRegistry.getInstance().getConstraintTypes();
   }
 }

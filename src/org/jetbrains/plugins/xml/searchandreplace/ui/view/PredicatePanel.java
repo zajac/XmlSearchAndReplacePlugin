@@ -1,7 +1,7 @@
 package org.jetbrains.plugins.xml.searchandreplace.ui.view;
 
 import com.intellij.ui.CollectionComboBoxModel;
-import org.jetbrains.plugins.xml.searchandreplace.ui.PredicateType;
+import org.jetbrains.plugins.xml.searchandreplace.ui.ConstraintType;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.replace.Capture;
 
 import javax.swing.*;
@@ -24,11 +24,11 @@ public class PredicatePanel extends JPanel {
 
     }
 
-    public List<PredicateType> getPredicateTypes(PredicatePanel panel) {
-      return new ArrayList<PredicateType>();
+    public List<ConstraintType> getPredicateTypes(PredicatePanel panel) {
+      return new ArrayList<ConstraintType>();
     }
 
-    public void predicateTypeSelected(PredicatePanel panel, PredicateType selection) {
+    public void predicateTypeSelected(PredicatePanel panel, ConstraintType selection) {
 
     }
   };
@@ -69,23 +69,23 @@ public class PredicatePanel extends JPanel {
     if (!predicateTypeChooser.isVisible()) {
       return;
     }
-    List<PredicateType> predicateTypes = getDelegate().getPredicateTypes(this);
+    List<ConstraintType> constraintTypes = getDelegate().getPredicateTypes(this);
     final PredicatePanel thisPanel = this;
-    ComboBoxModel predicateTypeChooserModel = new CollectionComboBoxModel(predicateTypes, null) {
+    ComboBoxModel predicateTypeChooserModel = new CollectionComboBoxModel(constraintTypes, null) {
       @Override
       public void setSelectedItem(Object anItem) {
         if (anItem != getSelectedItem()) {
           super.setSelectedItem(anItem);
-          getDelegate().predicateTypeSelected(thisPanel, (PredicateType) anItem);
+          getDelegate().predicateTypeSelected(thisPanel, (ConstraintType) anItem);
         }
       }
     };
     predicateTypeChooser.setModel(predicateTypeChooserModel);
   }
 
-  private PredicateType getSelectedPredicateType() {
+  private ConstraintType getSelectedPredicateType() {
     if (predicateTypeChooser == null) return null;
-    return (PredicateType) predicateTypeChooser.getModel().getSelectedItem();
+    return (ConstraintType) predicateTypeChooser.getModel().getSelectedItem();
   }
 
   public void setPredicateTypeSpecificView(JPanel view) {

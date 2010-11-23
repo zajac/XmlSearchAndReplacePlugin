@@ -5,19 +5,19 @@ import com.intellij.psi.xml.XmlTag;
 import org.jetbrains.plugins.xml.searchandreplace.replace.CapturePresentation;
 import org.jetbrains.plugins.xml.searchandreplace.ui.CapturePresentationFactory;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.replace.Capture;
-import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.PredicateController;
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.ConstraintController;
 
 public class TagNameCapture extends Capture {
-  private final PredicateController predicateController;
+  private final ConstraintController constraintController;
 
-  public TagNameCapture(PredicateController predicateController) {
-    this.predicateController = predicateController;
+  public TagNameCapture(ConstraintController constraintController) {
+    this.constraintController = constraintController;
   }
 
   @Override
   public CapturePresentation presentation() {
     CapturePresentation result =
-            CapturePresentationFactory.instance().createPresentation(predicateController, "Tag Name");
+            CapturePresentationFactory.instance().createPresentation(constraintController, "Tag Name");
     result.setCapture(this);
     return result;
   }

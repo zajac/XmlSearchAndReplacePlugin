@@ -2,7 +2,7 @@ package org.jetbrains.plugins.xml.searchandreplace.ui.controller.search;
 
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.DirectlyContains;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.XmlElementPredicate;
-import org.jetbrains.plugins.xml.searchandreplace.ui.PredicateType;
+import org.jetbrains.plugins.xml.searchandreplace.ui.ConstraintType;
 import org.jetbrains.plugins.xml.searchandreplace.ui.PredicateTypeRegistry;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.replace.Capture;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.captures.DirectlyContainsTagNameCapture;
@@ -16,7 +16,7 @@ import java.util.List;
 
 public class DirectlyContainsController extends TagPredicateController {
 
-  public DirectlyContainsController(PredicateType pt, boolean strictlyTag) {
+  public DirectlyContainsController(ConstraintType pt, boolean strictlyTag) {
     super(pt, strictlyTag);
   }
 
@@ -27,14 +27,14 @@ public class DirectlyContainsController extends TagPredicateController {
   }
 
   @Override
-  public Collection<Capture> provideCaptures(PredicateController predicateController) {
+  public Collection<Capture> provideCaptures(ConstraintController constraintController) {
     ArrayList<Capture> captures = new ArrayList<Capture>();
-    captures.add(new DirectlyContainsTagNameCapture(predicateController));
+    captures.add(new DirectlyContainsTagNameCapture(constraintController));
     return captures;
   }
 
   @Override
-  public List<PredicateType> getAllowedChildrenTypes() {
+  public List<ConstraintType> getAllowedChildrenTypes() {
     return Arrays.asList(PredicateTypeRegistry.getInstance().byClass(WithAttribute.class),
             PredicateTypeRegistry.getInstance().byClass(WithoutAttribute.class));
   }

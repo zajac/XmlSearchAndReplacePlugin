@@ -4,13 +4,13 @@ import org.jetbrains.plugins.xml.searchandreplace.search.Node;
 import org.jetbrains.plugins.xml.searchandreplace.search.Pattern;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.And;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.XmlElementPredicate;
-import org.jetbrains.plugins.xml.searchandreplace.ui.PredicateType;
+import org.jetbrains.plugins.xml.searchandreplace.ui.ConstraintType;
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.ConstraintTypeController;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.DirectlyContainsController;
-import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.PredicateTypeController;
 
-public class DirectlyContains extends PredicateType {
+public class DirectlyContains extends ConstraintType {
   @Override
-  public PredicateTypeController createNewController() {
+  public ConstraintTypeController createNewController() {
     return new DirectlyContainsController(this, false);
   }
 

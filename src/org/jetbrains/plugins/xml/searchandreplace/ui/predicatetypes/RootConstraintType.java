@@ -2,13 +2,13 @@ package org.jetbrains.plugins.xml.searchandreplace.ui.predicatetypes;
 
 import org.jetbrains.plugins.xml.searchandreplace.search.Node;
 import org.jetbrains.plugins.xml.searchandreplace.search.Pattern;
-import org.jetbrains.plugins.xml.searchandreplace.ui.PredicateType;
-import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.PredicateTypeController;
+import org.jetbrains.plugins.xml.searchandreplace.ui.ConstraintType;
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.ConstraintTypeController;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.TagPredicateController;
 
-public class RootPredicateType extends PredicateType {
+public class RootConstraintType extends ConstraintType {
 
-  public PredicateTypeController createNewController() {
+  public ConstraintTypeController createNewController() {
     return new TagPredicateController(this, false);
   }
 

@@ -10,6 +10,10 @@ import java.util.Arrays;
 
 public class TagPredicatePanel extends JPanel {
 
+  private void createUIComponents() {
+    // TODO: place custom component creation code here
+  }
+
   public interface Delegate {
     void stateChanged(TagPredicatePanel tpp);
   }
@@ -31,8 +35,8 @@ public class TagPredicatePanel extends JPanel {
   private JPanel pane;
   private JComboBox textOrTag;
   private JTextField tagField;
-  private JTextPane textPane;
   private JPanel cardsPanel;
+  private JTextField textField;
 
   public TagPredicatePanel(boolean tagOnly) {
     textOrTag.setModel(new CollectionComboBoxModel(Arrays.asList(TAG, TEXT), DEFAULT_CARD));
@@ -65,6 +69,6 @@ public class TagPredicatePanel extends JPanel {
   }
 
   public String getText() {
-    return textPane.getText();
+    return textField.getText();
   }
 }

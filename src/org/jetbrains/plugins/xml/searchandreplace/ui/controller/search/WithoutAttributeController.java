@@ -4,7 +4,7 @@ import com.intellij.psi.xml.XmlAttribute;
 import com.intellij.psi.xml.XmlTag;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.TagPredicate;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.XmlElementPredicate;
-import org.jetbrains.plugins.xml.searchandreplace.ui.PredicateType;
+import org.jetbrains.plugins.xml.searchandreplace.ui.ConstraintType;
 import org.jetbrains.plugins.xml.searchandreplace.ui.view.AttributePanel;
 
 import javax.swing.*;
@@ -12,11 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class WithoutAttributeController extends PredicateTypeController {
+public class WithoutAttributeController extends ConstraintTypeController {
 
   final AttributePanel view = new AttributePanel(null);
 
-  public WithoutAttributeController(PredicateType pt) { super(pt); }
+  public WithoutAttributeController(ConstraintType pt) { super(pt); }
 
   @Override
   public JPanel getView() {
@@ -41,7 +41,7 @@ public class WithoutAttributeController extends PredicateTypeController {
   }
 
   @Override
-  public List<PredicateType> getAllowedChildrenTypes() {
-    return new ArrayList<PredicateType>();
+  public List<ConstraintType> getAllowedChildrenTypes() {
+    return new ArrayList<ConstraintType>();
   }
 }

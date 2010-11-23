@@ -3,9 +3,9 @@ package org.jetbrains.plugins.xml.searchandreplace.ui.controller.search;
 import org.jetbrains.plugins.xml.searchandreplace.search.Node;
 import org.jetbrains.plugins.xml.searchandreplace.search.Pattern;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.XmlElementPredicate;
-import org.jetbrains.plugins.xml.searchandreplace.ui.PredicateType;
+import org.jetbrains.plugins.xml.searchandreplace.ui.ConstraintType;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.replace.Capture;
-import org.jetbrains.plugins.xml.searchandreplace.ui.predicatetypes.RootPredicateType;
+import org.jetbrains.plugins.xml.searchandreplace.ui.predicatetypes.RootConstraintType;
 import org.jetbrains.plugins.xml.searchandreplace.ui.view.PredicatePanel;
 import org.jetbrains.plugins.xml.searchandreplace.ui.view.PredicatePanelDelegate;
 
@@ -13,25 +13,25 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class PredicateController implements PredicatePanelDelegate, PredicateTypeController.Delegate {
+public class ConstraintController implements PredicatePanelDelegate, ConstraintTypeController.Delegate {
 
   private PredicatePanel myView;
 
-  public PredicateTypeController getPredicateTypeController() {
-    return predicateTypeController;
+  public ConstraintTypeController getConstraintTypeController() {
+    return constraintTypeController;
   }
 
-  private PredicateTypeController predicateTypeController;
+  private ConstraintTypeController constraintTypeController;
 
-  private PredicateType selectedPredicateType;
+  private ConstraintType selectedConstraintType;
 
   private PredicateControllerDelegate delegate;
 
-  private PredicateController parent;
+  private ConstraintController parent;
   private Node builtNode;
   private Collection<Capture> captures;
 
-  public PredicateController(boolean canHaveChildren, PredicateController parent) {
+  public ConstraintController(boolean canHaveChildren, ConstraintController parent) {
     this.parent = parent;
     myView = new PredicatePanel(canHaveChildren, parent != null);
     myView.setDelegate(this);
@@ -42,7 +42,7 @@ public class PredicateController implements PredicatePanelDelegate, PredicateTyp
     return parent.getIndent() + 1;
   }
 
-  public PredicateController getParent() {
+  public ConstraintController getParent() {
     return parent;
   }
 
@@ -65,23 +65,23 @@ public class PredicateController implements PredicatePanelDelegate, PredicateTyp
     }
   }
 
-  public List<PredicateType> getPredicateTypes(PredicatePanel panel) {
-    return getDelegate() == null ? new ArrayList<PredicateType>() : getDelegate().getAllowedPredicateTypes(this);
+  public List<ConstraintType> getPredicateTypes(PredicatePanel panel) {
+    return getDelegate() == null ? new ArrayList<ConstraintType>() : getDelegate().getAllowedPredicateTypes(this);
   }
 
-  public void predicateTypeSelected(PredicatePanel panel, PredicateType selection) {
+  public void predicateTypeSelected(PredicatePanel panel, ConstraintType selection) {
     if (selection != null) {
-      selectedPredicateType = selection;
+      selectedConstraintType = selection;
     } else {
-      selectedPredicateType = new RootPredicateType();
+      selectedConstraintType = new RootConstraintType();
     }
-    if (predicateTypeController != null) {
-      predicateTypeController.setDelegate(null);
+    if (constraintTypeController != null) {
+      constraintTypeController.setDelegate(null);
     }
-    predicateTypeController = selectedPredicateType.createNewController();
-    predicateTypeController.setDelegate(this);
-    myView.setPredicateTypeSpecificView(predicateTypeController.getView());
-    updateCaptures(predicateTypeController);
+    constraintTypeController = selectedConstraintType.createNewController();
+    constraintTypeController.setDelegate(this);
+    myView.setPredicateTypeSpecificView(constraintTypeController.getView());
+    updateCaptures(constraintTypeController);
     if (getDelegate() != null) {
       getDelegate().validateMe(this);
     }
@@ -98,8 +98,8 @@ public class PredicateController implements PredicatePanelDelegate, PredicateTyp
   }
 
   public void buildNode(Pattern p) {
-    if (predicateTypeController == null) return;
-    XmlElementPredicate predicate = predicateTypeController.buildPredicate();
+    if (constraintTypeController == null) return;
+    XmlElementPredicate predicate = constraintTypeController.buildPredicate();
     if (predicate != null) {
       builtNode = new Node(predicate, parent == null);
       for (Capture c : captures) {
@@ -107,15 +107,14 @@ public class PredicateController implements PredicatePanelDelegate, PredicateTyp
       }
       Node parentNode = parent == null ? null : parent.getBuiltNode();
       if (parent == null || parentNode != null) {
-        builtNode.putUserData(PredicateTypeController.USER_DATA_KEY, predicateTypeController);
-        builtNode = selectedPredicateType.addNodeToPattern(p, builtNode, parentNode);
+        builtNode.putUserData(ConstraintTypeController.USER_DATA_KEY, constraintTypeController);
+        builtNode = selectedConstraintType.addNodeToPattern(p, builtNode, parentNode);
       }
-
     }
   }
 
-  public PredicateType getSelectedPredicateType() {
-    return selectedPredicateType;
+  public ConstraintType getSelectedConstraintType() {
+    return selectedConstraintType;
   }
 
   public void setCanHaveChildren(boolean b) {
@@ -123,8 +122,11 @@ public class PredicateController implements PredicatePanelDelegate, PredicateTyp
   }
 
   @Override
-  public void updateCaptures(PredicateTypeController ptc) {
+  public void updateCaptures(ConstraintTypeController ptc) {
     captures = ptc.provideCaptures(this);
     myView.setCaptures(captures);
+    if (delegate != null) {
+      delegate.validateMe(this);
+    }
   }
 }

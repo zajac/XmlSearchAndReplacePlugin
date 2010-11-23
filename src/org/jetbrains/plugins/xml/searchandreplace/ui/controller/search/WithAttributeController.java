@@ -4,7 +4,7 @@ import com.intellij.psi.xml.XmlAttribute;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.AttributePredicate;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.HasSpecificAttribute;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.XmlElementPredicate;
-import org.jetbrains.plugins.xml.searchandreplace.ui.PredicateType;
+import org.jetbrains.plugins.xml.searchandreplace.ui.ConstraintType;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.replace.Capture;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.captures.AttributeNameCapture;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.captures.AttributeValueCapture;
@@ -17,7 +17,7 @@ import java.util.Collection;
 import java.util.List;
 
 
-public class WithAttributeController extends PredicateTypeController {
+public class WithAttributeController extends ConstraintTypeController {
 
   private interface Comparator {
 
@@ -26,7 +26,7 @@ public class WithAttributeController extends PredicateTypeController {
 
   private AttributePanel view;
 
-  public WithAttributeController(PredicateType pt) {
+  public WithAttributeController(ConstraintType pt) {
     super(pt);
     Comparator[] comparators = new Comparator[]{new Comparator() {
       public boolean compare(String value1, String value2) {
@@ -152,15 +152,15 @@ public class WithAttributeController extends PredicateTypeController {
   }
 
   @Override
-  public Collection<Capture> provideCaptures(PredicateController predicateController) {
+  public Collection<Capture> provideCaptures(ConstraintController constraintController) {
     ArrayList<Capture> captures = new ArrayList<Capture>();
-    captures.add(new AttributeNameCapture(predicateController));
-    captures.add(new AttributeValueCapture(predicateController));
+    captures.add(new AttributeNameCapture(constraintController));
+    captures.add(new AttributeValueCapture(constraintController));
     return captures;
   }
 
   @Override
-  public List<PredicateType> getAllowedChildrenTypes() {
-    return new ArrayList<PredicateType>();
+  public List<ConstraintType> getAllowedChildrenTypes() {
+    return new ArrayList<ConstraintType>();
   }
 }

@@ -2,11 +2,11 @@ package org.jetbrains.plugins.xml.searchandreplace.ui.predicatetypes;
 
 import org.jetbrains.plugins.xml.searchandreplace.search.Node;
 import org.jetbrains.plugins.xml.searchandreplace.search.Pattern;
-import org.jetbrains.plugins.xml.searchandreplace.ui.PredicateType;
-import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.PredicateTypeController;
+import org.jetbrains.plugins.xml.searchandreplace.ui.ConstraintType;
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.ConstraintTypeController;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.TagPredicateController;
 
-public class Contains extends PredicateType {
+public class Contains extends ConstraintType {
 
   protected enum Params {NOT}
 
@@ -19,7 +19,7 @@ public class Contains extends PredicateType {
     this.p = p;
   }
 
-  public PredicateTypeController createNewController() {
+  public ConstraintTypeController createNewController() {
     return new TagPredicateController(this, p == Params.NOT ? TagPredicateController.Params.NOT : null, false);
   }
 

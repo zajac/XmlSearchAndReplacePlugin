@@ -7,20 +7,20 @@ import org.jetbrains.plugins.xml.searchandreplace.replace.CapturePresentation;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.HasSpecificAttribute;
 import org.jetbrains.plugins.xml.searchandreplace.ui.CapturePresentationFactory;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.replace.Capture;
-import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.PredicateController;
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.ConstraintController;
 
 public class AttributeValueCapture extends Capture {
 
-  private PredicateController predicateController;
+  private ConstraintController constraintController;
 
-  public AttributeValueCapture(PredicateController predicateController) {
-    this.predicateController = predicateController;
+  public AttributeValueCapture(ConstraintController constraintController) {
+    this.constraintController = constraintController;
   }
 
   @Override
   public CapturePresentation presentation() {
     CapturePresentation result =
-            CapturePresentationFactory.instance().createPresentation(predicateController, "Attribute value");
+            CapturePresentationFactory.instance().createPresentation(constraintController, "Attribute value");
     result.setCapture(this);
     return result;
   }

@@ -1,15 +1,15 @@
 package org.jetbrains.plugins.xml.searchandreplace.ui.controller.search;
 
-import org.jetbrains.plugins.xml.searchandreplace.ui.PredicateType;
+import org.jetbrains.plugins.xml.searchandreplace.ui.ConstraintType;
 
 import java.util.List;
 
 public interface PredicateControllerDelegate {
-  void addChild(PredicateController predicateController);
+  void addChild(ConstraintController constraintController);
 
-  List<PredicateType> getAllowedPredicateTypes(PredicateController predicateController);
+  List<ConstraintType> getAllowedPredicateTypes(ConstraintController constraintController);
 
-  void removeMe(PredicateController predicateController);
+  void removeMe(ConstraintController constraintController);
 
-  void validateMe(PredicateController predicateController);
+  void validateMe(ConstraintController constraintController);
 }

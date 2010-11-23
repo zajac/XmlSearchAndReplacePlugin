@@ -4,7 +4,7 @@ package org.jetbrains.plugins.xml.searchandreplace.ui.controller.search;
 import org.jetbrains.plugins.xml.searchandreplace.search.Node;
 import org.jetbrains.plugins.xml.searchandreplace.search.Pattern;
 import org.jetbrains.plugins.xml.searchandreplace.ui.CapturePresentationFactory;
-import org.jetbrains.plugins.xml.searchandreplace.ui.PredicateType;
+import org.jetbrains.plugins.xml.searchandreplace.ui.ConstraintType;
 import org.jetbrains.plugins.xml.searchandreplace.ui.PredicateTypeRegistry;
 import org.jetbrains.plugins.xml.searchandreplace.ui.view.PatternView;
 
@@ -27,13 +27,13 @@ public class PatternController implements PredicateControllerDelegate {
   }
 
   private PatternView view = new PatternView();
-  private Map<PredicateController, ArrayList<PredicateController>> predicatesTree = new HashMap<PredicateController, ArrayList<PredicateController>>();
-  private PredicateController root;
+  private Map<ConstraintController, ArrayList<ConstraintController>> predicatesTree = new HashMap<ConstraintController, ArrayList<ConstraintController>>();
+  private ConstraintController root;
 
-  private void addPredicateController(PredicateController pc) {
+  private void addPredicateController(ConstraintController pc) {
     pc.setDelegate(this);
-    predicatesTree.put(pc, new ArrayList<PredicateController>());
-    PredicateController parent = pc.getParent();
+    predicatesTree.put(pc, new ArrayList<ConstraintController>());
+    ConstraintController parent = pc.getParent();
     if (parent != null) {
       predicatesTree.get(parent).add(pc);
     }
@@ -43,18 +43,18 @@ public class PatternController implements PredicateControllerDelegate {
     }
   }
 
-  private void removePredicateController(PredicateController predicateController) {
-    List<PredicateController> pcList = new ArrayList<PredicateController>();
-    for (PredicateController pc : predicatesTree.get(predicateController)) {
+  private void removePredicateController(ConstraintController constraintController) {
+    List<ConstraintController> pcList = new ArrayList<ConstraintController>();
+    for (ConstraintController pc : predicatesTree.get(constraintController)) {
       pcList.add(pc);
     }
-    for (PredicateController pc : pcList) {
+    for (ConstraintController pc : pcList) {
       removePredicateController(pc);
     }
-    predicatesTree.get(predicateController.getParent()).remove(predicateController);
-    predicatesTree.remove(predicateController);
-    view.removePredicateView(predicateController.getView(), predicateController.getParent() != null ?
-            predicateController.getParent().getView() : null);
+    predicatesTree.get(constraintController.getParent()).remove(constraintController);
+    predicatesTree.remove(constraintController);
+    view.removePredicateView(constraintController.getView(), constraintController.getParent() != null ?
+            constraintController.getParent().getView() : null);
     if (delegate != null) {
       delegate.pleaseAutoresizeWindow(this);
     }
@@ -66,7 +66,7 @@ public class PatternController implements PredicateControllerDelegate {
   }
 
   public PatternController() {
-    root = new PredicateController(true, null);
+    root = new ConstraintController(true, null);
     addPredicateController(root);
   }
 
@@ -80,57 +80,57 @@ public class PatternController implements PredicateControllerDelegate {
     return pattern;
   }
 
-  private void gatherNodes(Pattern pattern, PredicateController root) {
+  private void gatherNodes(Pattern pattern, ConstraintController root) {
     root.buildNode(pattern);
-    List<PredicateController> children = predicatesTree.get(root);
+    List<ConstraintController> children = predicatesTree.get(root);
     if (children != null) {
-      for (PredicateController child : children) {
+      for (ConstraintController child : children) {
         gatherNodes(pattern, child);
       }
     }
   }
 
-  public void addChild(PredicateController predicateController) {
-    PredicateType selectedPredicateType = predicateController.getSelectedPredicateType();
-    if (selectedPredicateType == null) return;
+  public void addChild(ConstraintController constraintController) {
+    ConstraintType selectedConstraintType = constraintController.getSelectedConstraintType();
+    if (selectedConstraintType == null) return;
 
-    Collection<PredicateType> allowedChildrenTypes = predicateController.getPredicateTypeController().getAllowedChildrenTypes();
+    Collection<ConstraintType> allowedChildrenTypes = constraintController.getConstraintTypeController().getAllowedChildrenTypes();
     if (!allowedChildrenTypes.isEmpty()) {
-      addPredicateController(new PredicateController(false, predicateController));
+      addPredicateController(new ConstraintController(false, constraintController));
     }
   }
 
-  public List<PredicateType> getAllowedPredicateTypes(PredicateController predicateController) {
-    PredicateController parent = predicateController.getParent();
+  public List<ConstraintType> getAllowedPredicateTypes(ConstraintController constraintController) {
+    ConstraintController parent = constraintController.getParent();
     if (parent == null) {
-      return PredicateTypeRegistry.getInstance().getPredicateTypes();
+      return PredicateTypeRegistry.getInstance().getConstraintTypes();
     }
 
-    if (parent.getPredicateTypeController() != null) {
-      return parent.getPredicateTypeController().getAllowedChildrenTypes();
+    if (parent.getConstraintTypeController() != null) {
+      return parent.getConstraintTypeController().getAllowedChildrenTypes();
     } else {
-      return new ArrayList<PredicateType>();
+      return new ArrayList<ConstraintType>();
     }
   }
 
-  public void removeMe(PredicateController predicateController) {
-    removePredicateController(predicateController);
-    CapturePresentationFactory.instance().paredicateControllerIsDead(predicateController);
+  public void removeMe(ConstraintController constraintController) {
+    removePredicateController(constraintController);
+    CapturePresentationFactory.instance().paredicateControllerIsDead(constraintController);
   }
 
-  public void validateMe(PredicateController predicateController) {
-    PredicateType selectedPredicateType = predicateController.getSelectedPredicateType();
+  public void validateMe(ConstraintController constraintController) {
+    ConstraintType selectedConstraintType = constraintController.getSelectedConstraintType();
 
-    PredicateTypeController predicateTypeController = predicateController.getPredicateTypeController();
-    Collection<PredicateType> allowedChildrenTypes = predicateTypeController == null ? new ArrayList<PredicateType>() :
-            predicateTypeController.getAllowedChildrenTypes();
-    List<PredicateController> children = (List<PredicateController>) predicatesTree.get(predicateController).clone();
-    for (PredicateController child : children) {
-      if (!allowedChildrenTypes.contains(child.getSelectedPredicateType())) {
+    ConstraintTypeController constraintTypeController = constraintController.getConstraintTypeController();
+    Collection<ConstraintType> allowedChildrenTypes = constraintTypeController == null ? new ArrayList<ConstraintType>() :
+            constraintTypeController.getAllowedChildrenTypes();
+    List<ConstraintController> children = (List<ConstraintController>) predicatesTree.get(constraintController).clone();
+    for (ConstraintController child : children) {
+      if (!allowedChildrenTypes.contains(child.getSelectedConstraintType())) {
         removePredicateController(child);
       }
     }
-    predicateController.setCanHaveChildren(!allowedChildrenTypes.isEmpty());
+    constraintController.setCanHaveChildren(!allowedChildrenTypes.isEmpty());
 
     if (delegate != null) {
       delegate.pleaseAutoresizeWindow(this);
