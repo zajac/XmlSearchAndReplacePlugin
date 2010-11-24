@@ -58,6 +58,7 @@ public class TagPredicatePanel extends JPanel {
     setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
     pane.setAlignmentX(JComponent.LEFT_ALIGNMENT);
     add(pane);
+    updateUI();
   }
 
   public String selectedCard() {

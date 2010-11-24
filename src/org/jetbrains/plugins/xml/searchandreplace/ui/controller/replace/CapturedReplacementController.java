@@ -134,20 +134,20 @@ public class CapturedReplacementController extends ReplacementController {
         });
         int start = 0;
         for (CaptureEntry entry : entries) {
-          result.append(text.substring(start, entry.range.getStartOffset()));
-
-          Capture capture = entry.capture;
-
-          Node key = null;
-          for (Map.Entry<Node, XmlElement> e : match.entrySet()) {
-            key = e.getKey();
-            if (key.getPredicate().flatten().contains(capture.getPredicate())) {
-              break;
+          if (entry.range.isValid()) {
+            result.append(text.substring(start, entry.range.getStartOffset()));
+            Capture capture = entry.capture;
+            Node key = null;
+            for (Map.Entry<Node, XmlElement> e : match.entrySet()) {
+              key = e.getKey();
+              if (key.getPredicate().flatten().contains(capture.getPredicate())) {
+                break;
+              }
             }
+            String captureResolution = capture.value(match.get(key));
+            result.append(captureResolution);
+            start = entry.range.getEndOffset();
           }
-          String captureResolution = capture.value(match.get(key));
-          result.append(captureResolution);
-          start = entry.range.getEndOffset();
         }
         return Utils.createXmlElement(language, project, result.toString());
       }
