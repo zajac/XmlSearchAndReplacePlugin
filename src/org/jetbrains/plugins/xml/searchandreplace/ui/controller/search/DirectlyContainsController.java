@@ -14,7 +14,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-public class DirectlyContainsController extends TagPredicateController {
+public class DirectlyContainsController extends TagOrTextConstraintController {
 
   public DirectlyContainsController(ConstraintType pt, boolean strictlyTag) {
     super(pt, strictlyTag);
@@ -29,7 +29,9 @@ public class DirectlyContainsController extends TagPredicateController {
   @Override
   public Collection<Capture> provideCaptures(ConstraintController constraintController) {
     ArrayList<Capture> captures = new ArrayList<Capture>();
-    captures.add(new DirectlyContainsTagNameCapture(constraintController));
+    if (!isConstraintOnText()) {
+      captures.add(new DirectlyContainsTagNameCapture(constraintController));
+    }
     return captures;
   }
 
@@ -39,6 +41,8 @@ public class DirectlyContainsController extends TagPredicateController {
       return new ArrayList<ConstraintType>();
     }
     return Arrays.asList(PredicateTypeRegistry.getInstance().byClass(WithAttribute.class),
-            PredicateTypeRegistry.getInstance().byClass(WithoutAttribute.class));
+            PredicateTypeRegistry.getInstance().byClass(WithoutAttribute.class),
+            PredicateTypeRegistry.getInstance().
+                    byClass(org.jetbrains.plugins.xml.searchandreplace.ui.constraintTypes.DirectlyContains.class));
   }
 }

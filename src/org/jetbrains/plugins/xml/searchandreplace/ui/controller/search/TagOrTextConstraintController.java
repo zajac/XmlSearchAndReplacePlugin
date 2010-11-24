@@ -19,7 +19,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-public class TagPredicateController extends ConstraintTypeController implements TagPredicatePanel.Delegate {
+public class TagOrTextConstraintController extends ConstraintTypeController implements TagPredicatePanel.Delegate {
   private TagPredicatePanel myView;
 
   @Override
@@ -27,11 +27,11 @@ public class TagPredicateController extends ConstraintTypeController implements 
     return myView;
   }
 
-  public TagPredicateController(ConstraintType constraintType, boolean strictlyTag) {
+  public TagOrTextConstraintController(ConstraintType constraintType, boolean strictlyTag) {
     this(constraintType, null, strictlyTag);
   }
 
-  public TagPredicateController(ConstraintType constraintType, Params p, boolean strictlyTag) {
+  public TagOrTextConstraintController(ConstraintType constraintType, Params p, boolean strictlyTag) {
     super(p, constraintType);
     myView = new TagPredicatePanel(strictlyTag);
     myView.setDelengate(this);

@@ -4,7 +4,7 @@ import org.jetbrains.plugins.xml.searchandreplace.search.Node;
 import org.jetbrains.plugins.xml.searchandreplace.search.Pattern;
 import org.jetbrains.plugins.xml.searchandreplace.ui.ConstraintType;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.ConstraintTypeController;
-import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.TagPredicateController;
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.TagOrTextConstraintController;
 
 public class Inside extends ConstraintType {
 
@@ -25,7 +25,7 @@ public class Inside extends ConstraintType {
   }
 
   public ConstraintTypeController createNewController() {
-    return new TagPredicateController(this, p == Params.NOT ? ConstraintTypeController.Params.NOT : null, true);
+    return new TagOrTextConstraintController(this, p == Params.NOT ? ConstraintTypeController.Params.NOT : null, true);
   }
 
   public Node addNodeToPattern(Pattern p, Node node, Node parent) {
