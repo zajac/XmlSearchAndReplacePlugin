@@ -11,14 +11,10 @@ public class TagNameCapture extends Capture {
 
   public TagNameCapture(ConstraintController constraintController) {
     super(constraintController);
-  }
-
-  @Override
-  public CapturePresentation presentation() {
-    CapturePresentation result =
-            CapturePresentationFactory.instance().createPresentation(constraintController, "Tag Name");
-    result.setCapture(this);
-    return result;
+     CapturePresentation presentation =
+            CapturePresentationFactory.instance().createPresentation(constraintController, "Tag Name", this);
+    presentation.setCapture(this);
+    setPresentation(presentation);
   }
 
   @Override

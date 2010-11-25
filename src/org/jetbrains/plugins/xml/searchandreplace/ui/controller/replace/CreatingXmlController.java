@@ -9,7 +9,7 @@ import org.jetbrains.plugins.xml.searchandreplace.ui.view.replace.ReplacementVie
 
 import javax.swing.*;
 
-public abstract class CreatingXmlController extends ReplacementController implements CaptureDropHandler.CaptureDropHandlerDelegate {
+public abstract class CreatingXmlController extends ReplacementController implements CapturedReplacementController.Delegate {
 
   CapturedReplacementController nested;
 
@@ -22,6 +22,7 @@ public abstract class CreatingXmlController extends ReplacementController implem
     myProject = project;
     myLanguage = language;
     myView = new ReplacementView(project);
+    nested.setDelegate(this);
   }
 
   @Override
@@ -32,9 +33,7 @@ public abstract class CreatingXmlController extends ReplacementController implem
   @Override
   public void viewDidAppear() {
     final EditorImpl editor = myView.getEditor();
-    CaptureDropHandler dropHandler = new CaptureDropHandler(editor);
-    dropHandler.setDelegate(this);
-    editor.setDropHandler(dropHandler);
+
     nested.setEditor(editor);
   }
 

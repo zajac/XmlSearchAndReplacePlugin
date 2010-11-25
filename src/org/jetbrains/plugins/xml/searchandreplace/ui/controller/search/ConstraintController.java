@@ -32,6 +32,10 @@ public class ConstraintController implements ConstraintPanelDelegate, Constraint
   private Node builtNode;
   private Collection<Capture> captures;
 
+  public Collection<Capture> getCaptures() {
+    return captures;
+  }
+
   public ConstraintController(boolean canHaveChildren, ConstraintController parent) {
     this.parent = parent;
     myView = new ConstraintPanel(canHaveChildren, parent != null);

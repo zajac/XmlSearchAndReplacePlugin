@@ -6,6 +6,8 @@ import java.awt.*;
 
 public class CapturePresentation {
 
+  private String identifier;
+
   public String getName() {
     return name;
   }
@@ -42,5 +44,13 @@ public class CapturePresentation {
 
   public void setCapture(Capture capture) {
     this.capture = capture;
+  }
+
+  public void setIdentifier(String identifier) {
+    this.identifier = identifier;
+  }
+
+  public String getIdentifier() {
+    return identifier;
   }
 }

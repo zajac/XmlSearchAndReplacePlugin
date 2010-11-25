@@ -32,9 +32,11 @@ public class MatchesXmlTextPredicate extends XmlElementPredicate {
       String next = tokenizer.nextElement();
       String word = words.get(wordIndex);
       int indexOF = next.indexOf(word);
-      if ((wordIndex == 0 && indexOF != -1 && indexOF +word.length() == next.length()) ||
+      int length = word.length();
+      int nextsLen = next.length();
+      if ((wordIndex == 0 && indexOF != -1 && indexOF + length == nextsLen) ||
               (wordIndex == words.size()-1 && indexOF == 0) ||
-              next.equals(word)) {
+              (indexOF != -1 && nextsLen == length)) {
         wordIndex++;
       } else {
         wordIndex = 0;

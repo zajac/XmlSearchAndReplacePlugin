@@ -7,6 +7,15 @@ import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.Constrain
 
 public abstract class Capture {
   private XmlElementPredicate predicate;
+  private CapturePresentation myPresentation;
+
+  public CapturePresentation presentation() {
+    return myPresentation;
+  }
+
+  public void setPresentation(CapturePresentation myPresentation) {
+    this.myPresentation = myPresentation;
+  }
 
   public ConstraintController getConstraintController() {
     return constraintController;
@@ -26,6 +35,5 @@ public abstract class Capture {
     this.predicate = predicate;
   }
 
-  public abstract CapturePresentation presentation();
   public abstract String value(XmlElement element);
 }

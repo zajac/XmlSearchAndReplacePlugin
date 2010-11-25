@@ -14,14 +14,9 @@ public class AttributeNameCapture extends Capture {
 
   public AttributeNameCapture(ConstraintController constraintController) {
     super(constraintController);
-  }
-
-  @Override
-  public CapturePresentation presentation() {
-    CapturePresentation result =
-            CapturePresentationFactory.instance().createPresentation(constraintController, "Attribute name");
-    result.setCapture(this);
-    return result;
+    CapturePresentation presentation =
+            CapturePresentationFactory.instance().createPresentation(constraintController, "Attribute name", this);
+    setPresentation(presentation);
   }
 
   @Override

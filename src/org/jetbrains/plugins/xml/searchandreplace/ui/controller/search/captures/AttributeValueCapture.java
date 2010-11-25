@@ -13,15 +13,12 @@ public class AttributeValueCapture extends Capture {
 
   public AttributeValueCapture(ConstraintController constraintController) {
     super(constraintController);
+    CapturePresentation presentation =
+            CapturePresentationFactory.instance().createPresentation(constraintController, "Attribute value", this);
+    presentation.setCapture(this);
+    setPresentation(presentation);
   }
 
-  @Override
-  public CapturePresentation presentation() {
-    CapturePresentation result =
-            CapturePresentationFactory.instance().createPresentation(constraintController, "Attribute value");
-    result.setCapture(this);
-    return result;
-  }
 
   @Override
   public String value(XmlElement element) {

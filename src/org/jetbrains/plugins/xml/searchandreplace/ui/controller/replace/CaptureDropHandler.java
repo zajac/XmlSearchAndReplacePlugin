@@ -2,12 +2,8 @@ package org.jetbrains.plugins.xml.searchandreplace.ui.controller.replace;
 
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.editor.EditorDropHandler;
-import com.intellij.openapi.editor.RangeMarker;
 import com.intellij.openapi.editor.impl.EditorImpl;
-import com.intellij.openapi.editor.markup.HighlighterTargetArea;
-import com.intellij.openapi.editor.markup.TextAttributes;
 import com.intellij.openapi.project.Project;
-import org.jetbrains.plugins.xml.searchandreplace.replace.CapturePresentation;
 
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
@@ -17,7 +13,7 @@ import java.io.IOException;
 class CaptureDropHandler implements EditorDropHandler {
 
   public interface CaptureDropHandlerDelegate {
-    void newCaptureInserted(Capture capture, RangeMarker where);
+    void insertCapture(Capture capture, int offset);
   }
 
   private final EditorImpl editor;
@@ -56,13 +52,9 @@ class CaptureDropHandler implements EditorDropHandler {
           if (transferData instanceof Capture) {
             Capture capture = (Capture) transferData;
             int offset = editor.getCaretModel().getOffset();
-            CapturePresentation presentation = capture.presentation();
-            editor.getDocument().insertString(offset, presentation.getName());
-            RangeMarker rangeHighlighter = editor.getMarkupModel().addRangeHighlighter(offset, offset + presentation.getName().length(), 10,
-                    new TextAttributes(presentation.getTextColor(), presentation.getBackgroundColor(), null, null, 0),
-                    HighlighterTargetArea.EXACT_RANGE);
 
-            delegate.newCaptureInserted(capture, rangeHighlighter);
+
+            delegate.insertCapture(capture, offset);
           }
         } catch (UnsupportedFlavorException e) {
           e.printStackTrace();
@@ -72,4 +64,5 @@ class CaptureDropHandler implements EditorDropHandler {
       }
     });
   }
+
 }

@@ -76,7 +76,7 @@ public class CaptureView extends JLabel {
   }
 
   public CaptureView(Capture capture) {
-    super(capture.presentation().getName());
+    super(capture.presentation().getName() + ": $" + capture.presentation().getIdentifier());
     this.capture = capture;
     CapturePresentation cp = capture.presentation();
     setBackground(cp.getBackgroundColor());

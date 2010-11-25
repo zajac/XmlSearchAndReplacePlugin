@@ -8,7 +8,8 @@ import com.intellij.ui.EditorTextField;
 import javax.swing.*;
 
 public class ReplacementView extends JPanel {
-  EditorTextField textField;
+
+  private EditorTextField textField;
   private JPanel centerPane;
   private Project project;
 
