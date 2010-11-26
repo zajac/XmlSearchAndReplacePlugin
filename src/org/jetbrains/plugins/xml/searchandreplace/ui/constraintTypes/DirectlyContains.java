@@ -3,7 +3,6 @@ package org.jetbrains.plugins.xml.searchandreplace.ui.constraintTypes;
 import org.jetbrains.plugins.xml.searchandreplace.search.Node;
 import org.jetbrains.plugins.xml.searchandreplace.search.Pattern;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.And;
-import org.jetbrains.plugins.xml.searchandreplace.search.predicates.XmlElementPredicate;
 import org.jetbrains.plugins.xml.searchandreplace.ui.ConstraintType;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.ConstraintTypeController;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.DirectlyContainsController;
@@ -21,8 +20,10 @@ public class DirectlyContains extends ConstraintType {
 
   @Override
   public Node addNodeToPattern(Pattern p, Node node, Node parent) {
-    XmlElementPredicate pred = parent.getPredicate();
-    parent.setPredicate(new And(pred, node.getPredicate()));
-    return parent;
+    parent.setPredicate(new And(parent.getPredicate(), node.getPredicate()));
+    node.setPredicate(((org.jetbrains.plugins.xml.searchandreplace.search.predicates.DirectlyContains)node.getPredicate()).getNested());
+    parent.getChildren().add(node);
+    p.getUnmatchedNodes().add(node);
+    return node;
   }
 }
