@@ -18,11 +18,11 @@ public abstract class CreatingXmlController extends ReplacementController implem
   private Language myLanguage;
 
   public CreatingXmlController(Project project, Language language) {
-    nested = new CapturedReplacementController(language, project);
+
     myProject = project;
     myLanguage = language;
     myView = new ReplacementView(project);
-    nested.setDelegate(this);
+
   }
 
   @Override
@@ -33,8 +33,8 @@ public abstract class CreatingXmlController extends ReplacementController implem
   @Override
   public void viewDidAppear() {
     final EditorImpl editor = myView.getEditor();
-
-    nested.setEditor(editor);
+    nested = new CapturedReplacementController(myLanguage, myProject, editor);
+    nested.setDelegate(this);
   }
 
   protected ReplacementProvider createReplacementProviderWithMyXml() {
@@ -43,6 +43,8 @@ public abstract class CreatingXmlController extends ReplacementController implem
 
   @Override
   public void newCaptureInserted(Capture capture, RangeMarker where) {
-    nested.addCaptureEntry(capture, where);
+    if (nested != null) {
+      nested.addCaptureEntry(capture, where);
+    }
   }
 }

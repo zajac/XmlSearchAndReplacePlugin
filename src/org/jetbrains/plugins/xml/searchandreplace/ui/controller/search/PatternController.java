@@ -3,7 +3,7 @@ package org.jetbrains.plugins.xml.searchandreplace.ui.controller.search;
 
 import org.jetbrains.plugins.xml.searchandreplace.search.Node;
 import org.jetbrains.plugins.xml.searchandreplace.search.Pattern;
-import org.jetbrains.plugins.xml.searchandreplace.ui.CapturePresentationFactory;
+import org.jetbrains.plugins.xml.searchandreplace.ui.CapturesManager;
 import org.jetbrains.plugins.xml.searchandreplace.ui.ConstraintType;
 import org.jetbrains.plugins.xml.searchandreplace.ui.PredicateTypeRegistry;
 import org.jetbrains.plugins.xml.searchandreplace.ui.view.PatternView;
@@ -44,6 +44,7 @@ public class PatternController implements ConstraintControllerDelegate {
   }
 
   private void removePredicateController(ConstraintController constraintController) {
+    CapturesManager.instance().paredicateControllerIsDead(constraintController);
     List<ConstraintController> pcList = new ArrayList<ConstraintController>();
     for (ConstraintController pc : predicatesTree.get(constraintController)) {
       pcList.add(pc);
@@ -115,7 +116,7 @@ public class PatternController implements ConstraintControllerDelegate {
 
   public void removeMe(ConstraintController constraintController) {
     removePredicateController(constraintController);
-    CapturePresentationFactory.instance().paredicateControllerIsDead(constraintController);
+
   }
 
   public void validateMe(ConstraintController constraintController) {

@@ -17,6 +17,10 @@ public class CaptureView extends JLabel {
 
   private JComponent thisAsComponent = this;
 
+  public Capture getCapture() {
+    return capture;
+  }
+
   private class MyTransferHandler extends TransferHandler {
 
     private DataFlavor dataFlavor = new DataFlavor(Capture.class, capture.presentation().getName());

@@ -5,20 +5,29 @@ import org.jetbrains.plugins.xml.searchandreplace.ui.controller.replace.Capture;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.ConstraintController;
 
 import java.awt.*;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+import java.util.List;
 
 
-public class CapturePresentationFactory {
-  private static CapturePresentationFactory shared = new CapturePresentationFactory();
+public class CapturesManager {
+  private static CapturesManager shared = new CapturesManager();
 
   private Map<Integer, ConstraintController> ids = new HashMap<Integer, ConstraintController>();
   private Map<String,  Capture> map = new HashMap<String, Capture>();
 
-  private CapturePresentationFactory(){}
+  private List<CapturesListener> observers = new ArrayList<CapturesListener>();
 
-  public static CapturePresentationFactory instance() {
+  private CapturesManager(){}
+
+  public void addCapturesListener(CapturesListener l) {
+    observers.add(l);
+  }
+
+  public void removeCapturesListener(CapturesListener l) {
+    observers.remove(l);
+  }
+
+  public static CapturesManager instance() {
     return shared;
   }
 
@@ -34,25 +43,44 @@ public class CapturePresentationFactory {
     return "" + id;
   }
 
-  public CapturePresentation createPresentation(ConstraintController constraintController, String name, Capture capture) {
+  public void registerNewCapture(ConstraintController constraintController, String name, Capture capture) {
     CapturePresentation cp = new CapturePresentation();
-    cp.setBackgroundColor(Color.GRAY);
-    cp.setTextColor(Color.BLACK);
+    cp.setBackgroundColor(null);
+    cp.setTextColor(Color.BLUE);
     cp.setName(name);
     String uniqueId = createUniqueId(constraintController);
     cp.setIdentifier(uniqueId);
     cp.setCapture(capture);
     map.put(uniqueId, capture);
-    return cp;
+    capture.setPresentation(cp);
+    for (CapturesListener observer : observers) {
+      observer.captureAdded(capture);
+    }
   }
 
   public void paredicateControllerIsDead(ConstraintController cc) {
+    for (Capture c : cc.getCaptures()) {
+      for (CapturesListener listener : observers) {
+        listener.captureBecameInvalid(c);
+      }
+    }
     for (int id : ids.keySet()) {
       if (ids.get(id) == cc) {
         ids.remove(id);
-        return;
+        break;
       }
     }
+    boolean found;
+    do{
+      found = false;
+      for (String id : map.keySet()) {
+        if (cc.getCaptures().contains(map.get(id))) {
+          map.remove(id);
+          found = true;
+          break;
+        }
+      }
+    } while(found);
   }
 
   public Capture findById(String captureId) {

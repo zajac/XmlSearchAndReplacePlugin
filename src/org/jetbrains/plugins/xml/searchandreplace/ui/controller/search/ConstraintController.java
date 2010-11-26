@@ -9,7 +9,6 @@ import org.jetbrains.plugins.xml.searchandreplace.ui.controller.replace.Capture;
 import org.jetbrains.plugins.xml.searchandreplace.ui.view.ConstraintPanel;
 import org.jetbrains.plugins.xml.searchandreplace.ui.view.ConstraintPanelDelegate;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -135,7 +134,8 @@ public class ConstraintController implements ConstraintPanelDelegate, Constraint
     }
   }
 
-  public void highlightCaptures(boolean inside) {
-    myView.highlightCaptures(inside ? Color.GREEN : captures.iterator().next().presentation().getBackgroundColor());
+  public void highlightCaptures(Capture active) {
+
+    myView.highlightCaptures(active);
   }
 }

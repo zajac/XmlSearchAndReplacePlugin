@@ -165,10 +165,15 @@ public class ConstraintPanel extends JPanel {
     }
   }
 
-  public void highlightCaptures(Color background) {
+  public void highlightCaptures(Capture active) {
     for (Component c : capturesPanel.getComponents()) {
-        ((JLabel) c).setBackground(background);
-      
+      CaptureView captureView = (CaptureView) c;
+      Color color = captureView.getCapture().presentation().getBackgroundColor();
+      if (captureView.getCapture() == active) {
+        captureView.setBackground(Color.GREEN);
+      } else {
+        captureView.setBackground(color);
+      }
     }
   }
 }

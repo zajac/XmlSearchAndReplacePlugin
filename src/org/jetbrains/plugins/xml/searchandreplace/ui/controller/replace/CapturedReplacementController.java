@@ -15,7 +15,8 @@ import org.jetbrains.plugins.xml.searchandreplace.replace.CapturePresentation;
 import org.jetbrains.plugins.xml.searchandreplace.replace.ReplacementProvider;
 import org.jetbrains.plugins.xml.searchandreplace.replace.Utils;
 import org.jetbrains.plugins.xml.searchandreplace.search.Node;
-import org.jetbrains.plugins.xml.searchandreplace.ui.CapturePresentationFactory;
+import org.jetbrains.plugins.xml.searchandreplace.ui.CapturesManager;
+import org.jetbrains.plugins.xml.searchandreplace.ui.CapturesListener;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.ConstraintController;
 
 import javax.swing.*;
@@ -25,7 +26,7 @@ import java.util.List;
 
 import static java.util.Collections.sort;
 
-public class CapturedReplacementController extends ReplacementController implements CaptureDropHandler.CaptureDropHandlerDelegate, DocumentListener, CaretListener {
+public class CapturedReplacementController extends ReplacementController implements CaptureDropHandler.CaptureDropHandlerDelegate, DocumentListener, CaretListener, CapturesListener {
 
   @Override
   public void beforeDocumentChange(DocumentEvent event) {}
@@ -33,6 +34,36 @@ public class CapturedReplacementController extends ReplacementController impleme
   @Override
   public void documentChanged(DocumentEvent event) {
     String newFragment = (String) event.getNewFragment();
+    searchForNewCaptures();
+    cleanUpBadEntries();
+  }
+
+  private void cleanUpBadEntries() {
+    String text = editor.getDocument().getText();
+    boolean changed;
+    do {
+      changed = false;
+
+      for (CaptureEntry ce : entries) {
+        boolean found = false;
+        for (int i = 0; i < text.length(); ++i) {
+          if (text.charAt(i) == '$') {
+            String captureId = parseCaptureId(text, i+1);
+            if (captureId != null && captureId.equals(ce.capture.presentation().getIdentifier())) {
+              found = true;
+            }
+          }
+        }
+        if (!found) {
+          killEntry(ce);
+          changed = true;
+          break;
+        }
+      }
+    } while(changed);
+  }
+
+  private void searchForNewCaptures() {
     String text = editor.getDocument().getText();
     for (int i = 0; i < text.length(); ++i) {
       if (text.charAt(i) == '$') {
@@ -57,7 +88,7 @@ public class CapturedReplacementController extends ReplacementController impleme
   }
 
   private Capture findCaptureWithId(String captureId) {
-    return CapturePresentationFactory.instance().findById(captureId);
+    return CapturesManager.instance().findById(captureId);
   }
 
   private String parseCaptureId(String text, int i) {
@@ -78,6 +109,32 @@ public class CapturedReplacementController extends ReplacementController impleme
     }
   }
 
+  @Override
+  public void captureBecameInvalid(Capture c) {
+    boolean found;
+    do {
+      found = false;
+      for (CaptureEntry ce : entries) {
+        if (ce.capture == c) {
+          killEntry(ce);
+          found = true;
+          break;
+        }
+      }
+    } while (found);
+  }
+
+  private void killEntry(CaptureEntry ce) {
+    updateEntry(ce, false);
+    editor.getMarkupModel().removeHighlighter((RangeHighlighter) ce.range);
+    entries.remove(ce);
+  }
+
+  @Override
+  public void captureAdded(Capture c) {
+    searchForNewCaptures();
+  }
+
   public interface Delegate {
     void newCaptureInserted(Capture capture, RangeMarker where);
   }
@@ -94,72 +151,17 @@ public class CapturedReplacementController extends ReplacementController impleme
 
   private List<CaptureEntry> entries = new ArrayList<CaptureEntry>();
 
-  public void setEditor(final EditorImpl editor) {
+  void setEditor(final EditorImpl editor) {
     this.editor = editor;
-    editor.addEditorMouseListener(new EditorMouseListener() {
-      @Override
-      public void mousePressed(EditorMouseEvent e) {
-        //To change body of implemented methods use File | Settings | File Templates.
-      }
-
-      @Override
-      public void mouseClicked(EditorMouseEvent e) {
-        //To change body of implemented methods use File | Settings | File Templates.
-      }
-
-      @Override
-      public void mouseReleased(EditorMouseEvent e) {
-
-      }
-
-      @Override
-      public void mouseEntered(EditorMouseEvent e) {
-        //To change body of implemented methods use File | Settings | File Templates.
-      }
-
-      @Override
-      public void mouseExited(EditorMouseEvent e) {
-        for (CaptureEntry ce : entries) {
-          updateEntry(ce, false);
-        }
-        editor.getComponent().repaint();
-      }
-    });
-    editor.addEditorMouseMotionListener(new EditorMouseMotionListener() {
-      @Override
-      public void mouseMoved(EditorMouseEvent e) {
-        Point point = e.getMouseEvent().getPoint();
-        int offset = editor.logicalPositionToOffset(editor.xyToLogicalPosition(point));
-        Set<ConstraintController> captures = new HashSet<ConstraintController>();
-        for (CaptureEntry ce : entries) {
-          boolean inside = offset >= ce.range.getStartOffset() && offset <= ce.range.getEndOffset();
-          if (!captures.contains(ce.capture.getConstraintController())) {
-            if(inside) {captures.add(ce.capture.getConstraintController()); }
-            updateEntry(ce, inside);
-          }
-        }
-        editor.getComponent().repaint();
-      }
-
-      @Override
-      public void mouseDragged(EditorMouseEvent e) {
-        //To change body of implemented methods use File | Settings | File Templates.
-      }
-    });
-
-    CaptureDropHandler dropHandler = new CaptureDropHandler(editor);
-    dropHandler.setDelegate(this);
-    editor.setDropHandler(dropHandler);
-
-
-    editor.getDocument().addDocumentListener(this);
-
-    editor.getCaretModel().addCaretListener(this);
   }
 
   private void updateEntry(CaptureEntry ce, boolean inside) {
-    ce.capture.getConstraintController().highlightCaptures(inside);
-    if (ce.range instanceof RangeHighlighter) {
+    Capture active = null;
+    if (inside) {
+      active = ce.capture;
+    }
+    ce.capture.getConstraintController().highlightCaptures(active);
+    if (ce.range instanceof RangeHighlighter && ce.range.isValid()) {
       RangeHighlighter range = (RangeHighlighter) ce.range;
       TextAttributes textAttributes = range.getTextAttributes();
       if (inside && range.getStartOffset() != range.getEndOffset()) {
@@ -180,9 +182,54 @@ public class CapturedReplacementController extends ReplacementController impleme
   private Language language;
   private Project project;
 
-  public CapturedReplacementController(Language language, Project project) {
+  public CapturedReplacementController(Language language, Project project, final EditorImpl editor) {
     this.language = language;
     this.project = project;
+    this.editor = editor;
+
+    editor.addEditorMouseListener(new EditorMouseAdapter() {
+
+        @Override
+        public void mouseExited(EditorMouseEvent e) {
+          for (CaptureEntry ce : entries) {
+            updateEntry(ce, false);
+          }
+          editor.getComponent().repaint();
+        }
+      });
+      editor.addEditorMouseMotionListener(new EditorMouseMotionListener() {
+        @Override
+        public void mouseMoved(EditorMouseEvent e) {
+          Point point = e.getMouseEvent().getPoint();
+          int offset = editor.logicalPositionToOffset(editor.xyToLogicalPosition(point));
+          Set<ConstraintController> captures = new HashSet<ConstraintController>();
+          for (CaptureEntry ce : entries) {
+            boolean inside = offset >= ce.range.getStartOffset() && offset <= ce.range.getEndOffset();
+            if (!captures.contains(ce.capture.getConstraintController())) {
+              if(inside) {captures.add(ce.capture.getConstraintController()); }
+              updateEntry(ce, inside);
+            }
+          }
+          editor.getComponent().repaint();
+        }
+
+        @Override
+        public void mouseDragged(EditorMouseEvent e) {
+          //To change body of implemented methods use File | Settings | File Templates.
+        }
+      });
+
+      CaptureDropHandler dropHandler = new CaptureDropHandler(editor);
+      dropHandler.setDelegate(this);
+      editor.setDropHandler(dropHandler);
+
+
+      editor.getDocument().addDocumentListener(this);
+
+      editor.getCaretModel().addCaretListener(this);
+
+
+    CapturesManager.instance().addCapturesListener(this);
   }
 
   public void addCaptureEntry(Capture c, RangeMarker r) {
