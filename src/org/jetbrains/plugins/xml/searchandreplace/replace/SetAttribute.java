@@ -7,19 +7,17 @@ import org.jetbrains.plugins.xml.searchandreplace.search.Node;
 import java.util.Map;
 
 public class SetAttribute extends ReplacementProvider {
-  private String name;
-  private String value;
+  private SetAttributeHelper helper;
 
-  public SetAttribute(String name, String value) {
-    this.name = name;
-    this.value = value;
+  public SetAttribute(SetAttributeHelper helper) {
+    this.helper = helper;
   }
 
   @Override
   public XmlTag getReplacementFor(XmlElement element, Map<Node, XmlElement> match) {
     if (isValid(element) && element instanceof XmlTag) {
       XmlTag tag = (XmlTag) element;
-      tag.setAttribute(name, value);
+      tag.setAttribute(helper.attributeName(match), helper.attributeValue(match));
       return (XmlTag) element;
     }
     return null;

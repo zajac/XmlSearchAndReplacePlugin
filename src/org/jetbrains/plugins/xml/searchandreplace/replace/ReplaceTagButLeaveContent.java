@@ -19,6 +19,10 @@ public class ReplaceTagButLeaveContent extends ReplacementProvider {
     if (isValid(element) && element instanceof XmlTag) {
       XmlTag xmlTag = (XmlTag) element;
       XmlTag newElement = replacementProvider.getReplacementFor(element, match);
+      if (newElement.getSubTags().length != 1) {
+        return null;
+      }
+      newElement = newElement.getSubTags()[0];
       Utils.insertCoupleOfElementsIntoTag(xmlTag, newElement, false);
       return newElement;
     }

@@ -4,10 +4,15 @@ import com.intellij.lang.Language;
 import com.intellij.openapi.editor.RangeMarker;
 import com.intellij.openapi.editor.impl.EditorImpl;
 import com.intellij.openapi.project.Project;
+import com.intellij.psi.xml.XmlElement;
+import com.intellij.psi.xml.XmlTag;
 import org.jetbrains.plugins.xml.searchandreplace.replace.ReplacementProvider;
+import org.jetbrains.plugins.xml.searchandreplace.replace.Utils;
+import org.jetbrains.plugins.xml.searchandreplace.search.Node;
 import org.jetbrains.plugins.xml.searchandreplace.ui.view.replace.ReplacementView;
 
 import javax.swing.*;
+import java.util.Map;
 
 public abstract class CreatingXmlController extends ReplacementController implements CapturedReplacementController.Delegate {
 
@@ -33,12 +38,17 @@ public abstract class CreatingXmlController extends ReplacementController implem
   @Override
   public void viewDidAppear() {
     final EditorImpl editor = myView.getEditor();
-    nested = new CapturedReplacementController(myLanguage, myProject, editor);
+    nested = new CapturedReplacementController(editor);
     nested.setDelegate(this);
   }
 
   protected ReplacementProvider createReplacementProviderWithMyXml() {
-    return nested.getReplacementProvider();
+    return new ReplacementProvider() {
+      @Override
+      public XmlTag getReplacementFor(XmlElement element, Map<Node, XmlElement> match) {
+        return Utils.createXmlElement(myLanguage, myProject, nested.resolveCaptures(match));
+      }
+    };
   }
 
   @Override

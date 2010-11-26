@@ -4,20 +4,18 @@ import org.jetbrains.plugins.xml.searchandreplace.replace.RemoveAttribute;
 import org.jetbrains.plugins.xml.searchandreplace.replace.ReplacementProvider;
 import org.jetbrains.plugins.xml.searchandreplace.ui.view.replace.RemoveAttributeView;
 
-import javax.swing.*;
-
-public class RemoveAttributeController extends ReplacementController {
+public class RemoveAttributeController extends SetAttributeController {
 
   private RemoveAttributeView myView = new RemoveAttributeView();
 
   @Override
-  public JPanel getView() {
+  public RemoveAttributeView getView() {
     return myView;
   }
 
   @Override
   protected ReplacementProvider getReplacementProvider() {
-    return new RemoveAttribute(myView.getName());
+    return new RemoveAttribute(new MySetAttributeHelper());
   }
 
   @Override
