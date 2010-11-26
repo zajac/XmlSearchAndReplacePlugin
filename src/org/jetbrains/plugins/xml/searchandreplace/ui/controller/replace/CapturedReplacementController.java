@@ -11,6 +11,7 @@ import com.intellij.openapi.editor.markup.RangeHighlighter;
 import com.intellij.openapi.editor.markup.TextAttributes;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.xml.XmlElement;
+import com.intellij.psi.xml.XmlTag;
 import org.jetbrains.plugins.xml.searchandreplace.replace.CapturePresentation;
 import org.jetbrains.plugins.xml.searchandreplace.replace.ReplacementProvider;
 import org.jetbrains.plugins.xml.searchandreplace.replace.Utils;
@@ -92,11 +93,11 @@ public class CapturedReplacementController extends ReplacementController impleme
   }
 
   private String parseCaptureId(String text, int i) {
-    StringTokenizer stringTokenizer = new StringTokenizer(text.substring(i), " $");
-    if (!stringTokenizer.hasMoreTokens()) {
-      return null;
+    Scanner scanner = new Scanner(text.substring(i));
+    if (scanner.hasNextInt()) {
+      return "" + scanner.nextInt();
     } else {
-      return stringTokenizer.nextToken();
+      return null;
     }
   }
 
@@ -245,10 +246,9 @@ public class CapturedReplacementController extends ReplacementController impleme
   public ReplacementProvider getReplacementProvider() {
     return new ReplacementProvider() {
       @Override
-      public XmlElement getReplacementFor(XmlElement element, Map<Node, XmlElement> match) {
+      public XmlTag getReplacementFor(XmlElement element, Map<Node, XmlElement> match) {
         String text = editor.getDocument().getText();
         StringBuilder result = new StringBuilder();
-
         sort(entries, new Comparator<CaptureEntry>() {
           @Override
           public int compare(CaptureEntry captureEntry, CaptureEntry captureEntry1) {
@@ -272,6 +272,7 @@ public class CapturedReplacementController extends ReplacementController impleme
             start = entry.range.getEndOffset();
           }
         }
+        result.append(text.substring(start));
         return Utils.createXmlElement(language, project, result.toString());
       }
     };

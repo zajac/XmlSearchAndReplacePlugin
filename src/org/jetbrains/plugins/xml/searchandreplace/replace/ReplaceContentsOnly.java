@@ -17,14 +17,14 @@ public class ReplaceContentsOnly extends ReplacementProvider {
   }
 
   @Override
-  public XmlElement getReplacementFor(XmlElement element, Map<Node, XmlElement> match) {
-    if (element instanceof XmlTag) {
-      XmlTag tag = (XmlTag)element;
-      XmlElement replacement = replacementProvider.getReplacementFor(element, match);
+  public XmlTag getReplacementFor(XmlElement t, Map<Node, XmlElement> match) {
+    XmlTag replacement = replacementProvider.getReplacementFor(t, match);
+    if (t instanceof XmlTag) {
+      XmlTag tag = (XmlTag) t;
       for (XmlTagChild child : tag.getValue().getChildren()) {
         child.delete();
       }
-      Utils.insertElementIntoTag(replacement, tag, true);
+      Utils.insertCoupleOfElementsIntoTag(replacement, tag, true);
       return tag;
     }
     return null;

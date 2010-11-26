@@ -21,6 +21,7 @@ public abstract class ConstraintTypeController {
 
   public interface Delegate {
     void updateCaptures(ConstraintTypeController ptc);
+    void validateChildren(ConstraintTypeController ctc);
   }
 
   private Delegate delegate;

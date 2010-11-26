@@ -6,44 +6,36 @@ import com.intellij.psi.XmlElementFactory;
 import com.intellij.psi.xml.XmlElement;
 import com.intellij.psi.xml.XmlTag;
 import com.intellij.psi.xml.XmlTagChild;
-import com.intellij.util.ArrayUtil;
 import com.intellij.util.IncorrectOperationException;
 
 public class Utils {
 
-  public static XmlElement insertElementIntoTag(XmlElement e, XmlTag tag, boolean asFirstOrLast) {
-    XmlTagChild[] children = tag.getSubTags();
+  private static final String STUB_ROOT = "s-t-u-b";
+
+  public static void insertCoupleOfElementsIntoTag(XmlTag e, XmlTag tag, boolean asFirstOrLast) {
+    XmlTagChild[] children = tag.getValue().getChildren();
+    XmlTagChild first = e.getValue().getChildren()[0];
+    XmlTagChild last = e.getValue().getChildren()[e.getValue().getChildren().length - 1];
     if (children.length == 0) {
-      children = tag.getValue().getChildren();
-    }
-    if (children.length == 0) {
-      return (XmlElement) tag.add(e);
-    } else if (asFirstOrLast) {
-      return (XmlElement) tag.addBefore(e, children[0]);
+      tag.addRange(first, last);
+    } else if(asFirstOrLast) {
+      tag.addRangeBefore(first, last, children[0]);
     } else {
-      return (XmlElement) tag.addAfter(e, ArrayUtil.getLastElement(children));
+      tag.addRangeAfter(first, last, children[children.length-1]);
     }
   }
 
-  public static XmlElement createXmlElement(Language myLanguage, Project myProject, String myText) {
-    XmlElement result;
+  public static XmlTag createXmlElement(Language myLanguage, Project myProject, String myText) {
+    myText = "<" + STUB_ROOT + ">" + myText + "</" + STUB_ROOT + ">";
+    XmlElement result = null;
     XmlElementFactory factory = XmlElementFactory.getInstance(myProject);
     if (myText != null && factory != null) {
       try {
         result = factory.createTagFromText(myText, myLanguage);
-        if (((XmlTag)result).getName().isEmpty()) {
-          result = factory.createDisplayText(myText);
-        }
       } catch (IncorrectOperationException e) {
-        try {
-          result = factory.createDisplayText(myText);
-        } catch (IncorrectOperationException ex) {
-          result = null;
-        }
+        e.printStackTrace();
       }
-      return result;
-    } else {
-      return null;
     }
+    return (XmlTag) result;
   }
 }

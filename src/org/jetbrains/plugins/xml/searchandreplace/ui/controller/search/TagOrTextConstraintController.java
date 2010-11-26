@@ -86,6 +86,7 @@ public class TagOrTextConstraintController extends ConstraintTypeController impl
   public void stateChanged(TagPredicatePanel tpp) {
     if (getDelegate() != null) {
       getDelegate().updateCaptures(this);
+      getDelegate().validateChildren(this);
     }
   }
 

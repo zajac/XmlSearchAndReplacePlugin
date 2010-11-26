@@ -16,11 +16,12 @@ public class SetAttribute extends ReplacementProvider {
   }
 
   @Override
-  public XmlElement getReplacementFor(XmlElement element, Map<Node, XmlElement> match) {
+  public XmlTag getReplacementFor(XmlElement element, Map<Node, XmlElement> match) {
     if (isValid(element) && element instanceof XmlTag) {
       XmlTag tag = (XmlTag) element;
       tag.setAttribute(name, value);
+      return (XmlTag) element;
     }
-    return element;
+    return null;
   }
 }

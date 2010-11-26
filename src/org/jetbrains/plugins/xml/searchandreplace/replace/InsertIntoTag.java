@@ -13,15 +13,16 @@ public class InsertIntoTag extends ReplacementProvider {
   private Anchor anchor;
 
   @Override
-  public XmlElement getReplacementFor(XmlElement element, Map<Node, XmlElement> match) {
-     if (isValid(element) && element instanceof XmlTag) {
-      XmlTag tag = (XmlTag) element;
-      XmlElement toInsert = replacementProvider.getReplacementFor(element, match);
+  public XmlTag getReplacementFor(XmlElement tag, Map<Node, XmlElement> match) {
+    if (isValid(tag) && tag instanceof XmlTag) {
+      XmlTag toInsert = replacementProvider.getReplacementFor(tag, match);
+      XmlTag tagAsTag = (XmlTag)tag;
       if (toInsert != null) {
-        Utils.insertElementIntoTag(toInsert, tag, anchor == Anchor.BEGIN);
+        Utils.insertCoupleOfElementsIntoTag(toInsert, tagAsTag, anchor == Anchor.BEGIN);
       }
+      return tagAsTag;
     }
-    return element;
+    return null;
   }
 
   public enum Anchor {BEGIN, END}

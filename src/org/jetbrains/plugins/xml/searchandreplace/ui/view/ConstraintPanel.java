@@ -112,14 +112,19 @@ public class ConstraintPanel extends JPanel {
     });
     if (!canBeRemoved) {
       predicateTypeChooser.setVisible(false);
+
       removeButton.setVisible(false);
+      JPanel parent = (JPanel) predicateTypeChooser.getParent();
+      parent.remove(predicateTypeChooser);
+      parent.setPreferredSize(new Dimension(40, -1));
+      parent.updateUI();
     }
     reloadData();
 
     if (!canHaveChildren) {
       addChildButton.setVisible(false);
     }
-    ((FlowLayout)predicateTypeSpecific.getLayout()).setVgap(0);
+    predicateTypeSpecific.setLayout(new BoxLayout(predicateTypeSpecific, BoxLayout.LINE_AXIS));
     childrenSpace.setLayout(new BoxLayout(childrenSpace, BoxLayout.Y_AXIS));
     childrenSpace.setAlignmentX(JComponent.LEFT_ALIGNMENT);
     setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));

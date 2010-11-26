@@ -29,7 +29,7 @@ public class ConstraintController implements ConstraintPanelDelegate, Constraint
 
   private ConstraintController parent;
   private Node builtNode;
-  private Collection<Capture> captures;
+  private Collection<Capture> captures = new ArrayList<Capture>();
 
   public Collection<Capture> getCaptures() {
     return captures;
@@ -129,6 +129,13 @@ public class ConstraintController implements ConstraintPanelDelegate, Constraint
   public void updateCaptures(ConstraintTypeController ptc) {
     captures = ptc.provideCaptures(this);
     myView.setCaptures(captures);
+    if (delegate != null) {
+      delegate.validateMe(this);
+    }
+  }
+
+  @Override
+  public void validateChildren(ConstraintTypeController ctc) {
     if (delegate != null) {
       delegate.validateMe(this);
     }

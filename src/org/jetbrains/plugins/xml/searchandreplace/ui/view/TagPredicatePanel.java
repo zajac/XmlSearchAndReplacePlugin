@@ -3,10 +3,10 @@ package org.jetbrains.plugins.xml.searchandreplace.ui.view;
 import com.intellij.ui.CollectionComboBoxModel;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.Arrays;
+import java.util.List;
 
 public class TagPredicatePanel extends JPanel {
 
@@ -34,30 +34,24 @@ public class TagPredicatePanel extends JPanel {
 
   private JPanel pane;
   private JComboBox textOrTag;
-  private JTextField tagField;
-  private JPanel cardsPanel;
   private JTextField textField;
 
   public TagPredicatePanel(boolean tagOnly) {
-    textOrTag.setModel(new CollectionComboBoxModel(Arrays.asList(TAG, TEXT), DEFAULT_CARD));
-    final TagPredicatePanel tpp = this;
-    textOrTag.addItemListener(new ItemListener() {
-      @Override
-      public void itemStateChanged(ItemEvent itemEvent) {
-        ((CardLayout)cardsPanel.getLayout()).show(cardsPanel, (String)itemEvent.getItem());
-        if(getDelegate() != null) {
-          getDelegate().stateChanged(tpp);
-        }
-      }
-    });
-    if (tagOnly) {
-      textOrTag.setVisible(false);
-    }
-    ((CardLayout)cardsPanel.getLayout()).show(cardsPanel, DEFAULT_CARD);
-
+    List<String> items = tagOnly ? Arrays.asList(TAG) : Arrays.asList(TAG, TEXT);
+    textOrTag.setModel(new CollectionComboBoxModel(items, DEFAULT_CARD));
     setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
     pane.setAlignmentX(JComponent.LEFT_ALIGNMENT);
     add(pane);
+    final TagPredicatePanel tagPredicatePanel = this;
+    textOrTag.addItemListener(new ItemListener() {
+      @Override
+      public void itemStateChanged(ItemEvent itemEvent) {
+        if (getDelegate() != null) {
+          getDelegate().stateChanged(tagPredicatePanel);
+        }
+      }
+    });
+
     updateUI();
   }
 
@@ -66,7 +60,7 @@ public class TagPredicatePanel extends JPanel {
   }
 
   public String getTagName() {
-    return tagField.getText();
+    return textField.getText();
   }
 
   public String getText() {
