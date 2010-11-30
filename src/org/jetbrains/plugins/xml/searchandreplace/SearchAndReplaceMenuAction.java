@@ -31,6 +31,7 @@ import org.jetbrains.plugins.xml.searchandreplace.search.Node;
 import org.jetbrains.plugins.xml.searchandreplace.search.Pattern;
 import org.jetbrains.plugins.xml.searchandreplace.search.TagSearchObserver;
 import org.jetbrains.plugins.xml.searchandreplace.ui.MainDialog;
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.persistence.PatternsStorage;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -67,6 +68,7 @@ public class SearchAndReplaceMenuAction extends AnAction {
           public void performSearch(MainDialog dialog) {
             Pattern pattern = dialog.getPattern();
             SearchScope scope = dialog.getSelectedScope();
+            PatternsStorage.getInstance(project).setRecentScope(scope);
             if (pattern != null && scope != null) {
               SearchAndReplaceMenuAction.performSearchAndReplace(project, pattern, scope, dialog.getReplacementProvider());
             }

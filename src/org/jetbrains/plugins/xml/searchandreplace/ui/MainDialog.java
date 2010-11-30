@@ -1,18 +1,17 @@
 package org.jetbrains.plugins.xml.searchandreplace.ui;
 
 import com.intellij.lang.xml.XMLLanguage;
-import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.DialogWrapper;
 import org.intellij.plugins.xpathView.search.ScopePanel;
 import org.intellij.plugins.xpathView.search.SearchScope;
-import org.jetbrains.plugins.xml.searchandreplace.ui.controller.replace.persistence.ReplacementsStorage;
-import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.persistence.PatternsStorage;
 import org.jetbrains.plugins.xml.searchandreplace.replace.ReplacementProvider;
 import org.jetbrains.plugins.xml.searchandreplace.search.Pattern;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.replace.ReplaceController;
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.replace.persistence.ReplacementsStorage;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.PatternController;
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.persistence.PatternsStorage;
 import org.jetbrains.plugins.xml.searchandreplace.ui.view.replace.ReplaceView;
 
 import javax.swing.*;
@@ -35,16 +34,22 @@ public class MainDialog extends DialogWrapper implements ContainerListener, Patt
 
   private void createUIComponents() {
     scopePanel = new ScopePanel(project);
-    scopePanel.initComponent(module, new SearchScope());
 
-    if (ourPatternController == null) {
-      ourPatternController = new PatternController();
-    }
-    PatternsStorage service = ServiceManager.getService(PatternsStorage.class);
+    PatternsStorage service = PatternsStorage.getInstance(project);
+    SearchScope searchScope = service == null ? new SearchScope() :
+            (service.getRecentScope() == null ? new SearchScope() : service.getRecentScope());
+
+    scopePanel.initComponent(module, searchScope);
+
+
+
     if (service != null) {
       patternController = service.getRecent();
     }
     if (patternController == null) {
+      if (ourPatternController == null) {
+        ourPatternController = new PatternController();
+      }
       patternController = ourPatternController;
       if (service != null) {
         service.setRecent(patternController);

@@ -60,9 +60,7 @@ public class ConstraintPanel extends JPanel {
   public void setDelegate(ConstraintPanelDelegate delegate) {
     this.delegate = delegate == null ? DUMMY_DELEGATE : delegate;
     reloadData();
-    if (!predicateTypeChooser.isVisible()) {
-      getDelegate().constraintTypeSelected(this, null);
-    }
+
   }
 
   public void reloadData() {

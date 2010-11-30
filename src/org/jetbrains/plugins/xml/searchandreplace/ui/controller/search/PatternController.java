@@ -138,6 +138,7 @@ public class PatternController implements ConstraintControllerDelegate, Persiste
   public PatternController() {
     root = new ConstraintController(true, null);
     addConstraintController(root);
+    root.constraintTypeSelected(null, null);
   }
 
   public Pattern buildPattern() {
