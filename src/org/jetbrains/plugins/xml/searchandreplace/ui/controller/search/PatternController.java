@@ -203,6 +203,22 @@ public class PatternController implements ConstraintControllerDelegate, Persiste
       }
     }
     constraintController.setCanHaveChildren(!allowedChildrenTypes.isEmpty());
+    registerCapturesIfNesessary(constraintController);
+    if (delegate != null) {
+      delegate.pleaseAutoresizeWindow(this);
+    }
+  }
+
+  @Override
+  public void loadCapturesFor(ConstraintController constraintController, ConstraintEntry state) {
+    List<String> capturesIds = state.getCapturesIds();
+    List<Capture> captures = constraintController.getCaptures();
+    for (int i = 0; i < capturesIds.size(); ++i) {
+      capturesManager.registerNewCapture(constraintController, captures.get(i), capturesIds.get(i));
+    }
+  }
+
+  private void registerCapturesIfNesessary(ConstraintController constraintController) {
     boolean unregistered = false;
     for (Capture c : constraintController.getCaptures()) {
       if (!capturesManager.isCaptureRegistered(c)) {
@@ -212,9 +228,6 @@ public class PatternController implements ConstraintControllerDelegate, Persiste
     }
     if (unregistered) {
       constraintController.getView().setCaptures(constraintController.getCaptures());
-    }
-    if (delegate != null) {
-      delegate.pleaseAutoresizeWindow(this);
     }
   }
 

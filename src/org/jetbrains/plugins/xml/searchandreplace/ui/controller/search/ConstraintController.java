@@ -14,7 +14,6 @@ import org.jetbrains.plugins.xml.searchandreplace.ui.view.ConstraintPanel;
 import org.jetbrains.plugins.xml.searchandreplace.ui.view.ConstraintPanelDelegate;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 public class ConstraintController implements ConstraintPanelDelegate, ConstraintTypeController.Delegate, PersistentStateComponent<ConstraintEntry> {
@@ -31,9 +30,9 @@ public class ConstraintController implements ConstraintPanelDelegate, Constraint
 
   private Node builtNode;
 
-  private Collection<Capture> captures = new ArrayList<Capture>();
+  private ArrayList<Capture> captures = new ArrayList<Capture>();
 
-  public Collection<Capture> getCaptures() {
+  public ArrayList<Capture> getCaptures() {
     return captures;
   }
 
@@ -135,9 +134,6 @@ public class ConstraintController implements ConstraintPanelDelegate, Constraint
   @Override
   public void updateCaptures(ConstraintTypeController ptc) {
     captures = ptc.provideCaptures(this);
-    if (delegate != null) {
-      delegate.validateMe(this);
-    }
   }
 
   @Override
@@ -162,6 +158,11 @@ public class ConstraintController implements ConstraintPanelDelegate, Constraint
     ConstraintTypeSpecificEntry constraintTypeControllerState = constraintTypeController.getState();
     constraintEntry.setConstraintTypeSpecificEntry(constraintTypeControllerState);
 
+    ArrayList<String> capturesIds = new ArrayList<String>();
+    for (Capture c : captures) {
+      capturesIds.add(c.presentation().getIdentifier());
+    }
+    constraintEntry.setCapturesIds(capturesIds);
     return constraintEntry;
   }
 
@@ -176,8 +177,25 @@ public class ConstraintController implements ConstraintPanelDelegate, Constraint
     } catch (ClassNotFoundException e) {
       constraintType = null;
     }
-    constraintTypeSelected(null, constraintType);
+
+    if (constraintType == null) {
+      constraintType = new RootConstraintType();
+    }
+
+    selectedConstraintType = constraintType;
+
+    constraintTypeController = selectedConstraintType.createNewController();
+    constraintTypeController.setDelegate(this);
+
     myView.setSelectedConstraintType(constraintType);
+    myView.setPredicateTypeSpecificView(constraintTypeController.getView());
+
+    updateCaptures(constraintTypeController);
+
+    getDelegate().loadCapturesFor(this, state);
+
+    myView.setCaptures(captures);
+
     constraintTypeController.loadState(state.getConstraintTypeSpecificEntry());
   }
 }

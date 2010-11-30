@@ -11,7 +11,6 @@ import org.jetbrains.plugins.xml.searchandreplace.ui.controller.replace.Capture;
 
 import javax.swing.*;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 public abstract class ConstraintTypeController implements PersistentStateComponent<ConstraintTypeSpecificEntry> {
@@ -69,7 +68,7 @@ public abstract class ConstraintTypeController implements PersistentStateCompone
     return true;
   }
 
-  public Collection<Capture> provideCaptures(ConstraintController constraintController) {
+  public ArrayList<Capture> provideCaptures(ConstraintController constraintController) {
     return new ArrayList<Capture>();
   }
 

@@ -34,23 +34,27 @@ public class CapturesManager {
         break;
       }
     }
-    ids.put(id, cc);
     return "" + id;
   }
 
   public void registerNewCapture(ConstraintController constraintController, Capture capture) {
+    String uniqueId = createUniqueId(constraintController);
+    registerNewCapture(constraintController, capture, uniqueId);
+  }
+
+  public void registerNewCapture(ConstraintController constraintController, Capture capture, String id) {
     CapturePresentation cp = new CapturePresentation();
     cp.setBackgroundColor(null);
     cp.setTextColor(Color.BLUE);
     cp.setName(capture.getName());
-    String uniqueId = createUniqueId(constraintController);
-    cp.setIdentifier(uniqueId);
+    cp.setIdentifier(id);
     cp.setCapture(capture);
-    map.put(uniqueId, capture);
+    map.put(id, capture);
     capture.setPresentation(cp);
     for (CapturesListener observer : observers) {
       observer.captureAdded(capture);
     }
+    ids.put(Integer.parseInt(id), constraintController);
   }
 
   public void paredicateControllerIsDead(ConstraintController cc) {

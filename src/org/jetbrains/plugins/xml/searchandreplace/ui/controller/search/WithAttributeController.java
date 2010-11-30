@@ -14,7 +14,6 @@ import org.jetbrains.plugins.xml.searchandreplace.ui.view.AttributePanel;
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 
 
@@ -215,7 +214,7 @@ public class WithAttributeController extends ConstraintTypeController {
   }
 
   @Override
-  public Collection<Capture> provideCaptures(ConstraintController constraintController) {
+  public ArrayList<Capture> provideCaptures(ConstraintController constraintController) {
     ArrayList<Capture> captures = new ArrayList<Capture>();
     captures.add(new AttributeNameCapture(constraintController));
     captures.add(new AttributeValueCapture(constraintController));

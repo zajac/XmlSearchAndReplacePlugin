@@ -7,17 +7,16 @@ import org.jetbrains.plugins.xml.searchandreplace.search.predicates.TagPredicate
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.XmlElementPredicate;
 import org.jetbrains.plugins.xml.searchandreplace.ui.ConstraintType;
 import org.jetbrains.plugins.xml.searchandreplace.ui.ConstraintTypesRegistry;
-import org.jetbrains.plugins.xml.searchandreplace.ui.controller.replace.Capture;
-import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.captures.TagNameCapture;
 import org.jetbrains.plugins.xml.searchandreplace.ui.constraintTypes.Inside;
 import org.jetbrains.plugins.xml.searchandreplace.ui.constraintTypes.NotContains;
 import org.jetbrains.plugins.xml.searchandreplace.ui.constraintTypes.NotInside;
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.replace.Capture;
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.captures.TagNameCapture;
 import org.jetbrains.plugins.xml.searchandreplace.ui.view.TagPredicatePanel;
 
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 
 public class TagOrTextConstraintController extends ConstraintTypeController implements TagPredicatePanel.Delegate {
@@ -72,7 +71,7 @@ public class TagOrTextConstraintController extends ConstraintTypeController impl
   }
 
   @Override
-  public Collection<Capture> provideCaptures(ConstraintController constraintController) {
+  public ArrayList<Capture> provideCaptures(ConstraintController constraintController) {
     if (myView.selectedCard().equals(TagPredicatePanel.TAG)) {
       if (p != Params.NOT) {
         ArrayList<Capture> captures = new ArrayList<Capture>();

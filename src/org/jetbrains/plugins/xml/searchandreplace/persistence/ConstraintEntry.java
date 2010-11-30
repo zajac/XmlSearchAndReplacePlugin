@@ -1,9 +1,22 @@
 package org.jetbrains.plugins.xml.searchandreplace.persistence;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ConstraintEntry {
   private String constraintTypeClassSelected = "";
   private int id;
+
+  private List<String> capturesIds = new ArrayList<String>();
+
+  public List<String> getCapturesIds() {
+    return capturesIds;
+  }
+
+  public void setCapturesIds(List<String> capturesIds) {
+    this.capturesIds = capturesIds;
+  }
 
   public int getId() {
     return id;
