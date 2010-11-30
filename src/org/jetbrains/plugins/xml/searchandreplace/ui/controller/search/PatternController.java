@@ -75,8 +75,16 @@ public class PatternController implements ConstraintControllerDelegate, Persiste
 
       addConstraintController(constraintController);
 
-      ConstraintEntry constraintEntry = state.getEntries().get(id);
-      constraintController.loadState(constraintEntry);
+      ArrayList<ConstraintEntry> constraintEntries = state.getEntries();
+      ConstraintEntry constraintEntry = null;
+      for (ConstraintEntry ce : constraintEntries) {
+        if (ce.getId() == id) {
+          constraintEntry = ce;
+        }
+      }
+      if (constraintEntry != null) {
+        constraintController.loadState(constraintEntry);
+      }
     }
     if (id == state.getRoot()) {
       this.root = constraintController;
