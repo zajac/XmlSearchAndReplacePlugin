@@ -1,7 +1,6 @@
 package org.jetbrains.plugins.xml.searchandreplace.ui.controller.search;
 
-import org.jetbrains.plugins.xml.searchandreplace.persistence.ConstraintEntry;
-import org.jetbrains.plugins.xml.searchandreplace.ui.ConstraintType;
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.persistence.ConstraintEntry;
 
 import java.util.List;
 

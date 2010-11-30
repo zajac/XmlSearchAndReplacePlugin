@@ -1,12 +1,13 @@
 package org.jetbrains.plugins.xml.searchandreplace.ui.controller.replace;
 
 
+import com.intellij.openapi.components.PersistentStateComponent;
 import org.jetbrains.plugins.xml.searchandreplace.replace.ReplacementProvider;
-import org.jetbrains.plugins.xml.searchandreplace.ui.CapturesManager;
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.captures.CapturesManager;
 
 import javax.swing.*;
 
-public abstract class ReplacementController {
+public abstract class ReplacementController implements PersistentStateComponent <ReplacementControllerState>{
 
   private CapturesManager capturesManager = null;
 

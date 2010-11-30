@@ -4,6 +4,7 @@ import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.editor.EditorDropHandler;
 import com.intellij.openapi.editor.impl.EditorImpl;
 import com.intellij.openapi.project.Project;
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.captures.Capture;
 
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;

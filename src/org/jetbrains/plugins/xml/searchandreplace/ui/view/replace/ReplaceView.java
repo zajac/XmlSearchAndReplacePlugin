@@ -10,6 +10,11 @@ public class ReplaceView extends JPanel {
 
   private ReplaceViewDelegate delegate;
   private JPanel centerPane;
+
+  public JComboBox getReplacementTypeChooser() {
+    return replacementTypeChooser;
+  }
+
   private JComboBox replacementTypeChooser;
   private JPanel replacementSpecific;
 

@@ -1,17 +1,15 @@
 package org.jetbrains.plugins.xml.searchandreplace.ui.controller.search;
 
 import com.intellij.openapi.components.PersistentStateComponent;
-import org.jetbrains.plugins.xml.searchandreplace.persistence.ConstraintEntry;
-import org.jetbrains.plugins.xml.searchandreplace.persistence.ConstraintTypeSpecificEntry;
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.persistence.ConstraintEntry;
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.persistence.ConstraintTypeSpecificEntry;
 import org.jetbrains.plugins.xml.searchandreplace.search.Node;
 import org.jetbrains.plugins.xml.searchandreplace.search.Pattern;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.XmlElementPredicate;
-import org.jetbrains.plugins.xml.searchandreplace.ui.ConstraintType;
-import org.jetbrains.plugins.xml.searchandreplace.ui.ConstraintTypesRegistry;
-import org.jetbrains.plugins.xml.searchandreplace.ui.constraintTypes.RootConstraintType;
-import org.jetbrains.plugins.xml.searchandreplace.ui.controller.replace.Capture;
-import org.jetbrains.plugins.xml.searchandreplace.ui.view.ConstraintPanel;
-import org.jetbrains.plugins.xml.searchandreplace.ui.view.ConstraintPanelDelegate;
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.constraintTypes.RootConstraintType;
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.captures.Capture;
+import org.jetbrains.plugins.xml.searchandreplace.ui.view.search.ConstraintPanel;
+import org.jetbrains.plugins.xml.searchandreplace.ui.view.search.ConstraintPanelDelegate;
 
 import java.util.ArrayList;
 import java.util.List;

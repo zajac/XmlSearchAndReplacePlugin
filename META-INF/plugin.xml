@@ -14,8 +14,10 @@
   </project-components>
 
   <extensions defaultExtensionNs="com.intellij">
-    <applicationService serviceInterface="org.jetbrains.plugins.xml.searchandreplace.persistence.PatternsStorage"
-                        serviceImplementation="org.jetbrains.plugins.xml.searchandreplace.persistence.PatternsStorage"/>
+    <applicationService serviceInterface="org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.persistence.PatternsStorage"
+                        serviceImplementation="org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.persistence.PatternsStorage"/>
+    <projectService serviceInterface="org.jetbrains.plugins.xml.searchandreplace.ui.controller.replace.persistence.ReplacementsStorage"
+                    serviceImplementation="org.jetbrains.plugins.xml.searchandreplace.ui.controller.replace.persistence.ReplacementsStorage"/>
   </extensions>
 
   <actions>

@@ -2,15 +2,13 @@ package org.jetbrains.plugins.xml.searchandreplace.ui.controller.search;
 
 
 import com.intellij.openapi.components.PersistentStateComponent;
-import org.jetbrains.plugins.xml.searchandreplace.persistence.ConstraintEntry;
-import org.jetbrains.plugins.xml.searchandreplace.persistence.PatternStorageEntry;
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.persistence.ConstraintEntry;
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.persistence.PatternStorageEntry;
 import org.jetbrains.plugins.xml.searchandreplace.search.Node;
 import org.jetbrains.plugins.xml.searchandreplace.search.Pattern;
-import org.jetbrains.plugins.xml.searchandreplace.ui.CapturesManager;
-import org.jetbrains.plugins.xml.searchandreplace.ui.ConstraintType;
-import org.jetbrains.plugins.xml.searchandreplace.ui.ConstraintTypesRegistry;
-import org.jetbrains.plugins.xml.searchandreplace.ui.controller.replace.Capture;
-import org.jetbrains.plugins.xml.searchandreplace.ui.view.PatternView;
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.captures.CapturesManager;
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.captures.Capture;
+import org.jetbrains.plugins.xml.searchandreplace.ui.view.search.PatternView;
 
 import java.util.*;
 

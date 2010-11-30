@@ -7,7 +7,8 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.DialogWrapper;
 import org.intellij.plugins.xpathView.search.ScopePanel;
 import org.intellij.plugins.xpathView.search.SearchScope;
-import org.jetbrains.plugins.xml.searchandreplace.persistence.PatternsStorage;
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.replace.persistence.ReplacementsStorage;
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.persistence.PatternsStorage;
 import org.jetbrains.plugins.xml.searchandreplace.replace.ReplacementProvider;
 import org.jetbrains.plugins.xml.searchandreplace.search.Pattern;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.replace.ReplaceController;
@@ -51,7 +52,13 @@ public class MainDialog extends DialogWrapper implements ContainerListener, Patt
     }
     patternView = patternController.getView();
 
-    replaceController = new ReplaceController(project, XMLLanguage.INSTANCE, patternController.getCapturesManager());
+    ReplacementsStorage storage = ReplacementsStorage.getInstance(project);
+    replaceController = storage.getRecent();
+    if (replaceController == null) {
+      replaceController = new ReplaceController(project, XMLLanguage.INSTANCE);
+      storage.setRecent(replaceController);
+    }
+    replaceController.setCapturesManager(patternController.getCapturesManager());
     replaceView = replaceController.getView();
   }
 

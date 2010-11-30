@@ -1,6 +1,6 @@
 package org.jetbrains.plugins.xml.searchandreplace.replace;
 
-import org.jetbrains.plugins.xml.searchandreplace.ui.controller.replace.Capture;
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.captures.Capture;
 
 import java.awt.*;
 

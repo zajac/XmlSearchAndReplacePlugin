@@ -1,15 +1,14 @@
 package org.jetbrains.plugins.xml.searchandreplace.ui.controller.search;
 
 import com.intellij.psi.xml.XmlAttribute;
-import org.jetbrains.plugins.xml.searchandreplace.persistence.ConstraintTypeSpecificEntry;
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.persistence.ConstraintTypeSpecificEntry;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.AttributePredicate;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.HasSpecificAttribute;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.XmlElementPredicate;
-import org.jetbrains.plugins.xml.searchandreplace.ui.ConstraintType;
-import org.jetbrains.plugins.xml.searchandreplace.ui.controller.replace.Capture;
-import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.captures.AttributeNameCapture;
-import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.captures.AttributeValueCapture;
-import org.jetbrains.plugins.xml.searchandreplace.ui.view.AttributePanel;
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.captures.Capture;
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.captures.AttributeNameCapture;
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.captures.AttributeValueCapture;
+import org.jetbrains.plugins.xml.searchandreplace.ui.view.search.AttributePanel;
 
 import javax.swing.*;
 import java.util.ArrayList;

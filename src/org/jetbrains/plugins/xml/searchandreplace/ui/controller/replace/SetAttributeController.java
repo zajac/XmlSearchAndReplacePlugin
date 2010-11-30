@@ -7,34 +7,53 @@ import org.jetbrains.plugins.xml.searchandreplace.replace.ReplacementProvider;
 import org.jetbrains.plugins.xml.searchandreplace.replace.SetAttribute;
 import org.jetbrains.plugins.xml.searchandreplace.replace.SetAttributeHelper;
 import org.jetbrains.plugins.xml.searchandreplace.search.Node;
+import org.jetbrains.plugins.xml.searchandreplace.ui.view.replace.MyEditorTextField;
 import org.jetbrains.plugins.xml.searchandreplace.ui.view.replace.SetAttributeView;
 
 import java.util.Map;
 
-public class SetAttributeController extends ReplacementController {
+public class SetAttributeController extends ReplacementController  {
 
   private SetAttributeView myView = new SetAttributeView();
 
   protected CapturedReplacementController nameResolver;
   protected CapturedReplacementController valueResolver;
 
-  @Override
-  public SetAttributeView getView() {
-    return myView;
+  private String nameToSet = null;
+  private String valueToSet = null;
+
+  public SetAttributeController() {
+    myView.getNameField().setDelegate(new MyEditorTextField.Delegate() {
+      @Override
+      public void viewDidAppear() {
+        EditorImpl nameEditor = getView().getNameEditor();
+        if (nameEditor != null) {
+          nameResolver = new CapturedReplacementController(nameEditor, getCapturesManager());
+        }
+        if (nameToSet != null) {
+          myView.getNameField().setText(nameToSet);
+        }
+      }
+    });
+    myView.getValueField().setDelegate(new MyEditorTextField.Delegate() {
+      @Override
+      public void viewDidAppear() {
+        EditorImpl valueEditor = getView().getValueEditor();
+        if (valueEditor != null) {
+          valueResolver = new CapturedReplacementController(valueEditor, getCapturesManager());
+        }
+
+        if (valueToSet != null) {
+          myView.getValueField().setText(valueToSet);
+        }
+      }
+    });
+
   }
 
   @Override
-  public void viewDidAppear() {
-    super.viewDidAppear();
-    EditorImpl nameEditor = getView().getNameEditor();
-    if (nameEditor != null) {
-      nameResolver = new CapturedReplacementController(nameEditor, getCapturesManager());
-    }
-
-    EditorImpl valueEditor = getView().getValueEditor();
-    if (valueEditor != null) {
-      valueResolver = new CapturedReplacementController(valueEditor, getCapturesManager());
-    }
+  public SetAttributeView getView() {
+    return myView;
   }
 
   @Override
@@ -45,6 +64,20 @@ public class SetAttributeController extends ReplacementController {
   @Override
   public String toString() {
     return "Set attribute";
+  }
+
+  @Override
+  public ReplacementControllerState getState() {
+    ReplacementControllerState state = new ReplacementControllerState();
+    state.setAttrName(myView.getNameEditor().getDocument().getText());
+    state.setAttrValue(myView.getValueEditor().getDocument().getText());
+    return state;
+  }
+
+  @Override
+  public void loadState(ReplacementControllerState state) {
+    nameToSet = state.getAttrName();
+    valueToSet = state.getAttrValue();
   }
 
   protected class MySetAttributeHelper implements SetAttributeHelper {

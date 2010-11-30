@@ -9,12 +9,27 @@ import com.intellij.psi.xml.XmlTag;
 import org.jetbrains.plugins.xml.searchandreplace.replace.ReplacementProvider;
 import org.jetbrains.plugins.xml.searchandreplace.replace.Utils;
 import org.jetbrains.plugins.xml.searchandreplace.search.Node;
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.captures.Capture;
+import org.jetbrains.plugins.xml.searchandreplace.ui.view.replace.MyEditorTextField;
 import org.jetbrains.plugins.xml.searchandreplace.ui.view.replace.ReplacementView;
 
 import javax.swing.*;
 import java.util.Map;
 
-public abstract class CreatingXmlController extends ReplacementController implements CapturedReplacementController.Delegate {
+public abstract class CreatingXmlController extends ReplacementController implements CapturedReplacementController.Delegate, MyEditorTextField.Delegate {
+  private String textToSet;
+
+  @Override
+  public ReplacementControllerState getState() {
+    ReplacementControllerState state = new ReplacementControllerState();
+    state.setText(myView.getText());
+    return state;
+  }
+
+  @Override
+  public void loadState(ReplacementControllerState state) {
+    textToSet = state.getText();
+  }
 
   CapturedReplacementController nested;
 
@@ -27,7 +42,7 @@ public abstract class CreatingXmlController extends ReplacementController implem
     myProject = project;
     myLanguage = language;
     myView = new ReplacementView(project);
-
+    myView.setDelegate(this);
   }
 
   @Override
@@ -40,6 +55,9 @@ public abstract class CreatingXmlController extends ReplacementController implem
     final EditorImpl editor = myView.getEditor();
     nested = new CapturedReplacementController(editor, getCapturesManager());
     nested.setDelegate(this);
+    if (textToSet != null) {
+      myView.getTextField().setText(textToSet);
+    }
   }
 
   protected ReplacementProvider createReplacementProviderWithMyXml() {

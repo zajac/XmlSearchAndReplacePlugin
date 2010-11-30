@@ -16,7 +16,7 @@
           <text value="="/>
         </properties>
       </component>
-      <component id="56314" class="com.intellij.ui.EditorTextField" binding="nameField">
+      <component id="56314" class="com.intellij.ui.EditorTextField" binding="nameField" custom-create="true">
         <constraints>
           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false">
             <minimum-size width="150" height="-1"/>
@@ -24,7 +24,7 @@
         </constraints>
         <properties/>
       </component>
-      <component id="1df43" class="com.intellij.ui.EditorTextField" binding="valueField">
+      <component id="1df43" class="com.intellij.ui.EditorTextField" binding="valueField" custom-create="true">
         <constraints>
           <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false">
             <minimum-size width="150" height="-1"/>

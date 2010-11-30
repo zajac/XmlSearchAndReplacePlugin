@@ -2,13 +2,11 @@ package org.jetbrains.plugins.xml.searchandreplace.ui.controller.search;
 
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.DirectlyContains;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.XmlElementPredicate;
-import org.jetbrains.plugins.xml.searchandreplace.ui.ConstraintType;
-import org.jetbrains.plugins.xml.searchandreplace.ui.ConstraintTypesRegistry;
-import org.jetbrains.plugins.xml.searchandreplace.ui.constraintTypes.Contains;
-import org.jetbrains.plugins.xml.searchandreplace.ui.constraintTypes.WithAttribute;
-import org.jetbrains.plugins.xml.searchandreplace.ui.constraintTypes.WithoutAttribute;
-import org.jetbrains.plugins.xml.searchandreplace.ui.controller.replace.Capture;
-import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.captures.DirectlyContainsTagNameCapture;
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.constraintTypes.Contains;
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.constraintTypes.WithAttribute;
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.constraintTypes.WithoutAttribute;
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.captures.Capture;
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.captures.DirectlyContainsTagNameCapture;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -44,7 +42,7 @@ public class DirectlyContainsController extends TagOrTextConstraintController {
             ConstraintTypesRegistry.getInstance().byClass(WithAttribute.class),
             ConstraintTypesRegistry.getInstance().byClass(WithoutAttribute.class),
             ConstraintTypesRegistry.getInstance().
-                    byClass(org.jetbrains.plugins.xml.searchandreplace.ui.constraintTypes.DirectlyContains.class),
+                    byClass(org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.constraintTypes.DirectlyContains.class),
             ConstraintTypesRegistry.getInstance().byClass(Contains.class));
   }
 }

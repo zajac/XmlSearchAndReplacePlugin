@@ -1,18 +1,16 @@
 package org.jetbrains.plugins.xml.searchandreplace.ui.controller.search;
 
 import com.intellij.psi.xml.XmlTag;
-import org.jetbrains.plugins.xml.searchandreplace.persistence.ConstraintTypeSpecificEntry;
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.persistence.ConstraintTypeSpecificEntry;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.MatchesXmlTextPredicate;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.TagPredicate;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.XmlElementPredicate;
-import org.jetbrains.plugins.xml.searchandreplace.ui.ConstraintType;
-import org.jetbrains.plugins.xml.searchandreplace.ui.ConstraintTypesRegistry;
-import org.jetbrains.plugins.xml.searchandreplace.ui.constraintTypes.Inside;
-import org.jetbrains.plugins.xml.searchandreplace.ui.constraintTypes.NotContains;
-import org.jetbrains.plugins.xml.searchandreplace.ui.constraintTypes.NotInside;
-import org.jetbrains.plugins.xml.searchandreplace.ui.controller.replace.Capture;
-import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.captures.TagNameCapture;
-import org.jetbrains.plugins.xml.searchandreplace.ui.view.TagPredicatePanel;
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.constraintTypes.Inside;
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.constraintTypes.NotContains;
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.constraintTypes.NotInside;
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.captures.Capture;
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.captures.TagNameCapture;
+import org.jetbrains.plugins.xml.searchandreplace.ui.view.search.TagPredicatePanel;
 
 import javax.swing.*;
 import java.util.ArrayList;

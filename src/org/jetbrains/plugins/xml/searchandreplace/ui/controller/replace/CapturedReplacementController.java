@@ -11,8 +11,9 @@ import com.intellij.openapi.editor.markup.TextAttributes;
 import com.intellij.psi.xml.XmlElement;
 import org.jetbrains.plugins.xml.searchandreplace.replace.CapturePresentation;
 import org.jetbrains.plugins.xml.searchandreplace.search.Node;
-import org.jetbrains.plugins.xml.searchandreplace.ui.CapturesListener;
-import org.jetbrains.plugins.xml.searchandreplace.ui.CapturesManager;
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.captures.CapturesListener;
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.captures.CapturesManager;
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.captures.Capture;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.ConstraintController;
 
 import java.awt.*;
