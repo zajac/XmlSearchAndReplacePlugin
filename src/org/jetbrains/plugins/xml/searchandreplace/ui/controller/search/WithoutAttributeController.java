@@ -2,6 +2,7 @@ package org.jetbrains.plugins.xml.searchandreplace.ui.controller.search;
 
 import com.intellij.psi.xml.XmlAttribute;
 import com.intellij.psi.xml.XmlTag;
+import org.jetbrains.plugins.xml.searchandreplace.persistence.ConstraintTypeSpecificEntry;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.TagPredicate;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.XmlElementPredicate;
 import org.jetbrains.plugins.xml.searchandreplace.ui.ConstraintType;
@@ -43,5 +44,17 @@ public class WithoutAttributeController extends ConstraintTypeController {
   @Override
   public List<ConstraintType> getAllowedChildrenTypes() {
     return new ArrayList<ConstraintType>();
+  }
+
+  @Override
+  public ConstraintTypeSpecificEntry getState() {
+    ConstraintTypeSpecificEntry state = new ConstraintTypeSpecificEntry();
+    state.setAttrName(view.getAttrName());
+    return state;
+  }
+
+  @Override
+  public void loadState(ConstraintTypeSpecificEntry state) {
+    view.setAttrName(state.getAttrName());
   }
 }

@@ -6,6 +6,7 @@ import com.intellij.openapi.project.Project;
 import org.jetbrains.plugins.xml.searchandreplace.replace.InsertIntoTag;
 import org.jetbrains.plugins.xml.searchandreplace.replace.InsertNearElement;
 import org.jetbrains.plugins.xml.searchandreplace.replace.ReplacementProvider;
+import org.jetbrains.plugins.xml.searchandreplace.ui.CapturesManager;
 import org.jetbrains.plugins.xml.searchandreplace.ui.view.replace.ReplaceView;
 
 import java.util.Arrays;
@@ -14,6 +15,7 @@ public class ReplaceController implements ReplaceView.ReplaceViewDelegate {
 
   private ReplaceView myView;
   private ReplacementController myReplacementController;
+  private CapturesManager capturesManager;
 
   public Project getProject() {
     return project;
@@ -30,7 +32,7 @@ public class ReplaceController implements ReplaceView.ReplaceViewDelegate {
     return myView;
   }
 
-  public ReplaceController(Project project, Language language) {
+  public ReplaceController(Project project, Language language, CapturesManager capturesManager) {
     this.project = project;
     this.language = language;
     ReplacementController[] controllers = new ReplacementController[]{
@@ -44,6 +46,9 @@ public class ReplaceController implements ReplaceView.ReplaceViewDelegate {
             new SetAttributeController(),
             new RemoveAttributeController()
     };
+    for (ReplacementController rc : controllers) {
+      rc.setCapturesManager(capturesManager);
+    }
     myView = new ReplaceView(Arrays.asList(controllers));
     myView.setDelegate(this);
   }

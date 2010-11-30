@@ -13,6 +13,11 @@
     <!-- Add your project components here -->
   </project-components>
 
+  <extensions defaultExtensionNs="com.intellij">
+    <applicationService serviceInterface="org.jetbrains.plugins.xml.searchandreplace.persistence.PatternsStorage"
+                        serviceImplementation="org.jetbrains.plugins.xml.searchandreplace.persistence.PatternsStorage"/>
+  </extensions>
+
   <actions>
     <!-- Add your actions here -->
       <group>

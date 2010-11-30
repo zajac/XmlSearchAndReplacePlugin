@@ -10,14 +10,13 @@ import java.util.List;
 
 
 public class CapturesManager {
-  private static CapturesManager shared = new CapturesManager();
 
   private Map<Integer, ConstraintController> ids = new HashMap<Integer, ConstraintController>();
   private Map<String,  Capture> map = new HashMap<String, Capture>();
 
   private List<CapturesListener> observers = new ArrayList<CapturesListener>();
 
-  private CapturesManager(){}
+  public CapturesManager(){}
 
   public void addCapturesListener(CapturesListener l) {
     observers.add(l);
@@ -25,10 +24,6 @@ public class CapturesManager {
 
   public void removeCapturesListener(CapturesListener l) {
     observers.remove(l);
-  }
-
-  public static CapturesManager instance() {
-    return shared;
   }
 
   private String createUniqueId(ConstraintController cc) {
@@ -43,11 +38,11 @@ public class CapturesManager {
     return "" + id;
   }
 
-  public void registerNewCapture(ConstraintController constraintController, String name, Capture capture) {
+  public void registerNewCapture(ConstraintController constraintController, Capture capture) {
     CapturePresentation cp = new CapturePresentation();
     cp.setBackgroundColor(null);
     cp.setTextColor(Color.BLUE);
-    cp.setName(name);
+    cp.setName(capture.getName());
     String uniqueId = createUniqueId(constraintController);
     cp.setIdentifier(uniqueId);
     cp.setCapture(capture);
@@ -86,4 +81,12 @@ public class CapturesManager {
   public Capture findById(String captureId) {
     return map.get(captureId);
   }
+
+  public boolean isCaptureRegistered(Capture c) {
+    for (Capture capture : map.values()) {
+      if (capture == c) return true;
+    }
+    return false;
+  }
+  
 }

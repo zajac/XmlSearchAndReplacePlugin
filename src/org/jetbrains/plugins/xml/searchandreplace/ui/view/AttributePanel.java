@@ -21,7 +21,6 @@ public class AttributePanel extends JPanel {
       comparatorChooser.setModel(new CollectionComboBoxModel(comparators, null));
     }
     add(centerPanel);
-
   }
 
   public String getAttrName() {
@@ -34,5 +33,17 @@ public class AttributePanel extends JPanel {
 
   public Object selectedComparator() {
     return comparatorChooser.getSelectedItem();
+  }
+
+  public void setAttrName(String attrName) {
+    nameField.setText(attrName);
+  }
+
+  public void setValue(String value) {
+    valueField.setText(value);
+  }
+
+  public void setSelectedComparator(Object comparator) {
+    comparatorChooser.setSelectedItem(comparator);
   }
 }

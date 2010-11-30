@@ -1,9 +1,13 @@
 package org.jetbrains.plugins.xml.searchandreplace.ui.controller.search;
 
+import com.intellij.openapi.components.PersistentStateComponent;
+import org.jetbrains.plugins.xml.searchandreplace.persistence.ConstraintEntry;
+import org.jetbrains.plugins.xml.searchandreplace.persistence.ConstraintTypeSpecificEntry;
 import org.jetbrains.plugins.xml.searchandreplace.search.Node;
 import org.jetbrains.plugins.xml.searchandreplace.search.Pattern;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.XmlElementPredicate;
 import org.jetbrains.plugins.xml.searchandreplace.ui.ConstraintType;
+import org.jetbrains.plugins.xml.searchandreplace.ui.ConstraintTypesRegistry;
 import org.jetbrains.plugins.xml.searchandreplace.ui.constraintTypes.RootConstraintType;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.replace.Capture;
 import org.jetbrains.plugins.xml.searchandreplace.ui.view.ConstraintPanel;
@@ -13,13 +17,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class ConstraintController implements ConstraintPanelDelegate, ConstraintTypeController.Delegate {
+public class ConstraintController implements ConstraintPanelDelegate, ConstraintTypeController.Delegate, PersistentStateComponent<ConstraintEntry> {
 
   private ConstraintPanel myView;
-
-  public ConstraintTypeController getConstraintTypeController() {
-    return constraintTypeController;
-  }
 
   private ConstraintTypeController constraintTypeController;
 
@@ -28,11 +28,17 @@ public class ConstraintController implements ConstraintPanelDelegate, Constraint
   private ConstraintControllerDelegate delegate;
 
   private ConstraintController parent;
+
   private Node builtNode;
+
   private Collection<Capture> captures = new ArrayList<Capture>();
 
   public Collection<Capture> getCaptures() {
     return captures;
+  }
+
+  public ConstraintTypeController getConstraintTypeController() {
+    return constraintTypeController;
   }
 
   public ConstraintController(boolean canHaveChildren, ConstraintController parent) {
@@ -74,6 +80,7 @@ public class ConstraintController implements ConstraintPanelDelegate, Constraint
   }
 
   public void constraintTypeSelected(ConstraintPanel panel, ConstraintType selection) {
+    if (selection == selectedConstraintType && selectedConstraintType != null) return;
     if (selection != null) {
       selectedConstraintType = selection;
     } else {
@@ -128,7 +135,6 @@ public class ConstraintController implements ConstraintPanelDelegate, Constraint
   @Override
   public void updateCaptures(ConstraintTypeController ptc) {
     captures = ptc.provideCaptures(this);
-    myView.setCaptures(captures);
     if (delegate != null) {
       delegate.validateMe(this);
     }
@@ -144,5 +150,34 @@ public class ConstraintController implements ConstraintPanelDelegate, Constraint
   public void highlightCaptures(Capture active) {
 
     myView.highlightCaptures(active);
+  }
+
+  @Override
+  public ConstraintEntry getState() {
+    if (selectedConstraintType == null) return new ConstraintEntry();
+
+    ConstraintEntry constraintEntry = new ConstraintEntry();
+    constraintEntry.setConstraintTypeClassSelected(selectedConstraintType.getClass().getName());
+
+    ConstraintTypeSpecificEntry constraintTypeControllerState = constraintTypeController.getState();
+    constraintEntry.setConstraintTypeSpecificEntry(constraintTypeControllerState);
+
+    return constraintEntry;
+  }
+
+  @Override
+  public void loadState(ConstraintEntry state) {
+
+    String constraintTypeClassSelected = state.getConstraintTypeClassSelected();
+    if (constraintTypeClassSelected == null || constraintTypeClassSelected.isEmpty()) return;
+    ConstraintType constraintType = null;
+    try {
+      constraintType = ConstraintTypesRegistry.getInstance().byClass(Class.forName(constraintTypeClassSelected));
+    } catch (ClassNotFoundException e) {
+      constraintType = null;
+    }
+    constraintTypeSelected(null, constraintType);
+    myView.setSelectedConstraintType(constraintType);
+    constraintTypeController.loadState(state.getConstraintTypeSpecificEntry());
   }
 }

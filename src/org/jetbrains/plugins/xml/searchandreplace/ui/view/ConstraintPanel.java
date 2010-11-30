@@ -181,4 +181,8 @@ public class ConstraintPanel extends JPanel {
       }
     }
   }
+
+  public void setSelectedConstraintType(ConstraintType selectedConstraintType) {
+    predicateTypeChooser.setSelectedItem(selectedConstraintType);
+  }
 }

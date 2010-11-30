@@ -14,6 +14,14 @@ public class TagPredicatePanel extends JPanel {
     // TODO: place custom component creation code here
   }
 
+  public void setText(String text) {
+    textField.setText(text);
+  }
+
+  public void setSelectedCard(String value) {
+    textOrTag.setSelectedItem(value);
+  }
+
   public interface Delegate {
     void stateChanged(TagPredicatePanel tpp);
   }

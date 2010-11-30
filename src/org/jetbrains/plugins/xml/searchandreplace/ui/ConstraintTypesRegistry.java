@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class PredicateTypeRegistry {
+public class ConstraintTypesRegistry {
 
-  private static PredicateTypeRegistry ourInstance = new PredicateTypeRegistry();
+  private static ConstraintTypesRegistry ourInstance = new ConstraintTypesRegistry();
 
   private List<ConstraintType> constraintTypes = new ArrayList<ConstraintType>();
 
@@ -16,11 +16,11 @@ public class PredicateTypeRegistry {
     return constraintTypes;
   }
 
-  public static PredicateTypeRegistry getInstance() {
+  public static ConstraintTypesRegistry getInstance() {
     return ourInstance;
   }
 
-  private PredicateTypeRegistry() {
+  private ConstraintTypesRegistry() {
     registerPredicateType(new Inside());
     registerPredicateType(new NotInside());
     registerPredicateType(new Contains());

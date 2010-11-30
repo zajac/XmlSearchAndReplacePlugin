@@ -1,22 +1,34 @@
 package org.jetbrains.plugins.xml.searchandreplace.ui.controller.search;
 
 
+import com.intellij.openapi.components.PersistentStateComponent;
+import org.jetbrains.plugins.xml.searchandreplace.persistence.ConstraintEntry;
+import org.jetbrains.plugins.xml.searchandreplace.persistence.PatternStorageEntry;
 import org.jetbrains.plugins.xml.searchandreplace.search.Node;
 import org.jetbrains.plugins.xml.searchandreplace.search.Pattern;
 import org.jetbrains.plugins.xml.searchandreplace.ui.CapturesManager;
 import org.jetbrains.plugins.xml.searchandreplace.ui.ConstraintType;
-import org.jetbrains.plugins.xml.searchandreplace.ui.PredicateTypeRegistry;
+import org.jetbrains.plugins.xml.searchandreplace.ui.ConstraintTypesRegistry;
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.replace.Capture;
 import org.jetbrains.plugins.xml.searchandreplace.ui.view.PatternView;
 
 import java.util.*;
 
-public class PatternController implements ConstraintControllerDelegate {
+public class PatternController implements ConstraintControllerDelegate, PersistentStateComponent<PatternStorageEntry> {
 
   public interface Delegate {
-    void pleaseAutoresizeWindow(PatternController c);
-  }
 
+    void pleaseAutoresizeWindow(PatternController c);
+
+  }
   private Delegate delegate;
+  private CapturesManager capturesManager = new CapturesManager();
+
+  private PatternView view = new PatternView();
+
+  private Map<ConstraintController, ArrayList<ConstraintController>> constraintsTree = new HashMap<ConstraintController, ArrayList<ConstraintController>>();
+
+  private ConstraintController root;
 
   public Delegate getDelegate() {
     return delegate;
@@ -26,35 +38,94 @@ public class PatternController implements ConstraintControllerDelegate {
     this.delegate = delegate;
   }
 
-  private PatternView view = new PatternView();
-  private Map<ConstraintController, ArrayList<ConstraintController>> predicatesTree = new HashMap<ConstraintController, ArrayList<ConstraintController>>();
-  private ConstraintController root;
 
-  private void addPredicateController(ConstraintController pc) {
+  public CapturesManager getCapturesManager() {
+    return capturesManager;
+  }
+
+  @Override
+  public PatternStorageEntry getState() {
+    HashMap<Integer, ArrayList<Integer>> tree = new HashMap<Integer, ArrayList<Integer>>();
+
+    Map<ConstraintController, ConstraintEntry> entriesForControllers = new HashMap<ConstraintController, ConstraintEntry>();
+    int id = 0;
+    for (ConstraintController c : constraintsTree.keySet()) {
+      ConstraintEntry state = c.getState();
+      state.setId(id++);
+      entriesForControllers.put(c, state);
+    }
+
+    for (ConstraintController c : constraintsTree.keySet()) {
+      ArrayList<Integer> childrenIds = new ArrayList<Integer>();
+      for (ConstraintController child : constraintsTree.get(c)) {
+        childrenIds.add(entriesForControllers.get(child).getId());
+      }
+      tree.put(entriesForControllers.get(c).getId(), childrenIds);
+    }
+    PatternStorageEntry state = new PatternStorageEntry();
+    state.setEntries(new ArrayList<ConstraintEntry>(entriesForControllers.values()));
+    state.setTree(tree);
+    state.setRoot(entriesForControllers.get(root).getId());
+    return state;
+  }
+
+  private void initController(PatternStorageEntry state, int id, ConstraintController parent, Map<Integer, ConstraintController> ready) {
+    ConstraintController constraintController = ready.get(id);
+    if (constraintController == null) {
+      constraintController = new ConstraintController(true, parent);
+      ready.put(id, constraintController);
+
+      addConstraintController(constraintController);
+
+      ConstraintEntry constraintEntry = state.getEntries().get(id);
+      constraintController.loadState(constraintEntry);
+    }
+    if (id == state.getRoot()) {
+      this.root = constraintController;
+    }
+    for (int childId : state.getTree().get(id)) {
+      initController(state, childId, constraintController, ready);
+    }
+    validateMe(constraintController);
+  }
+
+  @Override
+  public void loadState(PatternStorageEntry state) {
+    if (state != null) {
+      removeConstraintController(root);
+      initController(state, state.getRoot(), null, new HashMap<Integer, ConstraintController>());
+    }
+  }
+
+  private void addConstraintController(ConstraintController pc) {
     pc.setDelegate(this);
-    predicatesTree.put(pc, new ArrayList<ConstraintController>());
+    constraintsTree.put(pc, new ArrayList<ConstraintController>());
     ConstraintController parent = pc.getParent();
     if (parent != null) {
-      predicatesTree.get(parent).add(pc);
+      constraintsTree.get(parent).add(pc);
     }
-    view.addPredicateView(pc.getView(), parent == null ? null : parent.getView());
+    view.addConstraintView(pc.getView(), parent == null ? null : parent.getView());
     if (delegate != null) {
       delegate.pleaseAutoresizeWindow(this);
     }
   }
 
-  private void removePredicateController(ConstraintController constraintController) {
-    CapturesManager.instance().paredicateControllerIsDead(constraintController);
+  private void removeConstraintController(ConstraintController constraintController) {
+    capturesManager.paredicateControllerIsDead(constraintController);
     List<ConstraintController> pcList = new ArrayList<ConstraintController>();
-    for (ConstraintController pc : predicatesTree.get(constraintController)) {
+    for (ConstraintController pc : constraintsTree.get(constraintController)) {
       pcList.add(pc);
     }
     for (ConstraintController pc : pcList) {
-      removePredicateController(pc);
+      removeConstraintController(pc);
     }
-    predicatesTree.get(constraintController.getParent()).remove(constraintController);
-    predicatesTree.remove(constraintController);
-    view.removePredicateView(constraintController.getView(), constraintController.getParent() != null ?
+    ArrayList<ConstraintController> brothers = constraintsTree.get(constraintController.getParent());
+    if (brothers != null) {
+      brothers.remove(constraintController);
+    }
+
+    constraintsTree.remove(constraintController);
+    view.removeConstraintView(constraintController.getView(), constraintController.getParent() != null ?
             constraintController.getParent().getView() : null);
     if (delegate != null) {
       delegate.pleaseAutoresizeWindow(this);
@@ -68,7 +139,7 @@ public class PatternController implements ConstraintControllerDelegate {
 
   public PatternController() {
     root = new ConstraintController(true, null);
-    addPredicateController(root);
+    addConstraintController(root);
   }
 
   public Pattern buildPattern() {
@@ -83,7 +154,7 @@ public class PatternController implements ConstraintControllerDelegate {
 
   private void gatherNodes(Pattern pattern, ConstraintController root) {
     root.buildNode(pattern);
-    List<ConstraintController> children = predicatesTree.get(root);
+    List<ConstraintController> children = constraintsTree.get(root);
     if (children != null) {
       for (ConstraintController child : children) {
         gatherNodes(pattern, child);
@@ -91,20 +162,20 @@ public class PatternController implements ConstraintControllerDelegate {
     }
   }
 
-  public void addChild(ConstraintController constraintController) {
-    ConstraintType selectedConstraintType = constraintController.getSelectedConstraintType();
+  public void addChild(ConstraintController parent) {
+    ConstraintType selectedConstraintType = parent.getSelectedConstraintType();
     if (selectedConstraintType == null) return;
 
-    Collection<ConstraintType> allowedChildrenTypes = constraintController.getConstraintTypeController().getAllowedChildrenTypes();
+    Collection<ConstraintType> allowedChildrenTypes = parent.getConstraintTypeController().getAllowedChildrenTypes();
     if (!allowedChildrenTypes.isEmpty()) {
-      addPredicateController(new ConstraintController(false, constraintController));
+      addConstraintController(new ConstraintController(false, parent));
     }
   }
 
   public List<ConstraintType> getAllowedPredicateTypes(ConstraintController constraintController) {
     ConstraintController parent = constraintController.getParent();
     if (parent == null) {
-      return PredicateTypeRegistry.getInstance().getConstraintTypes();
+      return ConstraintTypesRegistry.getInstance().getConstraintTypes();
     }
 
     if (parent.getConstraintTypeController() != null) {
@@ -115,8 +186,7 @@ public class PatternController implements ConstraintControllerDelegate {
   }
 
   public void removeMe(ConstraintController constraintController) {
-    removePredicateController(constraintController);
-
+    removeConstraintController(constraintController);
   }
 
   public void validateMe(ConstraintController constraintController) {
@@ -125,14 +195,24 @@ public class PatternController implements ConstraintControllerDelegate {
     ConstraintTypeController constraintTypeController = constraintController.getConstraintTypeController();
     Collection<ConstraintType> allowedChildrenTypes = constraintTypeController == null ? new ArrayList<ConstraintType>() :
             constraintTypeController.getAllowedChildrenTypes();
-    List<ConstraintController> children = (List<ConstraintController>) predicatesTree.get(constraintController).clone();
+    ArrayList<ConstraintController> constraintControllers = constraintsTree.get(constraintController);
+    List<ConstraintController> children = new ArrayList<ConstraintController>(constraintControllers);
     for (ConstraintController child : children) {
       if (!allowedChildrenTypes.contains(child.getSelectedConstraintType())) {
-        removePredicateController(child);
+        removeConstraintController(child);
       }
     }
     constraintController.setCanHaveChildren(!allowedChildrenTypes.isEmpty());
-
+    boolean unregistered = false;
+    for (Capture c : constraintController.getCaptures()) {
+      if (!capturesManager.isCaptureRegistered(c)) {
+        capturesManager.registerNewCapture(constraintController, c);
+        unregistered = true;
+      }
+    }
+    if (unregistered) {
+      constraintController.getView().setCaptures(constraintController.getCaptures());
+    }
     if (delegate != null) {
       delegate.pleaseAutoresizeWindow(this);
     }

@@ -1,10 +1,12 @@
 package org.jetbrains.plugins.xml.searchandreplace.ui.controller.search;
 
+import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.util.Key;
+import org.jetbrains.plugins.xml.searchandreplace.persistence.ConstraintTypeSpecificEntry;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.Not;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.XmlElementPredicate;
 import org.jetbrains.plugins.xml.searchandreplace.ui.ConstraintType;
-import org.jetbrains.plugins.xml.searchandreplace.ui.PredicateTypeRegistry;
+import org.jetbrains.plugins.xml.searchandreplace.ui.ConstraintTypesRegistry;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.replace.Capture;
 
 import javax.swing.*;
@@ -12,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public abstract class ConstraintTypeController {
+public abstract class ConstraintTypeController implements PersistentStateComponent<ConstraintTypeSpecificEntry> {
 
 
   public static final Key<ConstraintTypeController> USER_DATA_KEY =
@@ -73,6 +75,6 @@ public abstract class ConstraintTypeController {
 
 
   public List<ConstraintType> getAllowedChildrenTypes() {
-    return PredicateTypeRegistry.getInstance().getConstraintTypes();
+    return ConstraintTypesRegistry.getInstance().getConstraintTypes();
   }
 }

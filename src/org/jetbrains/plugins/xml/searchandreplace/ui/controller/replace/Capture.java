@@ -9,6 +9,12 @@ public abstract class Capture {
   private XmlElementPredicate predicate;
   private CapturePresentation myPresentation;
 
+  protected ConstraintController constraintController;
+
+  public String getName() {
+    return "";
+  }
+
   public CapturePresentation presentation() {
     return myPresentation;
   }
@@ -20,8 +26,6 @@ public abstract class Capture {
   public ConstraintController getConstraintController() {
     return constraintController;
   }
-
-  protected ConstraintController constraintController;
 
   public Capture(ConstraintController constraintController) {
     this.constraintController = constraintController;

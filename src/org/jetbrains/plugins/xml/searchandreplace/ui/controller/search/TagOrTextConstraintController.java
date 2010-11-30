@@ -1,11 +1,12 @@
 package org.jetbrains.plugins.xml.searchandreplace.ui.controller.search;
 
 import com.intellij.psi.xml.XmlTag;
+import org.jetbrains.plugins.xml.searchandreplace.persistence.ConstraintTypeSpecificEntry;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.MatchesXmlTextPredicate;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.TagPredicate;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.XmlElementPredicate;
 import org.jetbrains.plugins.xml.searchandreplace.ui.ConstraintType;
-import org.jetbrains.plugins.xml.searchandreplace.ui.PredicateTypeRegistry;
+import org.jetbrains.plugins.xml.searchandreplace.ui.ConstraintTypesRegistry;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.replace.Capture;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.captures.TagNameCapture;
 import org.jetbrains.plugins.xml.searchandreplace.ui.constraintTypes.Inside;
@@ -99,8 +100,26 @@ public class TagOrTextConstraintController extends ConstraintTypeController impl
         return super.getAllowedChildrenTypes();
       }
     } else {
-      return Arrays.asList(PredicateTypeRegistry.getInstance().byClass(Inside.class),
-              PredicateTypeRegistry.getInstance().byClass(NotInside.class));
+      return Arrays.asList(ConstraintTypesRegistry.getInstance().byClass(Inside.class),
+              ConstraintTypesRegistry.getInstance().byClass(NotInside.class));
     }
+  }
+
+  @Override
+  public ConstraintTypeSpecificEntry getState() {
+    ConstraintTypeSpecificEntry state = new ConstraintTypeSpecificEntry();
+    state.setTextOrTag(myView.selectedCard());
+    state.setText(myView.getText());
+    return state;
+  }
+
+  @Override
+  public void loadState(ConstraintTypeSpecificEntry state) {
+    if (state.getTextOrTag().equals(TagPredicatePanel.TEXT)) {
+      myView.setSelectedCard(TagPredicatePanel.TEXT);
+    } else {
+      myView.setSelectedCard(TagPredicatePanel.TAG);
+    }
+    myView.setText(state.getText());
   }
 }

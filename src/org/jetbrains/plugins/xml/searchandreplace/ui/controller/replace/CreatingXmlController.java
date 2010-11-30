@@ -38,7 +38,7 @@ public abstract class CreatingXmlController extends ReplacementController implem
   @Override
   public void viewDidAppear() {
     final EditorImpl editor = myView.getEditor();
-    nested = new CapturedReplacementController(editor);
+    nested = new CapturedReplacementController(editor, getCapturesManager());
     nested.setDelegate(this);
   }
 

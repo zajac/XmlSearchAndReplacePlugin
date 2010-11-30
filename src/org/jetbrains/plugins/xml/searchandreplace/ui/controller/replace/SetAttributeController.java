@@ -28,12 +28,12 @@ public class SetAttributeController extends ReplacementController {
     super.viewDidAppear();
     EditorImpl nameEditor = getView().getNameEditor();
     if (nameEditor != null) {
-      nameResolver = new CapturedReplacementController(nameEditor);
+      nameResolver = new CapturedReplacementController(nameEditor, getCapturesManager());
     }
 
     EditorImpl valueEditor = getView().getValueEditor();
     if (valueEditor != null) {
-      valueResolver = new CapturedReplacementController(valueEditor);
+      valueResolver = new CapturedReplacementController(valueEditor, getCapturesManager());
     }
   }
 
