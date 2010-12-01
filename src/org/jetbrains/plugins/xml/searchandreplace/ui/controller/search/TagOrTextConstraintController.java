@@ -1,14 +1,14 @@
 package org.jetbrains.plugins.xml.searchandreplace.ui.controller.search;
 
-import org.jetbrains.plugins.xml.searchandreplace.search.predicates.TagNameMatches;
-import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.persistence.ConstraintTypeSpecificEntry;
-import org.jetbrains.plugins.xml.searchandreplace.search.predicates.MatchesXmlTextPredicate;
-import org.jetbrains.plugins.xml.searchandreplace.search.predicates.XmlElementPredicate;
+import com.intellij.psi.xml.XmlElement;
+import com.intellij.psi.xml.XmlText;
+import org.jetbrains.plugins.xml.searchandreplace.search.predicates.*;
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.captures.Capture;
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.captures.TagNameCapture;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.constraintTypes.Inside;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.constraintTypes.NotContains;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.constraintTypes.NotInside;
-import org.jetbrains.plugins.xml.searchandreplace.ui.controller.captures.Capture;
-import org.jetbrains.plugins.xml.searchandreplace.ui.controller.captures.TagNameCapture;
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.persistence.ConstraintTypeSpecificEntry;
 import org.jetbrains.plugins.xml.searchandreplace.ui.view.search.TagPredicatePanel;
 
 import javax.swing.*;
@@ -42,16 +42,17 @@ public class TagOrTextConstraintController extends ConstraintTypeController impl
   public XmlElementPredicate buildPredicate() {
     if (myView.selectedCard().equals(TagPredicatePanel.TAG)) {
       String tagName = myView.getTagName();
-      if (tagName.isEmpty()) {
-        tagName = ".*";
-      }
-      return decorateWithNotIfNeccessary(new TagNameMatches(tagName));
+      TagPredicate predicate = tagName.isEmpty() ? new AnyTag() :  new TagNameMatches(tagName);
+      return decorateWithNotIfNeccessary(predicate);
     } else {
       String text = myView.getText();
-      if (text.isEmpty()) {
-        text = ".*";
-      }
-      return decorateWithNotIfNeccessary(new MatchesXmlTextPredicate(text));
+      XmlElementPredicate predicate = text.isEmpty() ? new XmlElementPredicate() {
+        @Override
+        public boolean apply(XmlElement element) {
+          return element instanceof XmlText;
+        }
+      } : new MatchesXmlTextPredicate(text);
+      return decorateWithNotIfNeccessary(predicate);
     }
   }
 
