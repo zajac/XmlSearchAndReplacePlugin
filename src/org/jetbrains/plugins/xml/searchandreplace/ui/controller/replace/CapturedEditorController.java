@@ -26,7 +26,7 @@ import java.util.Map;
 
 import static java.util.Collections.sort;
 
-public class CapturedReplacementController implements CaptureDropHandler.CaptureDropHandlerDelegate, DocumentListener, CaretListener, CapturesListener {
+public class CapturedEditorController implements CaptureDropHandler.CaptureDropHandlerDelegate, DocumentListener, CaretListener, CapturesListener {
 
   @Override
   public void beforeDocumentChange(DocumentEvent event) {}
@@ -190,7 +190,7 @@ public class CapturedReplacementController implements CaptureDropHandler.Capture
   private Editor editor;
   private CapturesManager capturesManager;
 
-  public CapturedReplacementController(final EditorImpl editor, CapturesManager capturesManager) {
+  public CapturedEditorController(final EditorImpl editor, CapturesManager capturesManager) {
     this.editor = editor;
     this.capturesManager = capturesManager;
 

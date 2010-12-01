@@ -16,8 +16,8 @@ public class SetAttributeController extends ReplacementController  {
 
   private SetAttributeView myView = new SetAttributeView();
 
-  protected CapturedReplacementController nameResolver;
-  protected CapturedReplacementController valueResolver;
+  protected CapturedEditorController nameResolver;
+  protected CapturedEditorController valueResolver;
 
   private String nameToSet = null;
   private String valueToSet = null;
@@ -28,7 +28,7 @@ public class SetAttributeController extends ReplacementController  {
       public void viewDidAppear() {
         EditorImpl nameEditor = getView().getNameEditor();
         if (nameEditor != null) {
-          nameResolver = new CapturedReplacementController(nameEditor, getCapturesManager());
+          nameResolver = new CapturedEditorController(nameEditor, getCapturesManager());
         }
         if (nameToSet != null) {
           myView.getNameField().setText(nameToSet);
@@ -41,7 +41,7 @@ public class SetAttributeController extends ReplacementController  {
       public void viewDidAppear() {
         EditorImpl valueEditor = getView().getValueEditor();
         if (valueEditor != null) {
-          valueResolver = new CapturedReplacementController(valueEditor, getCapturesManager());
+          valueResolver = new CapturedEditorController(valueEditor, getCapturesManager());
         }
 
         if (valueToSet != null) {

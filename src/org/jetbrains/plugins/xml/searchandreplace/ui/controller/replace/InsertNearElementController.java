@@ -21,6 +21,8 @@ public class InsertNearElementController extends CreatingXmlController {
 
   @Override
   protected ReplacementProvider getReplacementProvider() {
-    return new InsertNearElement(createReplacementProviderWithMyXml(), anchor);
+    ReplacementProvider replacementProviderWithMyXml = createReplacementProviderWithMyXml();
+    if (replacementProviderWithMyXml == null) return null;
+    return new InsertNearElement(replacementProviderWithMyXml, anchor);
   }
 }

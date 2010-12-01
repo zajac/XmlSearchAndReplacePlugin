@@ -18,6 +18,8 @@ public class ReplaceContentsOnlyController extends CreatingXmlController {
 
   @Override
   protected ReplacementProvider getReplacementProvider() {
-    return new ReplaceContentsOnly(createReplacementProviderWithMyXml());
+    ReplacementProvider replacementProviderWithMyXml = createReplacementProviderWithMyXml();
+    if (replacementProviderWithMyXml == null) return null;
+    return new ReplaceContentsOnly(replacementProviderWithMyXml);
   }
 }

@@ -19,6 +19,7 @@ public class SurroundWithTagController extends CreatingXmlController {
   @Override
   protected ReplacementProvider getReplacementProvider() {
     ReplacementProvider replacementProviderWithMyXml = createReplacementProviderWithMyXml();
+    if (replacementProviderWithMyXml == null) return null;
     return new SurroundWithTag(replacementProviderWithMyXml);
   }
 }
