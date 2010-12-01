@@ -335,7 +335,22 @@ public class Pattern implements Cloneable {
       repaired.reduce(element, repaired.getTheOne());
       forFurtherMatching.add(repaired);
     }
-    return matchChildren(element, forFurtherMatching);
+    Set<Pattern> afterChildrenMatching = matchChildren(element, forFurtherMatching);
+    Set<Pattern> result = new HashSet<Pattern>();
+    for (Pattern p : afterChildrenMatching) {
+      boolean unique = true;
+      for (Pattern other : result) {
+        if (p != other) {
+          if (other.matchedNodes.equals(p.matchedNodes)) {
+            unique = false;
+          }
+        }
+      }
+      if (unique) {
+        result.add(p);
+      }
+    }
+    return result;
   }
 
   public void match(XmlElement element, TagSearchObserver observer) {
@@ -343,13 +358,9 @@ public class Pattern implements Cloneable {
     mergePatterns(match);
     for (Pattern p : match) {
       if (isEmptyOrContainsOnlyNot(p)) {
-        observer.elementFound(p, p.getCandidate());
+        observer.elementFound(p, p.matchedNodes.get(p.theOne));
       }
     }
-  }
-
-  private XmlElement getCandidate() {
-    return matchedNodes.get(theOne);
   }
 
   public void endBuild() {

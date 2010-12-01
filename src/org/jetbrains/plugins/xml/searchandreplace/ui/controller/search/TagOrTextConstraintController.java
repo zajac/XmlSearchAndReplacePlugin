@@ -41,15 +41,15 @@ public class TagOrTextConstraintController extends ConstraintTypeController impl
   @Override
   public XmlElementPredicate buildPredicate() {
     if (myView.selectedCard().equals(TagPredicatePanel.TAG)) {
-      final String tagName = myView.getTagName();
+      String tagName = myView.getTagName();
       if (tagName.isEmpty()) {
-        return null;
+        tagName = ".*";
       }
       return decorateWithNotIfNeccessary(new TagNameMatches(tagName));
     } else {
-      final String text = myView.getText();
+      String text = myView.getText();
       if (text.isEmpty()) {
-        return null;
+        text = ".*";
       }
       return decorateWithNotIfNeccessary(new MatchesXmlTextPredicate(text));
     }
