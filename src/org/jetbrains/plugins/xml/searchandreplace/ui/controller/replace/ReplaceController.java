@@ -70,7 +70,6 @@ public class ReplaceController implements ReplaceView.ReplaceViewDelegate, Persi
   public void replacementTypeSelected(ReplaceView view, Object selectedItem) {
     myReplacementController = (ReplacementController) selectedItem;
     view.setReplacementSpecificView(myReplacementController.getView());
-//    myReplacementController.viewDidAppear();
   }
 
   public ReplacementProvider getReplacementProvider() {
@@ -91,8 +90,6 @@ public class ReplaceController implements ReplaceView.ReplaceViewDelegate, Persi
 
   @Override
   public void loadState(ReplacementEntry state) {
-
-
     int index = state.getReplacementControllerIndex();
     myReplacementController = controllers[index];
     myView.setReplacementSpecificView(myReplacementController.getView());

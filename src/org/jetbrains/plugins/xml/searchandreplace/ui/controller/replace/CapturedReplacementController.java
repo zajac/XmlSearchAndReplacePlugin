@@ -2,7 +2,10 @@ package org.jetbrains.plugins.xml.searchandreplace.ui.controller.replace;
 
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.RangeMarker;
-import com.intellij.openapi.editor.event.*;
+import com.intellij.openapi.editor.event.CaretEvent;
+import com.intellij.openapi.editor.event.CaretListener;
+import com.intellij.openapi.editor.event.DocumentEvent;
+import com.intellij.openapi.editor.event.DocumentListener;
 import com.intellij.openapi.editor.impl.EditorImpl;
 import com.intellij.openapi.editor.markup.EffectType;
 import com.intellij.openapi.editor.markup.HighlighterTargetArea;
@@ -11,14 +14,15 @@ import com.intellij.openapi.editor.markup.TextAttributes;
 import com.intellij.psi.xml.XmlElement;
 import org.jetbrains.plugins.xml.searchandreplace.replace.CapturePresentation;
 import org.jetbrains.plugins.xml.searchandreplace.search.Node;
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.captures.Capture;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.captures.CapturesListener;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.captures.CapturesManager;
-import org.jetbrains.plugins.xml.searchandreplace.ui.controller.captures.Capture;
-import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.ConstraintController;
 
 import java.awt.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 import static java.util.Collections.sort;
 
@@ -99,10 +103,18 @@ public class CapturedReplacementController implements CaptureDropHandler.Capture
   @Override
   public void caretPositionChanged(CaretEvent e) {
     int offset = editor.logicalPositionToOffset(e.getNewPosition());
+    highlightCapturesUnderCaret(offset);
+  }
+
+  private void highlightCapturesUnderCaret(int offset) {
     for (CaptureEntry ce : entries) {
       boolean inside = ce.range.getStartOffset() <= offset && offset <= ce.range.getEndOffset();
       updateEntry(ce, inside);
     }
+  }
+
+  private void highlightCapturesUnderCaret() {
+    highlightCapturesUnderCaret(editor.getCaretModel().getOffset());
   }
 
   @Override
@@ -182,37 +194,37 @@ public class CapturedReplacementController implements CaptureDropHandler.Capture
     this.editor = editor;
     this.capturesManager = capturesManager;
 
-    editor.addEditorMouseListener(new EditorMouseAdapter() {
-
-      @Override
-      public void mouseExited(EditorMouseEvent e) {
-        for (CaptureEntry ce : entries) {
-          updateEntry(ce, false);
-        }
-        editor.getComponent().repaint();
-      }
-    });
-    editor.addEditorMouseMotionListener(new EditorMouseMotionListener() {
-      @Override
-      public void mouseMoved(EditorMouseEvent e) {
-        Point point = e.getMouseEvent().getPoint();
-        int offset = editor.logicalPositionToOffset(editor.xyToLogicalPosition(point));
-        Set<ConstraintController> captures = new HashSet<ConstraintController>();
-        for (CaptureEntry ce : entries) {
-          boolean inside = offset >= ce.range.getStartOffset() && offset <= ce.range.getEndOffset();
-          if (!captures.contains(ce.capture.getConstraintController())) {
-            if(inside) {captures.add(ce.capture.getConstraintController()); }
-            updateEntry(ce, inside);
-          }
-        }
-        editor.getComponent().repaint();
-      }
-
-      @Override
-      public void mouseDragged(EditorMouseEvent e) {
-        //To change body of implemented methods use File | Settings | File Templates.
-      }
-    });
+//    editor.addEditorMouseListener(new EditorMouseAdapter() {
+//
+//      @Override
+//      public void mouseExited(EditorMouseEvent e) {
+//        for (CaptureEntry ce : entries) {
+//          updateEntry(ce, false);
+//        }
+//        editor.getComponent().repaint();
+//      }
+//    });
+//    editor.addEditorMouseMotionListener(new EditorMouseMotionListener() {
+//      @Override
+//      public void mouseMoved(EditorMouseEvent e) {
+//        Point point = e.getMouseEvent().getPoint();
+//        int offset = editor.logicalPositionToOffset(editor.xyToLogicalPosition(point));
+//        Set<ConstraintController> captures = new HashSet<ConstraintController>();
+//        for (CaptureEntry ce : entries) {
+//          boolean inside = offset >= ce.range.getStartOffset() && offset <= ce.range.getEndOffset();
+//          if (!captures.contains(ce.capture.getConstraintController())) {
+//            if(inside) {captures.add(ce.capture.getConstraintController()); }
+//            updateEntry(ce, inside);
+//          }
+//        }
+//        editor.getComponent().repaint();
+//      }
+//
+//      @Override
+//      public void mouseDragged(EditorMouseEvent e) {
+//        //To change body of implemented methods use File | Settings | File Templates.
+//      }
+//    });
 
     CaptureDropHandler dropHandler = new CaptureDropHandler(editor);
     dropHandler.setDelegate(this);
@@ -225,6 +237,7 @@ public class CapturedReplacementController implements CaptureDropHandler.Capture
 
     capturesManager.addCapturesListener(this);
     searchForNewCaptures();
+    highlightCapturesUnderCaret();
   }
 
   public void addCaptureEntry(Capture c, RangeMarker r) {
