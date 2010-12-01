@@ -57,6 +57,7 @@ public abstract class CreatingXmlController extends ReplacementController implem
     nested.setDelegate(this);
     if (textToSet != null) {
       myView.getTextField().setText(textToSet);
+      textToSet = null;
     }
   }
 

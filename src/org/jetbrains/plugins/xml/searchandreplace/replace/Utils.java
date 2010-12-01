@@ -14,8 +14,10 @@ public class Utils {
 
   public static void insertCoupleOfElementsIntoTag(XmlTag e, XmlTag tag, boolean asFirstOrLast) {
     XmlTagChild[] children = tag.getValue().getChildren();
-    XmlTagChild first = e.getValue().getChildren()[0];
-    XmlTagChild last = e.getValue().getChildren()[e.getValue().getChildren().length - 1];
+    XmlTagChild[] eChildren = e.getValue().getChildren();
+    if (eChildren.length == 0) return;
+    XmlTagChild first = eChildren[0];
+    XmlTagChild last = eChildren[eChildren.length - 1];
     if (children.length == 0) {
       tag.addRange(first, last);
     } else if(asFirstOrLast) {

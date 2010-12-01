@@ -55,7 +55,7 @@ public class Pattern implements Cloneable {
   }
 
   public void validateNodes() {
-    roots = (HashSet<Node>) unmatchedNodes.clone();
+    roots = new HashSet<Node>(unmatchedNodes);
     parentsNum = new HashMap<Node, Integer>();
     for (Node n : unmatchedNodes) {
 
@@ -85,10 +85,10 @@ public class Pattern implements Cloneable {
     try {
       result = (Pattern) super.clone();
       result.theOne = theOne;
-      result.roots = (HashSet<Node>) roots.clone();
-      result.parentsNum = (HashMap<Node, Integer>) parentsNum.clone();
-      result.unmatchedNodes = (HashSet<Node>) unmatchedNodes.clone();
-      result.matchedNodes = (HashMap<Node, XmlElement>) matchedNodes.clone();
+      result.roots = new HashSet<Node>(roots);
+      result.parentsNum = new HashMap<Node, Integer>(parentsNum);
+      result.unmatchedNodes = new HashSet<Node>(unmatchedNodes);
+      result.matchedNodes = new HashMap<Node, XmlElement>(matchedNodes);
     } catch (CloneNotSupportedException e) {
       e.printStackTrace();
     }

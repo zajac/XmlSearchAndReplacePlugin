@@ -122,7 +122,9 @@ public class CapturedReplacementController implements CaptureDropHandler.Capture
 
   private void killEntry(CaptureEntry ce) {
     updateEntry(ce, false);
-    editor.getMarkupModel().removeHighlighter((RangeHighlighter) ce.range);
+    if (ce.range.isValid()) {
+      editor.getMarkupModel().removeHighlighter((RangeHighlighter) ce.range);
+    }
     entries.remove(ce);
   }
 
@@ -222,6 +224,7 @@ public class CapturedReplacementController implements CaptureDropHandler.Capture
     editor.getCaretModel().addCaretListener(this);
 
     capturesManager.addCapturesListener(this);
+    searchForNewCaptures();
   }
 
   public void addCaptureEntry(Capture c, RangeMarker r) {

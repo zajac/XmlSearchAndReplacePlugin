@@ -1,9 +1,8 @@
 package org.jetbrains.plugins.xml.searchandreplace.ui.controller.search;
 
-import com.intellij.psi.xml.XmlTag;
+import org.jetbrains.plugins.xml.searchandreplace.search.predicates.TagNameMatches;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.persistence.ConstraintTypeSpecificEntry;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.MatchesXmlTextPredicate;
-import org.jetbrains.plugins.xml.searchandreplace.search.predicates.TagPredicate;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.XmlElementPredicate;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.constraintTypes.Inside;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.constraintTypes.NotContains;
@@ -46,19 +45,7 @@ public class TagOrTextConstraintController extends ConstraintTypeController impl
       if (tagName.isEmpty()) {
         return null;
       }
-      return decorateWithNotIfNeccessary(new TagPredicate() {
-
-        @Override
-        public String toString() {
-          return tagName;
-        }
-
-        @Override
-        public boolean applyToTag(XmlTag tag) {
-          return tag.getName().matches(tagName);
-        }
-
-      });
+      return decorateWithNotIfNeccessary(new TagNameMatches(tagName));
     } else {
       final String text = myView.getText();
       if (text.isEmpty()) {
@@ -119,4 +106,5 @@ public class TagOrTextConstraintController extends ConstraintTypeController impl
     }
     myView.setText(state.getText());
   }
+
 }

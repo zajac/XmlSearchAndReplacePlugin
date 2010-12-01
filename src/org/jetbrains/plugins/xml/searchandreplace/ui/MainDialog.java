@@ -41,16 +41,11 @@ public class MainDialog extends DialogWrapper implements ContainerListener, Patt
 
     scopePanel.initComponent(module, searchScope);
 
-
-
     if (service != null) {
       patternController = service.getRecent();
     }
     if (patternController == null) {
-      if (ourPatternController == null) {
-        ourPatternController = new PatternController();
-      }
-      patternController = ourPatternController;
+      patternController = new PatternController();
       if (service != null) {
         service.setRecent(patternController);
       }
@@ -58,10 +53,14 @@ public class MainDialog extends DialogWrapper implements ContainerListener, Patt
     patternView = patternController.getView();
 
     ReplacementsStorage storage = ReplacementsStorage.getInstance(project);
-    replaceController = storage.getRecent();
+    if (storage != null) {
+      replaceController = storage.getRecent();
+    }
     if (replaceController == null) {
       replaceController = new ReplaceController(project, XMLLanguage.INSTANCE);
-      storage.setRecent(replaceController);
+      if (storage != null) {
+        storage.setRecent(replaceController);
+      }
     }
     replaceController.setCapturesManager(patternController.getCapturesManager());
     replaceView = replaceController.getView();

@@ -32,6 +32,7 @@ public class SetAttributeController extends ReplacementController  {
         }
         if (nameToSet != null) {
           myView.getNameField().setText(nameToSet);
+          nameToSet = null;
         }
       }
     });
@@ -45,6 +46,7 @@ public class SetAttributeController extends ReplacementController  {
 
         if (valueToSet != null) {
           myView.getValueField().setText(valueToSet);
+          valueToSet = null;
         }
       }
     });
