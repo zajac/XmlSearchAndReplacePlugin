@@ -28,7 +28,9 @@ public abstract class CreatingXmlController extends ReplacementController implem
 
   @Override
   public void loadState(ReplacementControllerState state) {
-    textToSet = state.getText();
+    if (state != null) {
+      textToSet = state.getText();
+    }
   }
 
   CapturedReplacementController nested;

@@ -300,6 +300,7 @@ public class Pattern implements Cloneable {
   }
 
   private static Set<Pattern> matchChildren(XmlElement element, Set<Pattern> patternSet) {
+    if (element == null) return patternSet;
     Set<Pattern> afterChildrenMatching = new HashSet<Pattern>();
     for (PsiElement c : element.getChildren()) {
       if (c instanceof XmlTag || c instanceof XmlText) {

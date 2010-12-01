@@ -9,7 +9,6 @@
     </content>
     <orderEntry type="jdk" jdkName="IDEA IC-98.SNAPSHOT" jdkType="IDEA JDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="XpathPlugin" level="project" />
   </component>
 </module>
 

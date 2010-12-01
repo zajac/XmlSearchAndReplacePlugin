@@ -60,7 +60,8 @@ public class ReplaceController implements ReplaceView.ReplaceViewDelegate, Persi
             new ReplaceButLeaveContentsController(project, language),
             new ReplaceContentsOnlyController(project, language),
             new SetAttributeController(),
-            new RemoveAttributeController()
+            new RemoveAttributeController(),
+            new SurroundWithTagController(project, language)
     };
 
     myView = new ReplaceView(Arrays.asList(controllers));

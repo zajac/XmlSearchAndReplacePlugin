@@ -78,6 +78,7 @@ public class SetAttributeController extends ReplacementController  {
 
   @Override
   public void loadState(ReplacementControllerState state) {
+    if (state == null) return;
     nameToSet = state.getAttrName();
     valueToSet = state.getAttrValue();
   }
