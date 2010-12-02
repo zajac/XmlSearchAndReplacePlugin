@@ -195,42 +195,9 @@ public class CapturedEditorController implements CaptureDropHandler.CaptureDropH
     this.editor = editor;
     this.capturesManager = capturesManager;
 
-//    editor.addEditorMouseListener(new EditorMouseAdapter() {
-//
-//      @Override
-//      public void mouseExited(EditorMouseEvent e) {
-//        for (CaptureEntry ce : entries) {
-//          updateEntry(ce, false);
-//        }
-//        editor.getComponent().repaint();
-//      }
-//    });
-//    editor.addEditorMouseMotionListener(new EditorMouseMotionListener() {
-//      @Override
-//      public void mouseMoved(EditorMouseEvent e) {
-//        Point point = e.getMouseEvent().getPoint();
-//        int offset = editor.logicalPositionToOffset(editor.xyToLogicalPosition(point));
-//        Set<ConstraintController> captures = new HashSet<ConstraintController>();
-//        for (CaptureEntry ce : entries) {
-//          boolean inside = offset >= ce.range.getStartOffset() && offset <= ce.range.getEndOffset();
-//          if (!captures.contains(ce.capture.getConstraintController())) {
-//            if(inside) {captures.add(ce.capture.getConstraintController()); }
-//            updateEntry(ce, inside);
-//          }
-//        }
-//        editor.getComponent().repaint();
-//      }
-//
-//      @Override
-//      public void mouseDragged(EditorMouseEvent e) {
-//        //To change body of implemented methods use File | Settings | File Templates.
-//      }
-//    });
-
     CaptureDropHandler dropHandler = new CaptureDropHandler(editor);
     dropHandler.setDelegate(this);
     editor.setDropHandler(dropHandler);
-
 
     editor.getDocument().addDocumentListener(this);
 

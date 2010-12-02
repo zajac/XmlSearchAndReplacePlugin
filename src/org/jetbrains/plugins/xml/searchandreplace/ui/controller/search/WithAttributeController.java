@@ -2,10 +2,7 @@ package org.jetbrains.plugins.xml.searchandreplace.ui.controller.search;
 
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.xml.XmlAttribute;
-import org.jetbrains.plugins.xml.searchandreplace.search.predicates.AttributePredicate;
-import org.jetbrains.plugins.xml.searchandreplace.search.predicates.False;
-import org.jetbrains.plugins.xml.searchandreplace.search.predicates.HasSpecificAttribute;
-import org.jetbrains.plugins.xml.searchandreplace.search.predicates.XmlElementPredicate;
+import org.jetbrains.plugins.xml.searchandreplace.search.predicates.*;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.captures.AttributeNameCapture;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.captures.AttributeValueCapture;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.captures.Capture;
@@ -46,7 +43,7 @@ public class WithAttributeController extends ConstraintTypeController {
     }
   }
 
-  private interface Comparator {
+  public interface Comparator {
 
     boolean compare(String value1, String value2);
     String name();
@@ -202,27 +199,69 @@ public class WithAttributeController extends ConstraintTypeController {
 
   @Override
   public XmlElementPredicate buildPredicate() {
-    final String attrName = view.getAttrName();
+    final String attrName = view.getAttrName().trim();
+    final String value = view.getValue();
     if (!isOkPattern(attrName)) return new False();
-    return decorateWithNotIfNeccessary(new HasSpecificAttribute(new AttributePredicate() {
-      @Override
-      public boolean applyToAttribute(XmlAttribute a) {
-        if (attrName.isEmpty()) {
+    AttributePredicate predicate;
+    if (attrName.isEmpty()) {
+      predicate = new AttributePredicate() {
+        @Override
+        public boolean applyToAttribute(XmlAttribute a) {
           return true;
         }
-        if (a.getName().matches(attrName)) {
-          String value = view.getValue();
-          if (value.isEmpty()) {
-            return true;
-          }
-          Comparator selected = (Comparator) view.selectedComparator();
-          if (selected.compare(a.getValue(), value)) {
-            return true;
-          }
+      };
+    } else {
+      final AttributePredicate p1, p2;
+      if (getDelegate().useRegexps()) {
+        if (isOkPattern(attrName)) {
+          p1 = new AttributePredicate() {
+            @Override
+            public boolean applyToAttribute(XmlAttribute a) {
+              return a.getName().matches(attrName);
+            }
+          };
+        } else {
+          getDelegate().badInput(this);
+          return null;
         }
-        return false;
+      } else {
+        p1 = new AttributePredicate() {
+          @Override
+          public boolean applyToAttribute(XmlAttribute a) {
+            return a.getName().equals(attrName);
+          }
+        };
       }
-    }));
+      final Comparator selected = (Comparator) view.selectedComparator();
+      if (selected.name().equals("matches")) {
+        if (!isOkPattern(value)) {
+          getDelegate().badInput(this);
+          return null;
+        }
+      }
+      if (value.isEmpty()) {
+        p2 = new AttributePredicate() {
+          @Override
+          public boolean applyToAttribute(XmlAttribute a) {
+            return true;
+          }
+        };
+      } else {
+        p2 = new AttributePredicate() {
+          @Override
+          public boolean applyToAttribute(XmlAttribute a) {
+            return selected.compare(a.getValue(), value);
+          }
+        };
+      }
+      predicate = new AttributePredicate() {
+        @Override
+        public boolean applyToAttribute(XmlAttribute a) {
+          return p1.applyToAttribute(a) && p2.applyToAttribute(a);
+        }
+      };
+    }
+    return decorateWithNotIfNeccessary(new HasSpecificAttribute(predicate));
   }
 
   @Override
@@ -231,6 +270,11 @@ public class WithAttributeController extends ConstraintTypeController {
     captures.add(new AttributeNameCapture(constraintController));
     captures.add(new AttributeValueCapture(constraintController));
     return captures;
+  }
+
+  @Override
+  public void useRegexps(boolean use) {
+    view.useRegexps(use);
   }
 
   @Override

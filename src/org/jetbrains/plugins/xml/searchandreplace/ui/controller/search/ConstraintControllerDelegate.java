@@ -14,4 +14,6 @@ public interface ConstraintControllerDelegate {
   void validateMe(ConstraintController constraintController);
 
   void loadCapturesFor(ConstraintController constraintController, ConstraintEntry state);
+
+  boolean useRegexps();
 }

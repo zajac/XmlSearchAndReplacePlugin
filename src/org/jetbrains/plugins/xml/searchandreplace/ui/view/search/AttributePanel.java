@@ -4,8 +4,11 @@ package org.jetbrains.plugins.xml.searchandreplace.ui.view.search;
 import com.intellij.openapi.project.Project;
 import com.intellij.ui.CollectionComboBoxModel;
 import com.intellij.ui.EditorTextField;
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.WithAttributeController;
 
 import javax.swing.*;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.List;
 
 public class AttributePanel extends JPanel {
@@ -16,7 +19,7 @@ public class AttributePanel extends JPanel {
   private EditorTextField valueField;
   private Project project;
 
-  public AttributePanel(List comparators, Project project) {
+  public AttributePanel(List comparators, final Project project) {
     this.project = project;
     if (comparators == null) {
       valueField.setVisible(false);
@@ -24,6 +27,19 @@ public class AttributePanel extends JPanel {
     } else {
       comparatorChooser.setModel(new CollectionComboBoxModel(comparators, null));
     }
+
+    comparatorChooser.addItemListener(new ItemListener() {
+      @Override
+      public void itemStateChanged(ItemEvent e) {
+        if (e.getItem() instanceof WithAttributeController.Comparator) {
+          if (((WithAttributeController.Comparator) e.getItem()).name().equals("matches")) {
+            Util.useRegexps(valueField, project, true);
+          } else {
+            Util.useRegexps(valueField, project, false);
+          }
+        }
+      }
+    });
     add(centerPanel);
   }
 
@@ -47,12 +63,21 @@ public class AttributePanel extends JPanel {
     valueField.setText(value);
   }
 
-  public void setSelectedComparator(Object comparator) {
+  public void setSelectedComparator(WithAttributeController.Comparator comparator) {
     comparatorChooser.setSelectedItem(comparator);
+    if (comparator.name().equals("matches")) {
+      Util.useRegexps(valueField, project, true);
+    } else {
+      Util.useRegexps(valueField, project, false);
+    }
   }
 
   private void createUIComponents() {
-    nameField = Util.createRegexpEditor(project);
-    valueField = Util.createRegexpEditor(project);
+    nameField = Util.createRegexpEditor(project, false);
+    valueField = Util.createRegexpEditor(project, false);
+  }
+
+  public void useRegexps(boolean b) {
+    Util.useRegexps(nameField, project, b);
   }
 }

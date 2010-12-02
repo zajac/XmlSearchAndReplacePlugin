@@ -19,12 +19,12 @@
       </grid>
       <nested-form id="67b57" form-file="org/jetbrains/plugins/xml/searchandreplace/ui/view/replace/ReplaceView.form" binding="replaceView" custom-create="true">
         <constraints>
-          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="2" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
       </nested-form>
       <component id="605d6" class="org.intellij.plugins.xpathView.search.ScopePanel" binding="scopePanel" custom-create="true">
         <constraints>
-          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="2" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties/>
       </component>

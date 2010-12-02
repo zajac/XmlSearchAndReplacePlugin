@@ -17,11 +17,19 @@ import com.intellij.ui.EditorTextField;
  * To change this template use File | Settings | File Templates.
  */
 public class Util {
-  static EditorTextField createRegexpEditor(Project myProject) {
-    String s = "*.regexp";
+  static EditorTextField createRegexpEditor(Project myProject, boolean regexps) {
+    String s = regexps ? "*.regexp" : "*.txt";
     FileType fileType = FileTypeManager.getInstance().getFileTypeByFileName(s);
     final PsiFile file = PsiFileFactory.getInstance(myProject).createFileFromText(s, fileType, "", -1, true);
     Document document = PsiDocumentManager.getInstance(myProject).getDocument(file);
     return new EditorTextField(document, myProject, fileType);
+  }
+
+  public static void useRegexps(EditorTextField editorTextField, Project myProject, boolean use) {
+    String s = use ? "*.regexp" : "*.txt";
+    FileType fileType = FileTypeManager.getInstance().getFileTypeByFileName(s);
+    final PsiFile file = PsiFileFactory.getInstance(myProject).createFileFromText(s, fileType, editorTextField.getText(), -1, true);
+    Document document = PsiDocumentManager.getInstance(myProject).getDocument(file);
+    editorTextField.setNewDocumentAndFileType(fileType, document);
   }
 }

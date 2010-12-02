@@ -1,8 +1,6 @@
 package org.jetbrains.plugins.xml.searchandreplace.ui.controller.search;
 
 import com.intellij.openapi.project.Project;
-import com.intellij.psi.xml.XmlElement;
-import com.intellij.psi.xml.XmlText;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.*;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.captures.Capture;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.captures.TagNameCapture;
@@ -19,6 +17,12 @@ import java.util.List;
 
 public class TagOrTextConstraintController extends ConstraintTypeController implements TagPredicatePanel.Delegate {
   private TagPredicatePanel myView;
+
+
+  @Override
+  public void useRegexps(boolean use) {
+    myView.useRegexps(use);
+  }
 
   @Override
   public JPanel getView() {
@@ -42,18 +46,38 @@ public class TagOrTextConstraintController extends ConstraintTypeController impl
   @Override
   public XmlElementPredicate buildPredicate() {
     if (myView.selectedCard().equals(TagPredicatePanel.TAG)) {
-      String tagName = myView.getTagName();
-      boolean okExpr = isOkPattern(tagName);
-      XmlElementPredicate predicate = okExpr ? (tagName.isEmpty() ? new AnyTag() :  new TagNameMatches(tagName)) : new False();
+      String tagName = myView.getTagName().trim();
+      XmlElementPredicate predicate = null;
+      if (getDelegate().useRegexps()) {
+        if (isOkPattern(tagName)) {
+          predicate = new TagNameMatches(tagName);
+        } else {
+          getDelegate().badInput(this);
+        }
+      } else {
+        if (!tagName.isEmpty()) {
+          predicate = new TagNameEquals(tagName);
+        } else {
+          predicate = new AnyTag();
+        }
+      }
       return decorateWithNotIfNeccessary(predicate);
     } else {
-      String text = myView.getText();
-      XmlElementPredicate predicate = isOkPattern(text) ? (text.isEmpty() ? new XmlElementPredicate() {
-        @Override
-        public boolean apply(XmlElement element) {
-          return element instanceof XmlText;
+      String text = myView.getText().trim();
+      XmlElementPredicate predicate = null;
+      if (getDelegate().useRegexps()) {
+        if (isOkPattern(text)) {
+          predicate = new MatchesXmlTextPredicate(text);
+        } else {
+          getDelegate().badInput(this);
         }
-      } : new MatchesXmlTextPredicate(text)) : new False();
+      } else {
+        if (text.isEmpty()) {
+          predicate = new AnyXmlText();
+        } else {
+          predicate = new XmlTextEquals(text);
+        }
+      }
       return decorateWithNotIfNeccessary(predicate);
     }
   }

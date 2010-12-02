@@ -15,7 +15,7 @@ public class TagPredicatePanel extends JPanel {
   private Project myProject;
 
   private void createUIComponents() {
-    editorTextField = Util.createRegexpEditor(myProject);
+    editorTextField = Util.createRegexpEditor(myProject, false);
   }
 
   public void setText(String text) {
@@ -28,6 +28,10 @@ public class TagPredicatePanel extends JPanel {
 
   public interface Delegate {
     void stateChanged(TagPredicatePanel tpp);
+  }
+
+  public void useRegexps(boolean b) {
+    Util.useRegexps(editorTextField, myProject, b);
   }
 
   public static final String TAG = "Tag";
@@ -50,6 +54,7 @@ public class TagPredicatePanel extends JPanel {
 
   public TagPredicatePanel(boolean tagOnly, Project project) {
     this.myProject = project;
+    Util.useRegexps(editorTextField, myProject, false);
     List<String> items = tagOnly ? Arrays.asList(TAG) : Arrays.asList(TAG, TEXT);
     textOrTag.setModel(new CollectionComboBoxModel(items, DEFAULT_CARD));
     setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));

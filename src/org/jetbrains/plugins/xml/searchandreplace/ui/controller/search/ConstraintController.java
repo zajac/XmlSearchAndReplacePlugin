@@ -95,6 +95,7 @@ public class ConstraintController implements ConstraintPanelDelegate, Constraint
     updateCaptures(constraintTypeController);
     if (getDelegate() != null) {
       getDelegate().validateMe(this);
+      constraintTypeController.useRegexps(getDelegate().useRegexps());
     }
   }
 
@@ -142,6 +143,16 @@ public class ConstraintController implements ConstraintPanelDelegate, Constraint
     if (delegate != null) {
       delegate.validateMe(this);
     }
+  }
+
+  @Override
+  public boolean useRegexps() {
+    return getDelegate().useRegexps();
+  }
+
+  @Override
+  public void badInput(ConstraintTypeController constraintController) {
+    //TODO
   }
 
   public void highlightCaptures(Capture active) {
@@ -198,5 +209,11 @@ public class ConstraintController implements ConstraintPanelDelegate, Constraint
     myView.setCaptures(captures);
 
     constraintTypeController.loadState(state.getConstraintTypeSpecificEntry());
+  }
+
+  public void useRegexps(boolean use) {
+    if (constraintTypeController != null) {
+      constraintTypeController.useRegexps(use);
+    }
   }
 }

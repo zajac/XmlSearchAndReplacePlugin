@@ -32,9 +32,17 @@ public abstract class ConstraintTypeController implements PersistentStateCompone
     return okExpr;
   }
 
+  public void useRegexps(boolean use) {
+    //override who cares
+  }
+
   public interface Delegate {
     void updateCaptures(ConstraintTypeController ptc);
     void validateChildren(ConstraintTypeController ctc);
+
+    boolean useRegexps();
+
+    void badInput(ConstraintTypeController constraintController);
   }
 
   private Delegate delegate;

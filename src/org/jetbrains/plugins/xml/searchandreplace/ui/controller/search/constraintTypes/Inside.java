@@ -9,8 +9,6 @@ import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.TagOrText
 
 public class Inside extends ConstraintType {
 
-  private Project project;
-
   protected enum Params {NOT}
 
   Params p = null;

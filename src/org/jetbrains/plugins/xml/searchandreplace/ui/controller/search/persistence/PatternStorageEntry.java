@@ -9,6 +9,7 @@ public class PatternStorageEntry {
   private ArrayList<ConstraintEntry> entries = new ArrayList<ConstraintEntry>();
   private HashMap<Integer, ArrayList<Integer>> tree = new HashMap<Integer, ArrayList<Integer>>();
   private int root;
+  private boolean useRegexps;
 
   public ArrayList<ConstraintEntry> getEntries() {
     return entries;
@@ -33,4 +34,13 @@ public class PatternStorageEntry {
   public int getRoot() {
     return root;
   }
+
+  public boolean getUseRegexps() {
+    return useRegexps;
+  }
+
+  public void setUseRegexps(boolean useRegularExpressions) {
+    useRegexps = useRegularExpressions;
+  }
+
 }

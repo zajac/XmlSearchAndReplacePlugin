@@ -13,9 +13,22 @@ import org.jetbrains.plugins.xml.searchandreplace.ui.view.search.PatternView;
 
 import java.util.*;
 
-public class PatternController implements ConstraintControllerDelegate, PersistentStateComponent<PatternStorageEntry> {
+public class PatternController implements ConstraintControllerDelegate, PersistentStateComponent<PatternStorageEntry>,PatternView.Delegate {
 
   private Project project;
+
+  @Override
+  public void useRegexps(boolean use) {
+    useRegularExpressions = use;
+    for (ConstraintController c : constraintsTree.keySet()) {
+      c.useRegexps(use);
+    }
+  }
+
+  @Override
+  public boolean useRegexps() {
+    return useRegularExpressions;
+  }
 
   public interface Delegate {
 
@@ -31,6 +44,7 @@ public class PatternController implements ConstraintControllerDelegate, Persiste
 
   private ConstraintController root;
 
+  boolean useRegularExpressions = false;
 
   public Delegate getDelegate() {
     return delegate;
@@ -68,6 +82,7 @@ public class PatternController implements ConstraintControllerDelegate, Persiste
     state.setEntries(new ArrayList<ConstraintEntry>(entriesForControllers.values()));
     state.setTree(tree);
     state.setRoot(entriesForControllers.get(root).getId());
+    state.setUseRegexps(useRegularExpressions);
     return state;
   }
 
@@ -104,6 +119,8 @@ public class PatternController implements ConstraintControllerDelegate, Persiste
     if (state != null) {
       removeConstraintController(root);
       initController(state, state.getRoot(), null, new HashMap<Integer, ConstraintController>());
+      useRegexps(state.getUseRegexps());
+      view.setUseRegexps(useRegularExpressions);
     }
   }
 
@@ -149,6 +166,7 @@ public class PatternController implements ConstraintControllerDelegate, Persiste
 
   public PatternController(Project project) {
     this.project = project;
+    view.setDelegate(this);
     root = new ConstraintController(true, null, project);
     addConstraintController(root);
     root.constraintTypeSelected(null, null);
@@ -229,6 +247,8 @@ public class PatternController implements ConstraintControllerDelegate, Persiste
       capturesManager.registerNewCapture(constraintController, captures.get(i), capturesIds.get(i));
     }
   }
+
+
 
   private void registerCapturesIfNesessary(ConstraintController constraintController) {
     boolean unregistered = false;
