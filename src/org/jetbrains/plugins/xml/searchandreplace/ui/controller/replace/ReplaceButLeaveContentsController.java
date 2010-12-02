@@ -13,6 +13,7 @@ public class ReplaceButLeaveContentsController extends CreatingXmlController {
 
   @Override
   protected ReplacementProvider getReplacementProvider() {
+    ensureMyXmlIsTag();
     ReplacementProvider withMyXml = createReplacementProviderWithMyXml();
     return new ReplaceTagButLeaveContent(withMyXml);
   }

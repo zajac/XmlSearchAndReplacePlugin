@@ -41,4 +41,8 @@ public class ReplacementView extends JPanel {
   public EditorImpl getEditor() {
     return (EditorImpl)textField.getEditor();
   }
+
+  public void setText(String xml) {
+    textField.setText(xml);
+  }
 }

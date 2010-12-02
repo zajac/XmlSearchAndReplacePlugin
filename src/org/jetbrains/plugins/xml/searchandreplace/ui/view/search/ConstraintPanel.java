@@ -1,5 +1,6 @@
 package org.jetbrains.plugins.xml.searchandreplace.ui.view.search;
 
+import com.intellij.openapi.util.IconLoader;
 import com.intellij.ui.CollectionComboBoxModel;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.ConstraintType;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.captures.Capture;
@@ -140,6 +141,10 @@ public class ConstraintPanel extends JPanel {
   private void createUIComponents() {
     capturesPanel = new JPanel();
     capturesPanel.setLayout(new BoxLayout(capturesPanel, BoxLayout.PAGE_AXIS));
+    addChildButton = new JButton("", IconLoader.findIcon("/general/add.png"));
+    addChildButton.setBorderPainted(false);
+    removeButton = new JButton("", IconLoader.findIcon("/general/remove.png"));
+    removeButton.setBorderPainted(false);
   }
 
   public void setCaptures(Collection<Capture> captures) {

@@ -63,6 +63,14 @@ public abstract class CreatingXmlController extends ReplacementController implem
     }
   }
 
+  protected String getMyXml() {
+    return myView.getText();
+  }
+
+  protected void setMyXml(String xml) {
+    myView.setText(xml);
+  }
+
   protected ReplacementProvider createReplacementProviderWithMyXml() {
     if (myView.getText().isEmpty()) return null;
     return new ReplacementProvider() {
@@ -78,6 +86,12 @@ public abstract class CreatingXmlController extends ReplacementController implem
   public void newCaptureInserted(Capture capture, RangeMarker where) {
     if (nested != null) {
       nested.addCaptureEntry(capture, where);
+    }
+  }
+
+  protected void ensureMyXmlIsTag() {
+    if (getMyXml().trim().charAt(0) != '<') {
+      setMyXml("<" + getMyXml() + "/>");
     }
   }
 }

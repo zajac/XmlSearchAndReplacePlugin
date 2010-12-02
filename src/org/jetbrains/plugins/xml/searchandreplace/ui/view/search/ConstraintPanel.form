@@ -59,13 +59,14 @@
                     <margin top="0" left="0" bottom="0" right="0"/>
                     <constraints>
                       <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false">
-                        <minimum-size width="70" height="-1"/>
+                        <minimum-size width="50" height="-1"/>
+                        <preferred-size width="50" height="-1"/>
                       </grid>
                     </constraints>
                     <properties/>
                     <border type="none"/>
                     <children>
-                      <component id="6345" class="javax.swing.JButton" binding="removeButton">
+                      <component id="6345" class="javax.swing.JButton" binding="removeButton" custom-create="true">
                         <constraints>
                           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="1" anchor="8" fill="0" indent="0" use-parent-layout="false">
                             <minimum-size width="25" height="25"/>
@@ -74,10 +75,10 @@
                           </grid>
                         </constraints>
                         <properties>
-                          <text value="-"/>
+                          <text value=""/>
                         </properties>
                       </component>
-                      <component id="94f42" class="javax.swing.JButton" binding="addChildButton">
+                      <component id="94f42" class="javax.swing.JButton" binding="addChildButton" custom-create="true">
                         <constraints>
                           <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
                             <minimum-size width="25" height="25"/>
@@ -86,7 +87,7 @@
                           </grid>
                         </constraints>
                         <properties>
-                          <text value="+"/>
+                          <text value=""/>
                         </properties>
                       </component>
                     </children>
