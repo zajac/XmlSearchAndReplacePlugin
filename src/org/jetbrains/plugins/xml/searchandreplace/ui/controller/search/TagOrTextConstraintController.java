@@ -1,5 +1,6 @@
 package org.jetbrains.plugins.xml.searchandreplace.ui.controller.search;
 
+import com.intellij.openapi.project.Project;
 import com.intellij.psi.xml.XmlElement;
 import com.intellij.psi.xml.XmlText;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.*;
@@ -24,13 +25,13 @@ public class TagOrTextConstraintController extends ConstraintTypeController impl
     return myView;
   }
 
-  public TagOrTextConstraintController(ConstraintType constraintType, boolean strictlyTag) {
-    this(constraintType, null, strictlyTag);
+  public TagOrTextConstraintController(ConstraintType constraintType, boolean strictlyTag, Project project) {
+    this(constraintType, null, strictlyTag, project);
   }
 
-  public TagOrTextConstraintController(ConstraintType constraintType, Params p, boolean strictlyTag) {
-    super(p, constraintType);
-    myView = new TagPredicatePanel(strictlyTag);
+  public TagOrTextConstraintController(ConstraintType constraintType, Params p, boolean strictlyTag, Project project) {
+    super(p, constraintType, project);
+    myView = new TagPredicatePanel(strictlyTag, project);
     myView.setDelengate(this);
   }
 
@@ -42,16 +43,17 @@ public class TagOrTextConstraintController extends ConstraintTypeController impl
   public XmlElementPredicate buildPredicate() {
     if (myView.selectedCard().equals(TagPredicatePanel.TAG)) {
       String tagName = myView.getTagName();
-      TagPredicate predicate = tagName.isEmpty() ? new AnyTag() :  new TagNameMatches(tagName);
+      boolean okExpr = isOkPattern(tagName);
+      XmlElementPredicate predicate = okExpr ? (tagName.isEmpty() ? new AnyTag() :  new TagNameMatches(tagName)) : new False();
       return decorateWithNotIfNeccessary(predicate);
     } else {
       String text = myView.getText();
-      XmlElementPredicate predicate = text.isEmpty() ? new XmlElementPredicate() {
+      XmlElementPredicate predicate = isOkPattern(text) ? (text.isEmpty() ? new XmlElementPredicate() {
         @Override
         public boolean apply(XmlElement element) {
           return element instanceof XmlText;
         }
-      } : new MatchesXmlTextPredicate(text);
+      } : new MatchesXmlTextPredicate(text)) : new False();
       return decorateWithNotIfNeccessary(predicate);
     }
   }
@@ -85,8 +87,8 @@ public class TagOrTextConstraintController extends ConstraintTypeController impl
         return super.getAllowedChildrenTypes();
       }
     } else {
-      return Arrays.asList(ConstraintTypesRegistry.getInstance().byClass(Inside.class),
-              ConstraintTypesRegistry.getInstance().byClass(NotInside.class));
+      return Arrays.asList(ConstraintTypesRegistry.getInstance(project).byClass(Inside.class),
+              ConstraintTypesRegistry.getInstance(project).byClass(NotInside.class));
     }
   }
 

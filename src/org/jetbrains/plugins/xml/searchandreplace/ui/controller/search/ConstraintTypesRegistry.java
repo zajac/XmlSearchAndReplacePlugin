@@ -1,5 +1,7 @@
 package org.jetbrains.plugins.xml.searchandreplace.ui.controller.search;
 
+import com.intellij.openapi.components.ServiceManager;
+import com.intellij.openapi.project.Project;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.constraintTypes.*;
 
 import java.util.ArrayList;
@@ -8,26 +10,31 @@ import java.util.List;
 
 public class ConstraintTypesRegistry {
 
-  private static ConstraintTypesRegistry ourInstance = new ConstraintTypesRegistry();
-
   private List<ConstraintType> constraintTypes = new ArrayList<ConstraintType>();
+  private Project project;
 
   public List<ConstraintType> getConstraintTypes() {
     return constraintTypes;
   }
 
-  public static ConstraintTypesRegistry getInstance() {
-    return ourInstance;
+  public static ConstraintTypesRegistry getInstance(Project project) {
+    return ServiceManager.getService(project, ConstraintTypesRegistry.class);
+  }
+
+  private ConstraintTypesRegistry(Project project) {
+    this.project = project;
+    registerPredicateType(new Inside(project));
+    registerPredicateType(new NotInside(project));
+    registerPredicateType(new Contains(project));
+    registerPredicateType(new NotContains(project));
+    registerPredicateType(new WithAttribute(project));
+    registerPredicateType(new WithoutAttribute(project));
+    registerPredicateType(new DirectlyContains(project));
+    registerPredicateType(new RootConstraintType(project));
   }
 
   private ConstraintTypesRegistry() {
-    registerPredicateType(new Inside());
-    registerPredicateType(new NotInside());
-    registerPredicateType(new Contains());
-    registerPredicateType(new NotContains());
-    registerPredicateType(new WithAttribute());
-    registerPredicateType(new WithoutAttribute());
-    registerPredicateType(new DirectlyContains());
+
   }
 
   public void registerPredicateType(ConstraintType constraintType) {

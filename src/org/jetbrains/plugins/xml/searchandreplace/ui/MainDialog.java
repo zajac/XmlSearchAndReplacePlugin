@@ -45,7 +45,7 @@ public class MainDialog extends DialogWrapper implements ContainerListener, Patt
       patternController = service.getRecent();
     }
     if (patternController == null) {
-      patternController = new PatternController();
+      patternController = new PatternController(project);
       if (service != null) {
         service.setRecent(patternController);
       }

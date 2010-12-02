@@ -1,6 +1,8 @@
 package org.jetbrains.plugins.xml.searchandreplace.ui.view.search;
 
+import com.intellij.openapi.project.Project;
 import com.intellij.ui.CollectionComboBoxModel;
+import com.intellij.ui.EditorTextField;
 
 import javax.swing.*;
 import java.awt.event.ItemEvent;
@@ -10,12 +12,14 @@ import java.util.List;
 
 public class TagPredicatePanel extends JPanel {
 
+  private Project myProject;
+
   private void createUIComponents() {
-    // TODO: place custom component creation code here
+    editorTextField = Util.createRegexpEditor(myProject);
   }
 
   public void setText(String text) {
-    textField.setText(text);
+    editorTextField.setText(text);
   }
 
   public void setSelectedCard(String value) {
@@ -42,9 +46,10 @@ public class TagPredicatePanel extends JPanel {
 
   private JPanel pane;
   private JComboBox textOrTag;
-  private JTextField textField;
+  private EditorTextField editorTextField;
 
-  public TagPredicatePanel(boolean tagOnly) {
+  public TagPredicatePanel(boolean tagOnly, Project project) {
+    this.myProject = project;
     List<String> items = tagOnly ? Arrays.asList(TAG) : Arrays.asList(TAG, TEXT);
     textOrTag.setModel(new CollectionComboBoxModel(items, DEFAULT_CARD));
     setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
@@ -68,10 +73,10 @@ public class TagPredicatePanel extends JPanel {
   }
 
   public String getTagName() {
-    return textField.getText();
+    return editorTextField.getText();
   }
 
   public String getText() {
-    return textField.getText();
+    return editorTextField.getText();
   }
 }

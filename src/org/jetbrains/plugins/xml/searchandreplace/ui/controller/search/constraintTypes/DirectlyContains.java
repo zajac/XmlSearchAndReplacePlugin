@@ -1,5 +1,6 @@
 package org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.constraintTypes;
 
+import com.intellij.openapi.project.Project;
 import org.jetbrains.plugins.xml.searchandreplace.search.Node;
 import org.jetbrains.plugins.xml.searchandreplace.search.Pattern;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.And;
@@ -8,9 +9,14 @@ import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.Constrain
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.DirectlyContainsController;
 
 public class DirectlyContains extends ConstraintType {
+
+  public DirectlyContains(Project project) {
+    super(project);
+  }
+
   @Override
   public ConstraintTypeController createNewController() {
-    return new DirectlyContainsController(this, false);
+    return new DirectlyContainsController(this, false, project);
   }
 
   @Override

@@ -1,7 +1,9 @@
 package org.jetbrains.plugins.xml.searchandreplace.ui.view.search;
 
 
+import com.intellij.openapi.project.Project;
 import com.intellij.ui.CollectionComboBoxModel;
+import com.intellij.ui.EditorTextField;
 
 import javax.swing.*;
 import java.util.List;
@@ -9,11 +11,13 @@ import java.util.List;
 public class AttributePanel extends JPanel {
 
   private JPanel centerPanel;
-  private JTextField nameField;
+  private EditorTextField nameField;
   private JComboBox comparatorChooser;
-  private JTextField valueField;
+  private EditorTextField valueField;
+  private Project project;
 
-  public AttributePanel(List comparators) {
+  public AttributePanel(List comparators, Project project) {
+    this.project = project;
     if (comparators == null) {
       valueField.setVisible(false);
       comparatorChooser.setVisible(false);
@@ -45,5 +49,10 @@ public class AttributePanel extends JPanel {
 
   public void setSelectedComparator(Object comparator) {
     comparatorChooser.setSelectedItem(comparator);
+  }
+
+  private void createUIComponents() {
+    nameField = Util.createRegexpEditor(project);
+    valueField = Util.createRegexpEditor(project);
   }
 }

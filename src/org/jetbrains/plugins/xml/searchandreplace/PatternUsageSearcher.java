@@ -51,13 +51,16 @@ class PatternUsageSearcher implements UsageSearcher {
           Set<VirtualFile> filesForHint = new HashSet<VirtualFile>(scopeFiles);
           for (String hint : searchHint) {
             final Set<VirtualFile> filesWithWord = new HashSet<VirtualFile>();
-            searchHelper.processAllFilesWithWordInText(hint, GlobalSearchScope.filesScope(project, filesForHint), new Processor<PsiFile>() {
+            GlobalSearchScope filesScope = GlobalSearchScope.filesScope(project, filesForHint);
+            Processor<PsiFile> accumulate = new Processor<PsiFile>() {
               @Override
               public boolean process(PsiFile psiFile) {
                 filesWithWord.add(psiFile.getVirtualFile());
                 return true;
               }
-            }, false);
+            };
+            searchHelper.processAllFilesWithWordInText(hint, filesScope, accumulate, false);
+            searchHelper.processAllFilesWithWord(hint, filesScope, accumulate, false);
             filesForHint.retainAll(filesWithWord);
           }
           for (VirtualFile file : filesForHint) {

@@ -2,6 +2,7 @@ package org.jetbrains.plugins.xml.searchandreplace.ui.controller.search;
 
 
 import com.intellij.openapi.components.PersistentStateComponent;
+import com.intellij.openapi.project.Project;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.persistence.ConstraintEntry;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.persistence.PatternStorageEntry;
 import org.jetbrains.plugins.xml.searchandreplace.search.Node;
@@ -13,6 +14,8 @@ import org.jetbrains.plugins.xml.searchandreplace.ui.view.search.PatternView;
 import java.util.*;
 
 public class PatternController implements ConstraintControllerDelegate, PersistentStateComponent<PatternStorageEntry> {
+
+  private Project project;
 
   public interface Delegate {
 
@@ -27,6 +30,7 @@ public class PatternController implements ConstraintControllerDelegate, Persiste
   private Map<ConstraintController, ArrayList<ConstraintController>> constraintsTree = new HashMap<ConstraintController, ArrayList<ConstraintController>>();
 
   private ConstraintController root;
+
 
   public Delegate getDelegate() {
     return delegate;
@@ -70,7 +74,7 @@ public class PatternController implements ConstraintControllerDelegate, Persiste
   private void initController(PatternStorageEntry state, int id, ConstraintController parent, Map<Integer, ConstraintController> ready) {
     ConstraintController constraintController = ready.get(id);
     if (constraintController == null) {
-      constraintController = new ConstraintController(true, parent);
+      constraintController = new ConstraintController(true, parent, project);
       ready.put(id, constraintController);
 
       addConstraintController(constraintController);
@@ -143,8 +147,9 @@ public class PatternController implements ConstraintControllerDelegate, Persiste
     return view;
   }
 
-  public PatternController() {
-    root = new ConstraintController(true, null);
+  public PatternController(Project project) {
+    this.project = project;
+    root = new ConstraintController(true, null, project);
     addConstraintController(root);
     root.constraintTypeSelected(null, null);
   }
@@ -175,14 +180,14 @@ public class PatternController implements ConstraintControllerDelegate, Persiste
 
     Collection<ConstraintType> allowedChildrenTypes = parent.getConstraintTypeController().getAllowedChildrenTypes();
     if (!allowedChildrenTypes.isEmpty()) {
-      addConstraintController(new ConstraintController(false, parent));
+      addConstraintController(new ConstraintController(false, parent, project));
     }
   }
 
   public List<ConstraintType> getAllowedPredicateTypes(ConstraintController constraintController) {
     ConstraintController parent = constraintController.getParent();
     if (parent == null) {
-      return ConstraintTypesRegistry.getInstance().getConstraintTypes();
+      return ConstraintTypesRegistry.getInstance(project).getConstraintTypes();
     }
 
     if (parent.getConstraintTypeController() != null) {

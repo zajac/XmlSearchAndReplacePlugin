@@ -1,6 +1,7 @@
 package org.jetbrains.plugins.xml.searchandreplace.ui.controller.search;
 
 import com.intellij.openapi.components.PersistentStateComponent;
+import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Key;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.persistence.ConstraintTypeSpecificEntry;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.Not;
@@ -10,6 +11,8 @@ import org.jetbrains.plugins.xml.searchandreplace.ui.controller.captures.Capture
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 public abstract class ConstraintTypeController implements PersistentStateComponent<ConstraintTypeSpecificEntry> {
 
@@ -17,6 +20,17 @@ public abstract class ConstraintTypeController implements PersistentStateCompone
   public static final Key<ConstraintTypeController> USER_DATA_KEY =
           Key.create(ConstraintTypeController.class.getName());
   private ConstraintType constraintType;
+  protected Project project;
+
+  protected boolean isOkPattern(String tagName) {
+    boolean okExpr = true;
+    try {
+      Pattern pattern = Pattern.compile(tagName);
+    } catch(PatternSyntaxException e) {
+      okExpr = false;
+    }
+    return okExpr;
+  }
 
   public interface Delegate {
     void updateCaptures(ConstraintTypeController ptc);
@@ -37,13 +51,15 @@ public abstract class ConstraintTypeController implements PersistentStateCompone
 
   protected Params p = null;
 
-  public ConstraintTypeController(ConstraintType constraintType) {
+  public ConstraintTypeController(ConstraintType constraintType, Project project) {
     this.constraintType = constraintType;
+    this.project = project;
   }
 
-  public ConstraintTypeController(Params p, ConstraintType constraintType) {
+  public ConstraintTypeController(Params p, ConstraintType constraintType, Project project) {
     this.p = p;
     this.constraintType = constraintType;
+    this.project = project;
   }
 
   public ConstraintType getConstraintType() {
@@ -72,6 +88,6 @@ public abstract class ConstraintTypeController implements PersistentStateCompone
 
 
   public List<ConstraintType> getAllowedChildrenTypes() {
-    return ConstraintTypesRegistry.getInstance().getConstraintTypes();
+    return ConstraintTypesRegistry.getInstance(project).getConstraintTypes();
   }
 }

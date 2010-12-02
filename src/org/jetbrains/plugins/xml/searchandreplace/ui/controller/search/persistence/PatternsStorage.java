@@ -20,6 +20,11 @@ public class PatternsStorage implements PersistentStateComponent<PatternsStorage
 
   private PatternController recent;
   private SearchScope recentScope;
+  private Project project;
+
+  public PatternsStorage(Project project) {
+    this.project = project;
+  }
 
   public PatternController getRecent() {
     return recent;
@@ -40,7 +45,7 @@ public class PatternsStorage implements PersistentStateComponent<PatternsStorage
 
   @Override
   public void loadState(PatternsStorageEntry state) {
-    recent = new PatternController();
+    recent = new PatternController(project);
     recentScope = state.getScope();
     recent.loadState(state.getRecent());
   }

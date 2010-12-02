@@ -1,12 +1,13 @@
 package org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.constraintTypes;
 
 
+import com.intellij.openapi.project.Project;
 import org.jetbrains.plugins.xml.searchandreplace.search.Node;
 import org.jetbrains.plugins.xml.searchandreplace.search.Pattern;
 
 public class NotContains extends Contains {
-  public NotContains() {
-    super(Params.NOT);
+  public NotContains(Project project) {
+    super(Params.NOT, project);
   }
 
 

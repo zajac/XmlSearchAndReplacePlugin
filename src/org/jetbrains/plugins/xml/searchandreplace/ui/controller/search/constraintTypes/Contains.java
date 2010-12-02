@@ -1,5 +1,6 @@
 package org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.constraintTypes;
 
+import com.intellij.openapi.project.Project;
 import org.jetbrains.plugins.xml.searchandreplace.search.Node;
 import org.jetbrains.plugins.xml.searchandreplace.search.Pattern;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.ConstraintType;
@@ -12,15 +13,17 @@ public class Contains extends ConstraintType {
 
   Params p = null;
 
-  public Contains() {
+  public Contains(Project project) {
+    super(project);
   }
 
-  protected Contains(Params p) {
+  protected Contains(Params p, Project project) {
+    super(project);
     this.p = p;
   }
 
   public ConstraintTypeController createNewController() {
-    return new TagOrTextConstraintController(this, p == Params.NOT ? TagOrTextConstraintController.Params.NOT : null, false);
+    return new TagOrTextConstraintController(this, p == Params.NOT ? TagOrTextConstraintController.Params.NOT : null, false, project);
   }
 
   public String toString() {

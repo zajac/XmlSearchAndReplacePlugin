@@ -1,10 +1,11 @@
 package org.jetbrains.plugins.xml.searchandreplace.ui.controller.search;
 
+import com.intellij.openapi.project.Project;
 import com.intellij.psi.xml.XmlAttribute;
 import com.intellij.psi.xml.XmlTag;
-import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.persistence.ConstraintTypeSpecificEntry;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.TagPredicate;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.XmlElementPredicate;
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.persistence.ConstraintTypeSpecificEntry;
 import org.jetbrains.plugins.xml.searchandreplace.ui.view.search.AttributePanel;
 
 import javax.swing.*;
@@ -14,9 +15,9 @@ import java.util.List;
 
 public class WithoutAttributeController extends ConstraintTypeController {
 
-  final AttributePanel view = new AttributePanel(null);
+  final AttributePanel view = new AttributePanel(null, project);
 
-  public WithoutAttributeController(ConstraintType pt) { super(pt); }
+  public WithoutAttributeController(ConstraintType pt, Project project) { super(pt, project); }
 
   @Override
   public JPanel getView() {

@@ -2,15 +2,12 @@ package org.jetbrains.plugins.xml.searchandreplace.ui.controller.replace;
 
 import org.jetbrains.plugins.xml.searchandreplace.replace.RemoveAttribute;
 import org.jetbrains.plugins.xml.searchandreplace.replace.ReplacementProvider;
-import org.jetbrains.plugins.xml.searchandreplace.ui.view.replace.RemoveAttributeView;
 
 public class RemoveAttributeController extends SetAttributeController {
 
-  private RemoveAttributeView myView = new RemoveAttributeView();
 
-  @Override
-  public RemoveAttributeView getView() {
-    return myView;
+  public RemoveAttributeController() {
+    getView().getValueField().setVisible(false);
   }
 
   @Override

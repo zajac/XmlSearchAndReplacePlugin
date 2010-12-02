@@ -1,6 +1,7 @@
 package org.jetbrains.plugins.xml.searchandreplace.ui.controller.search;
 
 import com.intellij.openapi.components.PersistentStateComponent;
+import com.intellij.openapi.project.Project;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.persistence.ConstraintEntry;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.persistence.ConstraintTypeSpecificEntry;
 import org.jetbrains.plugins.xml.searchandreplace.search.Node;
@@ -29,6 +30,7 @@ public class ConstraintController implements ConstraintPanelDelegate, Constraint
   private Node builtNode;
 
   private ArrayList<Capture> captures = new ArrayList<Capture>();
+  private Project project;
 
   public ArrayList<Capture> getCaptures() {
     return captures;
@@ -38,8 +40,9 @@ public class ConstraintController implements ConstraintPanelDelegate, Constraint
     return constraintTypeController;
   }
 
-  public ConstraintController(boolean canHaveChildren, ConstraintController parent) {
+  public ConstraintController(boolean canHaveChildren, ConstraintController parent, Project project) {
     this.parent = parent;
+    this.project = project;
     myView = new ConstraintPanel(canHaveChildren, parent != null);
     myView.setDelegate(this);
   }
@@ -81,7 +84,7 @@ public class ConstraintController implements ConstraintPanelDelegate, Constraint
     if (selection != null) {
       selectedConstraintType = selection;
     } else {
-      selectedConstraintType = new RootConstraintType();
+      selectedConstraintType = ConstraintTypesRegistry.getInstance(project).byClass(RootConstraintType.class);
     }
     if (constraintTypeController != null) {
       constraintTypeController.setDelegate(null);
@@ -171,13 +174,13 @@ public class ConstraintController implements ConstraintPanelDelegate, Constraint
     if (constraintTypeClassSelected == null || constraintTypeClassSelected.isEmpty()) return;
     ConstraintType constraintType = null;
     try {
-      constraintType = ConstraintTypesRegistry.getInstance().byClass(Class.forName(constraintTypeClassSelected));
+      constraintType = ConstraintTypesRegistry.getInstance(project).byClass(Class.forName(constraintTypeClassSelected));
     } catch (ClassNotFoundException e) {
       constraintType = null;
     }
 
     if (constraintType == null) {
-      constraintType = new RootConstraintType();
+      ConstraintTypesRegistry.getInstance(project).byClass(RootConstraintType.class);
     }
 
     selectedConstraintType = constraintType;

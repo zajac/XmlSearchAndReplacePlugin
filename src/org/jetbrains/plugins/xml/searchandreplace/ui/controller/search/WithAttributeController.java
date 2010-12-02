@@ -1,19 +1,22 @@
 package org.jetbrains.plugins.xml.searchandreplace.ui.controller.search;
 
+import com.intellij.openapi.project.Project;
 import com.intellij.psi.xml.XmlAttribute;
-import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.persistence.ConstraintTypeSpecificEntry;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.AttributePredicate;
+import org.jetbrains.plugins.xml.searchandreplace.search.predicates.False;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.HasSpecificAttribute;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.XmlElementPredicate;
-import org.jetbrains.plugins.xml.searchandreplace.ui.controller.captures.Capture;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.captures.AttributeNameCapture;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.captures.AttributeValueCapture;
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.captures.Capture;
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.persistence.ConstraintTypeSpecificEntry;
 import org.jetbrains.plugins.xml.searchandreplace.ui.view.search.AttributePanel;
 
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.PatternSyntaxException;
 
 
 public class WithAttributeController extends ConstraintTypeController {
@@ -52,8 +55,8 @@ public class WithAttributeController extends ConstraintTypeController {
   private AttributePanel view;
   private List<Comparator> comparators;
 
-  public WithAttributeController(ConstraintType pt) {
-    super(pt);
+  public WithAttributeController(ConstraintType pt, Project project) {
+    super(pt, project);
     Comparator[] comparators = new Comparator[]{new Comparator() {
       public boolean compare(String value1, String value2) {
         return value1.equals(value2);
@@ -165,13 +168,21 @@ public class WithAttributeController extends ConstraintTypeController {
         return "moreOrEquals";
       }
     }, new Comparator() {
-
+      boolean isOk = true;
       public String toString() {
         return "matches";
       }
 
       public boolean compare(String value1, String value2) {
-        return value1.matches(value2);
+        if (!isOk) return false;
+        boolean matches;
+        try {
+          matches = value1.matches(value2);
+        } catch(PatternSyntaxException e) {
+          matches = false;
+          isOk = false;
+        }
+        return matches;
       }
 
       @Override
@@ -181,7 +192,7 @@ public class WithAttributeController extends ConstraintTypeController {
     }};
 
     this.comparators = Arrays.asList(comparators);
-    view = new AttributePanel(this.comparators);
+    view = new AttributePanel(this.comparators, project);
   }
 
   @Override
@@ -191,24 +202,26 @@ public class WithAttributeController extends ConstraintTypeController {
 
   @Override
   public XmlElementPredicate buildPredicate() {
+    final String attrName = view.getAttrName();
+    if (!isOkPattern(attrName)) return new False();
     return decorateWithNotIfNeccessary(new HasSpecificAttribute(new AttributePredicate() {
       @Override
       public boolean applyToAttribute(XmlAttribute a) {
-        if (view.getAttrName().isEmpty()) {
+        if (attrName.isEmpty()) {
           return true;
         }
-        if (a.getName().matches(view.getAttrName())) {
-          if (view.getValue().isEmpty()) {
+        if (a.getName().matches(attrName)) {
+          String value = view.getValue();
+          if (value.isEmpty()) {
             return true;
           }
           Comparator selected = (Comparator) view.selectedComparator();
-          if (selected.compare(a.getValue(), view.getValue())) {
+          if (selected.compare(a.getValue(), value)) {
             return true;
           }
         }
         return false;
       }
-
     }));
   }
 

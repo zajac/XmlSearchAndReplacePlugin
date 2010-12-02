@@ -1,12 +1,13 @@
 package org.jetbrains.plugins.xml.searchandreplace.ui.controller.search;
 
+import com.intellij.openapi.project.Project;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.DirectlyContains;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.XmlElementPredicate;
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.captures.Capture;
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.captures.DirectlyContainsTagNameCapture;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.constraintTypes.Contains;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.constraintTypes.WithAttribute;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.constraintTypes.WithoutAttribute;
-import org.jetbrains.plugins.xml.searchandreplace.ui.controller.captures.Capture;
-import org.jetbrains.plugins.xml.searchandreplace.ui.controller.captures.DirectlyContainsTagNameCapture;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,8 +15,8 @@ import java.util.List;
 
 public class DirectlyContainsController extends TagOrTextConstraintController {
 
-  public DirectlyContainsController(ConstraintType pt, boolean strictlyTag) {
-    super(pt, strictlyTag);
+  public DirectlyContainsController(ConstraintType pt, boolean strictlyTag, Project project ) {
+    super(pt, strictlyTag, project);
   }
 
   @Override
@@ -39,10 +40,10 @@ public class DirectlyContainsController extends TagOrTextConstraintController {
       return new ArrayList<ConstraintType>();
     }
     return Arrays.asList(
-            ConstraintTypesRegistry.getInstance().byClass(WithAttribute.class),
-            ConstraintTypesRegistry.getInstance().byClass(WithoutAttribute.class),
-            ConstraintTypesRegistry.getInstance().
+            ConstraintTypesRegistry.getInstance(project).byClass(WithAttribute.class),
+            ConstraintTypesRegistry.getInstance(project).byClass(WithoutAttribute.class),
+            ConstraintTypesRegistry.getInstance(project).
                     byClass(org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.constraintTypes.DirectlyContains.class),
-            ConstraintTypesRegistry.getInstance().byClass(Contains.class));
+            ConstraintTypesRegistry.getInstance(project).byClass(Contains.class));
   }
 }

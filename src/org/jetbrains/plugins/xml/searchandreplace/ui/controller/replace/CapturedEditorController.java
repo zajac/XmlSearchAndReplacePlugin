@@ -6,6 +6,7 @@ import com.intellij.openapi.editor.event.CaretEvent;
 import com.intellij.openapi.editor.event.CaretListener;
 import com.intellij.openapi.editor.event.DocumentEvent;
 import com.intellij.openapi.editor.event.DocumentListener;
+import com.intellij.openapi.editor.ex.FocusChangeListener;
 import com.intellij.openapi.editor.impl.EditorImpl;
 import com.intellij.openapi.editor.markup.EffectType;
 import com.intellij.openapi.editor.markup.HighlighterTargetArea;
@@ -237,7 +238,24 @@ public class CapturedEditorController implements CaptureDropHandler.CaptureDropH
 
     capturesManager.addCapturesListener(this);
     searchForNewCaptures();
-    highlightCapturesUnderCaret();
+    
+    if (editor.getComponent().hasFocus()) {
+      highlightCapturesUnderCaret();
+    }
+
+    editor.addFocusListener(new FocusChangeListener() {
+      @Override
+      public void focusGained(Editor editor) {
+        highlightCapturesUnderCaret();
+      }
+
+      @Override
+      public void focusLost(Editor editor) {
+        for (CaptureEntry ce : entries) {
+          updateEntry(ce, false);
+        }
+      }
+    });
   }
 
   public void addCaptureEntry(Capture c, RangeMarker r) {

@@ -8,7 +8,7 @@
     <properties/>
     <border type="none"/>
     <children>
-      <component id="822a7" class="javax.swing.JTextField" binding="nameField">
+      <component id="822a7" class="com.intellij.ui.EditorTextField" binding="nameField" custom-create="true">
         <constraints>
           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <minimum-size width="80" height="-1"/>
@@ -25,7 +25,7 @@
         </constraints>
         <properties/>
       </component>
-      <component id="5f34d" class="javax.swing.JTextField" binding="valueField">
+      <component id="5f34d" class="com.intellij.ui.EditorTextField" binding="valueField" custom-create="true">
         <constraints>
           <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <minimum-size width="80" height="-1"/>

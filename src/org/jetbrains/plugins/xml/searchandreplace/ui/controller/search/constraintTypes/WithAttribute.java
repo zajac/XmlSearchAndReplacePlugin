@@ -1,5 +1,6 @@
 package org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.constraintTypes;
 
+import com.intellij.openapi.project.Project;
 import org.jetbrains.plugins.xml.searchandreplace.search.Node;
 import org.jetbrains.plugins.xml.searchandreplace.search.Pattern;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.And;
@@ -10,12 +11,16 @@ import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.WithAttri
 public class WithAttribute extends ConstraintType {
 
 
+  public WithAttribute(Project project) {
+    super(project);
+  }
+
   public String toString() {
     return "With Attribute";
   }
 
   public ConstraintTypeController createNewController() {
-    return new WithAttributeController(this);
+    return new WithAttributeController(this, project);
   }
 
   public Node addNodeToPattern(Pattern p, Node node, Node parent) {
