@@ -90,7 +90,8 @@ public abstract class CreatingXmlController extends ReplacementController implem
   }
 
   protected void ensureMyXmlIsTag() {
-    if (getMyXml().trim().charAt(0) != '<') {
+    String trim = getMyXml().trim();
+    if (!trim.isEmpty() && trim.charAt(0) != '<') {
       setMyXml("<" + getMyXml() + "/>");
     }
   }
