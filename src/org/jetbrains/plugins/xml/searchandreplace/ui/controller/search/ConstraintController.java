@@ -92,7 +92,7 @@ public class ConstraintController implements ConstraintPanelDelegate, Constraint
     constraintTypeController = selectedConstraintType.createNewController();
     constraintTypeController.setDelegate(this);
     myView.setPredicateTypeSpecificView(constraintTypeController.getView());
-    updateCaptures(constraintTypeController);
+    fetchCapturesFrom(constraintTypeController);
     if (getDelegate() != null) {
       getDelegate().validateMe(this);
       constraintTypeController.useRegexps(getDelegate().useRegexps());
@@ -134,7 +134,7 @@ public class ConstraintController implements ConstraintPanelDelegate, Constraint
   }
 
   @Override
-  public void updateCaptures(ConstraintTypeController ptc) {
+  public void fetchCapturesFrom(ConstraintTypeController ptc) {
     captures = ptc.provideCaptures(this);
   }
 
@@ -202,7 +202,7 @@ public class ConstraintController implements ConstraintPanelDelegate, Constraint
     myView.setSelectedConstraintType(constraintType);
     myView.setPredicateTypeSpecificView(constraintTypeController.getView());
 
-    updateCaptures(constraintTypeController);
+    fetchCapturesFrom(constraintTypeController);
 
     getDelegate().loadCapturesFor(this, state);
 

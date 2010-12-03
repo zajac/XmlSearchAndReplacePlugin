@@ -39,7 +39,7 @@ public abstract class ConstraintTypeController implements PersistentStateCompone
   }
 
   public interface Delegate {
-    void updateCaptures(ConstraintTypeController ptc);
+    void fetchCapturesFrom(ConstraintTypeController ptc);
     void validateChildren(ConstraintTypeController ctc);
 
     boolean useRegexps();
