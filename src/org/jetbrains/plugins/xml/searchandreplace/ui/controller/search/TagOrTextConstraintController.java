@@ -18,11 +18,17 @@ import java.util.List;
 
 public class TagOrTextConstraintController extends ConstraintTypeController implements TagPredicatePanel.Delegate {
   private TagPredicatePanel myView;
+  private boolean useRegexps = false;
 
 
   @Override
   public void useRegexps(boolean use) {
-    myView.useRegexps(use);
+    if (myView.selectedCard().equals(myView.TEXT)) {
+      myView.useRegexps(false);
+    } else {
+      myView.useRegexps(use);
+    }
+    useRegexps = use;
   }
 
   @Override
@@ -57,25 +63,17 @@ public class TagOrTextConstraintController extends ConstraintTypeController impl
         }
       } else {
         if (!tagName.isEmpty()) {
-          predicate = new TagNameEquals(tagName);
+          predicate = new TagNameWildcardMatches(tagName);
         } else {
           predicate = new AnyTag();
         }
       }
     } else {
       String text = myView.getText().trim();
-      if (getDelegate().useRegexps()) {
-        if (isOkPattern(text)) {
-          predicate = new MatchesXmlTextPredicate(text);
-        } else {
-          getDelegate().badInput(this);
-        }
+      if (text.isEmpty()) {
+        predicate = new AnyXmlText();
       } else {
-        if (text.isEmpty()) {
-          predicate = new AnyXmlText();
-        } else {
-          predicate = new XmlTextEquals(text);
-        }
+        predicate = new MatchesXmlTextPredicate(text);
       }
     }
     return decorateWithNotIfNeccessary(predicate);
@@ -96,6 +94,11 @@ public class TagOrTextConstraintController extends ConstraintTypeController impl
   @Override
   public void stateChanged(TagPredicatePanel tpp) {
     if (getDelegate() != null) {
+      if (tpp.selectedCard().equals(TagPredicatePanel.TEXT)) {
+        tpp.useRegexps(false);
+      } else {
+        tpp.useRegexps(useRegexps);
+      }
       getDelegate().fetchCapturesFrom(this);
       getDelegate().validateChildren(this);
     }
@@ -127,6 +130,7 @@ public class TagOrTextConstraintController extends ConstraintTypeController impl
   public void loadState(ConstraintTypeSpecificEntry state) {
     if (state.getTextOrTag().equals(TagPredicatePanel.TEXT)) {
       myView.setSelectedCard(TagPredicatePanel.TEXT);
+      myView.useRegexps(false);
     } else {
       myView.setSelectedCard(TagPredicatePanel.TAG);
     }

@@ -2,10 +2,7 @@ package org.jetbrains.plugins.xml.searchandreplace.ui.controller.search;
 
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.xml.XmlAttribute;
-import org.jetbrains.plugins.xml.searchandreplace.search.predicates.AttributePredicate;
-import org.jetbrains.plugins.xml.searchandreplace.search.predicates.False;
-import org.jetbrains.plugins.xml.searchandreplace.search.predicates.HasSpecificAttribute;
-import org.jetbrains.plugins.xml.searchandreplace.search.predicates.XmlElementPredicate;
+import org.jetbrains.plugins.xml.searchandreplace.search.predicates.*;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.captures.AttributeNameCapture;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.captures.AttributeValueCapture;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.captures.Capture;
@@ -60,7 +57,7 @@ public class WithAttributeController extends ConstraintTypeController {
     super(pt, project);
     Comparator[] comparators = new Comparator[]{new Comparator() {
       public boolean compare(String value1, String value2) {
-        return value1.equals(value2);
+        return Utils.wildcardMatches(value1, value2);
       }
 
       public String name() {
@@ -205,15 +202,15 @@ public class WithAttributeController extends ConstraintTypeController {
   public XmlElementPredicate buildPredicate() {
     final String attrName = view.getAttrName().trim();
     final String value = view.getValue();
-    if (!isOkPattern(attrName)) return new False();
     AttributePredicate predicate;
+    AttributePredicate anyAttribute = new AttributePredicate() {
+      @Override
+      public boolean applyToAttribute(XmlAttribute a) {
+        return true;
+      }
+    };
     if (attrName.isEmpty()) {
-      predicate = new AttributePredicate() {
-        @Override
-        public boolean applyToAttribute(XmlAttribute a) {
-          return true;
-        }
-      };
+      predicate = anyAttribute;
     } else {
       final AttributePredicate p1, p2;
       if (getDelegate().useRegexps()) {
@@ -232,31 +229,31 @@ public class WithAttributeController extends ConstraintTypeController {
         p1 = new AttributePredicate() {
           @Override
           public boolean applyToAttribute(XmlAttribute a) {
-            return a.getName().equals(attrName);
+            return Utils.wildcardMatches(a.getName(), attrName);
           }
         };
       }
       final Comparator selected = (Comparator) view.selectedComparator();
-      if (selected.name().equals("matches")) {
-        if (!isOkPattern(value)) {
-          getDelegate().badInput(this);
-          return null;
-        }
-      }
-      if (value.isEmpty()) {
-        p2 = new AttributePredicate() {
-          @Override
-          public boolean applyToAttribute(XmlAttribute a) {
-            return true;
-          }
-        };
+      if (selected == null) {
+        p2 = anyAttribute;
       } else {
-        p2 = new AttributePredicate() {
-          @Override
-          public boolean applyToAttribute(XmlAttribute a) {
-            return selected.compare(a.getValue(), value);
+        if (selected.name().equals("matches")) {
+          if (!isOkPattern(value)) {
+            getDelegate().badInput(this);
+            return null;
           }
-        };
+        }
+        
+        if (value.isEmpty()) {
+          p2 = anyAttribute;
+        } else {
+          p2 = new AttributePredicate() {
+            @Override
+            public boolean applyToAttribute(XmlAttribute a) {
+              return selected.compare(a.getValue(), value);
+            }
+          };
+        }
       }
       predicate = new AttributePredicate() {
         @Override

@@ -75,6 +75,8 @@ public class CapturesManager {
     for (CapturesListener listener : observers) {
       listener.captureBecameInvalid(c);
     }
-    map.remove(c.presentation().getIdentifier());
+    if (c.presentation() != null) {
+      map.remove(c.presentation().getIdentifier());
+    }
   }
 }
