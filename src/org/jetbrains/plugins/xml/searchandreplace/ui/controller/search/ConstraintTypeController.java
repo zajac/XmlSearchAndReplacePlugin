@@ -3,13 +3,15 @@ package org.jetbrains.plugins.xml.searchandreplace.ui.controller.search;
 import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Key;
-import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.persistence.ConstraintTypeSpecificEntry;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.Not;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.XmlElementPredicate;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.captures.Capture;
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.constraintTypes.RootConstraintType;
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.persistence.ConstraintTypeSpecificEntry;
 
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
@@ -90,12 +92,15 @@ public abstract class ConstraintTypeController implements PersistentStateCompone
     return true;
   }
 
-  public ArrayList<Capture> provideCaptures(ConstraintController constraintController) {
-    return new ArrayList<Capture>();
+  public List<Capture> provideCaptures(ConstraintController constraintController) {
+    return Collections.emptyList();
   }
 
 
   public List<ConstraintType> getAllowedChildrenTypes() {
-    return ConstraintTypesRegistry.getInstance(project).getConstraintTypes();
+    ConstraintTypesRegistry instance = ConstraintTypesRegistry.getInstance(project);
+    ArrayList<ConstraintType> constraintTypes = new ArrayList<ConstraintType>(instance.getConstraintTypes());
+    constraintTypes.remove(instance.byClass(RootConstraintType.class));
+    return constraintTypes;
   }
 }

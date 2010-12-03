@@ -2,7 +2,10 @@ package org.jetbrains.plugins.xml.searchandreplace.ui.controller.search;
 
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.xml.XmlAttribute;
-import org.jetbrains.plugins.xml.searchandreplace.search.predicates.*;
+import org.jetbrains.plugins.xml.searchandreplace.search.predicates.AttributePredicate;
+import org.jetbrains.plugins.xml.searchandreplace.search.predicates.False;
+import org.jetbrains.plugins.xml.searchandreplace.search.predicates.HasSpecificAttribute;
+import org.jetbrains.plugins.xml.searchandreplace.search.predicates.XmlElementPredicate;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.captures.AttributeNameCapture;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.captures.AttributeValueCapture;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.captures.Capture;
@@ -12,6 +15,7 @@ import org.jetbrains.plugins.xml.searchandreplace.ui.view.search.AttributePanel;
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.PatternSyntaxException;
 
@@ -265,7 +269,7 @@ public class WithAttributeController extends ConstraintTypeController {
   }
 
   @Override
-  public ArrayList<Capture> provideCaptures(ConstraintController constraintController) {
+  public List<Capture> provideCaptures(ConstraintController constraintController) {
     ArrayList<Capture> captures = new ArrayList<Capture>();
     captures.add(new AttributeNameCapture(constraintController));
     captures.add(new AttributeValueCapture(constraintController));
@@ -279,6 +283,6 @@ public class WithAttributeController extends ConstraintTypeController {
 
   @Override
   public List<ConstraintType> getAllowedChildrenTypes() {
-    return new ArrayList<ConstraintType>();
+    return Collections.emptyList();
   }
 }

@@ -26,7 +26,7 @@ public class DirectlyContainsController extends TagOrTextConstraintController {
   }
 
   @Override
-  public ArrayList<Capture> provideCaptures(ConstraintController constraintController) {
+  public List<Capture> provideCaptures(ConstraintController constraintController) {
     ArrayList<Capture> captures = new ArrayList<Capture>();
     if (!isConstraintOnText()) {
       captures.add(new DirectlyContainsTagNameCapture(constraintController));

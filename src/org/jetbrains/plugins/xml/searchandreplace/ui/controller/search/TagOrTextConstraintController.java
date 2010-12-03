@@ -13,6 +13,7 @@ import org.jetbrains.plugins.xml.searchandreplace.ui.view.search.TagPredicatePan
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class TagOrTextConstraintController extends ConstraintTypeController implements TagPredicatePanel.Delegate {
@@ -83,7 +84,7 @@ public class TagOrTextConstraintController extends ConstraintTypeController impl
   }
 
   @Override
-  public ArrayList<Capture> provideCaptures(ConstraintController constraintController) {
+  public List<Capture> provideCaptures(ConstraintController constraintController) {
     if (myView.selectedCard().equals(TagPredicatePanel.TAG)) {
       if (p != Params.NOT) {
         ArrayList<Capture> captures = new ArrayList<Capture>();
@@ -106,7 +107,7 @@ public class TagOrTextConstraintController extends ConstraintTypeController impl
   public List<ConstraintType> getAllowedChildrenTypes() {
     if (myView.selectedCard().equals(TagPredicatePanel.TAG)) {
       if (getConstraintType() instanceof NotInside || getConstraintType() instanceof NotContains) {
-        return new ArrayList<ConstraintType>();
+        return Collections.emptyList();
       } else {
         return super.getAllowedChildrenTypes();
       }

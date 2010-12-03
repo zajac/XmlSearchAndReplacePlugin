@@ -29,10 +29,10 @@ public class ConstraintController implements ConstraintPanelDelegate, Constraint
 
   private Node builtNode;
 
-  private ArrayList<Capture> captures = new ArrayList<Capture>();
+  private List<Capture> captures = new ArrayList<Capture>();
   private Project project;
 
-  public ArrayList<Capture> getCaptures() {
+  public List<Capture> getCaptures() {
     return captures;
   }
 
