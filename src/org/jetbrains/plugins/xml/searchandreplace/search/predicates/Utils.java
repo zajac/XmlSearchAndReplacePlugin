@@ -2,6 +2,7 @@ package org.jetbrains.plugins.xml.searchandreplace.search.predicates;
 
 public class Utils {
   public static boolean wildcardMatches(String text, String pattern) {
+    if (text == null || pattern == null) return false;
     String[] cards = pattern.split("\\*");
     if (text.isEmpty() || text.charAt(0) != '*') {
       if(cards.length > 0 && text.indexOf(cards[0]) != 0) {
