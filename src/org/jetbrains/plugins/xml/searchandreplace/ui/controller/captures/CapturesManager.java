@@ -10,7 +10,6 @@ import java.util.List;
 
 public class CapturesManager {
 
-  private Map<Integer, ConstraintController> ids = new HashMap<Integer, ConstraintController>();
   private Map<String, Capture> map = new HashMap<String, Capture>();
 
   private List<CapturesListener> observers = new ArrayList<CapturesListener>();
@@ -27,9 +26,9 @@ public class CapturesManager {
 
   private String createUniqueId(ConstraintController cc) {
     int id = 1;
-    Set<Integer> keys = ids.keySet();
+    Set<String> keys = map.keySet();
     for (; id < 1000; ++id) {
-      if (!keys.contains(id)) {
+      if (!keys.contains("" + id)) {
         break;
       }
     }
@@ -53,32 +52,12 @@ public class CapturesManager {
     for (CapturesListener observer : observers) {
       observer.captureAdded(capture);
     }
-    ids.put(Integer.parseInt(id), constraintController);
   }
 
   public void paredicateControllerIsDead(ConstraintController cc) {
     for (Capture c : cc.getCaptures()) {
-      for (CapturesListener listener : observers) {
-        listener.captureBecameInvalid(c);
-      }
+      unregisterCapture(c);
     }
-    for (int id : ids.keySet()) {
-      if (ids.get(id) == cc) {
-        ids.remove(id);
-        break;
-      }
-    }
-    boolean found;
-    do{
-      found = false;
-      for (String id : map.keySet()) {
-        if (cc.getCaptures().contains(map.get(id))) {
-          map.remove(id);
-          found = true;
-          break;
-        }
-      }
-    } while(found);
   }
 
   public Capture findById(String captureId) {
@@ -91,5 +70,11 @@ public class CapturesManager {
     }
     return false;
   }
-  
+
+  public void unregisterCapture(Capture c) {
+    for (CapturesListener listener : observers) {
+      listener.captureBecameInvalid(c);
+    }
+    map.remove(c.presentation().getIdentifier());
+  }
 }

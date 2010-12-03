@@ -46,9 +46,9 @@ public class TagOrTextConstraintController extends ConstraintTypeController impl
 
   @Override
   public XmlElementPredicate buildPredicate() {
+    XmlElementPredicate predicate = null;
     if (myView.selectedCard().equals(TagPredicatePanel.TAG)) {
       String tagName = myView.getTagName().trim();
-      XmlElementPredicate predicate = null;
       if (getDelegate().useRegexps()) {
         if (isOkPattern(tagName)) {
           predicate = new TagNameMatches(tagName);
@@ -62,10 +62,8 @@ public class TagOrTextConstraintController extends ConstraintTypeController impl
           predicate = new AnyTag();
         }
       }
-      return decorateWithNotIfNeccessary(predicate);
     } else {
       String text = myView.getText().trim();
-      XmlElementPredicate predicate = null;
       if (getDelegate().useRegexps()) {
         if (isOkPattern(text)) {
           predicate = new MatchesXmlTextPredicate(text);
@@ -79,8 +77,8 @@ public class TagOrTextConstraintController extends ConstraintTypeController impl
           predicate = new XmlTextEquals(text);
         }
       }
-      return decorateWithNotIfNeccessary(predicate);
     }
+    return decorateWithNotIfNeccessary(predicate);
   }
 
   @Override

@@ -152,6 +152,7 @@ public class ConstraintPanel extends JPanel {
   public void setCaptures(Collection<Capture> captures) {
     capturesPanel.removeAll();
     for (Capture capture : captures) {
+      if (capture.presentation() == null) continue;
       JComponent captureView = new CaptureView(capture);
       captureView.setAlignmentX(JComponent.RIGHT_ALIGNMENT);
       capturesPanel.add(captureView);

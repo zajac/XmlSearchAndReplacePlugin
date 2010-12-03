@@ -30,10 +30,21 @@ public class PatternController implements ConstraintControllerDelegate, Persiste
     return useRegularExpressions;
   }
 
+  @Override
+  public void badInput(ConstraintController constraintController) {
+    getDelegate().badInput(this);
+  }
+
+  @Override
+  public void killCapture(Capture c) {
+    capturesManager.unregisterCapture(c);
+  }
+
   public interface Delegate {
 
     void pleaseAutoresizeWindow(PatternController c);
 
+    void badInput(PatternController patternController);
   }
   private Delegate delegate;
   private CapturesManager capturesManager = new CapturesManager();

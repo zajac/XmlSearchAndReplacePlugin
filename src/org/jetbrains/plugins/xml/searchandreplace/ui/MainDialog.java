@@ -4,6 +4,7 @@ import com.intellij.lang.xml.XMLLanguage;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.DialogWrapper;
+import com.intellij.openapi.ui.Messages;
 import org.intellij.plugins.xpathView.search.ScopePanel;
 import org.intellij.plugins.xpathView.search.SearchScope;
 import org.jetbrains.plugins.xml.searchandreplace.replace.ReplacementProvider;
@@ -21,11 +22,17 @@ import java.awt.event.ContainerListener;
 public class MainDialog extends DialogWrapper implements ContainerListener, PatternController.Delegate {
 
   private static PatternController ourPatternController = null;
-
+  private boolean badInput = false;
 
   @Override
   public void pleaseAutoresizeWindow(PatternController c) {
     getWindow().pack();
+  }
+
+  @Override
+  public void badInput(PatternController patternController) {
+    Messages.showErrorDialog("You have typed incorrect pattern", "Error");
+    badInput = true;
   }
 
   public interface MainDialogDelegate {
@@ -144,6 +151,10 @@ public class MainDialog extends DialogWrapper implements ContainerListener, Patt
   @Override
   protected void doOKAction() {
     pattern = patternController.buildPattern();
+    if (badInput) {
+      badInput = false;
+      return;
+    }
     if (getDelegate() != null) {
       getDelegate().performSearch(this);
     }

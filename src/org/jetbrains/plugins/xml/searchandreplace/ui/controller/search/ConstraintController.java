@@ -135,7 +135,16 @@ public class ConstraintController implements ConstraintPanelDelegate, Constraint
 
   @Override
   public void fetchCapturesFrom(ConstraintTypeController ptc) {
+    if (captures != null) {
+      for (Capture c : captures) {
+        getDelegate().killCapture(c);
+      }
+    }
     captures = ptc.provideCaptures(this);
+    if (getDelegate() != null) {
+      getDelegate().validateMe(this);
+    }
+    myView.setCaptures(captures);
   }
 
   @Override
@@ -152,7 +161,7 @@ public class ConstraintController implements ConstraintPanelDelegate, Constraint
 
   @Override
   public void badInput(ConstraintTypeController constraintController) {
-    //TODO
+    getDelegate().badInput(this);
   }
 
   public void highlightCaptures(Capture active) {
@@ -202,7 +211,7 @@ public class ConstraintController implements ConstraintPanelDelegate, Constraint
     myView.setSelectedConstraintType(constraintType);
     myView.setPredicateTypeSpecificView(constraintTypeController.getView());
 
-    fetchCapturesFrom(constraintTypeController);
+    captures = constraintTypeController.provideCaptures(this);
 
     getDelegate().loadCapturesFor(this, state);
 
