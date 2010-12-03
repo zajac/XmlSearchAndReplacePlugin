@@ -12,7 +12,9 @@ public class ReplaceWithContentsController extends CreatingXmlController {
 
   @Override
   protected ReplacementProvider getReplacementProvider() {
-    return new ReplaceWithContents(createReplacementProviderWithMyXml());
+    ReplacementProvider replacementProvider = createReplacementProviderWithMyXml();
+    if (replacementProvider == null) return null;
+    return new ReplaceWithContents(replacementProvider);
   }
 
   @Override

@@ -15,6 +15,7 @@ public class ReplaceButLeaveContentsController extends CreatingXmlController {
   protected ReplacementProvider getReplacementProvider() {
     ensureMyXmlIsTag();
     ReplacementProvider withMyXml = createReplacementProviderWithMyXml();
+    if (withMyXml == null) return null;
     return new ReplaceTagButLeaveContent(withMyXml);
   }
 
