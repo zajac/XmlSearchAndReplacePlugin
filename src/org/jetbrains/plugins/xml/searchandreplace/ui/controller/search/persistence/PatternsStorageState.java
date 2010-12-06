@@ -2,8 +2,10 @@ package org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.persiste
 
 import org.intellij.plugins.xpathView.search.SearchScope;
 
-public class PatternsStorageEntry {
+public class PatternsStorageState {
   private PatternStorageEntry recent;
+
+
 
   public void setScope(SearchScope scope) {
     this.scope = scope;
@@ -22,4 +24,5 @@ public class PatternsStorageEntry {
   public SearchScope getScope() {
     return scope;
   }
+
 }

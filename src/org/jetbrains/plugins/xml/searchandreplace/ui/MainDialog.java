@@ -11,23 +11,21 @@ import org.jetbrains.plugins.xml.searchandreplace.replace.ReplacementProvider;
 import org.jetbrains.plugins.xml.searchandreplace.search.Pattern;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.replace.ReplaceController;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.replace.persistence.ReplacementsStorage;
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.LoadPatternDialogController;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.PatternController;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.persistence.PatternsStorage;
 import org.jetbrains.plugins.xml.searchandreplace.ui.view.replace.ReplaceView;
+import org.jetbrains.plugins.xml.searchandreplace.ui.view.search.LoadPatternDialog;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ContainerEvent;
 import java.awt.event.ContainerListener;
 
-public class MainDialog extends DialogWrapper implements ContainerListener, PatternController.Delegate {
+public class MainDialog extends DialogWrapper implements ContainerListener, PatternController.Delegate, LoadPatternDialogController.Delegate {
 
-  private static PatternController ourPatternController = null;
   private boolean badInput = false;
-
-  @Override
-  public void pleaseAutoresizeWindow(PatternController c) {
-    getWindow().pack();
-  }
 
   @Override
   public void badInput(PatternController patternController) {
@@ -35,29 +33,61 @@ public class MainDialog extends DialogWrapper implements ContainerListener, Patt
     badInput = true;
   }
 
+
+
+  @Override
+  public void pleaseAutoresizeWindow(PatternController c) {
+    getWindow().pack();
+  }
+
+  @Override
+  public void patternToLoadSelected(LoadPatternDialogController me, PatternController toShow) {
+    patternController = toShow;
+    setPatternController(toShow);
+
+  }
+
   public interface MainDialogDelegate {
     void performSearch(MainDialog d);
+  }
+
+  public void setPatternController(PatternController patternController) {
+    this.patternController = patternController;
+    patternPanel.removeAll();
+    if (patternController != null) {
+      patternPanel.add(patternController.getView());
+      patternPanel.updateUI();
+      getWindow().pack();
+    }
+  }
+
+  public PatternController getPatternController() {
+    return patternController;
+
   }
 
   private void createUIComponents() {
     scopePanel = new ScopePanel(project);
 
+    patternPanel = new JPanel();
+    patternPanel.setLayout(new BoxLayout(patternPanel, BoxLayout.Y_AXIS));
+
     PatternsStorage service = PatternsStorage.getInstance(project);
+
     SearchScope searchScope = service == null ? new SearchScope() :
             (service.getRecentScope() == null ? new SearchScope() : service.getRecentScope());
 
     scopePanel.initComponent(module, searchScope);
 
     if (service != null) {
-      patternController = service.getRecent();
+      setPatternController(service.getRecent());
     }
     if (patternController == null) {
-      patternController = new PatternController(project);
+      setPatternController(new PatternController(project));
       if (service != null) {
         service.setRecent(patternController);
       }
     }
-    patternView = patternController.getView();
 
     ReplacementsStorage storage = ReplacementsStorage.getInstance(project);
     if (storage != null) {
@@ -71,6 +101,15 @@ public class MainDialog extends DialogWrapper implements ContainerListener, Patt
     }
     replaceController.setCapturesManager(patternController.getCapturesManager());
     replaceView = replaceController.getView();
+
+  }
+
+  private void save() {
+    String name = Messages.showInputDialog(project, "pattern name", "save", null);
+    if (name != null && !name.isEmpty()) {
+      PatternsStorage storage = PatternsStorage.getInstance(project);
+      storage.saveAs(patternController, name);
+    }
   }
 
   public void componentAdded(ContainerEvent e) {
@@ -91,6 +130,9 @@ public class MainDialog extends DialogWrapper implements ContainerListener, Patt
   private ReplaceController replaceController;
 
   private ReplaceView replaceView;
+  private JButton saveButton;
+  private JButton loadButton;
+  private JPanel patternPanel;
   private MainDialogDelegate delegate;
 
   private Project project;
@@ -107,7 +149,7 @@ public class MainDialog extends DialogWrapper implements ContainerListener, Patt
     setModal(false);
     setOKButtonText("Find");
 
-    patternView.addContainerListener(this);    
+        
     replaceView.getReplacementSpecificView().addContainerListener(new ContainerListener() {
 
       public void componentAdded(ContainerEvent e) {
@@ -119,6 +161,23 @@ public class MainDialog extends DialogWrapper implements ContainerListener, Patt
     });
 
     patternController.setDelegate(this);
+
+    saveButton.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        save();
+      }
+    });
+
+    loadButton.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        LoadPatternDialogController loadController = new LoadPatternDialogController(MainDialog.this.project);
+        loadController.setDelegate(MainDialog.this);
+        LoadPatternDialog view = loadController.getView();
+        view.show();
+      }
+    });
 
     init();
   }

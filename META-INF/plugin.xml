@@ -22,6 +22,8 @@
                     serviceImplementation="org.jetbrains.plugins.xml.searchandreplace.ui.controller.replace.persistence.ReplacementsStorage"/>
     <projectService serviceInterface="org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.ConstraintTypesRegistry"
                     serviceImplementation="org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.ConstraintTypesRegistry"/>
+    <applicationService serviceInterface="org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.persistence.GlobalPatternsStorage"
+                        serviceImplementation="org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.persistence.GlobalPatternsStorage"/>
   </extensions>
 
   <actions>
