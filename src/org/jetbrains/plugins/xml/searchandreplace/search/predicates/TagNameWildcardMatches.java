@@ -15,4 +15,9 @@ public class TagNameWildcardMatches extends TagPredicate {
   public boolean applyToTag(XmlTag tag) {
     return Utils.wildcardMatches(tag.getName(), tagName);
   }
+
+  @Override
+  public String toString() {
+    return tagName;
+  }
 }

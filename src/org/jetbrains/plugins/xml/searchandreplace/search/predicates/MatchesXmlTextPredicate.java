@@ -47,4 +47,9 @@ public class MatchesXmlTextPredicate extends XmlElementPredicate {
     }
     return false;
   }
+
+  @Override
+  public String toString() {
+    return text;
+  }
 }

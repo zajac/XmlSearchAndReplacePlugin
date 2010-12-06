@@ -84,5 +84,6 @@ public class AttributePanel extends JPanel {
   public void setPreviewMode(boolean previewMode) {
     valueField.setEnabled(!previewMode);
     nameField.setEnabled(!previewMode);
+    comparatorChooser.setEnabled(!previewMode);
   }
 }

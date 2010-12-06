@@ -21,4 +21,9 @@ public class TagNameEquals extends TagPredicate {
   public boolean applyToTag(XmlTag tag) {
     return tag.getName().equals(tagName);
   }
+
+  @Override
+  public String toString() {
+    return tagName;
+  }
 }

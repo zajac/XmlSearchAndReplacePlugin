@@ -17,7 +17,7 @@ public class LoadPatternDialog extends DialogWrapper implements ListSelectionLis
   @Override
   public void valueChanged(ListSelectionEvent e) {
     int index = patternsList.getSelectedIndex();
-    if (index < patternsList.getModel().getSize() && index > 0) {
+    if (index < patternsList.getModel().getSize() && index >= 0) {
       String name = (String)patternsList.getModel().getElementAt(index);
       if (delegate != null) {
         delegate.patternSelected(this, name);
