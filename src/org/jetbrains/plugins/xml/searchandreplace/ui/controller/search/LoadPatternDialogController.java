@@ -70,11 +70,6 @@ public class LoadPatternDialogController implements LoadPatternDialog.Delegate {
   }
 
   @Override
-  public void createNewPattern(LoadPatternDialog me, String patternName) {
-    //TODO
-  }
-
-  @Override
   public void removePattern(LoadPatternDialog me, String patternName) {
     getStorage().delete(patternName);
     me.reloadData();
