@@ -48,7 +48,7 @@ public class GlobalPatternsStorage implements PersistentStateComponent<GlobalPat
   }
 
   public void saveAs(PatternController patternController, String name) {
-    if (name == null || savedPatterns.containsKey(name) || patternController == null) return;
+    if (name == null || patternController == null) return;
     PatternStorageEntry state = patternController.getState();
     if (state != null) {
       savedPatterns.put(name, state);

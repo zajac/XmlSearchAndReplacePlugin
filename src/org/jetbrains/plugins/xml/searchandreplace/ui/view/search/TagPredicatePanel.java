@@ -26,6 +26,11 @@ public class TagPredicatePanel extends JPanel {
     textOrTag.setSelectedItem(value);
   }
 
+  public void setPreviewMode(boolean previewMode) {
+    editorTextField.setEnabled(!previewMode);
+    textOrTag.setEnabled(!previewMode);
+  }
+
   public interface Delegate {
     void stateChanged(TagPredicatePanel tpp);
   }

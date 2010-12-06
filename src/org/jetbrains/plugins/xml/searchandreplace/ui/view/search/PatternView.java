@@ -7,6 +7,10 @@ import java.awt.event.ItemListener;
 
 public class PatternView extends JPanel {
 
+  public void setPreviewMode(boolean previewMode) {
+    useRegexCheckbox.setEnabled(!previewMode);
+  }
+
   public interface Delegate {
     void useRegexps(boolean use);
   }

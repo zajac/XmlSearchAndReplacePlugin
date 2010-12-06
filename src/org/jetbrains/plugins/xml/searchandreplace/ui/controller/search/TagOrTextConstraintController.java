@@ -32,6 +32,12 @@ public class TagOrTextConstraintController extends ConstraintTypeController impl
   }
 
   @Override
+  public void setPreviewMode(boolean previewMode) {
+
+    myView.setPreviewMode(previewMode);
+  }
+
+  @Override
   public JPanel getView() {
     return myView;
   }

@@ -16,6 +16,7 @@ import java.util.*;
 public class PatternController implements ConstraintControllerDelegate, PersistentStateComponent<PatternStorageEntry>,PatternView.Delegate {
 
   private Project project;
+  private boolean previewMode;
 
   @Override
   public void useRegexps(boolean use) {
@@ -38,6 +39,14 @@ public class PatternController implements ConstraintControllerDelegate, Persiste
   @Override
   public void killCapture(Capture c) {
     capturesManager.unregisterCapture(c);
+  }
+
+  public void setPreviewMode(boolean previewMode) {
+    this.previewMode = previewMode;
+    for (ConstraintController cc : constraintsTree.keySet()) {
+      cc.setPreviewMode(previewMode);
+    }
+    view.setPreviewMode(previewMode);
   }
 
   public interface Delegate {

@@ -31,6 +31,7 @@ public class ConstraintController implements ConstraintPanelDelegate, Constraint
 
   private List<Capture> captures = new ArrayList<Capture>();
   private Project project;
+  private boolean previewMode;
 
   public List<Capture> getCaptures() {
     return captures;
@@ -70,7 +71,7 @@ public class ConstraintController implements ConstraintPanelDelegate, Constraint
   }
 
   public void addChild(ConstraintPanel panel) {
-    if (getDelegate() != null) {
+    if (getDelegate() != null && !previewMode) {
       getDelegate().addChild(this);
     }
   }
@@ -100,7 +101,7 @@ public class ConstraintController implements ConstraintPanelDelegate, Constraint
   }
 
   public void removeMe(ConstraintPanel panel) {
-    if (getDelegate() != null) {
+    if (getDelegate() != null && !previewMode) {
       getDelegate().removeMe(this);
     }
   }
@@ -224,5 +225,14 @@ public class ConstraintController implements ConstraintPanelDelegate, Constraint
     if (constraintTypeController != null) {
       constraintTypeController.useRegexps(use);
     }
+  }
+
+  public void setPreviewMode(boolean previewMode) {
+    this.previewMode = previewMode;
+    myView.setPreviewMode(previewMode);
+    if (constraintTypeController != null) {
+      constraintTypeController.setPreviewMode(previewMode);
+    }
+
   }
 }

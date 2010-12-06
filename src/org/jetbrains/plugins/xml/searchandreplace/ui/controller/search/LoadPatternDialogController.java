@@ -5,6 +5,7 @@ import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.persistence.PatternsStorage;
 import org.jetbrains.plugins.xml.searchandreplace.ui.view.search.LoadPatternDialog;
+import org.jetbrains.plugins.xml.searchandreplace.ui.view.search.PatternView;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -51,15 +52,21 @@ public class LoadPatternDialogController implements LoadPatternDialog.Delegate {
   @Override
   public JPanel getPatternView(LoadPatternDialog me, String patternName) {
     if (selectedPatternController == null) {
-      PatternsStorage storage = getStorage();
-      if (storage != null) {
-        selectedPatternController = storage.load(patternName);
-      }
+      load(patternName);
     }
     if (selectedPatternController != null) {
-      return selectedPatternController.getView();
+      PatternView view = selectedPatternController.getView();
+      selectedPatternController.setPreviewMode(true);
+      return view;
     }
     return null;
+  }
+
+  private void load(String patternName) {
+    PatternsStorage storage = getStorage();
+    if (storage != null) {
+      selectedPatternController = storage.load(patternName);
+    }
   }
 
   @Override
@@ -76,8 +83,22 @@ public class LoadPatternDialogController implements LoadPatternDialog.Delegate {
   @Override
   public void loadSelectedPattern(LoadPatternDialog me) {
     if (delegate != null) {
+      saveSelectedPattern(me, me.getSelectedPatternName());
+      selectedPatternController.setPreviewMode(false);
       delegate.patternToLoadSelected(this, selectedPatternController);
     }
+  }
+
+  @Override
+  public void saveSelectedPattern(LoadPatternDialog loadPatternDialog, String name) {
+    if (selectedPatternController != null) {
+      getStorage().saveAs(selectedPatternController, name);
+    }
+  }
+
+  @Override
+  public void patternSelected(LoadPatternDialog loadPatternDialog, String name) {
+    load(name);
   }
 
   public void setDelegate(Delegate delegate) {

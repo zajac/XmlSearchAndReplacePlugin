@@ -279,6 +279,11 @@ public class WithAttributeController extends ConstraintTypeController {
   }
 
   @Override
+  public void setPreviewMode(boolean previewMode) {
+    view.setPreviewMode(previewMode);
+  }
+
+  @Override
   public List<ConstraintType> getAllowedChildrenTypes() {
     return Collections.emptyList();
   }

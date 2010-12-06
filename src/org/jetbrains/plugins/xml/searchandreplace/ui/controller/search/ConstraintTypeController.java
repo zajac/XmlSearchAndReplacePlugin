@@ -38,6 +38,10 @@ public abstract class ConstraintTypeController implements PersistentStateCompone
     //override who cares
   }
 
+  public void setPreviewMode(boolean previewMode) {
+    //override who cares
+  }
+
   public interface Delegate {
     void fetchCapturesFrom(ConstraintTypeController ptc);
     void validateChildren(ConstraintTypeController ctc);

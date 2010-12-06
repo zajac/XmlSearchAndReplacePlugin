@@ -191,4 +191,10 @@ public class ConstraintPanel extends JPanel {
   public void setSelectedConstraintType(ConstraintType selectedConstraintType) {
     predicateTypeChooser.setSelectedItem(selectedConstraintType);
   }
+
+  public void setPreviewMode(boolean previewMode) {
+    addChildButton.setEnabled(!previewMode);
+    removeButton.setEnabled(!previewMode);
+    predicateTypeChooser.setEnabled(!previewMode);
+  }
 }

@@ -53,6 +53,7 @@ public class MainDialog extends DialogWrapper implements ContainerListener, Patt
 
   public void setPatternController(PatternController patternController) {
     this.patternController = patternController;
+    patternController.setDelegate(this);
     patternPanel.removeAll();
     if (patternController != null) {
       patternPanel.add(patternController.getView());

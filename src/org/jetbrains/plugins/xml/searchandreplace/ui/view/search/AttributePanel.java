@@ -80,4 +80,9 @@ public class AttributePanel extends JPanel {
   public void useRegexps(boolean b) {
     Util.useRegexps(nameField, project, b);
   }
+
+  public void setPreviewMode(boolean previewMode) {
+    valueField.setEnabled(!previewMode);
+    nameField.setEnabled(!previewMode);
+  }
 }

@@ -17,10 +17,11 @@ public class LoadPatternDialog extends DialogWrapper implements ListSelectionLis
 
   @Override
   public void valueChanged(ListSelectionEvent e) {
-    int index = e.getFirstIndex();
+    int index = patternsList.getSelectedIndex();
     if (index < patternsList.getModel().getSize()) {
       String name = (String)patternsList.getModel().getElementAt(index);
       if (delegate != null) {
+        delegate.patternSelected(this, name);
         JPanel patternView = delegate.getPatternView(this, name);
         patternPane.removeAll();
         patternNameLabel.setText("");
@@ -36,12 +37,19 @@ public class LoadPatternDialog extends DialogWrapper implements ListSelectionLis
     }
   }
 
+  public String getSelectedPatternName() {
+    return (String) patternsList.getSelectedValue();
+  }
+
   public interface Delegate {
     List<String> getPatternsNames(LoadPatternDialog me);
     JPanel getPatternView(LoadPatternDialog me, String patternName);
     void createNewPattern(LoadPatternDialog me, String patternName);
     void removePattern(LoadPatternDialog me, String patternName);
     void loadSelectedPattern(LoadPatternDialog me);
+    void saveSelectedPattern(LoadPatternDialog loadPatternDialog, String name);
+
+    void patternSelected(LoadPatternDialog loadPatternDialog, String name);
   }
 
 
