@@ -13,7 +13,6 @@ import com.intellij.openapi.editor.markup.HighlighterTargetArea;
 import com.intellij.openapi.editor.markup.RangeHighlighter;
 import com.intellij.openapi.editor.markup.TextAttributes;
 import com.intellij.psi.PsiElement;
-import com.intellij.psi.xml.XmlElement;
 import org.jetbrains.plugins.xml.searchandreplace.replace.CapturePresentation;
 import org.jetbrains.plugins.xml.searchandreplace.search.Node;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.captures.Capture;
@@ -51,7 +50,7 @@ public class CapturedEditorController implements CaptureDropHandler.CaptureDropH
         for (int i = 0; i < text.length(); ++i) {
           if (text.charAt(i) == '$') {
             String captureId = parseCaptureId(text, i+1);
-            if (captureId != null && captureId.equals(ce.capture.presentation().getIdentifier())) {
+            if (captureId != null && captureId.equals(ce.capture.presentation().getIdentifier()) && ce.range.getStartOffset() == i) {
               found = true;
             }
           }
@@ -136,7 +135,8 @@ public class CapturedEditorController implements CaptureDropHandler.CaptureDropH
 
   private void killEntry(CaptureEntry ce) {
     updateEntry(ce, false);
-    if (ce.range.isValid()) {
+    if (ce.range.isValid() && ce.range.getStartOffset() < editor.getDocument().getTextLength() &&
+            ce.range.getEndOffset() <= editor.getDocument().getTextLength()) {
       editor.getMarkupModel().removeHighlighter((RangeHighlighter) ce.range);
     }
     entries.remove(ce);
