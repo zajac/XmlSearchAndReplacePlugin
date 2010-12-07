@@ -33,18 +33,14 @@ public class MainDialog extends DialogWrapper implements ContainerListener, Patt
     badInput = true;
   }
 
-
-
   @Override
   public void pleaseAutoresizeWindow(PatternController c) {
     getWindow().pack();
   }
 
   @Override
-  public void patternToLoadSelected(LoadPatternDialogController me, PatternController toShow) {
-    patternController = toShow;
+  public void loadPattern(LoadPatternDialogController me, PatternController toShow) {
     setPatternController(toShow);
-
   }
 
   public interface MainDialogDelegate {
@@ -53,9 +49,9 @@ public class MainDialog extends DialogWrapper implements ContainerListener, Patt
 
   public void setPatternController(PatternController patternController) {
     this.patternController = patternController;
-    patternController.setDelegate(this);
     patternPanel.removeAll();
     if (patternController != null) {
+      patternController.setDelegate(this);
       patternPanel.add(patternController.getView());
       patternPanel.updateUI();
       getWindow().pack();

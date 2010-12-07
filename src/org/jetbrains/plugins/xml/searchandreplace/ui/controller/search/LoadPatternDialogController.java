@@ -12,16 +12,21 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class LoadPatternDialogController implements LoadPatternDialog.Delegate {
+public class LoadPatternDialogController implements LoadPatternDialog.Delegate, PatternsStorage.PatternsStorageListener {
 
   private LoadPatternDialog myView;
   private Project myProject;
 
   private PatternController selectedPatternController;
 
+  @Override
+  public void storageStateChanged() {
+    myView.reloadData();
+  }
+
 
   public interface Delegate {
-    void patternToLoadSelected(LoadPatternDialogController me, PatternController toShow);
+    void loadPattern(LoadPatternDialogController me, PatternController toShow);
   }
 
   private Delegate delegate;
@@ -36,6 +41,7 @@ public class LoadPatternDialogController implements LoadPatternDialog.Delegate {
 
   public LoadPatternDialogController(@NotNull Project project) {
     myProject = project;
+    getStorage().addListener(this);
   }
 
   private PatternsStorage getStorage() {
@@ -78,16 +84,9 @@ public class LoadPatternDialogController implements LoadPatternDialog.Delegate {
   @Override
   public void loadSelectedPattern(LoadPatternDialog me) {
     if (delegate != null) {
-      saveSelectedPattern(me, me.getSelectedPatternName());
+      getStorage().removeListener(this);
       selectedPatternController.setPreviewMode(false);
-      delegate.patternToLoadSelected(this, selectedPatternController);
-    }
-  }
-
-  @Override
-  public void saveSelectedPattern(LoadPatternDialog loadPatternDialog, String name) {
-    if (selectedPatternController != null) {
-      getStorage().saveAs(selectedPatternController, name);
+      delegate.loadPattern(this, selectedPatternController);
     }
   }
 

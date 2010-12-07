@@ -46,7 +46,6 @@ public class LoadPatternDialog extends DialogWrapper implements ListSelectionLis
 
     void removePattern(LoadPatternDialog me, String patternName);
     void loadSelectedPattern(LoadPatternDialog me);
-    void saveSelectedPattern(LoadPatternDialog loadPatternDialog, String name);
 
     void patternSelected(LoadPatternDialog loadPatternDialog, String name);
   }
@@ -67,7 +66,7 @@ public class LoadPatternDialog extends DialogWrapper implements ListSelectionLis
       patternPane.removeAll();
       delegate.loadSelectedPattern(this);
     }
-    super.doOKAction();    //To change body of overridden methods use File | Settings | File Templates.
+    super.doOKAction();
   }
 
   public void setDelegate(Delegate d) {
@@ -85,6 +84,7 @@ public class LoadPatternDialog extends DialogWrapper implements ListSelectionLis
 
   public LoadPatternDialog(Project project) {
     super(project);
+    setModal(false);
     init();
     patternsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     reloadData();
