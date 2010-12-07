@@ -35,39 +35,44 @@ class PatternUsageSearcher implements UsageSearcher {
     ApplicationManager.getApplication().runReadAction(new Runnable() {
       public void run() {
         List<String> searchHint = PatternUtil.getSearchHint(pattern);
-        final FileMatcher fileMatcher = new FileMatcher(project, pattern, searchResults, usageProcessor);
-        if (searchHint.isEmpty()) {
-          scope.iterateContent(project, fileMatcher);
-        } else {
-          PsiSearchHelper searchHelper = PsiManager.getInstance(project).getSearchHelper();
-          final ArrayList<VirtualFile> scopeFiles = new ArrayList<VirtualFile>();
-          scope.iterateContent(project, new Processor<VirtualFile>() {
-            @Override
-            public boolean process(VirtualFile virtualFile) {
-              scopeFiles.add(virtualFile);
-              return true;
-            }
-          });
-          Set<VirtualFile> filesForHint = new HashSet<VirtualFile>(scopeFiles);
-          for (String hint : searchHint) {
-            final Set<VirtualFile> filesWithWord = new HashSet<VirtualFile>();
-            GlobalSearchScope filesScope = GlobalSearchScope.filesScope(project, filesForHint);
-            Processor<PsiFile> accumulate = new Processor<PsiFile>() {
-              @Override
-              public boolean process(PsiFile psiFile) {
-                filesWithWord.add(psiFile.getVirtualFile());
-                return true;
-              }
-            };
-            searchHelper.processAllFilesWithWordInText(hint, filesScope, accumulate, false);
-            searchHelper.processAllFilesWithWord(hint, filesScope, accumulate, false);
-            filesForHint.retainAll(filesWithWord);
-          }
-          for (VirtualFile file : filesForHint) {
-            fileMatcher.process(file);
-          }
-        }
+        Set<VirtualFile> files = filesContainingAllWords(project, scope, searchHint);
+        searchWithMatcher(new FileMatcher(searchResults, pattern, project, usageProcessor), files);
+        searchWithMatcher(new InjectionsMatcher(searchResults, pattern, project, usageProcessor), files);
       }
     });
+  }
+
+  private void searchWithMatcher(Matcher matcher, Set<VirtualFile> files) {
+      for (VirtualFile file : files) {
+        matcher.process(file);
+      }
+  }
+
+  private static Set<VirtualFile> filesContainingAllWords(Project project, SearchScope scope, List<String> searchHint) {
+    PsiSearchHelper searchHelper = PsiManager.getInstance(project).getSearchHelper();
+    final ArrayList<VirtualFile> scopeFiles = new ArrayList<VirtualFile>();
+    scope.iterateContent(project, new Processor<VirtualFile>() {
+      @Override
+      public boolean process(VirtualFile virtualFile) {
+        scopeFiles.add(virtualFile);
+        return true;
+      }
+    });
+    Set<VirtualFile> filesForHint = new HashSet<VirtualFile>(scopeFiles);
+    for (String hint : searchHint) {
+      final Set<VirtualFile> filesWithWord = new HashSet<VirtualFile>();
+      GlobalSearchScope filesScope = GlobalSearchScope.filesScope(project, filesForHint);
+      Processor<PsiFile> accumulate = new Processor<PsiFile>() {
+        @Override
+        public boolean process(PsiFile psiFile) {
+          filesWithWord.add(psiFile.getVirtualFile());
+          return true;
+        }
+      };
+      searchHelper.processAllFilesWithWordInText(hint, filesScope, accumulate, false);
+      searchHelper.processAllFilesWithWord(hint, filesScope, accumulate, false);
+      filesForHint.retainAll(filesWithWord);
+    }
+    return filesForHint;
   }
 }
