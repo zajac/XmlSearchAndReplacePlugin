@@ -32,20 +32,20 @@ class PatternUsageSearcher implements UsageSearcher {
   }
 
   public void generate(final Processor<Usage> usageProcessor) {
-    ApplicationManager.getApplication().runReadAction(new Runnable() {
-      public void run() {
-        List<String> searchHint = PatternUtil.getSearchHint(pattern);
-        Set<VirtualFile> files = filesContainingAllWords(project, scope, searchHint);
-        searchWithMatcher(new FileMatcher(searchResults, pattern, project, usageProcessor), files);
-        searchWithMatcher(new InjectionsMatcher(searchResults, pattern, project, usageProcessor), files);
-      }
-    });
+    List<String> searchHint = PatternUtil.getSearchHint(pattern);
+    Set<VirtualFile> files = filesContainingAllWords(project, scope, searchHint);
+    searchWithMatcher(new FileMatcher(searchResults, pattern, project, usageProcessor), files);
+    searchWithMatcher(new InjectionsMatcher(searchResults, pattern, project, usageProcessor), files);
   }
 
-  private void searchWithMatcher(Matcher matcher, Set<VirtualFile> files) {
-      for (VirtualFile file : files) {
-        matcher.process(file);
-      }
+  private void searchWithMatcher(final Matcher matcher, Set<VirtualFile> files) {
+    for (final VirtualFile file : files) {
+      ApplicationManager.getApplication().runReadAction(new Runnable() {
+        public void run() {
+          matcher.process(file);
+        }
+      });
+    }
   }
 
   private static Set<VirtualFile> filesContainingAllWords(Project project, SearchScope scope, List<String> searchHint) {

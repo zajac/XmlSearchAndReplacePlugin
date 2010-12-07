@@ -20,4 +20,8 @@ public class TagNameWildcardMatches extends TagPredicate {
   public String toString() {
     return tagName;
   }
+
+  public String getTagName() {
+    return tagName;
+  }
 }
