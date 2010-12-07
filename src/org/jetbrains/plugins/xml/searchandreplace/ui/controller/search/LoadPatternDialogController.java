@@ -8,6 +8,8 @@ import org.jetbrains.plugins.xml.searchandreplace.ui.view.search.LoadPatternDial
 import org.jetbrains.plugins.xml.searchandreplace.ui.view.search.PatternView;
 
 import javax.swing.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -34,6 +36,13 @@ public class LoadPatternDialogController implements LoadPatternDialog.Delegate, 
   public LoadPatternDialog getView() {
     if (myView == null) {
       myView = new LoadPatternDialog(myProject);
+      final LoadPatternDialogController loadPatternDialogController = this;
+      myView.getWindow().addWindowListener(new WindowAdapter() {
+        @Override
+        public void windowClosed(WindowEvent e) {
+          getStorage().removeListener(loadPatternDialogController);
+        }
+      });
       myView.setDelegate(this);
     }
     return myView;
@@ -84,7 +93,6 @@ public class LoadPatternDialogController implements LoadPatternDialog.Delegate, 
   @Override
   public void loadSelectedPattern(LoadPatternDialog me) {
     if (delegate != null) {
-      getStorage().removeListener(this);
       selectedPatternController.setPreviewMode(false);
       delegate.loadPattern(this, selectedPatternController);
     }
