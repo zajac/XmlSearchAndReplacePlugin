@@ -1,6 +1,7 @@
 package org.jetbrains.plugins.xml.searchandreplace.replace;
 
 
+import com.intellij.psi.PsiElement;
 import com.intellij.psi.xml.XmlElement;
 import com.intellij.psi.xml.XmlTag;
 import com.intellij.psi.xml.XmlTagChild;
@@ -21,7 +22,7 @@ public class InsertNearElement extends ReplacementProvider {
   }
 
   @Override
-  public XmlTag getReplacementFor(XmlElement element, Map<Node, XmlElement> match) {
+  public XmlTag getReplacementFor(XmlElement element, Map<Node, PsiElement> match) {
     if (isValid(element)) {
       XmlTag parent = (XmlTag) element.getParent();
       XmlTag replacement = replacementProvider.getReplacementFor(element, match);

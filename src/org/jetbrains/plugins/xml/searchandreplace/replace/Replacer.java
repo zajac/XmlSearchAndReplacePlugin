@@ -19,10 +19,10 @@ public class Replacer implements UsageViewManager.UsageViewStateListener {
 
   private Project project;
   private ReplacementProvider replacementProvider;
-  private Map<Usage, Map<Node, XmlElement>> searchResults;
+  private Map<Usage, Map<Node, PsiElement>> searchResults;
   private UsageView usageView;
 
-  public Replacer(Project project, ReplacementProvider replacementProvider, Map<Usage, Map<Node, XmlElement>> searchResults) {
+  public Replacer(Project project, ReplacementProvider replacementProvider, Map<Usage, Map<Node, PsiElement>> searchResults) {
     this.project = project;
     this.replacementProvider = replacementProvider;
     this.searchResults = searchResults;
@@ -51,7 +51,7 @@ public class Replacer implements UsageViewManager.UsageViewStateListener {
     }
   }
 
-  private void doActualReplace(Usage u, Map<Node, XmlElement> match) {
+  private void doActualReplace(Usage u, Map<Node, PsiElement> match) {
     if (u instanceof UsageInfo2UsageAdapter) {
       PsiElement element = ((UsageInfo2UsageAdapter) u).getElement();
       if (element instanceof XmlElement) {
@@ -71,7 +71,7 @@ public class Replacer implements UsageViewManager.UsageViewStateListener {
           public void run() {
             for (Usage u : usages) {
               if (usageView.getExcludedUsages().contains(u)) continue;
-              Map<Node, XmlElement> match = searchResults.get(u);
+              Map<Node, PsiElement> match = searchResults.get(u);
               doActualReplace(u, match);
             }
           }

@@ -1,5 +1,6 @@
 package org.jetbrains.plugins.xml.searchandreplace.replace;
 
+import com.intellij.psi.PsiElement;
 import com.intellij.psi.xml.XmlElement;
 import com.intellij.psi.xml.XmlTag;
 import org.jetbrains.annotations.NotNull;
@@ -13,7 +14,7 @@ public class InsertIntoTag extends ReplacementProvider {
   private Anchor anchor;
 
   @Override
-  public XmlTag getReplacementFor(XmlElement tag, Map<Node, XmlElement> match) {
+  public XmlTag getReplacementFor(XmlElement tag, Map<Node, PsiElement> match) {
     if (isValid(tag) && tag instanceof XmlTag) {
       XmlTag toInsert = replacementProvider.getReplacementFor(tag, match);
       XmlTag tagAsTag = (XmlTag)tag;

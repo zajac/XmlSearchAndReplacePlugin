@@ -1,6 +1,7 @@
 package org.jetbrains.plugins.xml.searchandreplace.search;
 
 import com.intellij.openapi.util.UserDataHolderBase;
+import com.intellij.psi.PsiElement;
 import com.intellij.psi.xml.XmlElement;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.False;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.Not;
@@ -74,8 +75,8 @@ public class Node extends UserDataHolderBase {
                    "\n}";
   }
 
-  public boolean apply(XmlElement tag) {
-    return predicate.apply(tag);
+  public boolean apply(PsiElement element) {
+    return element instanceof XmlElement && predicate.apply((XmlElement) element);
   }
 
   public void setPredicate(XmlElementPredicate predicate) {

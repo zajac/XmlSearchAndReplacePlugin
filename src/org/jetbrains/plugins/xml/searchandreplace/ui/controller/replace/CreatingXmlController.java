@@ -4,6 +4,7 @@ import com.intellij.lang.Language;
 import com.intellij.openapi.editor.RangeMarker;
 import com.intellij.openapi.editor.impl.EditorImpl;
 import com.intellij.openapi.project.Project;
+import com.intellij.psi.PsiElement;
 import com.intellij.psi.xml.XmlElement;
 import com.intellij.psi.xml.XmlTag;
 import org.jetbrains.plugins.xml.searchandreplace.replace.ReplacementProvider;
@@ -75,7 +76,7 @@ public abstract class CreatingXmlController extends ReplacementController implem
     if (myView.getText().isEmpty()) return null;
     return new ReplacementProvider() {
       @Override
-      public XmlTag getReplacementFor(XmlElement element, Map<Node, XmlElement> match) {
+      public XmlTag getReplacementFor(XmlElement element, Map<Node, PsiElement> match) {
         String afterCapturesResolving = nested.resolveCaptures(match);
         return Utils.createXmlElement(myLanguage, myProject, afterCapturesResolving);
       }

@@ -1,5 +1,6 @@
 package org.jetbrains.plugins.xml.searchandreplace.replace;
 
+import com.intellij.psi.PsiElement;
 import com.intellij.psi.xml.XmlElement;
 import com.intellij.psi.xml.XmlTag;
 import org.jetbrains.plugins.xml.searchandreplace.search.Node;
@@ -14,7 +15,7 @@ public class SetAttribute extends ReplacementProvider {
   }
 
   @Override
-  public XmlTag getReplacementFor(XmlElement element, Map<Node, XmlElement> match) {
+  public XmlTag getReplacementFor(XmlElement element, Map<Node, PsiElement> match) {
     if (isValid(element) && element instanceof XmlTag) {
       XmlTag tag = (XmlTag) element;
       tag.setAttribute(helper.attributeName(match), helper.attributeValue(match));

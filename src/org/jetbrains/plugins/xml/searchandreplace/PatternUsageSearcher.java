@@ -3,11 +3,11 @@ package org.jetbrains.plugins.xml.searchandreplace;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiManager;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.psi.search.PsiSearchHelper;
-import com.intellij.psi.xml.XmlElement;
 import com.intellij.usages.Usage;
 import com.intellij.usages.UsageSearcher;
 import com.intellij.util.Processor;
@@ -21,10 +21,10 @@ import java.util.*;
 class PatternUsageSearcher implements UsageSearcher {
   private final Pattern pattern;
   private final Project project;
-  private final Map<Usage, Map<Node, XmlElement>> searchResults;
+  private final Map<Usage, Map<Node, PsiElement>> searchResults;
   private final SearchScope scope;
 
-  public PatternUsageSearcher(Pattern pattern, Project project, Map<Usage, Map<Node, XmlElement>> searchResults, SearchScope scope) {
+  public PatternUsageSearcher(Pattern pattern, Project project, Map<Usage, Map<Node, PsiElement>> searchResults, SearchScope scope) {
     this.pattern = pattern;
     this.project = project;
     this.searchResults = searchResults;

@@ -1,5 +1,6 @@
 package org.jetbrains.plugins.xml.searchandreplace.ui.controller.captures;
 
+import com.intellij.psi.PsiElement;
 import com.intellij.psi.xml.XmlElement;
 import com.intellij.psi.xml.XmlTag;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.DirectlyContains;
@@ -11,7 +12,7 @@ public class DirectlyContainsTagNameCapture extends TagNameCapture{
   }
 
   @Override
-  public String value(XmlElement element) {
+  public String value(PsiElement element) {
     if(element instanceof XmlTag) {
       for (XmlElement e : ((XmlTag) element).getValue().getChildren()) {
         if (((DirectlyContains)getPredicate()).getNested().apply(e)) {

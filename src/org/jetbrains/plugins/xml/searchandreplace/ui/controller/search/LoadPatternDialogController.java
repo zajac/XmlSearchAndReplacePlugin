@@ -35,17 +35,21 @@ public class LoadPatternDialogController implements LoadPatternDialog.Delegate, 
 
   public LoadPatternDialog getView() {
     if (myView == null) {
-      myView = new LoadPatternDialog(myProject);
-      final LoadPatternDialogController loadPatternDialogController = this;
-      myView.getWindow().addWindowListener(new WindowAdapter() {
-        @Override
-        public void windowClosed(WindowEvent e) {
-          getStorage().removeListener(loadPatternDialogController);
-        }
-      });
-      myView.setDelegate(this);
+      createView();
     }
     return myView;
+  }
+
+  private void createView() {
+    myView = new LoadPatternDialog(myProject);
+    final LoadPatternDialogController loadPatternDialogController = this;
+    myView.getWindow().addWindowListener(new WindowAdapter() {
+      @Override
+      public void windowClosed(WindowEvent e) {
+        getStorage().removeListener(loadPatternDialogController);
+      }
+    });
+    myView.setDelegate(this);
   }
 
   public LoadPatternDialogController(@NotNull Project project) {

@@ -1,11 +1,12 @@
 package org.jetbrains.plugins.xml.searchandreplace;
 
+import com.intellij.lang.html.HTMLLanguage;
+import com.intellij.lang.xml.XMLLanguage;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiManager;
-import com.intellij.psi.xml.XmlElement;
-import com.intellij.psi.xml.XmlFile;
 import com.intellij.usageView.UsageInfo;
 import com.intellij.usages.Usage;
 import com.intellij.usages.UsageInfo2UsageAdapter;
@@ -19,17 +20,17 @@ import java.util.Map;
 import java.util.Set;
 
 
-class FileMatcher implements Processor<VirtualFile> {
+class FileMatcher implements Processor<VirtualFile>, TagSearchObserver {
   private final Project project;
   private final Pattern pattern;
-  private final Set<XmlElement> foundTags;
-  private final Map<Usage, Map<Node, XmlElement>> searchResults;
+  private final Set<PsiElement> foundTags;
+  private final Map<Usage, Map<Node, PsiElement>> searchResults;
   private final Processor<Usage> usageProcessor;
 
-  public FileMatcher(Project project, Pattern pattern, Map<Usage, Map<Node, XmlElement>> searchResults, Processor<Usage> usageProcessor) {
+  public FileMatcher(Project project, Pattern pattern, Map<Usage, Map<Node, PsiElement>> searchResults, Processor<Usage> usageProcessor) {
     this.project = project;
     this.pattern = pattern;
-    foundTags = new HashSet<XmlElement>();
+    foundTags = new HashSet<PsiElement>();
     this.searchResults = searchResults;
     this.usageProcessor = usageProcessor;
   }
@@ -37,24 +38,28 @@ class FileMatcher implements Processor<VirtualFile> {
   public boolean process(VirtualFile virtualFile) {
     PsiFile psiFile = PsiManager.getInstance(project).findFile(virtualFile);
     if (psiFile != null) {
-      if (psiFile instanceof XmlFile) {
-        XmlElement root = ((XmlFile) psiFile).getRootTag();
-        pattern.match(root, new TagSearchObserver() {
-          public void elementFound(Pattern pattern, XmlElement tag) {
-            if (!foundTags.contains(tag) && tag != null) {
-
-              System.out.println(pattern.getMatchedNodes());
-              System.out.println();
-
-              foundTags.add(tag);
-              Usage usage = new UsageInfo2UsageAdapter(new UsageInfo(tag));
-              searchResults.put(usage, pattern.getMatchedNodes());
-              usageProcessor.process(usage);
-            }
-          }
-        });
+      PsiFile xmlFile = psiFile.getViewProvider().getPsi(XMLLanguage.INSTANCE);
+      if (xmlFile == null) {
+        xmlFile = psiFile.getViewProvider().getPsi(HTMLLanguage.INSTANCE);
+      }
+      if (xmlFile != null) {
+        pattern.match(xmlFile, this);
+      } else {
+        pattern.match(psiFile, this);
       }
     }
     return true;
+  }
+  public void elementFound(Pattern pattern, PsiElement tag) {
+    if (!foundTags.contains(tag) && tag != null) {
+
+      System.out.println(pattern.getMatchedNodes());
+      System.out.println();
+
+      foundTags.add(tag);
+      Usage usage = new UsageInfo2UsageAdapter(new UsageInfo(tag));
+      searchResults.put(usage, pattern.getMatchedNodes());
+      usageProcessor.process(usage);
+    }
   }
 }

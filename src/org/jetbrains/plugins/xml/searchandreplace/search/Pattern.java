@@ -2,12 +2,12 @@ package org.jetbrains.plugins.xml.searchandreplace.search;
 
 import com.intellij.openapi.util.Condition;
 import com.intellij.psi.PsiElement;
-import com.intellij.psi.xml.XmlElement;
-import com.intellij.psi.xml.XmlTag;
-import com.intellij.psi.xml.XmlText;
 import com.intellij.util.containers.FilteringIterator;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 public class Pattern implements Cloneable {
 
@@ -16,7 +16,7 @@ public class Pattern implements Cloneable {
 
   private Node theOne;
 
-  private HashMap<Node, XmlElement> matchedNodes = new HashMap<Node, XmlElement>();
+  private HashMap<Node, PsiElement> matchedNodes = new HashMap<Node, PsiElement>();
 
   private HashSet<Node> unmatchedNodes;
 
@@ -88,7 +88,7 @@ public class Pattern implements Cloneable {
       result.roots = new HashSet<Node>(roots);
       result.parentsNum = new HashMap<Node, Integer>(parentsNum);
       result.unmatchedNodes = new HashSet<Node>(unmatchedNodes);
-      result.matchedNodes = new HashMap<Node, XmlElement>(matchedNodes);
+      result.matchedNodes = new HashMap<Node, PsiElement>(matchedNodes);
     } catch (CloneNotSupportedException e) {
       e.printStackTrace();
     }
@@ -144,7 +144,7 @@ public class Pattern implements Cloneable {
     return true;
   }
 
-  private void reduce(XmlElement tag, Node node) {
+  private void reduce(PsiElement tag, Node node) {
     if (roots.contains(node)) {
       if (node.isNot()) {
         if (node.apply(tag)) {
@@ -176,23 +176,23 @@ public class Pattern implements Cloneable {
     }
   }
 
-  private Pattern reduced(XmlElement tag, boolean forceClone) {
+  private Pattern reduced(PsiElement psiElement, boolean forceClone) {
     Pattern reduced = this;
-    if (forceClone || canBeReducedBy(tag)) {
+    if (forceClone || canBeReducedBy(psiElement)) {
       reduced = this.clone();
       for (Node root : roots) {
-        reduced.reduce(tag, root);
+        reduced.reduce(psiElement, root);
       }
     }
     return reduced;
   }
 
-  private boolean canBeReducedBy(XmlElement tag) {
+  private boolean canBeReducedBy(PsiElement psiElement) {
     for (Node root : roots) {
-      if (root.apply(tag)) {
+      if (root.apply(psiElement)) {
         if (root.isNot()) {
           for (Node child : unmatchedChildrenOfNode(root)) {
-            if (child.apply(tag)) {
+            if (child.apply(psiElement)) {
               return true;
             }
           }
@@ -208,7 +208,7 @@ public class Pattern implements Cloneable {
     return false;
   }
 
-  public HashMap<Node, XmlElement> getMatchedNodes() {
+  public HashMap<Node, PsiElement> getMatchedNodes() {
     return matchedNodes;
   }
 
@@ -217,7 +217,7 @@ public class Pattern implements Cloneable {
     do {
       changed = false;
       for (Node n : roots) {
-        XmlElement matchByOther = other.matchedNodes.get(n);
+        PsiElement matchByOther = other.matchedNodes.get(n);
         if (matchByOther != null) {
           if (matchedInTheSameWay(other, n)) {
             removeRoot(n);
@@ -299,17 +299,15 @@ public class Pattern implements Cloneable {
     } while (changed);
   }
 
-  private static Set<Pattern> matchChildren(XmlElement element, Set<Pattern> patternSet) {
+  private static Set<Pattern> matchChildren(PsiElement element, Set<Pattern> patternSet) {
     if (element == null) return patternSet;
     Set<Pattern> afterChildrenMatching = new HashSet<Pattern>();
     for (PsiElement c : element.getChildren()) {
-      if (c instanceof XmlTag || c instanceof XmlText) {
-        XmlElement child = (XmlElement) c;
+
         for (Pattern p : patternSet) {
-          Set<Pattern> matchChildResult = p.match(child, false);
+          Set<Pattern> matchChildResult = p.match(c, false);
           afterChildrenMatching.addAll(matchChildResult);
         }
-      }
     }
     if (afterChildrenMatching.isEmpty()) {
       return patternSet;
@@ -326,7 +324,7 @@ public class Pattern implements Cloneable {
     return true;
   }
 
-  public Set<Pattern> match(XmlElement element, boolean root) {
+  public Set<Pattern> match(PsiElement element, boolean root) {
     Pattern reduced = reduced(element, root);
     Set<Pattern> forFurtherMatching = new HashSet<Pattern>();
     forFurtherMatching.add(reduced);
@@ -353,7 +351,7 @@ public class Pattern implements Cloneable {
     return result;
   }
 
-  public void match(XmlElement element, TagSearchObserver observer) {
+  public void match(PsiElement element, TagSearchObserver observer) {
     Set<Pattern> match = match(element, true);
     mergePatterns(match);
     for (Pattern p : match) {

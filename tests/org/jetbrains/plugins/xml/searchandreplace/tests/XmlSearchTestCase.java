@@ -2,8 +2,8 @@ package org.jetbrains.plugins.xml.searchandreplace.tests;
 
 import com.intellij.codeInsight.CodeInsightTestCase;
 import com.intellij.ide.highlighter.XmlFileType;
+import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
-import com.intellij.psi.xml.XmlElement;
 import com.intellij.psi.xml.XmlFile;
 import com.intellij.psi.xml.XmlTag;
 import org.jetbrains.plugins.xml.searchandreplace.search.Node;
@@ -19,9 +19,9 @@ import java.util.HashSet;
 public abstract class XmlSearchTestCase extends CodeInsightTestCase {
 
   protected static class TestSearchResults implements TagSearchObserver {
-    HashSet<XmlElement> results = new HashSet<XmlElement>();
+    HashSet<PsiElement> results = new HashSet<PsiElement>();
 
-    public void elementFound(Pattern p, XmlElement tag) {
+    public void elementFound(Pattern p, PsiElement tag) {
       results.add(tag);
     }
   }

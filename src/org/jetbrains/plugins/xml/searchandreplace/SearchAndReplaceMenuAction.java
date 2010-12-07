@@ -15,8 +15,8 @@ import com.intellij.openapi.util.Factory;
 import com.intellij.openapi.vcs.FileStatus;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiDocumentManager;
+import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
-import com.intellij.psi.xml.XmlElement;
 import com.intellij.usages.*;
 import org.intellij.plugins.xpathView.search.SearchScope;
 import org.jetbrains.annotations.NotNull;
@@ -27,7 +27,8 @@ import org.jetbrains.plugins.xml.searchandreplace.search.Pattern;
 import org.jetbrains.plugins.xml.searchandreplace.ui.MainDialog;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.persistence.PatternsStorage;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class SearchAndReplaceMenuAction extends AnAction {
 
@@ -76,7 +77,7 @@ public class SearchAndReplaceMenuAction extends AnAction {
     presentation.setTabText("XML Tag");
     presentation.setScopeText("");
 
-    final Map<Usage,Map<Node, XmlElement>> searchResults = new HashMap<Usage, Map<Node, XmlElement>>();
+    final Map<Usage,Map<Node, PsiElement>> searchResults = new HashMap<Usage, Map<Node, PsiElement>>();
     Replacer replacer = replacementProvider == null ? null : new Replacer(project, replacementProvider, searchResults);
     UsageView myUsageView = UsageViewManager.getInstance(project).searchAndShowUsages(
             new UsageTarget[]{new MyUsageTarget(pattern)}, new Factory<UsageSearcher>() {

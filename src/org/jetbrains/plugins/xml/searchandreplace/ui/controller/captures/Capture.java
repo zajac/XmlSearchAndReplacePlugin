@@ -1,6 +1,6 @@
 package org.jetbrains.plugins.xml.searchandreplace.ui.controller.captures;
 
-import com.intellij.psi.xml.XmlElement;
+import com.intellij.psi.PsiElement;
 import org.jetbrains.plugins.xml.searchandreplace.replace.CapturePresentation;
 import org.jetbrains.plugins.xml.searchandreplace.search.predicates.XmlElementPredicate;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.ConstraintController;
@@ -39,5 +39,5 @@ public abstract class Capture {
     this.predicate = predicate;
   }
 
-  public abstract String value(XmlElement element);
+  public abstract String value(PsiElement element);
 }

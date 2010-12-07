@@ -12,6 +12,7 @@ import com.intellij.openapi.editor.markup.EffectType;
 import com.intellij.openapi.editor.markup.HighlighterTargetArea;
 import com.intellij.openapi.editor.markup.RangeHighlighter;
 import com.intellij.openapi.editor.markup.TextAttributes;
+import com.intellij.psi.PsiElement;
 import com.intellij.psi.xml.XmlElement;
 import org.jetbrains.plugins.xml.searchandreplace.replace.CapturePresentation;
 import org.jetbrains.plugins.xml.searchandreplace.search.Node;
@@ -229,7 +230,7 @@ public class CapturedEditorController implements CaptureDropHandler.CaptureDropH
     entries.add(new CaptureEntry(r, c));
   }
 
-  public String resolveCaptures(Map<Node, XmlElement> match) {
+  public String resolveCaptures(Map<Node, PsiElement> match) {
     String text = editor.getDocument().getText();
     StringBuilder result = new StringBuilder();
     sort(entries, new Comparator<CaptureEntry>() {
@@ -244,7 +245,7 @@ public class CapturedEditorController implements CaptureDropHandler.CaptureDropH
         result.append(text.substring(start, entry.range.getStartOffset()));
         Capture capture = entry.capture;
         Node key = null;
-        for (Map.Entry<Node, XmlElement> e : match.entrySet()) {
+        for (Map.Entry<Node, PsiElement> e : match.entrySet()) {
           key = e.getKey();
           if (key.getPredicate().flatten().contains(capture.getPredicate())) {
             break;

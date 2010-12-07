@@ -2,7 +2,7 @@ package org.jetbrains.plugins.xml.searchandreplace.ui.controller.replace;
 
 
 import com.intellij.openapi.editor.impl.EditorImpl;
-import com.intellij.psi.xml.XmlElement;
+import com.intellij.psi.PsiElement;
 import org.jetbrains.plugins.xml.searchandreplace.replace.ReplacementProvider;
 import org.jetbrains.plugins.xml.searchandreplace.replace.SetAttribute;
 import org.jetbrains.plugins.xml.searchandreplace.replace.SetAttributeHelper;
@@ -85,12 +85,12 @@ public class SetAttributeController extends ReplacementController  {
 
   protected class MySetAttributeHelper implements SetAttributeHelper {
     @Override
-    public String attributeName(Map<Node, XmlElement> match) {
+    public String attributeName(Map<Node, PsiElement> match) {
       return nameResolver.resolveCaptures(match);
     }
 
     @Override
-    public String attributeValue(Map<Node, XmlElement> match) {
+    public String attributeValue(Map<Node, PsiElement> match) {
       return valueResolver.resolveCaptures(match);
     }
   }

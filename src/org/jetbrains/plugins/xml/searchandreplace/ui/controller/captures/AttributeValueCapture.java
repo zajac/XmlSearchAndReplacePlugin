@@ -1,5 +1,6 @@
 package org.jetbrains.plugins.xml.searchandreplace.ui.controller.captures;
 
+import com.intellij.psi.PsiElement;
 import com.intellij.psi.xml.XmlAttribute;
 import com.intellij.psi.xml.XmlElement;
 import com.intellij.psi.xml.XmlTag;
@@ -18,10 +19,9 @@ public class AttributeValueCapture extends Capture {
   }
 
   @Override
-  public String value(XmlElement element) {
+  public String value(PsiElement element) {
      if (element instanceof XmlTag) {
-      //Set<XmlElementPredicate> flatten = predicate.flatten();
-      if (getPredicate().apply(element)) {
+      if (getPredicate().apply((XmlElement) element)) {
         if (getPredicate() instanceof HasSpecificAttribute) {
           for (XmlAttribute attr : ((XmlTag) element).getAttributes()) {
             if ( ((HasSpecificAttribute) getPredicate()).getAttributePredicate().applyToAttribute(attr) ) {
