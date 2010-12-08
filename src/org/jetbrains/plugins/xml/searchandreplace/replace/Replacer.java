@@ -12,7 +12,9 @@ import com.intellij.usages.UsageViewManager;
 import org.jetbrains.plugins.xml.searchandreplace.search.Node;
 
 import javax.swing.*;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 public class Replacer implements UsageViewManager.UsageViewStateListener {
@@ -48,17 +50,24 @@ public class Replacer implements UsageViewManager.UsageViewStateListener {
 
   public void findingUsagesFinished(final UsageView usageView) {}
 
-  private void doActualReplace(Usage u, Map<Node, PsiElement> match) {
+  private boolean doActualReplace(Usage u, Map<Node, PsiElement> match) {
     if (u instanceof UsageInfo2UsageAdapter) {
       PsiElement element = ((UsageInfo2UsageAdapter) u).getElement();
       if (element instanceof XmlElement) {
         XmlElement xmlElement = (XmlElement) element;
+        try {
         XmlElement replacement = replacementProvider.getReplacementFor(xmlElement, match);
-        if (replacement != xmlElement && replacement != null) {
-          xmlElement.replace(replacement);
+          if (replacement != xmlElement && replacement != null) {
+            xmlElement.replace(replacement);
+          }
+        } catch (Exception e) {
+          e.printStackTrace();
+          return false;
         }
+        return true;
       }
     }
+    return false;
   }
 
   private void performReplace(final Collection<Usage> usages) {
@@ -66,15 +75,18 @@ public class Replacer implements UsageViewManager.UsageViewStateListener {
       public void run() {
         ApplicationManager.getApplication().runWriteAction(new Runnable() {
           public void run() {
+            List<Usage> toExclude = new ArrayList<Usage>();
             for (Usage u : usages) {
               if (usageView.getExcludedUsages().contains(u)) continue;
               Map<Node, PsiElement> match = searchResults.get(u);
-              doActualReplace(u, match);
+              if (doActualReplace(u, match)) {
+                toExclude.add(u);
+              }
             }
+            usageView.excludeUsages(toExclude.toArray(new Usage[toExclude.size()]));
           }
         });
       }
     }, "XML tag replace", null);
-    usageView.excludeUsages(usages.toArray(new Usage[usages.size()]));
   }
 }

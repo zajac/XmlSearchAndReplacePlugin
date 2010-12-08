@@ -5,7 +5,10 @@ import com.intellij.openapi.editor.RangeMarker;
 import com.intellij.openapi.editor.impl.EditorImpl;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiFile;
+import com.intellij.psi.PsiFileFactory;
 import com.intellij.psi.xml.XmlElement;
+import com.intellij.psi.xml.XmlFile;
 import com.intellij.psi.xml.XmlTag;
 import org.jetbrains.plugins.xml.searchandreplace.replace.ReplacementProvider;
 import org.jetbrains.plugins.xml.searchandreplace.replace.Utils;
@@ -88,7 +91,11 @@ public abstract class CreatingXmlController extends ReplacementController implem
       @Override
       public XmlTag getReplacementFor(XmlElement element, Map<Node, PsiElement> match) {
         String afterCapturesResolving = nested.resolveCaptures(match);
-        return Utils.createXmlElement(myLanguage, myProject, afterCapturesResolving);
+        PsiFile dummy = PsiFileFactory.getInstance(myProject).createFileFromText("dummy", element.getLanguage(), Utils.surroundWithStubTag(afterCapturesResolving));
+        if (dummy instanceof XmlFile) {
+          return ((XmlFile) dummy).getRootTag();
+        }
+        return null;
       }
     };
   }

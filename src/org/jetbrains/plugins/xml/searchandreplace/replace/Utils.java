@@ -10,7 +10,7 @@ import com.intellij.util.IncorrectOperationException;
 
 public class Utils {
 
-  private static final String STUB_ROOT = "s-t-u-b";
+  public static final String STUB_ROOT = "s-t-u-b";
 
   public static void insertCoupleOfElementsIntoTag(XmlTag e, XmlTag tag, boolean asFirstOrLast) {
     XmlTagChild[] children = tag.getValue().getChildren();
@@ -28,7 +28,7 @@ public class Utils {
   }
 
   public static XmlTag createXmlElement(Language myLanguage, Project myProject, String myText) {
-    myText = "<" + STUB_ROOT + ">" + myText + "</" + STUB_ROOT + ">";
+    myText = surroundWithStubTag(myText);
     XmlElement result = null;
     XmlElementFactory factory = XmlElementFactory.getInstance(myProject);
     if (myText != null && factory != null) {
@@ -39,5 +39,10 @@ public class Utils {
       }
     }
     return (XmlTag) result;
+  }
+
+  public static String surroundWithStubTag(String myText) {
+    myText = "<" + STUB_ROOT + ">" + myText + "</" + STUB_ROOT + ">";
+    return myText;
   }
 }

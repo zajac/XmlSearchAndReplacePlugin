@@ -1,6 +1,7 @@
 package org.jetbrains.plugins.xml.searchandreplace.replace;
 
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.xml.XmlAttribute;
 import com.intellij.psi.xml.XmlElement;
 import com.intellij.psi.xml.XmlTag;
 import org.jetbrains.plugins.xml.searchandreplace.search.Node;
@@ -24,8 +25,15 @@ public class ReplaceTagButLeaveContent extends ReplacementProvider {
         return null;
       }
       newElement = newElement.getSubTags()[0];
-      Utils.insertCoupleOfElementsIntoTag(xmlTag, newElement, false);
-      return newElement;
+      xmlTag.setName(newElement.getName());
+      for (XmlAttribute a : xmlTag.getAttributes()) {
+        a.delete();
+      }
+      for (XmlAttribute a : newElement.getAttributes()) {
+        xmlTag.setAttribute(a.getName(), a.getValue());
+      }
+      //Utils.insertCoupleOfElementsIntoTag(xmlTag, newElement, false);
+      //return newElement;
     }
     return null;
   }
