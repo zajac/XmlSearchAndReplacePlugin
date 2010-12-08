@@ -9,6 +9,7 @@ import com.intellij.usages.Usage;
 import com.intellij.usages.UsageInfo2UsageAdapter;
 import com.intellij.usages.UsageView;
 import com.intellij.usages.UsageViewManager;
+import org.jetbrains.plugins.xml.searchandreplace.SearchResult;
 import org.jetbrains.plugins.xml.searchandreplace.search.Node;
 
 import javax.swing.*;
@@ -21,10 +22,10 @@ public class Replacer implements UsageViewManager.UsageViewStateListener {
 
   private Project project;
   private ReplacementProvider replacementProvider;
-  private Map<Usage, Map<Node, PsiElement>> searchResults;
+  private Map<Usage, SearchResult> searchResults;
   private UsageView usageView;
 
-  public Replacer(Project project, ReplacementProvider replacementProvider, Map<Usage, Map<Node, PsiElement>> searchResults) {
+  public Replacer(Project project, ReplacementProvider replacementProvider, Map<Usage,SearchResult> searchResults) {
     this.project = project;
     this.replacementProvider = replacementProvider;
     this.searchResults = searchResults;
@@ -78,8 +79,9 @@ public class Replacer implements UsageViewManager.UsageViewStateListener {
             List<Usage> toExclude = new ArrayList<Usage>();
             for (Usage u : usages) {
               if (usageView.getExcludedUsages().contains(u)) continue;
-              Map<Node, PsiElement> match = searchResults.get(u);
-              if (doActualReplace(u, match)) {
+              SearchResult searchResult = searchResults.get(u);
+              Map<Node, PsiElement> match = searchResult.getMatch();
+              if (!searchResult.isInjected() && doActualReplace(u, match)) {
                 toExclude.add(u);
               }
             }

@@ -5,9 +5,10 @@ import com.intellij.lang.xml.XMLLanguage;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
+import com.intellij.usageView.UsageInfo;
 import com.intellij.usages.Usage;
+import com.intellij.usages.UsageInfo2UsageAdapter;
 import com.intellij.util.Processor;
-import org.jetbrains.plugins.xml.searchandreplace.search.Node;
 import org.jetbrains.plugins.xml.searchandreplace.search.Pattern;
 
 import java.util.Map;
@@ -15,7 +16,7 @@ import java.util.Map;
 
 class FileMatcher extends Matcher  {
 
-  public FileMatcher(Map<Usage, Map<Node, PsiElement>> searchResults, Pattern pattern, Project project, Processor<Usage> usageProcessor) {
+  public FileMatcher(Map<Usage, SearchResult> searchResults, Pattern pattern, Project project, Processor<Usage> usageProcessor) {
     super(searchResults, pattern, project, usageProcessor);
   }
 
@@ -32,4 +33,13 @@ class FileMatcher extends Matcher  {
     }
   }
 
+  public void elementFound(Pattern pattern, PsiElement tag) {
+    if (!foundTags.contains(tag) && tag != null) {
+
+      foundTags.add(tag);
+      Usage usage = new UsageInfo2UsageAdapter(new UsageInfo(tag));
+      searchResults.put(usage, new SearchResult(pattern.getMatchedNodes(), false));
+      usageProcessor.process(usage);
+    }
+  }
 }
