@@ -29,6 +29,7 @@ public class InjectionsMatcher extends Matcher {
     psiFile.accept(new PsiRecursiveElementVisitor() {
       @Override
       public void visitElement(final PsiElement element) {
+        final PsiRecursiveElementVisitor thisPsiVisitor = this;
         if (element instanceof PsiLanguageInjectionHost) {
           PsiLanguageInjectionHost host = (PsiLanguageInjectionHost) element;
           host.processInjectedPsi(new PsiLanguageInjectionHost.InjectedPsiVisitor() {
@@ -37,6 +38,7 @@ public class InjectionsMatcher extends Matcher {
               if (psiFile11 instanceof XmlFile) {
                 pattern.match(psiFile11, injectionsMatcher);
               }
+              psiFile11.accept(thisPsiVisitor);
             }
           });
         }

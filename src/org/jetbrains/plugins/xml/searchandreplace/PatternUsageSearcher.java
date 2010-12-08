@@ -46,14 +46,18 @@ class PatternUsageSearcher implements UsageSearcher {
     }
   }
 
-  private static Set<VirtualFile> filesContainingAllWords(Project project, SearchScope scope, List<String> searchHint) {
+  private static Set<VirtualFile> filesContainingAllWords(final Project project, final SearchScope scope, List<String> searchHint) {
     PsiSearchHelper searchHelper = PsiManager.getInstance(project).getSearchHelper();
     final ArrayList<VirtualFile> scopeFiles = new ArrayList<VirtualFile>();
-    scope.iterateContent(project, new Processor<VirtualFile>() {
-      @Override
-      public boolean process(VirtualFile virtualFile) {
-        scopeFiles.add(virtualFile);
-        return true;
+    ApplicationManager.getApplication().runReadAction(new Runnable() {
+      public void run() {
+        scope.iterateContent(project, new Processor<VirtualFile>() {
+          @Override
+          public boolean process(VirtualFile virtualFile) {
+            scopeFiles.add(virtualFile);
+            return true;
+          }
+        });
       }
     });
     Set<VirtualFile> filesForHint = new HashSet<VirtualFile>(scopeFiles);
@@ -70,8 +74,10 @@ class PatternUsageSearcher implements UsageSearcher {
       searchHelper.processAllFilesWithWordInText(hint, filesScope, accumulate, false);
       searchHelper.processAllFilesWithWord(hint, filesScope, accumulate, false);
       searchHelper.processAllFilesWithWordInLiterals(hint, filesScope, accumulate);
+      searchHelper.processAllFilesWithWordInComments(hint, filesScope, accumulate);
       filesForHint.retainAll(filesWithWord);
     }
+
     return filesForHint;
   }
 }

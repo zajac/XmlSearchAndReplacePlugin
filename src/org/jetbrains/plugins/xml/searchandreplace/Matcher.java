@@ -11,6 +11,7 @@ import org.jetbrains.plugins.xml.searchandreplace.search.Pattern;
 import org.jetbrains.plugins.xml.searchandreplace.search.TagSearchObserver;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -32,7 +33,10 @@ public abstract class Matcher implements Processor<VirtualFile>, TagSearchObserv
   public boolean process(VirtualFile virtualFile) {
     PsiFile psiFile = PsiManager.getInstance(project).findFile(virtualFile);
     if (psiFile != null) {
-      process(psiFile);
+      List<PsiFile> allFiles = psiFile.getViewProvider().getAllFiles();
+      for (PsiFile f : allFiles) {
+        process(f);
+      }
     }
     return true;
   }
