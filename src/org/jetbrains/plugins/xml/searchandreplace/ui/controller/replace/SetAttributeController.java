@@ -7,6 +7,7 @@ import org.jetbrains.plugins.xml.searchandreplace.replace.ReplacementProvider;
 import org.jetbrains.plugins.xml.searchandreplace.replace.SetAttribute;
 import org.jetbrains.plugins.xml.searchandreplace.replace.SetAttributeHelper;
 import org.jetbrains.plugins.xml.searchandreplace.search.Node;
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.captures.CapturesManager;
 import org.jetbrains.plugins.xml.searchandreplace.ui.view.replace.MyEditorTextField;
 import org.jetbrains.plugins.xml.searchandreplace.ui.view.replace.SetAttributeView;
 
@@ -21,6 +22,19 @@ public class SetAttributeController extends ReplacementController  {
 
   private String nameToSet = null;
   private String valueToSet = null;
+
+  @Override
+  public void setCapturesManager(CapturesManager capturesManager) {
+    super.setCapturesManager(capturesManager);
+    EditorImpl nameEditor = getView().getNameEditor();
+    if (nameEditor != null) {
+      nameResolver = new CapturedEditorController(nameEditor, getCapturesManager());
+    }
+    EditorImpl valueEditor = getView().getValueEditor();
+    if (valueEditor != null) {
+      valueResolver = new CapturedEditorController(valueEditor, getCapturesManager());
+    }
+  }
 
   public SetAttributeController() {
     myView.getNameField().setDelegate(new MyEditorTextField.Delegate() {

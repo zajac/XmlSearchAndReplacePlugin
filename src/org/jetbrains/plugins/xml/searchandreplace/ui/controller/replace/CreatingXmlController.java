@@ -11,6 +11,7 @@ import org.jetbrains.plugins.xml.searchandreplace.replace.ReplacementProvider;
 import org.jetbrains.plugins.xml.searchandreplace.replace.Utils;
 import org.jetbrains.plugins.xml.searchandreplace.search.Node;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.captures.Capture;
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.captures.CapturesManager;
 import org.jetbrains.plugins.xml.searchandreplace.ui.view.replace.MyEditorTextField;
 import org.jetbrains.plugins.xml.searchandreplace.ui.view.replace.ReplacementView;
 
@@ -51,6 +52,15 @@ public abstract class CreatingXmlController extends ReplacementController implem
   @Override
   public JPanel getView() {
     return myView;
+  }
+
+  @Override
+  public void setCapturesManager(CapturesManager capturesManager) {
+    super.setCapturesManager(capturesManager);
+    final EditorImpl editor = myView.getEditor();
+    if (editor != null) {
+      nested = new CapturedEditorController(editor, getCapturesManager());
+    }
   }
 
   @Override

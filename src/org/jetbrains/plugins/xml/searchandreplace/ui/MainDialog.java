@@ -51,6 +51,9 @@ public class MainDialog extends DialogWrapper implements ContainerListener, Patt
     this.patternController = patternController;
     patternPanel.removeAll();
     if (patternController != null) {
+      if (replaceController != null) {
+        replaceController.setCapturesManager(patternController.getCapturesManager());
+      }
       patternController.setDelegate(this);
       patternPanel.add(patternController.getView());
       patternPanel.updateUI();

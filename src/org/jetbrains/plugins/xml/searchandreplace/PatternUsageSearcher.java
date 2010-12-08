@@ -71,6 +71,7 @@ class PatternUsageSearcher implements UsageSearcher {
       };
       searchHelper.processAllFilesWithWordInText(hint, filesScope, accumulate, false);
       searchHelper.processAllFilesWithWord(hint, filesScope, accumulate, false);
+      searchHelper.processAllFilesWithWordInLiterals(hint, filesScope, accumulate);
       filesForHint.retainAll(filesWithWord);
     }
     return filesForHint;

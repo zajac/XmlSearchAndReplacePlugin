@@ -28,28 +28,25 @@ public class Replacer implements UsageViewManager.UsageViewStateListener {
     this.searchResults = searchResults;
   }
 
-  public void usageViewCreated(UsageView usageView) {
-    this.usageView = usageView;
+  public void usageViewCreated(UsageView anUsageView) {
+    this.usageView = anUsageView;
+    SwingUtilities.invokeLater(new Runnable() {
+      public void run() {
+        usageView.addPerformOperationAction(new Runnable() {
+          public void run() {
+            performReplace(usageView.getUsages());
+          }
+        }, "Replace All", null, "Replace All");
+        usageView.addButtonToLowerPane(new Runnable() {
+          public void run() {
+            performReplace(usageView.getSelectedUsages());
+          }
+        }, "Replace selected");
+      }
+    });
   }
 
-  public void findingUsagesFinished(final UsageView usageView) {
-    if (usageView != null) {
-      SwingUtilities.invokeLater(new Runnable() {
-        public void run() {
-          usageView.addPerformOperationAction(new Runnable() {
-            public void run() {
-              performReplace(usageView.getUsages());
-            }
-          }, "Replace All", null, "Replace All");
-          usageView.addButtonToLowerPane(new Runnable() {
-            public void run() {
-              performReplace(usageView.getSelectedUsages());
-            }
-          }, "Replace selected");
-        }
-      });
-    }
-  }
+  public void findingUsagesFinished(final UsageView usageView) {}
 
   private void doActualReplace(Usage u, Map<Node, PsiElement> match) {
     if (u instanceof UsageInfo2UsageAdapter) {
