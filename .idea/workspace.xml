@@ -31,8 +31,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c95dde65-8eb2-4841-b02e-5b9774762676" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/replace/RemoveAttribute.java" afterPath="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/replace/RemoveAttribute.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/replace/SetAttribute.java" afterPath="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/replace/SetAttribute.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/org/jetbrains/plugins/xml/searchandreplace/tests/WhiteSpaceMatchingWithNotPredicateTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/META-INF/plugin.xml" afterPath="$PROJECT_DIR$/META-INF/plugin.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/search/Node.java" afterPath="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/search/Node.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/ui/controller/replace/SetAttributeController.java" afterPath="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/ui/controller/replace/SetAttributeController.java" />
     </list>
     <ignored path="XmlSearchAndReplace.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -133,10 +136,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="RemoveAttribute.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/replace/RemoveAttribute.java">
+      <file leaf-file-name="WhiteSpaceMatchingWithNotPredicateTest.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/tests/org/jetbrains/plugins/xml/searchandreplace/tests/WhiteSpaceMatchingWithNotPredicateTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="19" column="20" selection-start="571" selection-end="571" vertical-scroll-proportion="0.36726806">
+            <state line="32" column="33" selection-start="1330" selection-end="1330" vertical-scroll-proportion="0.6539509">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -203,12 +206,8 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/ui/controller/replace/SetAttributeController.java" />
-        <option value="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/replace/Utils.java" />
-        <option value="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/ui/controller/replace/CreatingXmlController.java" />
         <option value="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/replace/SurroundWithTag.java" />
         <option value="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/replace/ReplaceTagButLeaveContent.java" />
-        <option value="$PROJECT_DIR$/META-INF/plugin.xml" />
         <option value="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/SearchResults.java" />
         <option value="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/SearchResult.java" />
         <option value="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/SearchAndReplaceMenuAction.java" />
@@ -219,6 +218,10 @@
         <option value="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/InjectionsMatcher.java" />
         <option value="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/replace/SetAttribute.java" />
         <option value="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/replace/RemoveAttribute.java" />
+        <option value="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/ui/controller/replace/SetAttributeController.java" />
+        <option value="$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/search/Node.java" />
+        <option value="$PROJECT_DIR$/META-INF/plugin.xml" />
+        <option value="$PROJECT_DIR$/tests/org/jetbrains/plugins/xml/searchandreplace/tests/WhiteSpaceMatchingWithNotPredicateTest.java" />
       </list>
     </option>
   </component>
@@ -448,50 +451,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="searchandreplace" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="search" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="XmlSearchAndReplace" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="XmlSearchAndReplace" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="searchandreplace" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="replace" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="XmlSearchAndReplace" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="XmlSearchAndReplace" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="META-INF" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -499,6 +458,7 @@
         </subPane>
       </pane>
       <pane id="Favorites" />
+      <pane id="Scope" />
       <pane id="PackagesPane">
         <subPane>
           <PATH>
@@ -545,7 +505,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -588,63 +547,7 @@
       <recent name="org.jetbrains.plugins.xml.searchandreplace.ui.controller.replace.persistence" />
     </key>
   </component>
-  <component name="RunManager" selected="Plugin.XmlSearchAndReplace">
-    <configuration default="false" name="org.jetbrains.plugins.xml.searchandreplace.tests in XmlSearchAndReplace" type="JUnit" factoryName="JUnit" temporary="true">
-      <module name="XmlSearchAndReplace" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="org.jetbrains.plugins.xml.searchandreplace.tests" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="METHOD_NAME" />
-      <option name="TEST_OBJECT" value="package" />
-      <option name="VM_PARAMETERS" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="moduleWithDependencies" />
-      </option>
-      <envs />
-      <patterns />
-      <RunnerSettings RunnerId="Debug">
-        <option name="DEBUG_PORT" value="51821" />
-        <option name="TRANSPORT" value="0" />
-        <option name="LOCAL" value="true" />
-      </RunnerSettings>
-      <RunnerSettings RunnerId="Run" />
-      <ConfigurationWrapper RunnerId="Debug" />
-      <ConfigurationWrapper RunnerId="Run" />
-      <method />
-    </configuration>
-    <configuration default="false" name="PrimaryPatternWithNotPredicateTest.testTagShouldBeFoundAgain" type="JUnit" factoryName="JUnit" temporary="true">
-      <module name="XmlSearchAndReplace" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="org.jetbrains.plugins.xml.searchandreplace.tests" />
-      <option name="MAIN_CLASS_NAME" value="org.jetbrains.plugins.xml.searchandreplace.tests.PrimaryPatternWithNotPredicateTest" />
-      <option name="METHOD_NAME" value="testTagShouldBeFoundAgain" />
-      <option name="TEST_OBJECT" value="method" />
-      <option name="VM_PARAMETERS" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="moduleWithDependencies" />
-      </option>
-      <envs />
-      <patterns />
-      <RunnerSettings RunnerId="Debug">
-        <option name="DEBUG_PORT" value="59076" />
-        <option name="TRANSPORT" value="0" />
-        <option name="LOCAL" value="true" />
-      </RunnerSettings>
-      <RunnerSettings RunnerId="Run" />
-      <ConfigurationWrapper RunnerId="Debug" />
-      <ConfigurationWrapper RunnerId="Run" />
-      <method />
-    </configuration>
+  <component name="RunManager" selected="JUnit.org.jetbrains.plugins.xml.searchandreplace.tests in XmlSearchAndReplace">
     <configuration default="false" name="AnotherPrimePatternWithNotTest.testNotMatch" type="JUnit" factoryName="JUnit" temporary="true">
       <module name="XmlSearchAndReplace" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
@@ -663,7 +566,13 @@
       </option>
       <envs />
       <patterns />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="50675" />
+        <option name="TRANSPORT" value="0" />
+        <option name="LOCAL" value="true" />
+      </RunnerSettings>
       <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Debug" />
       <ConfigurationWrapper RunnerId="Run" />
       <method />
     </configuration>
@@ -714,6 +623,50 @@
       </RunnerSettings>
       <RunnerSettings RunnerId="Run" />
       <ConfigurationWrapper RunnerId="Debug" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
+    <configuration default="false" name="WhiteSpaceMatchingWithNotPredicateTest.testThis" type="JUnit" factoryName="JUnit" temporary="true">
+      <module name="XmlSearchAndReplace" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="org.jetbrains.plugins.xml.searchandreplace.tests" />
+      <option name="MAIN_CLASS_NAME" value="org.jetbrains.plugins.xml.searchandreplace.tests.WhiteSpaceMatchingWithNotPredicateTest" />
+      <option name="METHOD_NAME" value="testThis" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <envs />
+      <patterns />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
+    <configuration default="false" name="org.jetbrains.plugins.xml.searchandreplace.tests in XmlSearchAndReplace" type="JUnit" factoryName="JUnit" temporary="true">
+      <module name="XmlSearchAndReplace" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="org.jetbrains.plugins.xml.searchandreplace.tests" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="package" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <envs />
+      <patterns />
+      <RunnerSettings RunnerId="Run" />
       <ConfigurationWrapper RunnerId="Run" />
       <method />
     </configuration>
@@ -912,13 +865,13 @@
       <method />
     </configuration>
     <list size="7">
-      <item index="0" class="java.lang.String" itemvalue="JUnit.org.jetbrains.plugins.xml.searchandreplace.tests in XmlSearchAndReplace" />
-      <item index="1" class="java.lang.String" itemvalue="JUnit.PrimaryPatternWithNotPredicateTest.testTagShouldBeFoundAgain" />
-      <item index="2" class="java.lang.String" itemvalue="JUnit.AnotherPrimePatternWithNotTest.testNotMatch" />
-      <item index="3" class="java.lang.String" itemvalue="JUnit.MoreComplexPatternWithNotPredicateTests.testShouldMatchXmlTwice" />
-      <item index="4" class="java.lang.String" itemvalue="JUnit.MoreComplexPatternWithNotPredicateTests.testShouldMatchXml" />
-      <item index="5" class="java.lang.String" itemvalue="JUnit.All tests" />
-      <item index="6" class="java.lang.String" itemvalue="Plugin.XmlSearchAndReplace" />
+      <item index="0" class="java.lang.String" itemvalue="JUnit.AnotherPrimePatternWithNotTest.testNotMatch" />
+      <item index="1" class="java.lang.String" itemvalue="JUnit.MoreComplexPatternWithNotPredicateTests.testShouldMatchXmlTwice" />
+      <item index="2" class="java.lang.String" itemvalue="JUnit.MoreComplexPatternWithNotPredicateTests.testShouldMatchXml" />
+      <item index="3" class="java.lang.String" itemvalue="JUnit.All tests" />
+      <item index="4" class="java.lang.String" itemvalue="Plugin.XmlSearchAndReplace" />
+      <item index="5" class="java.lang.String" itemvalue="JUnit.WhiteSpaceMatchingWithNotPredicateTest.testThis" />
+      <item index="6" class="java.lang.String" itemvalue="JUnit.org.jetbrains.plugins.xml.searchandreplace.tests in XmlSearchAndReplace" />
     </list>
     <configuration name="&lt;template&gt;" type="WebApp" default="true" selected="false">
       <Host>localhost</Host>
@@ -980,13 +933,13 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="22" width="1920" height="1174" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3287037" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.06780566" sideWeight="0.72037035" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32592592" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32532346" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24933262" sideWeight="0.63398695" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2787037" sideWeight="0.9248366" order="10" side_tool="false" content_ui="tabs" x="30" y="528" width="1851" height="367" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.31885397" sideWeight="0.9248366" order="10" side_tool="false" content_ui="tabs" x="30" y="528" width="1851" height="367" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2792312" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32777777" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -994,9 +947,9 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.14351852" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.24959481" sideWeight="0.23747277" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32995194" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23705286" sideWeight="0.7212963" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23705286" sideWeight="0.681146" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32037038" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31977817" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.29738387" sideWeight="0.72037035" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -1094,108 +1047,88 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/replace/Utils.java">
+    <entry file="file://$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/replace/SetAttribute.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="jar://$APPLICATION_HOME_DIR$/lib/openapi.jar!/com/intellij/psi/xml/XmlAttribute.class">
+    <entry file="file://$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/replace/RemoveAttribute.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="44" column="7" selection-start="1250" selection-end="1250" vertical-scroll-proportion="0.8311856" />
+        <state line="19" column="20" selection-start="571" selection-end="571" vertical-scroll-proportion="0.36726806" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/replace/ReplaceTagButLeaveContent.java">
+    <entry file="file://$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/ui/controller/search/persistence/GlobalPatternsStorage.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="0" selection-start="371" selection-end="371" vertical-scroll-proportion="0.09664948" />
+        <state line="26" column="0" selection-start="872" selection-end="872" vertical-scroll-proportion="0.24613403" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/ui/controller/search/persistence/PatternsStorage.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="63" column="0" selection-start="1750" selection-end="1750" vertical-scroll-proportion="0.20747423" />
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/lib/idea.jar!/com/intellij/openapi/components/impl/stores/ComponentStoreImpl.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="41" column="19" selection-start="2261" selection-end="2261" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/ui/controller/replace/ReplaceController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/ui/controller/replace/SetAttributeController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/ui/controller/replace/persistence/ReplacementsStorage.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="42" column="0" selection-start="1195" selection-end="1195" vertical-scroll-proportion="0.5167526" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/PatternUsageSearcher.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="34" column="0" selection-start="1372" selection-end="1372" vertical-scroll-proportion="0.33247423" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/search/Node.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="77" column="17" selection-start="1798" selection-end="1798" vertical-scroll-proportion="1.4139345" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/org/jetbrains/plugins/xml/searchandreplace/tests/AnotherPrimePatternWithNotTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/org/jetbrains/plugins/xml/searchandreplace/tests/XmlSearchTestCase.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/search/Pattern.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="251" column="22" selection-start="6600" selection-end="6600" vertical-scroll-proportion="0.013901761" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/META-INF/plugin.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="34" selection-start="1741" selection-end="1741" vertical-scroll-proportion="0.40389973">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$APPLICATION_HOME_DIR$/lib/openapi.jar!/com/intellij/pom/Navigatable.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="17" selection-start="158" selection-end="158" vertical-scroll-proportion="0.05571031">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$APPLICATION_HOME_DIR$/lib/openapi.jar!/com/intellij/usages/Usage.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="17" selection-start="161" selection-end="161" vertical-scroll-proportion="0.05571031">
+        <state line="4" column="75" selection-start="357" selection-end="357" vertical-scroll-proportion="0.055607043">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/SearchResult.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+        <state line="12" column="2" selection-start="269" selection-end="269" vertical-scroll-proportion="0.1839237">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/SearchAndReplaceMenuAction.java">
+    <entry file="file://$PROJECT_DIR$/tests/org/jetbrains/plugins/xml/searchandreplace/tests/WhiteSpaceMatchingWithNotPredicateTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/FileMatcher.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="9" selection-start="524" selection-end="524" vertical-scroll-proportion="0.14482759">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/replace/Replacer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="62" column="11" selection-start="2353" selection-end="2353" vertical-scroll-proportion="0.65335053">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/PatternUsageSearcher.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="34" column="0" selection-start="1372" selection-end="1372" vertical-scroll-proportion="0.38659793">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/Matcher.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/InjectionsMatcher.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="44" column="36" selection-start="1750" selection-end="1750" vertical-scroll-proportion="0.59407216">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/replace/SetAttributeHelper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="17" selection-start="202" selection-end="202" vertical-scroll-proportion="0.09664948">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/replace/SetAttribute.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/jetbrains/plugins/xml/searchandreplace/replace/RemoveAttribute.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="20" selection-start="571" selection-end="571" vertical-scroll-proportion="0.36726806">
+        <state line="32" column="33" selection-start="1330" selection-end="1330" vertical-scroll-proportion="0.6539509">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1205,75 +1138,9 @@
   </component>
   <component name="masterDetails">
     <states>
-      <state key="ArtifactsStructureConfigurable.UI">
+      <state key="ScopeChooserConfigurable.UI">
         <settings>
-          <artifact-editor />
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="FacetStructureConfigurable.UI">
-        <settings>
-          <last-edited>Flex</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="GlobalLibrariesConfigurable.UI">
-        <settings>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="JdkListConfigurable.UI">
-        <settings>
-          <last-edited>IDEA IU-98.493</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="ModuleStructureConfigurable.UI">
-        <settings>
-          <last-edited>XmlSearchAndReplace</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-                <option value="0.5" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="ProjectLibrariesConfigurable.UI">
-        <settings>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
+          <splitter-proportions />
         </settings>
       </state>
     </states>

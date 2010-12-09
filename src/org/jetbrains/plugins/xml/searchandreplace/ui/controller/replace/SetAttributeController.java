@@ -85,8 +85,8 @@ public class SetAttributeController extends ReplacementController  {
   @Override
   public ReplacementControllerState getState() {
     ReplacementControllerState state = new ReplacementControllerState();
-    state.setAttrName(myView.getNameEditor().getDocument().getText());
-    state.setAttrValue(myView.getValueEditor().getDocument().getText());
+    state.setAttrName(myView.getNameField().getText());
+    state.setAttrValue(myView.getValueField().getText());
     return state;
   }
 

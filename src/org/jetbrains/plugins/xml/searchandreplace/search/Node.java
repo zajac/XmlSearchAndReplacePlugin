@@ -76,7 +76,11 @@ public class Node extends UserDataHolderBase {
   }
 
   public boolean apply(PsiElement element) {
-    return element instanceof XmlElement && predicate.apply((XmlElement) element);
+    if (isNot()) {
+      return !(element instanceof XmlElement) || predicate.apply((XmlElement) element);
+    } else {
+      return element instanceof XmlElement && predicate.apply((XmlElement) element);
+    }
   }
 
   public void setPredicate(XmlElementPredicate predicate) {
