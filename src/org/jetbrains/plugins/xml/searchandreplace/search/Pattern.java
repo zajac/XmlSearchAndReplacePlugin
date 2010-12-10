@@ -286,7 +286,7 @@ public class Pattern implements Cloneable {
       changed = false;
       for (Pattern p : patterns) {
         for (Pattern other : patterns) {
-          if (p != other && p.matchedNodes.equals(other.matchedNodes)) {
+          if (p != other && isEqual(p, other)) {
             changed = true;
             patterns.remove(other);
             break;
@@ -297,6 +297,10 @@ public class Pattern implements Cloneable {
         }
       }
     } while (changed);
+  }
+
+  private static boolean isEqual(Pattern p, Pattern other) {
+    return p.matchedNodes.equals(other.matchedNodes) && p.unmatchedNodes.equals(other.unmatchedNodes);
   }
 
   private static Set<Pattern> matchChildren(PsiElement element, Set<Pattern> patternSet) {
@@ -339,7 +343,7 @@ public class Pattern implements Cloneable {
       boolean unique = true;
       for (Pattern other : result) {
         if (p != other) {
-          if (other.matchedNodes.equals(p.matchedNodes)) {
+          if (isEqual(other, p)) {
             unique = false;
           }
         }
@@ -352,11 +356,13 @@ public class Pattern implements Cloneable {
   }
 
   public void match(PsiElement element, TagSearchObserver observer) {
-    Set<Pattern> match = match(element, true);
-    mergePatterns(match);
-    for (Pattern p : match) {
-      if (isEmptyOrContainsOnlyNot(p)) {
-        observer.elementFound(p, p.matchedNodes.get(p.theOne));
+    synchronized (this) {
+      Set<Pattern> match = match(element, true);
+      mergePatterns(match);
+      for (Pattern p : match) {
+        if (isEmptyOrContainsOnlyNot(p)) {
+          observer.elementFound(p, p.matchedNodes.get(p.theOne));
+        }
       }
     }
   }
