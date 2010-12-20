@@ -16,14 +16,13 @@ import com.intellij.openapi.vcs.FileStatus;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiDocumentManager;
 import com.intellij.psi.PsiFile;
+import com.intellij.psi.search.SearchScope;
 import com.intellij.usages.*;
-import org.intellij.plugins.xpathView.search.SearchScope;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.plugins.xml.searchandreplace.replace.ReplacementProvider;
 import org.jetbrains.plugins.xml.searchandreplace.replace.Replacer;
 import org.jetbrains.plugins.xml.searchandreplace.search.Pattern;
 import org.jetbrains.plugins.xml.searchandreplace.ui.MainDialog;
-import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.persistence.PatternsStorage;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -58,7 +57,6 @@ public class SearchAndReplaceMenuAction extends AnAction {
           public void performSearch(MainDialog dialog) {
             Pattern pattern = dialog.getPattern();
             SearchScope scope = dialog.getSelectedScope();
-            PatternsStorage.getInstance(project).setRecentScope(scope);
             if (pattern != null && scope != null) {
               SearchAndReplaceMenuAction.performSearchAndReplace(project, pattern, scope, dialog.getReplacementProvider());
             }

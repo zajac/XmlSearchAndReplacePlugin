@@ -1,0 +1,8 @@
+[1] reduce vertical size of dialog                    -  (1d, 2d, 2d)
+    - hide scope
+    - save/load -> ok/cancel
+[2] capture validation (if not found should be red)   -  1d
+[3] completion in all editors fields                  -  (1d, 2d, 3d) 
+[4] border outlines                                   -  ?
+---------------------------------------------
+[5] live preview of pattern in current editor         -  (2d, 3d, 4d)

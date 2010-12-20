@@ -68,6 +68,8 @@ public class ConstraintPanel extends JPanel {
     if (!predicateTypeChooser.isVisible()) {
       return;
     }
+    ConstraintType selectedItem = (ConstraintType) predicateTypeChooser.getSelectedItem();
+
     List<ConstraintType> constraintTypes = getDelegate().getChildrentConstraintTypes(this);
     final ConstraintPanel thisPanel = this;
     ComboBoxModel predicateTypeChooserModel = new CollectionComboBoxModel(constraintTypes, null) {
@@ -80,6 +82,12 @@ public class ConstraintPanel extends JPanel {
       }
     };
     predicateTypeChooser.setModel(predicateTypeChooserModel);
+    for (ConstraintType ct : constraintTypes) {
+      if (ct == selectedItem) {
+        predicateTypeChooser.setSelectedItem(selectedItem);
+        break;
+      }
+    }
   }
 
   private ConstraintType getSelectedPredicateType() {
@@ -121,7 +129,8 @@ public class ConstraintPanel extends JPanel {
     reloadData();
 
     if (!canHaveChildren) {
-      addChildButton.setVisible(false);
+      addChildButton.setEnabled(false);
+      //addChildButton.setVisible(false);
     }
     predicateTypeSpecific.setLayout(new BoxLayout(predicateTypeSpecific, BoxLayout.LINE_AXIS));
     childrenSpace.setLayout(new BoxLayout(childrenSpace, BoxLayout.Y_AXIS));
@@ -134,7 +143,7 @@ public class ConstraintPanel extends JPanel {
 
   public void setCanHaveChildren(boolean b) {
     canHaveChildren = b;
-    addChildButton.setVisible(b);
+    addChildButton.setEnabled(b);
     updateUI();
   }
 
@@ -142,9 +151,7 @@ public class ConstraintPanel extends JPanel {
     capturesPanel = new JPanel();
     capturesPanel.setLayout(new BoxLayout(capturesPanel, BoxLayout.PAGE_AXIS));
     addChildButton = new JButton("", IconLoader.findIcon("/general/add.png"));
-    //addChildButton.setBorderPainted(false);
     removeButton = new JButton("", IconLoader.findIcon("/general/remove.png"));
-    //removeButton.setBorderPainted(false);
     addChildButton.setBorder(null);
     removeButton.setBorder(null);
   }

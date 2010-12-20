@@ -250,6 +250,8 @@ public class PatternController implements ConstraintControllerDelegate, Persiste
     for (ConstraintController child : children) {
       if (!allowedChildrenTypes.contains(child.getSelectedConstraintType())) {
         removeConstraintController(child);
+      } else {
+        child.getView().reloadData();
       }
     }
     constraintController.setCanHaveChildren(!allowedChildrenTypes.isEmpty());

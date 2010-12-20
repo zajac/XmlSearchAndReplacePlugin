@@ -6,8 +6,8 @@
       <xy x="20" y="20" width="628" height="78"/>
     </constraints>
     <properties/>
-    <border type="etched">
-      <color color="-65536"/>
+    <border type="none">
+      <color color="-6710887"/>
     </border>
     <children>
       <grid id="98571" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="0" vgap="0">
@@ -120,7 +120,7 @@
               </vspacer>
               <grid id="c63ed" binding="childrenSpace" layout-manager="GridBagLayout">
                 <constraints>
-                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="3" use-parent-layout="false">
                     <minimum-size width="300" height="-1"/>
                   </grid>
                 </constraints>

@@ -37,12 +37,15 @@ public class PatternView extends JPanel {
   }
 
   public PatternView() {
+    this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+    centerPane.setAlignmentX(JComponent.LEFT_ALIGNMENT);
     add(centerPane);
     updateUI();
   }
 
   public void addConstraintView(ConstraintPanel panel, ConstraintPanel parent) {
     if (parent == null) {
+      panel.setAlignmentX(JComponent.LEFT_ALIGNMENT);
       constraintsPanel.add(panel);
     } else {
       parent.addChildPredicatePanel(panel);
@@ -69,5 +72,6 @@ public class PatternView extends JPanel {
     constraintsPanel = new JPanel();
     LayoutManager lm = new BoxLayout(constraintsPanel, BoxLayout.Y_AXIS);
     constraintsPanel.setLayout(lm);
+    constraintsPanel.setAlignmentX(JComponent.LEFT_ALIGNMENT);
   }
 }

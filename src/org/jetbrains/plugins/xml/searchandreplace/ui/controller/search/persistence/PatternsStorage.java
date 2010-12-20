@@ -5,7 +5,6 @@ import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.components.State;
 import com.intellij.openapi.components.Storage;
 import com.intellij.openapi.project.Project;
-import org.intellij.plugins.xpathView.search.SearchScope;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.PatternController;
 
 import java.util.ArrayList;
@@ -44,7 +43,6 @@ public class PatternsStorage implements PersistentStateComponent<PatternsStorage
 
   private PatternController recent;
 
-  private SearchScope recentScope;
   private Project project;
 
   public PatternsStorage(Project project) {
@@ -64,14 +62,12 @@ public class PatternsStorage implements PersistentStateComponent<PatternsStorage
     if (recent == null) return null;
     PatternsStorageState state = new PatternsStorageState();
     state.setRecent(recent.getState());
-    state.setScope(recentScope);
     return state;
   }
 
   @Override
   public void loadState(PatternsStorageState state) {
     recent = new PatternController(project);
-    recentScope = state.getScope();
     recent.loadState(state.getRecent());
   }
 
@@ -79,17 +75,12 @@ public class PatternsStorage implements PersistentStateComponent<PatternsStorage
     return ServiceManager.getService(project, PatternsStorage.class);
   }
 
-  public void setRecentScope(SearchScope recentScope) {
-    this.recentScope = recentScope;
-  }
 
   private GlobalPatternsStorage getGlobalStorage() {
     return ServiceManager.getService(GlobalPatternsStorage.class);
   }
 
-  public SearchScope getRecentScope() {
-    return recentScope;
-  }
+
 
    public Set<String> getSavedPatternsNames() {
      GlobalPatternsStorage globalStorage = getGlobalStorage();

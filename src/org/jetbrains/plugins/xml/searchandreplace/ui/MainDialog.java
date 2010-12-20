@@ -1,12 +1,13 @@
 package org.jetbrains.plugins.xml.searchandreplace.ui;
 
+import com.intellij.ide.util.scopeChooser.ScopeChooserCombo;
 import com.intellij.lang.xml.XMLLanguage;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.openapi.ui.Messages;
-import org.intellij.plugins.xpathView.search.ScopePanel;
-import org.intellij.plugins.xpathView.search.SearchScope;
+import com.intellij.openapi.util.IconLoader;
+import com.intellij.psi.search.SearchScope;
 import org.jetbrains.plugins.xml.searchandreplace.replace.ReplacementProvider;
 import org.jetbrains.plugins.xml.searchandreplace.search.Pattern;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.replace.ReplaceController;
@@ -16,6 +17,7 @@ import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.PatternCo
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.persistence.PatternsStorage;
 import org.jetbrains.plugins.xml.searchandreplace.ui.view.replace.ReplaceView;
 import org.jetbrains.plugins.xml.searchandreplace.ui.view.search.LoadPatternDialog;
+import org.jetbrains.plugins.xml.searchandreplace.ui.view.search.PatternView;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -55,9 +57,14 @@ public class MainDialog extends DialogWrapper implements ContainerListener, Patt
         replaceController.setCapturesManager(patternController.getCapturesManager());
       }
       patternController.setDelegate(this);
-      patternPanel.add(patternController.getView());
+
+      PatternView view = patternController.getView();
+      view.setAlignmentX(JComponent.LEFT_ALIGNMENT);
+      patternPanel.add(view);
       patternPanel.updateUI();
+
       getWindow().pack();
+      PatternsStorage.getInstance(project).setRecent(patternController);
     }
   }
 
@@ -67,17 +74,13 @@ public class MainDialog extends DialogWrapper implements ContainerListener, Patt
   }
 
   private void createUIComponents() {
-    scopePanel = new ScopePanel(project);
 
     patternPanel = new JPanel();
     patternPanel.setLayout(new BoxLayout(patternPanel, BoxLayout.Y_AXIS));
 
     PatternsStorage service = PatternsStorage.getInstance(project);
 
-    SearchScope searchScope = service == null ? new SearchScope() :
-            (service.getRecentScope() == null ? new SearchScope() : service.getRecentScope());
-
-    scopePanel.initComponent(module, searchScope);
+    scopeChooserCombo = new ScopeChooserCombo(project, false, false, null);
 
     if (service != null) {
       setPatternController(service.getRecent());
@@ -102,6 +105,10 @@ public class MainDialog extends DialogWrapper implements ContainerListener, Patt
     replaceController.setCapturesManager(patternController.getCapturesManager());
     replaceView = replaceController.getView();
 
+    saveButton = new JButton("", IconLoader.findIcon("/actions/menu-saveall.png"));
+    saveButton.setBorder(null);
+    loadButton = new JButton("", IconLoader.findIcon("/actions/menu-open.png"));
+    loadButton.setBorder(null);
   }
 
   private void save() {
@@ -122,7 +129,7 @@ public class MainDialog extends DialogWrapper implements ContainerListener, Patt
 
   private JPanel centerPanel;
 
-  private ScopePanel scopePanel;
+  private JPanel scopePanel;
 
   private PatternController patternController;
 
@@ -133,6 +140,7 @@ public class MainDialog extends DialogWrapper implements ContainerListener, Patt
   private JButton saveButton;
   private JButton loadButton;
   private JPanel patternPanel;
+  private ScopeChooserCombo scopeChooserCombo;
   private MainDialogDelegate delegate;
 
   private Project project;
@@ -149,7 +157,7 @@ public class MainDialog extends DialogWrapper implements ContainerListener, Patt
     setModal(false);
     setOKButtonText("Find");
 
-        
+
     replaceView.getReplacementSpecificView().addContainerListener(new ContainerListener() {
 
       public void componentAdded(ContainerEvent e) {
@@ -192,7 +200,7 @@ public class MainDialog extends DialogWrapper implements ContainerListener, Patt
   }
 
   public SearchScope getSelectedScope() {
-    return scopePanel.getSearchScope();
+    return scopeChooserCombo.getSelectedScope();
   }
 
   public MainDialogDelegate getDelegate() {

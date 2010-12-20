@@ -15,7 +15,7 @@ public class AttributeValueCapture extends Capture {
 
   @Override
   public String getName() {
-    return "Attribute name";
+    return "Attribute value";
   }
 
   @Override
