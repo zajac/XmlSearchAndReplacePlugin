@@ -38,6 +38,9 @@ public class TagNameCompletionContributor extends CompletionContributor {
     }), new CompletionProvider<CompletionParameters>() {
       @Override
       protected void addCompletions(@NotNull final CompletionParameters parameters, ProcessingContext context, @NotNull CompletionResultSet result) {
+        String prefix = parameters.getOriginalFile().getText().substring(0, parameters.getOffset()).trim();
+        result = result.withPrefixMatcher(prefix);
+
         final Collection<String>[] allTagNames = new Collection[1];
         ApplicationManager.getApplication().runReadAction(new Runnable() {
           @Override
