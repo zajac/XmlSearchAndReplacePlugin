@@ -23,6 +23,7 @@
                     serviceImplementation="org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.ConstraintTypesRegistry"/>
     <applicationService serviceInterface="org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.persistence.GlobalPatternsStorage"
                         serviceImplementation="org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.persistence.GlobalPatternsStorage"/>
+    <completion.contributor language="TEXT" implementationClass="org.jetbrains.plugins.xml.searchandreplace.ui.view.search.TagNameCompletionContributor"/>
   </extensions>
 
   <actions>

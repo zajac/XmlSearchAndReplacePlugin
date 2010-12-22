@@ -130,7 +130,6 @@ public class ConstraintPanel extends JPanel {
 
     if (!canHaveChildren) {
       addChildButton.setEnabled(false);
-      //addChildButton.setVisible(false);
     }
     predicateTypeSpecific.setLayout(new BoxLayout(predicateTypeSpecific, BoxLayout.LINE_AXIS));
     childrenSpace.setLayout(new BoxLayout(childrenSpace, BoxLayout.Y_AXIS));

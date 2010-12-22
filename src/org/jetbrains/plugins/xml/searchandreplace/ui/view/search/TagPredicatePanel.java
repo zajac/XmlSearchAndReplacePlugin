@@ -15,7 +15,7 @@ public class TagPredicatePanel extends JPanel {
   private Project myProject;
 
   private void createUIComponents() {
-    editorTextField = Util.createRegexpEditor(myProject, false);
+    editorTextField = Util.createRegexpEditorWithTagNameCompletion(myProject, false);
   }
 
   public void setText(String text) {
