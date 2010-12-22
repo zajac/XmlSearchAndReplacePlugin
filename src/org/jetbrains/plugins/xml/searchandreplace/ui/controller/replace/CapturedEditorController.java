@@ -18,6 +18,7 @@ import org.jetbrains.plugins.xml.searchandreplace.search.Node;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.captures.Capture;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.captures.CapturesListener;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.captures.CapturesManager;
+import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.ConstraintController;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -34,7 +35,6 @@ public class CapturedEditorController implements CaptureDropHandler.CaptureDropH
 
   @Override
   public void documentChanged(DocumentEvent event) {
-    String newFragment = (String) event.getNewFragment();
     searchForNewCaptures();
     cleanUpBadEntries();
   }
@@ -78,14 +78,36 @@ public class CapturedEditorController implements CaptureDropHandler.CaptureDropH
           }
         }
         Capture capture = findCaptureWithId(captureId);
-        if (capture == null) continue;
+        if (capture == null) {
+          capture = createBadCapture(captureId);
+        }
         if (foundEntry != null) {
           foundEntry.capture = capture;
+          updateEntry(foundEntry, false);
         } else {
-          insertCaptureEntry(capture, i);
+          insertCaptureEntry(capture, i, captureId);
         }
       }
     }
+  }
+
+  private Capture createBadCapture(String captureId) {
+    Capture capture;
+    final CapturePresentation presentation = new CapturePresentation();
+    presentation.setIdentifier(captureId);
+    presentation.setTextColor(Color.RED);
+    capture = new Capture(null) {
+      @Override
+      public String value(PsiElement element) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+      }
+
+      @Override
+      public CapturePresentation presentation() {
+        return presentation;
+      }
+    };
+    return capture;
   }
 
   private Capture findCaptureWithId(String captureId) {
@@ -134,17 +156,29 @@ public class CapturedEditorController implements CaptureDropHandler.CaptureDropH
   }
 
   private void killEntry(CaptureEntry ce) {
+    ce.capture = createBadCapture(ce.capture.presentation().getIdentifier());
     updateEntry(ce, false);
-    if (ce.range.isValid() && ce.range.getStartOffset() < editor.getDocument().getTextLength() &&
-            ce.range.getEndOffset() <= editor.getDocument().getTextLength()) {
-      editor.getMarkupModel().removeHighlighter((RangeHighlighter) ce.range);
-    }
-    entries.remove(ce);
+//    if (ce.range.isValid() && ce.range.getStartOffset() < editor.getDocument().getTextLength() &&
+//            ce.range.getEndOffset() <= editor.getDocument().getTextLength()) {
+//      editor.getMarkupModel().removeHighlighter((RangeHighlighter) ce.range);
+//    }
+//    entries.remove(ce);
   }
 
   @Override
   public void captureAdded(Capture c) {
     searchForNewCaptures();
+    cleanUpBadEntries();
+    highlightCapturesUnderCaret();
+  }
+
+  public boolean validateInput() {
+    for (CaptureEntry ce : entries) {
+      if (ce.capture.getConstraintController() == null) {
+        return false;
+      }
+    }
+    return true;
   }
 
   public interface Delegate {
@@ -172,15 +206,22 @@ public class CapturedEditorController implements CaptureDropHandler.CaptureDropH
     if (inside) {
       active = ce.capture;
     }
-    ce.capture.getConstraintController().highlightCaptures(active);
-    if (ce.range instanceof RangeHighlighter && ce.range.isValid()) {
+    ConstraintController constraintController = ce.capture.getConstraintController();
+    if (constraintController != null) {
+      constraintController.highlightCaptures(active);
+    }
+    if (ce.range instanceof RangeHighlighter && ce.range.isValid() && findCaptureWithId(ce.capture.presentation().getIdentifier()) != null) {
       RangeHighlighter range = (RangeHighlighter) ce.range;
       TextAttributes textAttributes = range.getTextAttributes();
+      textAttributes.setForegroundColor(Color.BLUE);
       if (inside && range.getStartOffset() != range.getEndOffset()) {
         textAttributes.setEffectType(EffectType.BOXED);
         textAttributes.setEffectColor(Color.GREEN);
       } else {
         textAttributes.setEffectType(null);
+        if (ce.capture.getConstraintController() == null && ce.range instanceof RangeHighlighter) {
+          ((RangeHighlighter)ce.range).getTextAttributes().setForegroundColor(Color.RED);
+        }
       }
     }
   }
@@ -265,12 +306,15 @@ public class CapturedEditorController implements CaptureDropHandler.CaptureDropH
     editor.getDocument().insertString(offset, "$" + capture.presentation().getIdentifier());
   }
 
-  private void insertCaptureEntry(Capture capture, int offset) {
+  private void insertCaptureEntry(Capture capture, int offset, String captureId) {
     CapturePresentation presentation = capture.presentation();
 
-
-    RangeMarker marker = editor.getMarkupModel().addRangeHighlighter(offset, offset + presentation.getIdentifier().length()+1, 10,
-            new TextAttributes(presentation.getTextColor(), presentation.getBackgroundColor(), null, null, 0),
+    RangeMarker marker = editor.getMarkupModel().addRangeHighlighter(offset,
+            offset + presentation.getIdentifier().length()+1,
+            10,
+            new TextAttributes(presentation.getTextColor(),
+                    presentation.getBackgroundColor(),
+                    null, null, 0),
             HighlighterTargetArea.EXACT_RANGE);
     addCaptureEntry(capture, marker);
   }

@@ -32,6 +32,11 @@ public abstract class CreatingXmlController extends ReplacementController implem
   }
 
   @Override
+  public boolean validateInput() {
+    return nested.validateInput();
+  }
+
+  @Override
   public void loadState(ReplacementControllerState state) {
     if (state != null) {
       textToSet = state.getText();

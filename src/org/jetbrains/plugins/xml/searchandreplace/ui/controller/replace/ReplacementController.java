@@ -22,4 +22,6 @@ public abstract class ReplacementController implements PersistentStateComponent 
   public abstract JPanel getView();
 
   protected abstract ReplacementProvider getReplacementProvider();
+
+  public abstract boolean validateInput();
 }

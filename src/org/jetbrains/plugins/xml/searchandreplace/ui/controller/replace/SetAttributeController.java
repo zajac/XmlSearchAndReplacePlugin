@@ -78,6 +78,21 @@ public class SetAttributeController extends ReplacementController  {
   }
 
   @Override
+  public boolean validateInput() {
+    if (nameResolver != null) {
+      if (!nameResolver.validateInput()) {
+        return false;
+      }
+    }
+    if (valueResolver != null) {
+      if (!valueResolver.validateInput()) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  @Override
   public String toString() {
     return "Set attribute";
   }

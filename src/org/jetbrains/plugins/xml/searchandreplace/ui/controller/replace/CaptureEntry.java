@@ -11,4 +11,8 @@ public class CaptureEntry {
     this.range = range;
     this.capture = capture;
   }
+
+  boolean isValid() {
+    return capture != null;
+  }
 }

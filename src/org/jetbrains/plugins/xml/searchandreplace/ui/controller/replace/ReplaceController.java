@@ -74,6 +74,7 @@ public class ReplaceController implements ReplaceView.ReplaceViewDelegate, Persi
   }
 
   public ReplacementProvider getReplacementProvider() {
+    if (!myReplacementController.validateInput()) return null;
     return myReplacementController == null ? null : myReplacementController.getReplacementProvider();
   }
 
