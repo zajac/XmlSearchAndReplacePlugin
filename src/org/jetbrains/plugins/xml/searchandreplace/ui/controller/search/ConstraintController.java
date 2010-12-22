@@ -203,22 +203,23 @@ public class ConstraintController implements ConstraintPanelDelegate, Constraint
     if (constraintType == null) {
       ConstraintTypesRegistry.getInstance(project).byClass(RootConstraintType.class);
     }
+    if (constraintType != null) {
+      selectedConstraintType = constraintType;
 
-    selectedConstraintType = constraintType;
+      constraintTypeController = selectedConstraintType.createNewController();
+      constraintTypeController.setDelegate(this);
 
-    constraintTypeController = selectedConstraintType.createNewController();
-    constraintTypeController.setDelegate(this);
+      myView.setSelectedConstraintType(constraintType);
+      myView.setPredicateTypeSpecificView(constraintTypeController.getView());
 
-    myView.setSelectedConstraintType(constraintType);
-    myView.setPredicateTypeSpecificView(constraintTypeController.getView());
+      captures = constraintTypeController.provideCaptures(this);
 
-    captures = constraintTypeController.provideCaptures(this);
+      getDelegate().loadCapturesFor(this, state);
 
-    getDelegate().loadCapturesFor(this, state);
+      myView.setCaptures(captures);
 
-    myView.setCaptures(captures);
-
-    constraintTypeController.loadState(state.getConstraintTypeSpecificEntry());
+      constraintTypeController.loadState(state.getConstraintTypeSpecificEntry());
+    }
   }
 
   public void useRegexps(boolean use) {

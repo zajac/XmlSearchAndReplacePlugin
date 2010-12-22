@@ -15,11 +15,11 @@ public class Util {
     return PsiDocumentManager.getInstance(e.getProject()).getPsiFile(e.getDocument());
   }
 
-  private static PsiFile createPsiFile(Project myProject, boolean regexps, boolean tagNameCompletionWorks) {
+  private static PsiFile createPsiFile(Project myProject, boolean regexps, boolean tagNameCompletionWorks, String text) {
     String name = tagNameCompletionWorks ? TagNameCompletionContributor.TAG_NAME_COMPLETION_WORKS : "*";
     String nameWithExt = name + (regexps ? ".regexp" : ".txt");
     FileType fileType = FileTypeManager.getInstance().getFileTypeByFileName(nameWithExt);
-    return PsiFileFactory.getInstance(myProject).createFileFromText(nameWithExt, fileType, "", -1, true);
+    return PsiFileFactory.getInstance(myProject).createFileFromText(nameWithExt, fileType, text, -1, true);
   }
 
   private static Document getDocument(Project myProject, PsiFile file) {
@@ -27,13 +27,13 @@ public class Util {
   }
 
   static EditorTextField createRegexpEditor(Project myProject, boolean regexps) {
-    final PsiFile file = createPsiFile(myProject, regexps, false);
+    final PsiFile file = createPsiFile(myProject, regexps, false, "");
     Document document = getDocument(myProject, file);
     return new EditorTextField(document, myProject, file.getFileType());
   }
 
   public static EditorTextField createRegexpEditorWithTagNameCompletion(Project project, boolean useRegexps) {
-    final PsiFile file = createPsiFile(project, useRegexps, true);
+    final PsiFile file = createPsiFile(project, useRegexps, true, "");
     Document document = getDocument(project, file);
     return new EditorTextField(document, project, file.getFileType());
   }
@@ -41,7 +41,7 @@ public class Util {
   public static void useRegexps(EditorTextField editorTextField, Project myProject, boolean use) {
 
     PsiFile oldFile = getFile(editorTextField);
-    PsiFile psiFile = createPsiFile(myProject, use, TagNameCompletionContributor.doesTagNameCompletionWork(oldFile));
+    PsiFile psiFile = createPsiFile(myProject, use, TagNameCompletionContributor.doesTagNameCompletionWork(oldFile), editorTextField.getText());
 
     editorTextField.setNewDocumentAndFileType(psiFile.getFileType(), getDocument(myProject, psiFile));
   }
