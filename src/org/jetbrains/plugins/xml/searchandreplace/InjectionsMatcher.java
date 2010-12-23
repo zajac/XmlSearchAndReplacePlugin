@@ -23,7 +23,7 @@ public class InjectionsMatcher extends Matcher {
   }
 
   @Override
-  protected void process(PsiFile psiFile) {
+  protected void processInternal(PsiFile psiFile) {
     final InjectionsMatcher injectionsMatcher = this;
     final Set<PsiFile> injections = new HashSet<PsiFile>();
     psiFile.accept(new PsiRecursiveElementVisitor() {

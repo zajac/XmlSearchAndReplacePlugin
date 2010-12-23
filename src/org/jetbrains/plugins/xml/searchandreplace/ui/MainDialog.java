@@ -2,12 +2,17 @@ package org.jetbrains.plugins.xml.searchandreplace.ui;
 
 import com.intellij.ide.util.scopeChooser.ScopeChooserCombo;
 import com.intellij.lang.xml.XMLLanguage;
+import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.util.IconLoader;
 import com.intellij.psi.search.SearchScope;
+import com.intellij.ui.UserActivityListener;
+import com.intellij.ui.UserActivityWatcher;
+import com.intellij.util.Alarm;
+import org.jetbrains.annotations.Nullable;
 import org.jetbrains.plugins.xml.searchandreplace.replace.ReplacementProvider;
 import org.jetbrains.plugins.xml.searchandreplace.search.Pattern;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.replace.ReplaceController;
@@ -16,18 +21,21 @@ import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.LoadPatte
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.PatternController;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.persistence.PatternsStorage;
 import org.jetbrains.plugins.xml.searchandreplace.ui.view.replace.ReplaceView;
+import org.jetbrains.plugins.xml.searchandreplace.ui.view.search.LivePreview;
 import org.jetbrains.plugins.xml.searchandreplace.ui.view.search.LoadPatternDialog;
 import org.jetbrains.plugins.xml.searchandreplace.ui.view.search.PatternView;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ContainerEvent;
-import java.awt.event.ContainerListener;
+import java.awt.event.*;
 
 public class MainDialog extends DialogWrapper implements ContainerListener, PatternController.Delegate, LoadPatternDialogController.Delegate {
 
+  private static final int USER_ACTIVITY_PAUSE = 2000;
   private boolean badInput = false;
+
+  private UserActivityWatcher watcher;
+  private Alarm livePreviewAlarm;
+  private LivePreview livePreview;
 
   @Override
   public void badInput(PatternController patternController) {
@@ -65,6 +73,9 @@ public class MainDialog extends DialogWrapper implements ContainerListener, Patt
 
       getWindow().pack();
       PatternsStorage.getInstance(project).setRecent(patternController);
+      if (livePreview != null) {
+        livePreview.update(patternController.buildPattern());
+      }
     }
   }
 
@@ -78,9 +89,9 @@ public class MainDialog extends DialogWrapper implements ContainerListener, Patt
     patternPanel = new JPanel();
     patternPanel.setLayout(new BoxLayout(patternPanel, BoxLayout.Y_AXIS));
 
-    PatternsStorage service = PatternsStorage.getInstance(project);
-
     scopeChooserCombo = new ScopeChooserCombo(project, false, false, null);
+
+    PatternsStorage service = PatternsStorage.getInstance(project);
 
     if (service != null) {
       setPatternController(service.getRecent());
@@ -147,7 +158,7 @@ public class MainDialog extends DialogWrapper implements ContainerListener, Patt
   private Module module;
   private Pattern pattern;
 
-  public MainDialog(Project project, Module module) {
+  public MainDialog(Project project, Module module, @Nullable Editor activeEditor) {
     super(project);
 
     this.project = project;
@@ -188,6 +199,36 @@ public class MainDialog extends DialogWrapper implements ContainerListener, Patt
     });
 
     init();
+
+    livePreview = new LivePreview(activeEditor);
+    if (patternController != null) {
+      livePreview.update(patternController.buildPattern());
+    }
+
+    watcher = new UserActivityWatcher();
+    watcher.register(centerPanel);
+    livePreviewAlarm = new Alarm(Alarm.ThreadToUse.SWING_THREAD);
+    watcher.addUserActivityListener(new UserActivityListener() {
+      @Override
+      public void stateChanged() {
+        livePreviewAlarm.cancelAllRequests();
+        livePreviewAlarm.addRequest(new Runnable() {
+          @Override
+          public void run() {
+            if (patternController != null) {
+              livePreview.update(patternController.buildPattern());
+            }
+          }
+        }, USER_ACTIVITY_PAUSE);
+      }
+    });
+
+    getWindow().addWindowListener(new WindowAdapter() {
+      @Override
+      public void windowClosed(WindowEvent windowEvent) {
+        livePreview.cleanUp();
+      }
+    });
   }
 
   @Override
@@ -217,6 +258,7 @@ public class MainDialog extends DialogWrapper implements ContainerListener, Patt
 
   @Override
   protected void doOKAction() {
+    livePreview.cleanUp();
     pattern = patternController.buildPattern();
     if (badInput) {
       badInput = false;

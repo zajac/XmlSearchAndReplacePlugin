@@ -14,14 +14,14 @@ import org.jetbrains.plugins.xml.searchandreplace.search.Pattern;
 import java.util.Map;
 
 
-class FileMatcher extends Matcher  {
+public class FileMatcher extends Matcher  {
 
   public FileMatcher(Map<Usage, SearchResult> searchResults, Pattern pattern, Project project, Processor<Usage> usageProcessor) {
     super(searchResults, pattern, project, usageProcessor);
   }
 
   @Override
-  protected void process(PsiFile psiFile) {
+  protected void processInternal(PsiFile psiFile) {
     PsiFile xmlFile = psiFile.getViewProvider().getPsi(XMLLanguage.INSTANCE);
     if (xmlFile == null) {
       xmlFile = psiFile.getViewProvider().getPsi(HTMLLanguage.INSTANCE);

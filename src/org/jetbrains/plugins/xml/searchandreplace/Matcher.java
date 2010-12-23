@@ -32,15 +32,19 @@ public abstract class Matcher implements Processor<VirtualFile>, TagSearchObserv
 
   public boolean process(VirtualFile virtualFile) {
     PsiFile psiFile = PsiManager.getInstance(project).findFile(virtualFile);
-    if (psiFile != null) {
-      List<PsiFile> allFiles = psiFile.getViewProvider().getAllFiles();
-      for (PsiFile f : allFiles) {
-        process(f);
-      }
-    }
+    process(psiFile);
     return true;
   }
 
-  protected abstract void process(PsiFile psiFile);
+  public void process(PsiFile psiFile) {
+    if (psiFile != null) {
+      List<PsiFile> allFiles = psiFile.getViewProvider().getAllFiles();
+      for (PsiFile f : allFiles) {
+        processInternal(f);
+      }
+    }
+  }
+
+  protected abstract void processInternal(PsiFile psiFile);
 
 }

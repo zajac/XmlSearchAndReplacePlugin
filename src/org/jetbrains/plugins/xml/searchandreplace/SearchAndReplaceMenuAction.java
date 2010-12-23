@@ -52,7 +52,7 @@ public class SearchAndReplaceMenuAction extends AnAction {
         }
       }
       if (module != null) {
-        MainDialog mainDialog = new MainDialog(project, module);
+        MainDialog mainDialog = new MainDialog(project, module, editor);
         mainDialog.setDelegate(new MainDialog.MainDialogDelegate() {
           public void performSearch(MainDialog dialog) {
             Pattern pattern = dialog.getPattern();
