@@ -20,10 +20,8 @@ import org.jetbrains.plugins.xml.searchandreplace.ui.controller.captures.Capture
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.ConstraintController;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Comparator;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 
 import static java.util.Collections.sort;
 
@@ -72,6 +70,12 @@ public class CapturedEditorController implements CaptureDropHandler.CaptureDropH
   }
 
   private void clearEntries() {
+    for (CaptureEntry ce : entries) {
+      ConstraintController constraintController = ce.capture.getConstraintController();
+      if (constraintController != null) {
+        constraintController.highlightCaptures(null);
+      }
+    }
     editor.getMarkupModel().removeAllHighlighters();
     entries.clear();
   }
@@ -96,9 +100,19 @@ public class CapturedEditorController implements CaptureDropHandler.CaptureDropH
   }
 
   private void highlightCapturesUnderCaret(int offset) {
+    Set<Capture> highlighted = new HashSet<Capture>();
     for (CaptureEntry ce : entries) {
       boolean inside = ce.range.getStartOffset() <= offset && offset <= ce.range.getEndOffset();
       highlightEntry(ce, inside);
+
+      ConstraintController constraintController = ce.capture.getConstraintController();
+      if (constraintController != null && !highlighted.contains(ce.capture)) {
+        constraintController.highlightCaptures(inside ? ce.capture : null);
+      }
+      
+      if (inside) {
+        highlighted.add(ce.capture);
+      }
     }
   }
 
@@ -137,9 +151,6 @@ public class CapturedEditorController implements CaptureDropHandler.CaptureDropH
 
   private void highlightEntry(CaptureEntry ce, boolean inside) {
     ConstraintController constraintController = ce.capture.getConstraintController();
-    if (constraintController != null) {
-      constraintController.highlightCaptures(inside ? ce.capture : null);
-    }
 
     if (ce.range.isValid()) {
       TextAttributes textAttributes = ce.range.getTextAttributes();
