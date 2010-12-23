@@ -1,18 +1,15 @@
 package org.jetbrains.plugins.xml.searchandreplace.ui.controller.replace;
 
-import com.intellij.openapi.editor.RangeMarker;
+import com.intellij.openapi.editor.markup.RangeHighlighter;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.captures.Capture;
 
 public class CaptureEntry {
-  RangeMarker range;
+  RangeHighlighter range;
   Capture capture;
 
-  public CaptureEntry(RangeMarker range, Capture capture) {
+  public CaptureEntry(RangeHighlighter range, Capture capture) {
     this.range = range;
     this.capture = capture;
   }
 
-  boolean isValid() {
-    return capture != null;
-  }
 }

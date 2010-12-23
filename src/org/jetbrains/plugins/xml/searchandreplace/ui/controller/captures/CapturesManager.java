@@ -72,11 +72,12 @@ public class CapturesManager {
   }
 
   public void unregisterCapture(Capture c) {
-    for (CapturesListener listener : observers) {
-      listener.captureBecameInvalid(c);
-    }
     if (c.presentation() != null) {
       map.remove(c.presentation().getIdentifier());
     }
+    for (CapturesListener listener : observers) {
+      listener.captureBecameInvalid(c);
+    }
+
   }
 }

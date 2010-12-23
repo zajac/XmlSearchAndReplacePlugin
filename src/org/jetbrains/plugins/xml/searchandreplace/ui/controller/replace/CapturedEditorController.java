@@ -1,7 +1,6 @@
 package org.jetbrains.plugins.xml.searchandreplace.ui.controller.replace;
 
 import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.editor.RangeMarker;
 import com.intellij.openapi.editor.event.CaretEvent;
 import com.intellij.openapi.editor.event.CaretListener;
 import com.intellij.openapi.editor.event.DocumentEvent;
@@ -35,79 +34,46 @@ public class CapturedEditorController implements CaptureDropHandler.CaptureDropH
 
   @Override
   public void documentChanged(DocumentEvent event) {
-    searchForNewCaptures();
-    cleanUpBadEntries();
+    updateEntries();
   }
 
-  private void cleanUpBadEntries() {
-    String text = editor.getDocument().getText();
-    boolean changed;
-    do {
-      changed = false;
+  private static class BadCapture extends Capture {
+    public BadCapture(String captureId) {
+      super(null);
 
-      for (CaptureEntry ce : entries) {
-        boolean found = false;
-        for (int i = 0; i < text.length(); ++i) {
-          if (text.charAt(i) == '$') {
-            String captureId = parseCaptureId(text, i+1);
-            if (captureId != null && captureId.equals(ce.capture.presentation().getIdentifier()) && ce.range.getStartOffset() == i) {
-              found = true;
-            }
-          }
-        }
-        if (!found) {
-          killEntry(ce);
-          changed = true;
-          break;
-        }
-      }
-    } while(changed);
+      CapturePresentation presentation = new CapturePresentation();
+      presentation.setIdentifier(captureId);
+      presentation.setTextColor(Color.RED);
+
+      setPresentation(presentation);
+    }
+
+    @Override
+    public String value(PsiElement element) {
+      return null;
+    }
   }
 
-  private void searchForNewCaptures() {
+  private void updateEntries() {
+    clearEntries();
     String text = editor.getDocument().getText();
     for (int i = 0; i < text.length(); ++i) {
       if (text.charAt(i) == '$') {
         String captureId = parseCaptureId(text, i+1);
         if (captureId == null) continue;
-        CaptureEntry foundEntry = null;
-        for (CaptureEntry ce : entries) {
-          if (ce.range.getStartOffset() == i && ce.range.isValid() && ce.range.getStartOffset() != ce.range.getEndOffset()) {
-            foundEntry = ce;
-            break;
-          }
-        }
         Capture capture = findCaptureWithId(captureId);
         if (capture == null) {
-          capture = createBadCapture(captureId);
+          capture = new BadCapture(captureId);
         }
-        if (foundEntry != null) {
-          foundEntry.capture = capture;
-          updateEntry(foundEntry, false);
-        } else {
-          insertCaptureEntry(capture, i, captureId);
-        }
+        insertCaptureEntry(capture, i, captureId);
       }
     }
+    highlightCapturesUnderCaret();
   }
 
-  private Capture createBadCapture(String captureId) {
-    Capture capture;
-    final CapturePresentation presentation = new CapturePresentation();
-    presentation.setIdentifier(captureId);
-    presentation.setTextColor(Color.RED);
-    capture = new Capture(null) {
-      @Override
-      public String value(PsiElement element) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-      }
-
-      @Override
-      public CapturePresentation presentation() {
-        return presentation;
-      }
-    };
-    return capture;
+  private void clearEntries() {
+    editor.getMarkupModel().removeAllHighlighters();
+    entries.clear();
   }
 
   private Capture findCaptureWithId(String captureId) {
@@ -132,44 +98,26 @@ public class CapturedEditorController implements CaptureDropHandler.CaptureDropH
   private void highlightCapturesUnderCaret(int offset) {
     for (CaptureEntry ce : entries) {
       boolean inside = ce.range.getStartOffset() <= offset && offset <= ce.range.getEndOffset();
-      updateEntry(ce, inside);
+      highlightEntry(ce, inside);
     }
   }
 
   private void highlightCapturesUnderCaret() {
-    highlightCapturesUnderCaret(editor.getCaretModel().getOffset());
+    highlightCapturesUnderCaret(editor.getComponent().hasFocus());
+  }
+
+  private void highlightCapturesUnderCaret(boolean hasFocus) {
+    highlightCapturesUnderCaret(hasFocus ? editor.getCaretModel().getOffset() : -1);
   }
 
   @Override
   public void captureBecameInvalid(Capture c) {
-    boolean found;
-    do {
-      found = false;
-      for (CaptureEntry ce : entries) {
-        if (ce.capture == c) {
-          killEntry(ce);
-          found = true;
-          break;
-        }
-      }
-    } while (found);
-  }
-
-  private void killEntry(CaptureEntry ce) {
-    ce.capture = createBadCapture(ce.capture.presentation().getIdentifier());
-    updateEntry(ce, false);
-//    if (ce.range.isValid() && ce.range.getStartOffset() < editor.getDocument().getTextLength() &&
-//            ce.range.getEndOffset() <= editor.getDocument().getTextLength()) {
-//      editor.getMarkupModel().removeHighlighter((RangeHighlighter) ce.range);
-//    }
-//    entries.remove(ce);
+    updateEntries();
   }
 
   @Override
   public void captureAdded(Capture c) {
-    searchForNewCaptures();
-    cleanUpBadEntries();
-    highlightCapturesUnderCaret();
+    updateEntries();
   }
 
   public boolean validateInput() {
@@ -181,46 +129,30 @@ public class CapturedEditorController implements CaptureDropHandler.CaptureDropH
     return true;
   }
 
-  public interface Delegate {
-    void newCaptureInserted(Capture capture, RangeMarker where);
-  }
-
-  private Delegate delegate;
-
-  public Delegate getDelegate() {
-    return delegate;
-  }
-
-  public void setDelegate(Delegate delegate) {
-    this.delegate = delegate;
-  }
-
   private List<CaptureEntry> entries = new ArrayList<CaptureEntry>();
 
   void setEditor(final EditorImpl editor) {
     this.editor = editor;
   }
 
-  private void updateEntry(CaptureEntry ce, boolean inside) {
-    Capture active = null;
-    if (inside) {
-      active = ce.capture;
-    }
+  private void highlightEntry(CaptureEntry ce, boolean inside) {
     ConstraintController constraintController = ce.capture.getConstraintController();
     if (constraintController != null) {
-      constraintController.highlightCaptures(active);
+      constraintController.highlightCaptures(inside ? ce.capture : null);
     }
-    if (ce.range instanceof RangeHighlighter && ce.range.isValid() && findCaptureWithId(ce.capture.presentation().getIdentifier()) != null) {
-      RangeHighlighter range = (RangeHighlighter) ce.range;
-      TextAttributes textAttributes = range.getTextAttributes();
-      textAttributes.setForegroundColor(Color.BLUE);
-      if (inside && range.getStartOffset() != range.getEndOffset()) {
-        textAttributes.setEffectType(EffectType.BOXED);
-        textAttributes.setEffectColor(Color.GREEN);
+
+    if (ce.range.isValid()) {
+      TextAttributes textAttributes = ce.range.getTextAttributes();
+      assert textAttributes != null;
+      if (constraintController == null) {
+        textAttributes.setForegroundColor(Color.RED);
       } else {
-        textAttributes.setEffectType(null);
-        if (ce.capture.getConstraintController() == null && ce.range instanceof RangeHighlighter) {
-          ((RangeHighlighter)ce.range).getTextAttributes().setForegroundColor(Color.RED);
+        textAttributes.setForegroundColor(ce.capture.presentation().getTextColor());
+        if (inside && ce.range.getStartOffset() != ce.range.getEndOffset()) {
+          textAttributes.setEffectType(EffectType.BOXED);
+          textAttributes.setEffectColor(Color.GREEN);
+        } else if (!inside) {
+          textAttributes.setEffectType(null);
         }
       }
     }
@@ -246,29 +178,20 @@ public class CapturedEditorController implements CaptureDropHandler.CaptureDropH
     editor.getCaretModel().addCaretListener(this);
 
     capturesManager.addCapturesListener(this);
-    searchForNewCaptures();
-    
-    if (editor.getComponent().hasFocus()) {
-      highlightCapturesUnderCaret();
-    }
 
+    updateEntries();
+    
     editor.addFocusListener(new FocusChangeListener() {
       @Override
       public void focusGained(Editor editor) {
-        highlightCapturesUnderCaret();
+        highlightCapturesUnderCaret(true);
       }
 
       @Override
       public void focusLost(Editor editor) {
-        for (CaptureEntry ce : entries) {
-          updateEntry(ce, false);
-        }
+        highlightCapturesUnderCaret(false);
       }
     });
-  }
-
-  public void addCaptureEntry(Capture c, RangeMarker r) {
-    entries.add(new CaptureEntry(r, c));
   }
 
   public String resolveCaptures(Map<Node, PsiElement> match) {
@@ -306,16 +229,18 @@ public class CapturedEditorController implements CaptureDropHandler.CaptureDropH
     editor.getDocument().insertString(offset, "$" + capture.presentation().getIdentifier());
   }
 
-  private void insertCaptureEntry(Capture capture, int offset, String captureId) {
+  private CaptureEntry insertCaptureEntry(Capture capture, int offset, String captureId) {
     CapturePresentation presentation = capture.presentation();
 
-    RangeMarker marker = editor.getMarkupModel().addRangeHighlighter(offset,
+    RangeHighlighter marker = editor.getMarkupModel().addRangeHighlighter(offset,
             offset + presentation.getIdentifier().length()+1,
             10,
             new TextAttributes(presentation.getTextColor(),
                     presentation.getBackgroundColor(),
                     null, null, 0),
             HighlighterTargetArea.EXACT_RANGE);
-    addCaptureEntry(capture, marker);
+    CaptureEntry captureEntry = new CaptureEntry(marker, capture);
+    entries.add(captureEntry);
+    return captureEntry;
   }
 }

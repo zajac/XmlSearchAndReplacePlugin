@@ -21,7 +21,7 @@ import org.jetbrains.plugins.xml.searchandreplace.ui.view.replace.ReplacementVie
 import javax.swing.*;
 import java.util.Map;
 
-public abstract class CreatingXmlController extends ReplacementController implements CapturedEditorController.Delegate, MyEditorTextField.Delegate {
+public abstract class CreatingXmlController extends ReplacementController implements MyEditorTextField.Delegate {
   private String textToSet;
 
   @Override
@@ -75,7 +75,6 @@ public abstract class CreatingXmlController extends ReplacementController implem
   public void viewDidAppear() {
     final EditorImpl editor = myView.getEditor();
     nested = new CapturedEditorController(editor, getCapturesManager());
-    nested.setDelegate(this);
     if (textToSet != null) {
       myView.getTextField().setText(textToSet);
       textToSet = null;
@@ -103,13 +102,6 @@ public abstract class CreatingXmlController extends ReplacementController implem
         return null;
       }
     };
-  }
-
-  @Override
-  public void newCaptureInserted(Capture capture, RangeMarker where) {
-    if (nested != null) {
-      nested.addCaptureEntry(capture, where);
-    }
   }
 
   protected void ensureMyXmlIsTag() {
