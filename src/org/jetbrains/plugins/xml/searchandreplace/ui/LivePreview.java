@@ -4,6 +4,7 @@ package org.jetbrains.plugins.xml.searchandreplace.ui;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
+import com.intellij.openapi.editor.ScrollType;
 import com.intellij.openapi.editor.markup.HighlighterLayer;
 import com.intellij.openapi.editor.markup.HighlighterTargetArea;
 import com.intellij.openapi.editor.markup.TextAttributes;
@@ -35,6 +36,7 @@ import org.jetbrains.plugins.xml.searchandreplace.ui.view.search.ConstraintPanel
 
 import javax.swing.*;
 import java.awt.*;
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -58,10 +60,10 @@ public class LivePreview implements UserActivityListener, PatternController.Cons
     this.project = editor.getProject();
     this.editor = editor;
     this.patternController = patternController;
-    livePreviewAlarm = new Alarm(Alarm.ThreadToUse.SWING_THREAD);
+    livePreviewAlarm = new Alarm(Alarm.ThreadToUse.SHARED_THREAD);
     injectActivityWatcher();
     patternController.addConstraintsTreeListener(this);
-    update(patternController.buildPattern());
+    stateChanged();
   }
 
   private void injectActivityWatcher() {
@@ -128,14 +130,27 @@ public class LivePreview implements UserActivityListener, PatternController.Cons
   public void update(@NotNull final Pattern pattern) {
     if (getEditor() == null) return;
     this.pattern = pattern;
-    Document document = getEditor().getDocument();
-    final Project project = getEditor().getProject();
-    if (project != null) {
-      final PsiFile psiFile = PsiDocumentManager.getInstance(project).getPsiFile(document);
-      cleanUp();
-      ApplicationManager.getApplication().runReadAction(new Runnable() {
+    try {
+      SwingUtilities.invokeAndWait(new Runnable() {
         @Override
         public void run() {
+          cleanUp();
+        }
+      });
+    } catch (InterruptedException e) {
+      throw new RuntimeException(e);
+    } catch (InvocationTargetException e) {
+      throw new RuntimeException(e);
+    }
+    ApplicationManager.getApplication().runReadAction(new Runnable() {
+      @Override
+      public void run() {
+        Document document = getEditor().getDocument();
+        final Project project = getEditor().getProject();
+        if (project != null) {
+
+          PsiFile psiFile = PsiDocumentManager.getInstance(project).getPsiFile(document);
+
           Processor<Usage> dummy = new Processor<Usage>() {
             @Override
             public boolean process(Usage usage) {
@@ -145,26 +160,36 @@ public class LivePreview implements UserActivityListener, PatternController.Cons
           new FileMatcher(searchResults, pattern, project, dummy).process(psiFile);
           //new InjectionsMatcher(searchResults, pattern, project, dummy).process(psiFile); //TODO: make it hightlight injected elements right
         }
-      });
+      }
+    });
 
-      SwingUtilities.invokeLater(new Runnable() {
-        @Override
-        public void run() {
-          highlightUsages();
-        }
-      });
-    }
+    SwingUtilities.invokeLater(new Runnable() {
+      @Override
+      public void run() {
+        highlightUsages();
+      }
+    });
   }
 
   private void highlightUsages() {
-    if (getEditor() == null) return;
+    Editor e = getEditor();
+    if (e == null) return;
+    boolean foundVisibleElement = false;
+    int offset = Integer.MAX_VALUE;
     for (SearchResult sr : searchResults.values()) {
       Map<Node,PsiElement> match = sr.getMatch();
       TextAttributes textAttributes = createUniqueTextAttrsFor(sr);
-      PsiElement mainTarget = match.get(pattern.getTheOne());
+      PsiElement targetElement = match.get(pattern.getTheOne());
+
+      if (!foundVisibleElement && insideVisibleArea(e, targetElement)) {
+        foundVisibleElement = true;
+      }
+      if (!foundVisibleElement && targetElement.getTextOffset() < offset) {
+        offset = targetElement.getTextOffset();
+      }
       for (PsiElement element : match.values()) {
         TextAttributes attributes = textAttributes;
-        if (element == mainTarget) {
+        if (element == targetElement) {
           attributes = MAIN_TARGET_ATTRIBUTES;
         }
         if (element instanceof XmlTag) {
@@ -172,11 +197,21 @@ public class LivePreview implements UserActivityListener, PatternController.Cons
         }
         TextRange textRange = element.getTextRange();
 
-        getEditor().getMarkupModel().addRangeHighlighter(textRange.getStartOffset(),
+        e.getMarkupModel().addRangeHighlighter(textRange.getStartOffset(),
                 textRange.getEndOffset(),
                 HighlighterLayer.SELECTION + 1, attributes, HighlighterTargetArea.EXACT_RANGE);
       }
     }
+    if (!foundVisibleElement) {
+      e.getScrollingModel().scrollTo(e.offsetToLogicalPosition(offset), ScrollType.CENTER);
+    }
+  }
+
+  private boolean insideVisibleArea(Editor e, PsiElement targetElement) {
+    Rectangle visibleArea = e.getScrollingModel().getVisibleArea();
+    Point point = e.logicalPositionToXY(e.offsetToLogicalPosition(targetElement.getTextOffset()));
+
+    return visibleArea.contains(point);
   }
 
   private TextAttributes createUniqueTextAttrsFor(SearchResult sr) {
