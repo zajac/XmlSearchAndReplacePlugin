@@ -52,7 +52,7 @@ public class MainDialog extends DialogWrapper implements ContainerListener, Patt
 
   public void setPatternController(PatternController patternController) {
     if (livePreview != null) {
-      livePreview.tearDown();
+      livePreview.cleanUp();
     }
     livePreview = null;
     this.patternController = patternController;
@@ -71,7 +71,7 @@ public class MainDialog extends DialogWrapper implements ContainerListener, Patt
       getWindow().pack();
       PatternsStorage.getInstance(project).setRecent(patternController);
 
-      livePreview = new LivePreview(editor, patternController);
+      livePreview = new LivePreview(patternController, editor);
     }
   }
 

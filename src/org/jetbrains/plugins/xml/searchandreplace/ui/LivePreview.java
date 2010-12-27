@@ -7,6 +7,11 @@ import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.markup.HighlighterLayer;
 import com.intellij.openapi.editor.markup.HighlighterTargetArea;
 import com.intellij.openapi.editor.markup.TextAttributes;
+import com.intellij.openapi.fileEditor.FileEditor;
+import com.intellij.openapi.fileEditor.TextEditor;
+import com.intellij.openapi.fileEditor.ex.FileEditorManagerEx;
+import com.intellij.openapi.fileEditor.impl.EditorWindow;
+import com.intellij.openapi.fileEditor.impl.EditorWithProviderComposite;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiDocumentManager;
@@ -20,7 +25,6 @@ import com.intellij.util.Processor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.plugins.xml.searchandreplace.FileMatcher;
-import org.jetbrains.plugins.xml.searchandreplace.InjectionsMatcher;
 import org.jetbrains.plugins.xml.searchandreplace.SearchResult;
 import org.jetbrains.plugins.xml.searchandreplace.search.Node;
 import org.jetbrains.plugins.xml.searchandreplace.search.Pattern;
@@ -38,16 +42,21 @@ public class LivePreview implements UserActivityListener, PatternController.Cons
 
   private static final int USER_ACTIVITY_PAUSE = 1000;
 
-  private Editor editor;
   private PatternController patternController;
   private Map<Usage,SearchResult> searchResults = new HashMap<Usage, SearchResult>();
 
   private MomentoUserActivityWatcher watcher;
   private Alarm livePreviewAlarm;
+  private Pattern pattern;
+  private static final TextAttributes MAIN_TARGET_ATTRIBUTES = new TextAttributes(Color.BLACK, Color.RED, null, null, 0);
+  private Project project;
+
+  private Editor editor;
 
 
-  public LivePreview(@Nullable Editor e, PatternController patternController) {
-    editor = e;
+  public LivePreview(PatternController patternController,Editor editor) {
+    this.project = editor.getProject();
+    this.editor = editor;
     this.patternController = patternController;
     livePreviewAlarm = new Alarm(Alarm.ThreadToUse.SWING_THREAD);
     injectActivityWatcher();
@@ -87,11 +96,21 @@ public class LivePreview implements UserActivityListener, PatternController.Cons
 
   @Nullable
   public Editor getEditor() {
+    EditorWindow currentWindow = FileEditorManagerEx.getInstanceEx(project).getCurrentWindow();
+    if (currentWindow != null) {
+      EditorWithProviderComposite selectedEditor = currentWindow.getSelectedEditor();
+      if (selectedEditor != null) {
+        FileEditor fileEditor = selectedEditor.getSelectedEditorWithProvider().first;
+        if (fileEditor instanceof TextEditor) {
+          Editor editor1 = ((TextEditor) fileEditor).getEditor();
+          if (editor1 != editor) {
+            editor.getMarkupModel().removeAllHighlighters();
+            editor = editor1;
+          }
+        }
+      }
+    }
     return editor;
-  }
-
-  public void setEditor(Editor editor) {
-    this.editor = editor;
   }
 
   public void stateChanged() {
@@ -107,9 +126,10 @@ public class LivePreview implements UserActivityListener, PatternController.Cons
   }
 
   public void update(@NotNull final Pattern pattern) {
-    if (editor == null) return;
-    Document document = editor.getDocument();
-    final Project project = editor.getProject();
+    if (getEditor() == null) return;
+    this.pattern = pattern;
+    Document document = getEditor().getDocument();
+    final Project project = getEditor().getProject();
     if (project != null) {
       final PsiFile psiFile = PsiDocumentManager.getInstance(project).getPsiFile(document);
       cleanUp();
@@ -123,7 +143,7 @@ public class LivePreview implements UserActivityListener, PatternController.Cons
             }
           };
           new FileMatcher(searchResults, pattern, project, dummy).process(psiFile);
-          new InjectionsMatcher(searchResults, pattern, project, dummy).process(psiFile);
+          //new InjectionsMatcher(searchResults, pattern, project, dummy).process(psiFile); //TODO: make it hightlight injected elements right
         }
       });
 
@@ -136,27 +156,25 @@ public class LivePreview implements UserActivityListener, PatternController.Cons
     }
   }
 
-  public void cleanUp() {
-    searchResults.clear();
-    if (editor != null) {
-      editor.getMarkupModel().removeAllHighlighters();
-    }
-  }
-
   private void highlightUsages() {
-    if (editor == null) return;
+    if (getEditor() == null) return;
     for (SearchResult sr : searchResults.values()) {
       Map<Node,PsiElement> match = sr.getMatch();
       TextAttributes textAttributes = createUniqueTextAttrsFor(sr);
+      PsiElement mainTarget = match.get(pattern.getTheOne());
       for (PsiElement element : match.values()) {
+        TextAttributes attributes = textAttributes;
+        if (element == mainTarget) {
+          attributes = MAIN_TARGET_ATTRIBUTES;
+        }
         if (element instanceof XmlTag) {
           element = element.getFirstChild().getNextSibling();
         }
         TextRange textRange = element.getTextRange();
 
-        editor.getMarkupModel().addRangeHighlighter(textRange.getStartOffset(),
+        getEditor().getMarkupModel().addRangeHighlighter(textRange.getStartOffset(),
                 textRange.getEndOffset(),
-                HighlighterLayer.SELECTION + 1, textAttributes, HighlighterTargetArea.EXACT_RANGE);
+                HighlighterLayer.SELECTION + 1, attributes, HighlighterTargetArea.EXACT_RANGE);
       }
     }
   }
@@ -182,7 +200,15 @@ public class LivePreview implements UserActivityListener, PatternController.Cons
     update(patternController.buildPattern());
   }
 
-  public void tearDown() {
+  public void cleanUp() {
+    unsubscribe();
+    searchResults.clear();
+    if (getEditor() != null) {
+      getEditor().getMarkupModel().removeAllHighlighters();
+    }
+  }
+
+  private void unsubscribe() {
     final LivePreview livePreview = this;
     patternController.accept(new PatternController.Visitor() {
       @Override
@@ -191,5 +217,6 @@ public class LivePreview implements UserActivityListener, PatternController.Cons
       }
     });
     patternController.removeConstraintsTreeListener(this);
+    getEditor().getMarkupModel().removeAllHighlighters();
   }
 }

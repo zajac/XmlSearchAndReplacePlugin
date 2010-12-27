@@ -63,7 +63,6 @@ public class TagPredicatePanel extends JPanel implements UserActivityProviderCom
   }
 
   public void useRegexps(boolean b) {
-    editorTextField.getDocument().removeDocumentListener(this);
     Util.useRegexps(editorTextField, myProject, b);
     editorTextField.getDocument().addDocumentListener(this);
     notifyAboutChange();
