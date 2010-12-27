@@ -33,6 +33,20 @@ public class ConstraintController implements ConstraintPanelDelegate, Constraint
   private Project project;
   private boolean previewMode;
 
+  public interface ConstraintListener {
+    void constraintTypeSelected(ConstraintController c);
+  }
+
+  private List<ConstraintListener> listeners = new ArrayList<ConstraintListener>();
+
+  public void addConstraintListener(ConstraintListener listener) {
+    listeners.add(listener);
+  }
+
+  public void removeConstraintListener(ConstraintListener listener) {
+    listeners.remove(listener);
+  }
+
   public List<Capture> getCaptures() {
     return captures;
   }
@@ -97,6 +111,9 @@ public class ConstraintController implements ConstraintPanelDelegate, Constraint
     if (getDelegate() != null) {
       getDelegate().validateMe(this);
       constraintTypeController.useRegexps(getDelegate().useRegexps());
+    }
+    for (ConstraintListener listener : listeners) {
+      listener.constraintTypeSelected(this);
     }
   }
 

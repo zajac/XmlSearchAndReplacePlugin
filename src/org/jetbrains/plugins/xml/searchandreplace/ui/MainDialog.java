@@ -9,9 +9,6 @@ import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.util.IconLoader;
 import com.intellij.psi.search.SearchScope;
-import com.intellij.ui.UserActivityListener;
-import com.intellij.ui.UserActivityWatcher;
-import com.intellij.util.Alarm;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.plugins.xml.searchandreplace.replace.ReplacementProvider;
 import org.jetbrains.plugins.xml.searchandreplace.search.Pattern;
@@ -21,7 +18,6 @@ import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.LoadPatte
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.PatternController;
 import org.jetbrains.plugins.xml.searchandreplace.ui.controller.search.persistence.PatternsStorage;
 import org.jetbrains.plugins.xml.searchandreplace.ui.view.replace.ReplaceView;
-import org.jetbrains.plugins.xml.searchandreplace.ui.view.search.LivePreview;
 import org.jetbrains.plugins.xml.searchandreplace.ui.view.search.LoadPatternDialog;
 import org.jetbrains.plugins.xml.searchandreplace.ui.view.search.PatternView;
 
@@ -30,11 +26,8 @@ import java.awt.event.*;
 
 public class MainDialog extends DialogWrapper implements ContainerListener, PatternController.Delegate, LoadPatternDialogController.Delegate {
 
-  private static final int USER_ACTIVITY_PAUSE = 2000;
   private boolean badInput = false;
 
-  private UserActivityWatcher watcher;
-  private Alarm livePreviewAlarm;
   private LivePreview livePreview;
 
   @Override
@@ -58,6 +51,10 @@ public class MainDialog extends DialogWrapper implements ContainerListener, Patt
   }
 
   public void setPatternController(PatternController patternController) {
+    if (livePreview != null) {
+      livePreview.tearDown();
+    }
+    livePreview = null;
     this.patternController = patternController;
     patternPanel.removeAll();
     if (patternController != null) {
@@ -73,19 +70,18 @@ public class MainDialog extends DialogWrapper implements ContainerListener, Patt
 
       getWindow().pack();
       PatternsStorage.getInstance(project).setRecent(patternController);
-      if (livePreview != null) {
-        livePreview.update(patternController.buildPattern());
-      }
+
+      livePreview = new LivePreview(editor, patternController);
     }
   }
 
+
+
   public PatternController getPatternController() {
     return patternController;
-
   }
 
   private void createUIComponents() {
-
     patternPanel = new JPanel();
     patternPanel.setLayout(new BoxLayout(patternPanel, BoxLayout.Y_AXIS));
 
@@ -156,6 +152,8 @@ public class MainDialog extends DialogWrapper implements ContainerListener, Patt
 
   private Project project;
   private Module module;
+  @Nullable
+  private Editor editor;
   private Pattern pattern;
 
   public MainDialog(Project project, Module module, @Nullable Editor activeEditor) {
@@ -163,6 +161,7 @@ public class MainDialog extends DialogWrapper implements ContainerListener, Patt
 
     this.project = project;
     this.module = module;
+    editor = activeEditor;
 
     setTitle("Xml search and replace");
     setModal(false);
@@ -200,36 +199,17 @@ public class MainDialog extends DialogWrapper implements ContainerListener, Patt
 
     init();
 
-    livePreview = new LivePreview(activeEditor);
-    if (patternController != null) {
-      livePreview.update(patternController.buildPattern());
-    }
-
-    watcher = new UserActivityWatcher();
-    watcher.register(centerPanel);
-    livePreviewAlarm = new Alarm(Alarm.ThreadToUse.SWING_THREAD);
-    watcher.addUserActivityListener(new UserActivityListener() {
-      @Override
-      public void stateChanged() {
-        livePreviewAlarm.cancelAllRequests();
-        livePreviewAlarm.addRequest(new Runnable() {
-          @Override
-          public void run() {
-            if (patternController != null) {
-              livePreview.update(patternController.buildPattern());
-            }
-          }
-        }, USER_ACTIVITY_PAUSE);
-      }
-    });
-
     getWindow().addWindowListener(new WindowAdapter() {
       @Override
       public void windowClosed(WindowEvent windowEvent) {
-        livePreview.cleanUp();
+        if (livePreview != null) {
+          livePreview.cleanUp();
+        }
       }
     });
   }
+
+
 
   @Override
   protected JComponent createCenterPanel() {

@@ -155,6 +155,9 @@ public class PatternController implements ConstraintControllerDelegate, Persiste
     if (delegate != null) {
       delegate.pleaseAutoresizeWindow(this);
     }
+    for (ConstraintsTreeListener listener : listeners) {
+      listener.constraintAdded(pc, pc.getParent());
+    }
   }
 
   private void removeConstraintController(ConstraintController constraintController) {
@@ -177,7 +180,9 @@ public class PatternController implements ConstraintControllerDelegate, Persiste
     if (delegate != null) {
       delegate.pleaseAutoresizeWindow(this);
     }
-
+    for (ConstraintsTreeListener listener : listeners) {
+      listener.constraintRemoved(constraintController, constraintController.getParent());
+    }
   }
 
   public PatternView getView() {
@@ -270,8 +275,6 @@ public class PatternController implements ConstraintControllerDelegate, Persiste
     }
   }
 
-
-
   private void registerCapturesIfNesessary(ConstraintController constraintController) {
     boolean unregistered = false;
     for (Capture c : constraintController.getCaptures()) {
@@ -285,4 +288,37 @@ public class PatternController implements ConstraintControllerDelegate, Persiste
     }
   }
 
+  public interface Visitor {
+    void visitConstraint(ConstraintController constraintController);
+  }
+
+  public interface ConstraintsTreeListener {
+    void constraintAdded(ConstraintController c, ConstraintController parent);
+    void constraintRemoved(ConstraintController c, ConstraintController parent);
+  }
+
+  private List<ConstraintsTreeListener> listeners = new ArrayList<ConstraintsTreeListener>();
+
+  public void addConstraintsTreeListener(ConstraintsTreeListener listener) {
+    listeners.add(listener);
+  }
+
+  public void removeConstraintsTreeListener(ConstraintsTreeListener listener) {
+    listeners.remove(listener);
+  }
+
+  public void accept(Visitor v) {
+    Set<ConstraintController> visited = new HashSet<ConstraintController>();
+    acceptInternal(root, visited, v);
+  }
+
+  private void acceptInternal(ConstraintController c, Set<ConstraintController> visited, Visitor v) {
+    if (!visited.contains(c)) {
+      v.visitConstraint(c);
+      visited.add(c);
+    }
+    for (ConstraintController cc : constraintsTree.get(c)) {
+      acceptInternal(cc, visited, v);
+    }
+  }
 }

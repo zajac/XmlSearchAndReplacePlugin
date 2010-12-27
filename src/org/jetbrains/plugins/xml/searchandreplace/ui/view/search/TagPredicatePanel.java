@@ -1,21 +1,28 @@
 package org.jetbrains.plugins.xml.searchandreplace.ui.view.search;
 
+import com.intellij.openapi.editor.event.DocumentEvent;
+import com.intellij.openapi.editor.event.DocumentListener;
 import com.intellij.openapi.project.Project;
 import com.intellij.ui.CollectionComboBoxModel;
 import com.intellij.ui.EditorTextField;
+import com.intellij.ui.UserActivityProviderComponent;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class TagPredicatePanel extends JPanel {
+public class TagPredicatePanel extends JPanel implements UserActivityProviderComponent, DocumentListener {
 
   private Project myProject;
 
   private void createUIComponents() {
     editorTextField = Util.createRegexpEditorWithTagNameCompletion(myProject, false);
+    editorTextField.getDocument().addDocumentListener(this);
   }
 
   public void setText(String text) {
@@ -31,12 +38,41 @@ public class TagPredicatePanel extends JPanel {
     textOrTag.setEnabled(!previewMode);
   }
 
+  private List<ChangeListener> listeners;
+
+  @Override
+  public void addChangeListener(ChangeListener changeListener) {
+    listeners.add(changeListener);
+  }
+
+  @Override
+  public void removeChangeListener(ChangeListener changeListener) {
+    listeners.remove(changeListener);
+  }
+
+  @Override
+  public void beforeDocumentChange(DocumentEvent event) {}
+
+  @Override
+  public void documentChanged(DocumentEvent event) {
+    notifyAboutChange();
+  }
+
   public interface Delegate {
     void stateChanged(TagPredicatePanel tpp);
   }
 
   public void useRegexps(boolean b) {
+    editorTextField.getDocument().removeDocumentListener(this);
     Util.useRegexps(editorTextField, myProject, b);
+    editorTextField.getDocument().addDocumentListener(this);
+    notifyAboutChange();
+  }
+
+  private void notifyAboutChange() {
+    for (ChangeListener cl : listeners) {
+      cl.stateChanged(new ChangeEvent(this));
+    }
   }
 
   public static final String TAG = "Tag";
@@ -76,6 +112,7 @@ public class TagPredicatePanel extends JPanel {
     });
 
     updateUI();
+    listeners = new ArrayList<ChangeListener>();
   }
 
   public String selectedCard() {
