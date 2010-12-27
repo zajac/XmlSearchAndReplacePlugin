@@ -71,7 +71,7 @@ public class MainDialog extends DialogWrapper implements ContainerListener, Patt
       getWindow().pack();
       PatternsStorage.getInstance(project).setRecent(patternController);
 
-      livePreview = new LivePreview(patternController, editor);
+      livePreview = new LivePreview(patternController, editor, project);
     }
   }
 

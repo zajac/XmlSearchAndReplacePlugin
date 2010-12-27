@@ -20,7 +20,7 @@ public class MomentoUserActivityWatcher extends UserActivityWatcher {
   @Override
   protected void unprocessComponent(Component component) {
     components.remove(component);
-    super.unprocessComponent(component);
+//    super.unprocessComponent(component);
   }
 
   public boolean isWatched(Component c) {

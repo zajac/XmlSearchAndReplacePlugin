@@ -38,7 +38,7 @@ public class TagPredicatePanel extends JPanel implements UserActivityProviderCom
     textOrTag.setEnabled(!previewMode);
   }
 
-  private List<ChangeListener> listeners;
+  private ArrayList<ChangeListener> listeners;
 
   @Override
   public void addChangeListener(ChangeListener changeListener) {
@@ -69,7 +69,7 @@ public class TagPredicatePanel extends JPanel implements UserActivityProviderCom
   }
 
   private void notifyAboutChange() {
-    for (ChangeListener cl : listeners) {
+    for (ChangeListener cl : (List<ChangeListener>)listeners.clone()) {
       cl.stateChanged(new ChangeEvent(this));
     }
   }

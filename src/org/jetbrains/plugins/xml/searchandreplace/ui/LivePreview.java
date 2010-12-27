@@ -11,8 +11,6 @@ import com.intellij.openapi.editor.markup.TextAttributes;
 import com.intellij.openapi.fileEditor.FileEditor;
 import com.intellij.openapi.fileEditor.TextEditor;
 import com.intellij.openapi.fileEditor.ex.FileEditorManagerEx;
-import com.intellij.openapi.fileEditor.impl.EditorWindow;
-import com.intellij.openapi.fileEditor.impl.EditorWithProviderComposite;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiDocumentManager;
@@ -23,7 +21,6 @@ import com.intellij.ui.UserActivityListener;
 import com.intellij.usages.Usage;
 import com.intellij.util.Alarm;
 import com.intellij.util.Processor;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.plugins.xml.searchandreplace.FileMatcher;
 import org.jetbrains.plugins.xml.searchandreplace.SearchResult;
@@ -36,7 +33,6 @@ import org.jetbrains.plugins.xml.searchandreplace.ui.view.search.ConstraintPanel
 
 import javax.swing.*;
 import java.awt.*;
-import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -56,13 +52,12 @@ public class LivePreview implements UserActivityListener, PatternController.Cons
   private Editor editor;
 
 
-  public LivePreview(PatternController patternController,Editor editor) {
-    this.project = editor.getProject();
+  public LivePreview(PatternController patternController,Editor editor, Project project) {
+    this.project = project;
     this.editor = editor;
     this.patternController = patternController;
     livePreviewAlarm = new Alarm(Alarm.ThreadToUse.SHARED_THREAD);
     injectActivityWatcher();
-    patternController.addConstraintsTreeListener(this);
     stateChanged();
   }
 
@@ -75,6 +70,7 @@ public class LivePreview implements UserActivityListener, PatternController.Cons
         subscribeWatcher(constraintController);
       }
     });
+    patternController.addConstraintsTreeListener(this);
   }
 
   private void subscribeWatcher(ConstraintController constraintController) {
@@ -98,17 +94,18 @@ public class LivePreview implements UserActivityListener, PatternController.Cons
 
   @Nullable
   public Editor getEditor() {
-    EditorWindow currentWindow = FileEditorManagerEx.getInstanceEx(project).getCurrentWindow();
-    if (currentWindow != null) {
-      EditorWithProviderComposite selectedEditor = currentWindow.getSelectedEditor();
-      if (selectedEditor != null) {
-        FileEditor fileEditor = selectedEditor.getSelectedEditorWithProvider().first;
+    if (project == null) return null;
+    FileEditorManagerEx instanceEx = FileEditorManagerEx.getInstanceEx(project);
+    if (instanceEx != null) {
+      FileEditor[] editors = instanceEx.getEditors(instanceEx.getCurrentFile());
+      if (editors.length > 0) {
+        FileEditor fileEditor = editors[0];
         if (fileEditor instanceof TextEditor) {
           Editor editor1 = ((TextEditor) fileEditor).getEditor();
-          if (editor1 != editor) {
+          if (editor != null) {
             editor.getMarkupModel().removeAllHighlighters();
-            editor = editor1;
           }
+          editor = editor1;
         }
       }
     }
@@ -117,48 +114,42 @@ public class LivePreview implements UserActivityListener, PatternController.Cons
 
   public void stateChanged() {
     livePreviewAlarm.cancelAllRequests();
+    final Editor editor1 = getEditor();
+    if (editor1 == null) return;
+    cleanUp();
+    injectActivityWatcher();
+    pattern = patternController.buildPattern();
     livePreviewAlarm.addRequest(new Runnable() {
       @Override
       public void run() {
         if (patternController != null) {
-          update(patternController.buildPattern());
+          update(editor1);
         }
       }
     }, USER_ACTIVITY_PAUSE);
   }
 
-  public void update(@NotNull final Pattern pattern) {
-    if (getEditor() == null) return;
-    this.pattern = pattern;
-    try {
-      SwingUtilities.invokeAndWait(new Runnable() {
-        @Override
-        public void run() {
-          cleanUp();
-        }
-      });
-    } catch (InterruptedException e) {
-      throw new RuntimeException(e);
-    } catch (InvocationTargetException e) {
-      throw new RuntimeException(e);
-    }
+  private void update(final Editor e) {
+
     ApplicationManager.getApplication().runReadAction(new Runnable() {
       @Override
       public void run() {
-        Document document = getEditor().getDocument();
-        final Project project = getEditor().getProject();
-        if (project != null) {
+        if (e != null) {
+          Document document = e.getDocument();
+          final Project project = e.getProject();
+          if (project != null) {
 
-          PsiFile psiFile = PsiDocumentManager.getInstance(project).getPsiFile(document);
+            PsiFile psiFile = PsiDocumentManager.getInstance(project).getPsiFile(document);
 
-          Processor<Usage> dummy = new Processor<Usage>() {
-            @Override
-            public boolean process(Usage usage) {
-              return true;
-            }
-          };
-          new FileMatcher(searchResults, pattern, project, dummy).process(psiFile);
-          //new InjectionsMatcher(searchResults, pattern, project, dummy).process(psiFile); //TODO: make it hightlight injected elements right
+            Processor<Usage> dummy = new Processor<Usage>() {
+              @Override
+              public boolean process(Usage usage) {
+                return true;
+              }
+            };
+            new FileMatcher(searchResults, pattern, project, dummy).process(psiFile);
+            //new InjectionsMatcher(searchResults, pattern, project, dummy).process(psiFile); //TODO: make it hightlight injected elements right
+          }
         }
       }
     });
@@ -202,7 +193,7 @@ public class LivePreview implements UserActivityListener, PatternController.Cons
                 HighlighterLayer.SELECTION + 1, attributes, HighlighterTargetArea.EXACT_RANGE);
       }
     }
-    if (!foundVisibleElement) {
+    if (!foundVisibleElement && offset != Integer.MAX_VALUE) {
       e.getScrollingModel().scrollTo(e.offsetToLogicalPosition(offset), ScrollType.CENTER);
     }
   }
@@ -221,25 +212,25 @@ public class LivePreview implements UserActivityListener, PatternController.Cons
   @Override
   public void constraintAdded(ConstraintController c, ConstraintController parent) {
     subscribeWatcher(c);
-    update(patternController.buildPattern());
+    stateChanged();
   }
 
   @Override
   public void constraintRemoved(ConstraintController c, ConstraintController parent) {
-    update(patternController.buildPattern());
+    stateChanged();
   }
 
   @Override
   public void constraintTypeSelected(ConstraintController c) {
     subscribeWatcherToConstraintTypeController(c);
-    update(patternController.buildPattern());
+    stateChanged();
   }
 
   public void cleanUp() {
     unsubscribe();
     searchResults.clear();
-    if (getEditor() != null) {
-      getEditor().getMarkupModel().removeAllHighlighters();
+    if (editor != null) {
+      editor.getMarkupModel().removeAllHighlighters();
     }
   }
 
@@ -252,6 +243,5 @@ public class LivePreview implements UserActivityListener, PatternController.Cons
       }
     });
     patternController.removeConstraintsTreeListener(this);
-    getEditor().getMarkupModel().removeAllHighlighters();
   }
 }
