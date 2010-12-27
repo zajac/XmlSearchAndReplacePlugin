@@ -1,7 +1,7 @@
 <idea-plugin version="2">
   <name>XmlSearchAndReplace</name>
   <description>Provides dreamweaver-like feature to find and replace xml tags. Allows you to create powerfull and complex patterns with GUI and perform search and replace of them.</description>
-  <version>0.0.4</version>
+  <version>0.0.6</version>
   <vendor email="andrey.zaytsev@jetbrains.com" url="jetbrains.com">JetBrains</vendor>
   <idea-version since-build="96.1130"/>
   <depends>com.intellij.modules.xml</depends>
