@@ -67,15 +67,9 @@ class PatternUsageSearcher implements UsageSearcher {
   }
 
   private static Set<VirtualFile> filesContainingAllWords(final Project project, GlobalSearchScope scope, List<String> searchHint) {
-    PsiSearchHelper searchHelper = PsiManager.getInstance(project).getSearchHelper();
+    PsiSearchHelper searchHelper = PsiSearchHelper.SERVICE.getInstance(project);
     final ArrayList<VirtualFile> scopeFiles = new ArrayList<VirtualFile>();
-
-    CacheManager cacheManager = null;
-    PsiManager psiManager = PsiManager.getInstance(project);
-    if (psiManager instanceof PsiManagerEx) {
-      cacheManager = ((PsiManagerEx) psiManager).getCacheManager();
-
-    }
+    CacheManager cacheManager = CacheManager.SERVICE.getInstance(project);
     if (scope != null && cacheManager != null) {
       final Set<VirtualFile> filesWithWord = new HashSet<VirtualFile>();
 

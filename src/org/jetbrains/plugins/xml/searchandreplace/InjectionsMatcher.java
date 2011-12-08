@@ -10,6 +10,7 @@ import com.intellij.usages.UsageInfo2UsageAdapter;
 import com.intellij.util.Processor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.plugins.xml.searchandreplace.search.Pattern;
+import com.intellij.psi.impl.source.tree.injected.InjectedLanguageUtil;
 
 import java.util.HashSet;
 import java.util.List;
@@ -32,7 +33,7 @@ public class InjectionsMatcher extends Matcher {
         final PsiRecursiveElementVisitor thisPsiVisitor = this;
         if (element instanceof PsiLanguageInjectionHost) {
           PsiLanguageInjectionHost host = (PsiLanguageInjectionHost) element;
-          host.processInjectedPsi(new PsiLanguageInjectionHost.InjectedPsiVisitor() {
+            InjectedLanguageUtil.enumerate(host, new PsiLanguageInjectionHost.InjectedPsiVisitor() {
             @Override
             public void visit(@NotNull PsiFile psiFile11, @NotNull List<PsiLanguageInjectionHost.Shred> shreds) {
               if (psiFile11 instanceof XmlFile) {

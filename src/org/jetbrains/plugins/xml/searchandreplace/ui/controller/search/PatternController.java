@@ -12,6 +12,7 @@ import org.jetbrains.plugins.xml.searchandreplace.ui.controller.captures.Capture
 import org.jetbrains.plugins.xml.searchandreplace.ui.view.search.PatternView;
 
 import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class PatternController implements ConstraintControllerDelegate, PersistentStateComponent<PatternStorageEntry>,PatternView.Delegate {
 
@@ -297,7 +298,7 @@ public class PatternController implements ConstraintControllerDelegate, Persiste
     void constraintRemoved(ConstraintController c, ConstraintController parent);
   }
 
-  private List<ConstraintsTreeListener> listeners = new ArrayList<ConstraintsTreeListener>();
+  private List<ConstraintsTreeListener> listeners = new CopyOnWriteArrayList<ConstraintsTreeListener> ();
 
   public void addConstraintsTreeListener(ConstraintsTreeListener listener) {
     listeners.add(listener);

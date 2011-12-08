@@ -14,6 +14,7 @@ import org.jetbrains.plugins.xml.searchandreplace.ui.view.search.ConstraintPanel
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class ConstraintController implements ConstraintPanelDelegate, ConstraintTypeController.Delegate, PersistentStateComponent<ConstraintEntry> {
 
@@ -37,7 +38,7 @@ public class ConstraintController implements ConstraintPanelDelegate, Constraint
     void constraintTypeSelected(ConstraintController c);
   }
 
-  private List<ConstraintListener> listeners = new ArrayList<ConstraintListener>();
+  private List<ConstraintListener> listeners = new CopyOnWriteArrayList<ConstraintListener> ();
 
   public void addConstraintListener(ConstraintListener listener) {
     listeners.add(listener);

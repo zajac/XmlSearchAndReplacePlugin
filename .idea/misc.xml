@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CppTools.Loader" reportImplicitCastToBool="false" reportNameReferencedOnce="false" version="3" compilerSelect="AUTO" />
-  <component name="DependencyValidationManager">
-    <option name="SKIP_IMPORT_STATEMENTS" value="false" />
-  </component>
   <component name="IdProvider" IDEtalkID="690FECF1D3965E2FC901FBB52D186A26" />
   <component name="JavadocGenerationManager">
     <option name="OUTPUT_DIRECTORY" />
@@ -25,7 +22,7 @@
   <component name="ProjectResources">
     <default-html-doctype>http://www.w3.org/1999/xhtml</default-html-doctype>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_6" assert-keyword="true" jdk-15="true" project-jdk-name="1.6" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_6" assert-keyword="true" jdk-15="true" project-jdk-name="IDEA IC-111.63" project-jdk-type="IDEA JDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>
 </project>

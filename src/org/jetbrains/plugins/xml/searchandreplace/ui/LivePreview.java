@@ -43,7 +43,7 @@ public class LivePreview implements UserActivityListener, PatternController.Cons
   private PatternController patternController;
   private Map<Usage,SearchResult> searchResults = new HashMap<Usage, SearchResult>();
 
-  private MomentoUserActivityWatcher watcher;
+  private MomentoUserActivityWatcher watcher = new MomentoUserActivityWatcher();
   private Alarm livePreviewAlarm;
   private Pattern pattern;
   private static final TextAttributes MAIN_TARGET_ATTRIBUTES = new TextAttributes(Color.BLACK, Color.RED, null, null, 0);
@@ -57,13 +57,14 @@ public class LivePreview implements UserActivityListener, PatternController.Cons
     this.editor = editor;
     this.patternController = patternController;
     livePreviewAlarm = new Alarm(Alarm.ThreadToUse.SHARED_THREAD);
+    watcher.addUserActivityListener(this);
     injectActivityWatcher();
     stateChanged();
   }
 
   private void injectActivityWatcher() {
-    watcher = new MomentoUserActivityWatcher();
-    watcher.addUserActivityListener(this);
+//    watcher = new MomentoUserActivityWatcher();
+//    watcher.addUserActivityListener(this);
     patternController.accept(new PatternController.Visitor() {
       @Override
       public void visitConstraint(ConstraintController constraintController) {
